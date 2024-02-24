@@ -1,10 +1,13 @@
 {
   "name": "cornerfolio_backend",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Final Program Project",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsnd --respawn --clear --inspect -- src/server.ts",
+    "build": "rimraf ./dist && tsc",
+    "docker:up": "docker compose up -d",
+    "start": "node dist/server.js"
   },
   "keywords": [
     "typescript",
