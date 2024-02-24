@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/build
+
+# Database Volumes
+/mongo
+/mongo_test
+
+# Environment variables
+.env
