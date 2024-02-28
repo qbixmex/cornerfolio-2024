@@ -32,6 +32,7 @@ export function SignUpForm() {
 							value={name}
 							onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+							autoComplete="off"
 						/>
 					</div>
 
@@ -40,6 +41,7 @@ export function SignUpForm() {
 						<input
 							type="text"
 							name="email"
+							autoComplete="off"
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 						/>
 					</div>
@@ -52,6 +54,7 @@ export function SignUpForm() {
 							value={password}
 							onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+							autoComplete="off"
 						/>
 					</div>
 
@@ -68,6 +71,7 @@ export function SignUpForm() {
 							}
 							onBlur={validateConfirmPassword}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+							autoComplete="off"
 						/>
 						{error && (
 							<div
@@ -88,6 +92,7 @@ export function SignUpForm() {
 							type="text"
 							name="job"
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+							autoComplete="off"
 						/>
 					</div>
 
@@ -99,6 +104,7 @@ export function SignUpForm() {
 							type="text"
 							name="class"
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+							autoComplete="off"
 						/>
 					</div>
 
