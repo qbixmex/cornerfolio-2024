@@ -1,9 +1,14 @@
 import envs from './config/envs';
 import app from './app';
+import mongoDatabase from './data/mongo/mongo-database';
 
 const main = async () => {
 
-  // TODO: Add database connection here !
+  //* Database connection
+  await mongoDatabase.connect({
+    URL: envs.MONGO_URL,
+    DBName: envs.MONGO_DB_NAME,
+  });
 
   const PORT = envs.PORT;
   const HOST = envs.HOST;
