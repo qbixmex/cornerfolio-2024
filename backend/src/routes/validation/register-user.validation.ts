@@ -11,7 +11,7 @@ const validationFields = [
   check('email', 'The "email" must be a valid format !').isEmail(),
 
   check('password', 'The "password" is required !').not().isEmpty(),
-  check('password', 'The "password" must be minimum 8 characters long !').isLength({ min: 6 }),
+  check('password', 'The "password" must be minimum 6 characters long !').isLength({ min: 6 }),
 
   check('password').custom((value) => {    
     if (invalidPasswords.includes(value)) {
