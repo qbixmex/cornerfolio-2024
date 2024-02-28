@@ -1,21 +1,36 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import { useState, ChangeEvent } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import data from '../../../user.json';
+
+type FormData = {
+    email: string;
+    password: string;
+};
+
+const FORM_DATA = {
+    email: "",
+    password: "",
+};
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState<FormData>(FORM_DATA);
+    const { email, password } = formData;
 
-    const [showPassword, setShowPassword] = useState(false);
-
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+    const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value
+        });
     };
 
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    };
+    const [error, setError] = useState<string | null>();
+
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const router = useRouter();
 
     const togglePasswordVisibility = () => {
         if (!showPassword) {
@@ -25,29 +40,28 @@ const Login = () => {
         }
     };
 
-    // const checkLoginInfo = (e) => {
-    //     e.preventDefault();
+    const checkLoginInfo = (event: React.FormEvent) => {
+        event.preventDefault();
 
-    //     const matchedUser = data.find(
-    //         (user) => user.email === email && user.password === password
-    //     );
+        const matchedUser = data.find(
+            (user) => user.email === email && user.password === password
+        );
 
-    //     if (matchedUser) {
-    //         console.log("Login success");
-    //         console.log("email", email);
-    //         console.log("password", password);
-    //     } else if(machedUser?.email === email) {
-
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     console.log("email", email);
-    //     console.log("password", password);
-    // }, [email, password]);
+        if (matchedUser) {
+            router.push("/");
+        } else if (data.find((user) => user.password === password)) {
+            setError("No user found with this email");
+        } else if (data.find((user) => user.email === email)) {
+            setError("Your password is incorrect");
+        } else {
+            setError("No user found with this email and password");
+        }
+    };
 
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
+            {error !== null}
+            <p>{error}</p>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Login
@@ -55,7 +69,7 @@ const Login = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" onSubmit={checkLoginInfo}>
                     <div>
                         <label
                             htmlFor="email"
@@ -69,9 +83,8 @@ const Login = () => {
                                 name="email"
                                 type="email"
                                 autoComplete="off"
-                                placeholder="Email address"
                                 value={email}
-                                onChange={handleEmailChange}
+                                onChange={onInputChange}
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
@@ -84,14 +97,14 @@ const Login = () => {
                                 htmlFor="password"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                password
+                                Password
                             </label>
                             <div className="text-sm">
                                 <Link
                                     href={"/"}
                                     className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                                 >
-                                    Forgot password?
+                                    Forgot password ?
                                 </Link>
                             </div>
                         </div>
@@ -100,18 +113,20 @@ const Login = () => {
                                 id="password"
                                 name="password"
                                 type={showPassword ? "text" : "password"}
-                                placeholder="password"
                                 value={password}
-                                onChange={handlePasswordChange}
+                                onChange={onInputChange}
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
-                            <button
-                                type="button"
-                                onClick={togglePasswordVisibility}
-                            >
-                                {showPassword ? "Hide" : "Show"}
-                            </button>
+                            <div className="flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className="mt-2 font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                                >
+                                    {showPassword ? "hide" : "show"}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -120,7 +135,7 @@ const Login = () => {
                             type="submit"
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            Log in
+                            login
                         </button>
                     </div>
                 </form>
@@ -128,10 +143,10 @@ const Login = () => {
                 <p className="mt-10 text-center text-sm text-gray-500">
                     Not a member?
                     <Link
-                        href={"/signup"}
+                        href={"/register"}
                         className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2"
                     >
-                        Sign up
+                        Register
                     </Link>
                 </p>
             </div>
