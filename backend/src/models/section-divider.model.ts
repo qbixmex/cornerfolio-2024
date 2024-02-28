@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionDivider extends Document {
-    title: string;
+    title?: string;
 }
 
 type timestamps = {
@@ -14,7 +14,7 @@ export type SectionDividerModel = Model<ISectionDivider & timestamps>;
 const SectionDividerSchema = new Schema<ISectionDivider, SectionDividerModel>({
     title: {
         type: String,
-        required: [ true, 'Title is required !' ]
+        default:'<p>Title of your next section</p>'
     }
 }, {
     timestamps: true

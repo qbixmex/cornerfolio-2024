@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionImageText extends Document {
-    imgUrl: string;
-    imgAlt: string;
-    imgCaption: string;
-    txtHeading: string;
-    txtContent: string;
+    imgUrl?: string;
+    imgAlt?: string;
+    imgCaption?: string;
+    txtHeading?: string;
+    txtContent?: string;
     position?: 'img_text' | 'text_img';
 }
 
@@ -19,23 +19,23 @@ export type ISectionImageTextModel = Model<ISectionImageText & timestamps>;
 const SectionImageTextSchema = new Schema<ISectionImageText, ISectionImageTextModel>({
     imgUrl: {
         type: String,
-        required: [ true, 'Image URL is required !' ]
+        default:'https://uxfol.io/example_project_images/empty-image-and-text-image.jpg'
     },
     imgAlt: {
         type: String,
-        required: [ true, 'Image Alt is required !' ]
+        default:'<p>Here comes your alt</p>'
     },
     imgCaption: {
         type: String,
-        required: [ true, 'Image Caption is required !' ]
+        default: '<p>Here comes your caption</p>'
     },
     txtHeading: {
         type: String,
-        required: [ true, 'Text Heading is required !' ]
+        default: '<h2>This is header. </h2>'
     },
     txtContent: {
         type: String,
-        required: [ true, 'Text Content is required !' ]
+        default :'<p>You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words. Click here and try it out.</p>'
     },
     position: {
         type: String,
