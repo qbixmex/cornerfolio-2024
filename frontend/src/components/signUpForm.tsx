@@ -1,13 +1,33 @@
 "use client";
 
-import { getUserData } from "@/lib/actions/actions";
+
+import { getUserData } from "@/api/register.fetch";
 import { ChangeEvent, useState } from "react";
 
+type FormData = {
+	name: string;
+	password: string;
+	confirmPassword: string;
+};
+
+const FORM_DATA: FormData = {
+	name: "",
+	password: "",
+	confirmPassword: "",
+};
+
 export function SignUpForm() {
-	const [name, setName] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-	const [confirmPassword, setConfirmPassword] = useState<string>("");
 	const [error, setError] = useState<string | null>(null);
+	const [formData, setFormData] = useState<FormData>(FORM_DATA);
+
+	const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setFormData({
+			...formData,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	const { name, password, confirmPassword } = formData;
 
 	const validateConfirmPassword = () => {
 		if (password !== confirmPassword) {
@@ -28,9 +48,9 @@ export function SignUpForm() {
 						<label className="block text-sm font-medium leading-6 text-gray-900">Name User:</label>
 						<input
 							type="text"
-							name="user_name"
+							name="name"
 							value={name}
-							onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+							onChange={onInputChange}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 							autoComplete="off"
 						/>
@@ -52,7 +72,7 @@ export function SignUpForm() {
 							type="password"
 							name="password"
 							value={password}
-							onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+							onChange={onInputChange}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 							autoComplete="off"
 						/>
@@ -64,11 +84,9 @@ export function SignUpForm() {
 						</label>
 						<input
 							type="password"
-							name="confirm_password"
+							name="confirmPassword"
 							value={confirmPassword}
-							onChange={(event: ChangeEvent<HTMLInputElement>) =>
-								setConfirmPassword(event.target.value)
-							}
+							onChange={onInputChange}
 							onBlur={validateConfirmPassword}
 							className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 							autoComplete="off"
