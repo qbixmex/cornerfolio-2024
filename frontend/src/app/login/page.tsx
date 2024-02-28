@@ -60,13 +60,15 @@ const Login = () => {
                         <label
                             htmlFor="email"
                             className="block text-sm font-medium leading-6 text-gray-900"
-                        ></label>
+                        >
+                            Email address
+                        </label>
                         <div className="mt-2">
                             <input
                                 id="email"
                                 name="email"
                                 type="email"
-                                autoComplete="email"
+                                autoComplete="off"
                                 placeholder="Email address"
                                 value={email}
                                 onChange={handleEmailChange}
@@ -81,7 +83,9 @@ const Login = () => {
                             <label
                                 htmlFor="password"
                                 className="block text-sm font-medium leading-6 text-gray-900"
-                            ></label>
+                            >
+                                password
+                            </label>
                             <div className="text-sm">
                                 <Link
                                     href={"/"}
