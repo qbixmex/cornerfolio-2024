@@ -17,7 +17,7 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
-    const togglePosswordVisibility = () => {
+    const togglePasswordVisibility = () => {
         if (!showPassword) {
             setShowPassword(true);
         } else {
@@ -28,11 +28,11 @@ const Login = () => {
     // const checkLoginInfo = (e) => {
     //     e.preventDefault();
 
-    //     const machedUser = data.find(
+    //     const matchedUser = data.find(
     //         (user) => user.email === email && user.password === password
     //     );
 
-    //     if (machedUser) {
+    //     if (matchedUser) {
     //         console.log("Login success");
     //         console.log("email", email);
     //         console.log("password", password);
@@ -108,7 +108,7 @@ const Login = () => {
                             />
                             <button
                                 type="button"
-                                onClick={togglePosswordVisibility}
+                                onClick={togglePasswordVisibility}
                             >
                                 {showPassword ? "Hide" : "Show"}
                             </button>
