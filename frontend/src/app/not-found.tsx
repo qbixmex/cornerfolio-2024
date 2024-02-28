@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 export default function NotFoundPage() {
-
 	return (
 		<div className="flex min-h-full flex-col justify-center align-center px-6 py-12 lg:px-8 h-screen items-center space-y-8 bg-white">
 			<h2 className="mt-5 text-center text-6xl font-bold leading-9 tracking-tight text-gray-900">
