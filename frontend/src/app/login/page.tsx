@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import data from "../../../user.json";
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,6 +24,20 @@ const Login = () => {
             setShowPassword(true);
         } else {
             setShowPassword(false);
+        }
+    };
+
+    const checkLoginInfo = (e) => {
+        e.preventDefault();
+
+        const machedUser = data.find(
+            (user) => user.email === email && user.password === password
+        );
+
+        if (machedUser) {
+            console.log("Login success");
+            console.log("email", email);
+            console.log("password", password);
         }
     };
 
