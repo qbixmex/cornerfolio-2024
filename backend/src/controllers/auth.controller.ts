@@ -12,6 +12,11 @@ type RegisterRequestBody = {
   schedule: string;
 };
 
+type LoginRequestBody = {
+  email: string;
+  password: string;
+};
+
 type TokenType = {
   id: string;
   name: string;
@@ -75,8 +80,54 @@ export const register = async (
   }
 };
 
-export const login = async (request: Request, response: Response) => {
-  return response.status(200).json('Login Endpoint');
+export const login = async (
+  request: Request<never, never, LoginRequestBody>,
+  response: Response
+) => {
+
+  const payload = request.body;
+
+  //* Find user by email and check if exists.
+  const foundUser = await User.findOne({ email: payload.email });
+    
+  if (!foundUser) {
+    return response.status(400).json({
+      error: `User with "${payload.email}" not found !`
+    });
+  }
+  
+  //* If email matches compare passwords.
+  const passwordMatches = bcryptAdapter.compare(payload.password, foundUser.password);
+
+  if (!passwordMatches) {
+    return response.status(400).json({ error: `Invalid password !` });
+  }
+
+  //* Generate token with JSON Web Token (JWT)
+  const newToken = await generateToken(
+    {
+      id: foundUser.id,
+      name: foundUser.name,
+      email: foundUser.email,
+    },
+    '1h' //* token expires in 1 hour
+  );
+
+  //* return authenticated user and token.
+  return response.status(200).json({
+    message: 'User logged in successfully !',
+    user: {
+      id: foundUser.id,
+      name: foundUser.name,
+      email: foundUser.email,
+      jobTitle: foundUser.jobTitle,
+      course: foundUser.course,
+      schedule: foundUser.schedule,
+      createdAt: foundUser.createdAt,
+      updatedAt: foundUser.updatedAt,
+    },
+    token: newToken,
+  });
 };
 
 const generateToken = async (options: TokenType, duration = '1h') => {
