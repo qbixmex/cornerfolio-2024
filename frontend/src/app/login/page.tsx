@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-import data from "../../../user.json";
+import { useState } from "react";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -27,30 +25,32 @@ const Login = () => {
         }
     };
 
-    const checkLoginInfo = (e) => {
-        e.preventDefault();
+    // const checkLoginInfo = (e) => {
+    //     e.preventDefault();
 
-        const machedUser = data.find(
-            (user) => user.email === email && user.password === password
-        );
+    //     const machedUser = data.find(
+    //         (user) => user.email === email && user.password === password
+    //     );
 
-        if (machedUser) {
-            console.log("Login success");
-            console.log("email", email);
-            console.log("password", password);
-        }
-    };
+    //     if (machedUser) {
+    //         console.log("Login success");
+    //         console.log("email", email);
+    //         console.log("password", password);
+    //     } else if(machedUser?.email === email) {
 
-    useEffect(() => {
-        console.log("email", email);
-        console.log("password", password);
-    }, [email, password]);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     console.log("email", email);
+    //     console.log("password", password);
+    // }, [email, password]);
 
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                    Log in
+                    Login
                 </h2>
             </div>
 
