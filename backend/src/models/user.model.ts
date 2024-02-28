@@ -4,14 +4,14 @@ export type UserType = {
   name: string;
   email: string;
   password: string;
-  type: 'student' | 'client' | 'admin';
+  type?: 'student' | 'client' | 'admin';
   jobTitle: string;
-  startDate: Date;
-  endDate: Date;
-  active: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  active?: boolean;
   course: string;
   schedule: 'morning' | 'afternoon' | 'evening';
-  portfolios: Schema.Types.ObjectId[];
+  portfolios?: Schema.Types.ObjectId[];
   // TODO: License
 };
 
@@ -45,14 +45,8 @@ const UserSchema = new Schema<UserType, UserModel>({
     type: String,
     default: 'example: Full Stack Developer',
   },
-  startDate: {
-    type: Date,
-    required: [ true, 'Start Date is required' ],
-  },
-  endDate: {
-    type: Date,
-    required: [ true, 'End Date is required' ],
-  },
+  startDate: Date,
+  endDate: Date,
   active: {
     type: Boolean,
     default: false,
@@ -64,6 +58,7 @@ const UserSchema = new Schema<UserType, UserModel>({
   schedule: {
     type: String,
     enum: [ 'morning', 'afternoon', 'evening' ],
+    required: [ true, 'Schedule Hour is required' ]
   },
   // TODO: Portfolio
   // portfolios: [{
@@ -80,6 +75,7 @@ UserSchema.set('toJSON', {
   versionKey: false,
   transform: function(doc, ret, options) {
     delete ret._id;
+    delete ret.password;
   },
 });
 
