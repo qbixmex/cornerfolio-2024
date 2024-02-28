@@ -14,6 +14,7 @@ export const register = async (
   request: Request<never, never, RegisterRequestBody>,
   response: Response
 ) => {
+
   const payload = request.body;
   const emailExists = await User.countDocuments({ email: payload.email });
 
@@ -35,7 +36,7 @@ export const register = async (
   const savedUser = await newUser.save();
 
   return response.status(200).json({
-    message: 'User registered successfully !',
+    message: 'Account registered successfully !',
     user: {
       id: savedUser.id,
       name: savedUser.name,
