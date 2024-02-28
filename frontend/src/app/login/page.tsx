@@ -10,7 +10,7 @@ type FormData = {
     password: string;
 };
 
-const FORM_DATA = {
+const FORM_DATA: FormData = {
     email: "",
     password: "",
 };
