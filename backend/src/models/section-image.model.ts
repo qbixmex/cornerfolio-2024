@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionImage extends Document {
-    url: string;
-    alt: string;
-    caption: string;
-    position: 'left' | 'center' | 'right';
+    url?: string;
+    alt?: string;
+    caption?: string;
+    position?: 'left' | 'center' | 'right';
 }
 
 type timestamps = {
@@ -17,20 +17,20 @@ export type ISectionImageModel = Model<ISectionImage & timestamps>;
 const SectionImageSchema = new Schema<ISectionImage, ISectionImageModel>({
     url: {
         type: String,
-        required: [ true, 'URL is required !' ]
+        default:'https://uxfol.io/example_project_images/empty-image-and-text-image.jpg'
     },
     alt: {
         type: String,
-        required:[ true, 'Image Alternative Text is required !' ]
+        default:'<p>Here comes your alt</p>'
     },
     caption: {
         type: String,
-        required: [ true, 'Caption is required !' ]
+        default: '<p>Here comes your caption</p>'
     },
     position: {
         type: String,
         enum: [ 'left', 'center', 'right' ],
-        required: [ true, 'Position is required !' ]
+        default: 'left'
     }
 }, {
     timestamps: true

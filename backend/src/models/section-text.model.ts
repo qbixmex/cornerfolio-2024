@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ISectionText extends Document {
-    heading: string;
-    content: string;
-    position: 'left' | 'center' | 'right';
+    heading?: string;
+    content?: string;
+    position?: 'left' | 'center' | 'right';
 }
 
 type timestamps = {
@@ -16,16 +16,16 @@ export type SectionTextModel = Model<ISectionText & timestamps>;
 const sectionTextSchema = new Schema<ISectionText, SectionTextModel>({
     heading: {
         type: String,
-        required: [ true, 'Heading is required !' ]
+        default: '<h2>This is header. </h2>'
     },
     content: {
         type: String,
-        required: [ true, 'Content is required !' ],
+        default :'<p>You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words. Click here and try it out.</p>'
     },
     position: {
         type: String,
         enum: [ 'left', 'center', 'right' ],
-        required: [ true, 'Position is required !' ]
+        default: 'left'
     }
 });
 
