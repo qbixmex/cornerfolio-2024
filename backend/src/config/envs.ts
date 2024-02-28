@@ -7,7 +7,7 @@ export default {
   // TODO: PUBLIC_PATH: get('PUBLIC_PATH').default('public').asString(),
   // TODO: JWT_SECRET: get('JWT_SECRET').required().asString(),
   // TODO: WEB_SERVICE_URL: get('WEB_SERVICE_URL').required().asString(),
-  // TODO: MONGO_URL: get('MONGO_URL').required().asString(),
+  MONGO_URL: get('MONGO_URL').required().asString(),
   MONGO_DB_NAME: get('MONGO_DB_NAME').required().asString(),
   MONGO_USERNAME: get('MONGO_USERNAME').required().asString(),
   MONGO_PASSWORD: get('MONGO_PASSWORD').required().asString(),
