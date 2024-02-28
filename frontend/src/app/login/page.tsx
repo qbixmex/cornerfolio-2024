@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import data from "../../../user.json";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string | null>();
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const router = useRouter();
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -25,29 +30,28 @@ const Login = () => {
         }
     };
 
-    // const checkLoginInfo = (e) => {
-    //     e.preventDefault();
+    const checkLoginInfo = (e: React.FormEvent) => {
+        e.preventDefault();
 
-    //     const matchedUser = data.find(
-    //         (user) => user.email === email && user.password === password
-    //     );
+        const matchedUser = data.find(
+            (user) => user.email === email && user.password === password
+        );
 
-    //     if (matchedUser) {
-    //         console.log("Login success");
-    //         console.log("email", email);
-    //         console.log("password", password);
-    //     } else if(machedUser?.email === email) {
-
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     console.log("email", email);
-    //     console.log("password", password);
-    // }, [email, password]);
+        if (matchedUser) {
+            router.push("/");
+        } else if (data.find((user) => user.password === password)) {
+            setError("No user found with this email");
+        } else if (data.find((user) => user.email === email)) {
+            setError("Your password is incorrect");
+        } else {
+            setError("No user found with this email and password");
+        }
+    };
 
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
+            {error !== null}
+            <p>{error}</p>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Login
@@ -55,7 +59,7 @@ const Login = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" onSubmit={checkLoginInfo}>
                     <div>
                         <label
                             htmlFor="email"
