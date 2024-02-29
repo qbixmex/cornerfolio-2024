@@ -6,7 +6,7 @@ enum Role {
 	Admin = "admin",
 }
 export const getUserData = async (formData: FormData) => {
-	const userName = formData.get("user_name");
+	const userName = formData.get("name");
 	const email = formData.get("email");
 	const password = formData.get("password");
 	const className = formData.get("class");
@@ -19,18 +19,25 @@ export const getUserData = async (formData: FormData) => {
 		password: password,
 		jobTitle: jobTitle,
 		course: className,
-		scheduleHour: scheduleHour,
+		schedule: scheduleHour,
 	};
+
 	console.log(newUser);
 
-	fetch(`http://localhost:3005`, {
-		method: "POST",
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify(newUser),
-	}).catch((err) => {
-		console.log("error");
-	});
-	// redirect("/loginPage");
+	try {
+		const response = await fetch(`http://localhost:4000/api/auth/register`, {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify(newUser),
+		});
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		throw new Error(error as string);
+		//>> TODO give feedback to the user
+	}
+
+	//>> TODO redirect("/profile");
 };
