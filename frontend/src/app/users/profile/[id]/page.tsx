@@ -1,11 +1,7 @@
 import ProfileBody from "@/components/profile";
 
 const Profile = () => {
-    return (
-        <div>
-            <ProfileBody />
-        </div>
-    );
+    return <ProfileBody />;
 };
 
 export default Profile;
