@@ -1,12 +1,11 @@
-import Body from '@/components/body';
-
+import Body from "@/components/body";
 
 const DashboardPage = () => {
     return (
-        <div>
+        <main className="mt-[100px] bg-green-500">
             <Body />
-        </div>
+        </main>
     );
-}
+};
 
 export default DashboardPage;
