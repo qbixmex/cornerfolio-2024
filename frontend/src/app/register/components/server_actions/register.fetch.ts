@@ -11,23 +11,7 @@ enum Role {
 export type ErrorState = {
 	error?: string;
 };
-// {
-// 	message: string;
-// 	user: {
-// 	  id: savedUser._id,
-// 	  name: savedUser.name,
-// 	  email: savedUser.email,
-// 	  jobTitle: savedUser.jobTitle,
-// 	  course: savedUser.course,
-// 	  schedule: savedUser.schedule,
-// 	  createdAt: savedUser.createdAt,
-// 	  updatedAt: savedUser.updatedAt,
-// 	},
-// 	token: newToken,
-//   }
 
-// if we have user data returned then we are going to redirect user to the authenticated page
-// if we have error then we are going to set the state
 
 export const getUserData = async (
 	prevData: ErrorState,
@@ -65,7 +49,7 @@ export const getUserData = async (
 	if (data.user) {
 		redirect("/");
 	}
-	// return the formstate to display the error messages to users
+	//* return the formstate to display the error messages to users
 	return data;
 
 	//>> TODO redirect("/profile");

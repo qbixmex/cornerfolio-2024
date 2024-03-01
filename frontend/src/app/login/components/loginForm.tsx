@@ -37,18 +37,6 @@ export function LoginForm() {
 		}
 	};
 
-	// if(users) {}
-	// const matchedUser = users.find((user) => user.email === email && user.password === password);
-
-	// if (credentials) {
-	//     router.push("/");
-	// } else {
-	//     const userWithEmail = data.find((user) => user.email === email);
-	// if (userWithEmail) {
-	//     setError("Your password is incorrect");
-	// } else {
-	//     setError(credentials.error);
-	// }
 
 	return (
 		<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">

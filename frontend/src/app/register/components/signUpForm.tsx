@@ -1,9 +1,9 @@
 "use client";
 
-import { ErrorState, getUserData } from "@/api/register.fetch";
+import { ErrorState, getUserData } from "@/app/register/components/server_actions/register.fetch";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import ErrorMessage from "./errorMessage";
+import ErrorMessage from "../../../components/errorMessage";
 
 type FormData = {
 	name: string;
