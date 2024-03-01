@@ -16,7 +16,7 @@ export type SectionTextModel = Model<ISectionText & timestamps>;
 const sectionTextSchema = new Schema<ISectionText, SectionTextModel>({
     heading: {
         type: String,
-        default: '<h2>This is header. </h2>'
+        default: '<h2>This is header.</h2>'
     },
     content: {
         type: String,
