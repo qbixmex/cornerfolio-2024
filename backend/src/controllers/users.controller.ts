@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
+import { User } from '../models';
 
 export const list = async (
   request: Request,
   response: Response
 ) => {
-  response.status(200).json('Users List');
+
+  const getAllUsers = await User.find().exec()
+  response.status(200).json(getAllUsers);
 };
 
 export const profile = async (
