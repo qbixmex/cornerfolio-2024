@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { JWTAdapter, bcryptAdapter } from '../config';
-import { CustomError } from '../helpers';
+import { CustomError, generateToken } from '../helpers';
 
 type RegisterRequestBody = {
   name: string;
@@ -15,12 +15,6 @@ type RegisterRequestBody = {
 type LoginRequestBody = {
   email: string;
   password: string;
-};
-
-type TokenType = {
-  id: string;
-  name: string;
-  email: string;
 };
 
 export const register = async (
@@ -129,22 +123,3 @@ export const login = async (
     token: newToken,
   });
 };
-
-const generateToken = async (options: TokenType, duration = '1h') => {
-
-  const newToken = await JWTAdapter.generateToken(
-    {
-      id: options.id,
-      name: options.name,
-      email: options.email
-    },
-    duration
-  );
-
-  if (!newToken) {
-    throw CustomError.internalServer('Error while generating token !');
-  }
-
-  return newToken;
-};
-
