@@ -1,8 +1,11 @@
 "use client";
 
 import { checkLoginInfo } from "@/app/login/components/server_actions/checkLoginInfo";
+import { ErrorState, getUserData } from "@/app/register/components/server_actions/register.fetch";
+import ErrorMessage from "@/components/errorMessage";
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
+import { useFormState } from "react-dom";
 
 type FormData = {
 	email: string;
@@ -17,6 +20,8 @@ const FORM_DATA: FormData = {
 export function LoginForm() {
 	const [formData, setFormData] = useState<FormData>(FORM_DATA);
 	const { email, password } = formData;
+	const [state, formAction] = useFormState<ErrorState, globalThis.FormData>(checkLoginInfo, {});
+	const [error, setError] = useState<string | null>();
 
 	const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setFormData({
@@ -25,7 +30,6 @@ export function LoginForm() {
 		});
 	};
 
-	const [error, setError] = useState<string | null>();
 
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -37,11 +41,19 @@ export function LoginForm() {
 		}
 	};
 
+	useEffect(() => {
+		if (state.error) {
+			setError(state.error);
+			setTimeout(() => {
+				setError(null);
+			}, 3000);
+		}
+	}, [state]);
+
 
 	return (
 		<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
-			{error !== null}
-			<p>{error}</p>
+			{error && <ErrorMessage message={error} />}
 			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 				<h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 					Login
@@ -49,7 +61,7 @@ export function LoginForm() {
 			</div>
 
 			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-				<form className="space-y-6" action={checkLoginInfo}>
+				<form className="space-y-6" action={formAction}>
 					<div>
 						<label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
 							Email address
