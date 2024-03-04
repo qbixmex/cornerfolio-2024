@@ -1,8 +1,9 @@
 "use client";
 
-
-import { getUserData } from "@/api/register.fetch";
-import { ChangeEvent, useState } from "react";
+import { ErrorState, getUserData } from "@/app/register/components/server_actions/register.fetch";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import ErrorMessage from "../../../components/errorMessage";
 
 type FormData = {
 	name: string;
@@ -18,7 +19,9 @@ const FORM_DATA: FormData = {
 
 export function SignUpForm() {
 	const [error, setError] = useState<string | null>(null);
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [formData, setFormData] = useState<FormData>(FORM_DATA);
+	const [state, formAction] = useFormState<ErrorState, globalThis.FormData>(getUserData, {});
 
 	const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setFormData({
@@ -26,6 +29,15 @@ export function SignUpForm() {
 			[event.target.name]: event.target.value,
 		});
 	};
+
+	useEffect(() => {
+		if (state.error) {
+			setErrorMessage(state.error);
+			setTimeout(() => {
+				setErrorMessage(null);
+			}, 3000);
+		}
+	}, [state]);
 
 	const { name, password, confirmPassword } = formData;
 
@@ -42,8 +54,9 @@ export function SignUpForm() {
 			<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 				Register New Account
 			</h2>
+			{errorMessage && <ErrorMessage message={errorMessage} />}
 			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-				<form className="space-y-6" action={getUserData}>
+				<form className="space-y-6" action={formAction}>
 					<div>
 						<label className="block text-sm font-medium leading-6 text-gray-900">Name User:</label>
 						<input
@@ -137,8 +150,8 @@ export function SignUpForm() {
 						>
 							<option value="">Select an hour</option>
 							<option value="morning">Morning</option>
-							<option value="evening">Afternoon</option>
-							<option value="night">Evening</option>
+							<option value="afternoon">Afternoon</option>
+							<option value="evening">Evening</option>
 						</select>
 					</div>
 
