@@ -1,7 +1,7 @@
 import ProfileBody from "@/components/profile";
 
-const Profile = () => {
+const ProfilePage = () => {
     return <ProfileBody />;
 };
 
-export default Profile;
+export default ProfilePage;
