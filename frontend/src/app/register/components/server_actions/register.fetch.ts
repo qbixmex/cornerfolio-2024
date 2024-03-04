@@ -1,17 +1,10 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
-enum Role {
-	Client = "client",
-	Student = "student",
-	Admin = "admin",
-}
+import { signUpFetch } from "@/api/signUp.fetch";
 
 export type ErrorState = {
 	error?: string;
 };
-
 
 export const getUserData = async (
 	prevData: ErrorState,
@@ -35,22 +28,5 @@ export const getUserData = async (
 
 	console.log(newUser);
 
-	const response = await fetch(`http://localhost:4000/api/auth/register`, {
-		method: "POST",
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify(newUser),
-	});
-	const data = await response.json();
-
-	console.log(data);
-
-	if (data.user) {
-		redirect("/");
-	}
-	//* return the formstate to display the error messages to users
-	return data;
-
-	//>> TODO redirect("/profile");
+	return signUpFetch(newUser);
 };
