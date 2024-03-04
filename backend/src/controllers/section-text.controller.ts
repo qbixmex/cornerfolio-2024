@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { SectionText} from '../models';
 import { from } from 'env-var';
 
-export const getSectionTexts = async (req: Request, res: Response): Promise<void> => {
+export const getSectionTexts = async (req: Request, res: Response)
+: Promise<{id:string; heading:string; content:string; position: "left" | "center" | "right"}[]> => {
     try {
         const sectionTexts = await SectionText.find();
         const sections = sectionTexts.map(sectionText => {
@@ -14,17 +15,22 @@ export const getSectionTexts = async (req: Request, res: Response): Promise<void
             };
         });
         res.status(200).json(sections);
-    } catch (error:any) {
-        res.status(500).json({ message: error.message });
+        return sections
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(500).json({ error: error.message });
+        }
+        throw error
+        
     }
 };
 
-export const createSectionText = async (req: Request, res: Response): Promise<void> => {
+export const createSectionText = async (req: Request, res: Response)
+: Promise<{message:string; section: {id:string; heading:string; content:string; position: "left" | "center" | "right"}}> => {
     try {
         const newSectionText = new SectionText();
         await newSectionText.save();
-
-        res.status(201).json({
+        const responseData = {
             message: 'Section text created successfully !',
             section: {
                 id: newSectionText.id,
@@ -32,9 +38,14 @@ export const createSectionText = async (req: Request, res: Response): Promise<vo
                 content: newSectionText.content,
                 position: newSectionText.position,
             }
-        });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        }
+        res.status(201).json(responseData);
+        return responseData
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };
 
@@ -67,8 +78,11 @@ export const updateSectionText = async (req: Request, res: Response): Promise<vo
             }
         });
 
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };
 
@@ -77,7 +91,10 @@ export const deleteSectionText = async (req: Request, res: Response): Promise<vo
         const sectionTextId = req.params.id;
         await SectionText.findByIdAndDelete(sectionTextId);
         res.status(200).json({ message: 'Section text deleted successfully' });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };

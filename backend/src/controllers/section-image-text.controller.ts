@@ -2,7 +2,15 @@ import { Request, Response } from 'express';
 import { SectionImageText} from '../models';
 import { from } from 'env-var';
 
-export const getSectionImageTexts = async (req: Request, res: Response): Promise<void> => {
+export const getSectionImageTexts = async (req: Request, res: Response)
+: Promise<{ 
+    id:string; 
+    imgUrl:string; 
+    imgAlt:string; 
+    imgCaption:string; 
+    txtHeading:string; 
+    txtContent:string; 
+    position:"text_img" |"img_text";}[]> => {
     try {
         const SectionImageTexts = await SectionImageText.find();
         const sections =SectionImageTexts.map(sectionImageText =>{
@@ -17,17 +25,29 @@ export const getSectionImageTexts = async (req: Request, res: Response): Promise
             }
         })
         res.status(200).json(sections);
-    } catch (error:any) {
-        res.status(500).json({ message: error.message });
+        return sections
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(500).json({ error: error.message });
+        }
+        throw error
     }
 };
 
-export const createSectionImageText = async (req: Request, res: Response): Promise<void> => {
+export const createSectionImageText = async (req: Request, res: Response)
+: Promise <{message:string; 
+    section: { 
+        id:string; 
+        imgUrl:string; 
+        imgAlt:string; 
+        imgCaption:string; 
+        txtHeading:string; 
+        txtContent:string; 
+        position:"text_img"|"img_text";}} > => {
     try {
         const newSectionImageText = new SectionImageText();
         await newSectionImageText.save();
-
-        res.status(201).json({
+        const responseData ={
             message: 'Section text-image created successfully !',
             section: {
                 id: newSectionImageText.id,
@@ -38,9 +58,16 @@ export const createSectionImageText = async (req: Request, res: Response): Promi
                 txtContent: newSectionImageText.txtContent,
                 position: newSectionImageText.position,
             }
-        });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        }
+
+        res.status(201).json(responseData);
+        return responseData
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+
+        throw error
     }
 };
 
@@ -79,8 +106,10 @@ export const updateSectionImageText = async (req: Request, res: Response): Promi
             }
         });
 
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
     }
 };
 
@@ -89,7 +118,9 @@ export const deleteSectionImageText = async (req: Request, res: Response): Promi
         const sectionImageTextId = req.params.id;
         await SectionImageText.findByIdAndDelete(sectionImageTextId);
         res.status(200).json({ message: 'Section image-text deleted successfully' });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
     }
 };

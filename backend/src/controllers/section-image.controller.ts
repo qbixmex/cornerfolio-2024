@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { SectionImage} from '../models';
 import { from } from 'env-var';
 
-export const getSectionImages = async (req: Request, res: Response): Promise<void> => {
+export const getSectionImages = async (req: Request, res: Response)
+: Promise<{id:string; url:string; alt:string; caption:string; position: "left" | "center" | "right"}[]> => {
     try {
         const sectionImages = await SectionImage.find();
         const sections = sectionImages.map(sectionImage => {
@@ -15,17 +16,22 @@ export const getSectionImages = async (req: Request, res: Response): Promise<voi
             };
         });
         res.status(200).json(sections);
-    } catch (error:any) {
-        res.status(500).json({ message: error.message });
+        return sections
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(500).json({ error: error.message });
+        }
+        throw error
     }
 };
 
-export const createSectionImage = async (req: Request, res: Response): Promise<void> => {
+export const createSectionImage = async (req: Request, res: Response)
+: Promise<{message:string; section: {id:string; url:string; alt:string; caption:string; position: "left" | "center" | "right"}}> => {
     try {
         const newSectionImage = new SectionImage();
         await newSectionImage.save();
 
-        res.status(201).json({
+        const responseData = {
             message: 'Section image created successfully !',
             section: {
                 id: newSectionImage.id,
@@ -34,9 +40,15 @@ export const createSectionImage = async (req: Request, res: Response): Promise<v
                 caption: newSectionImage.caption,
                 position: newSectionImage.position,
             }
-        });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        }
+
+        res.status(201).json( responseData);
+        return responseData
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };
 
@@ -71,8 +83,11 @@ export const updateSectionImage = async (req: Request, res: Response): Promise<v
                 position: sectionImage.position
             }
         });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };
 
@@ -81,7 +96,10 @@ export const deleteSectionImage = async (req: Request, res: Response): Promise<v
         const sectionImageId = req.params.id;
         await SectionImage.findByIdAndDelete(sectionImageId);
         res.status(200).json({ message: 'Section image deleted successfully' });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { SectionEmbeddedMedia} from '../models';
 import { from } from 'env-var';
 
-export const getSectionEmbeddedMedias = async (req: Request, res: Response): Promise<void> => {
+export const getSectionEmbeddedMedias = async (req: Request, res: Response): Promise<{id:string; code:string}[]> => {
     try {
         const SectionEmbeddedMedias = await SectionEmbeddedMedia.find();
         const sections = SectionEmbeddedMedias.map(SectionEmbeddedMedia => {
@@ -12,26 +12,37 @@ export const getSectionEmbeddedMedias = async (req: Request, res: Response): Pro
             };
         });
         res.status(200).json(sections);
-    } catch (error:any) {
-        res.status(500).json({ message: error.message });
+        return sections
+    } catch (error) {
+        if(error instanceof Error){
+            res.status(500).json({ error: error.message });
+        }
+        
+        throw error
     }
 };
 
-export const createSectionEmbeddedMedia = async (req: Request, res: Response): Promise<void> => {
+export const createSectionEmbeddedMedia = async (req: Request, res: Response): Promise< { message: string; section: { id: string; code: string; } }> => {
     try {
         const { code } = req.body;
         const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
         await newSectionEmbeddedMedia.save();
 
-        res.status(201).json({
+        const responseData = {
             message: 'Section embedded media created successfully !',
             section: {
                 id: newSectionEmbeddedMedia.id,
                 code: newSectionEmbeddedMedia.code,
             }
-        });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        }
+
+        res.status(201).json(responseData);
+        return responseData
+    } catch (error) {
+        if(error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+        throw error
     }
 };
 
@@ -60,8 +71,12 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response): P
             }
         });
 
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+
+        throw error
     }
 };
 
@@ -70,7 +85,11 @@ export const deleteSectionEmbeddedMedia = async (req: Request, res: Response): P
         const sectionEmbeddedMediaId = req.params.id;
         await SectionEmbeddedMedia.findByIdAndDelete(sectionEmbeddedMediaId);
         res.status(200).json({ message: 'Section embeded media deleted successfully' });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error) {
+        if (error instanceof Error){
+            res.status(400).json({ error: error.message });
+        }
+
+        throw error
     }
 };

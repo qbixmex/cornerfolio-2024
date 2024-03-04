@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionDivider extends Document {
-    title?: string;
+    title: string;
 }
 
 type timestamps = {
