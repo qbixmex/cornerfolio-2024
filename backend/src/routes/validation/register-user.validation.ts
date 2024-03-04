@@ -29,8 +29,8 @@ const validationFields = [
   check('course', 'The "course" must be maximum 40 characters long !').isLength({ max: 40 }),
 
   check('schedule', 'The "schedule" is required !').not().isEmpty(),
-  check('schedule', 'The "schedule" must be "morning", "afternoon" or "night" !')
-    .isIn(['morning', 'afternoon', 'night']),
+  check('schedule', "The 'schedule' must be 'morning', 'afternoon' or 'evening' !")
+    .isIn(['morning', 'afternoon', 'evening']),
 
   validateFields
 ];

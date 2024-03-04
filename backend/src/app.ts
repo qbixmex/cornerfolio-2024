@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import { usersRoutes, authRoutes } from './routes';
+import { usersRoutes, authRoutes,sectionTextRoutes } from './routes';
 import cors from "cors";
 
 //* Start Express
@@ -14,6 +14,8 @@ app.use(morgan('dev'));
 //* Routes
 app.use('/api/users', usersRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/section-text', sectionTextRoutes);
+
 
 
 //*Cors
