@@ -1,11 +1,11 @@
 import express from 'express';
-import * as controller from '../controllers/';
+import { SectionTextController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', controller.getSectionTexts);
-router.post('/:portfolioId', controller.createSectionText);
-router.patch('/:id', controller.updateSectionText);
-router.delete('/:id', controller.deleteSectionText);
+router.get('/', SectionTextController.getSectionTexts);
+router.post('/:portfolioId', SectionTextController.createSectionText);
+router.patch('/:id', SectionTextController.updateSectionText);
+router.delete('/:id', SectionTextController.deleteSectionText);
 
 export default router;

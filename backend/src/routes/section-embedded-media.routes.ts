@@ -1,11 +1,11 @@
 import express from 'express';
-import { getSectionEmbeddedMedias, createSectionEmbeddedMedia,updateSectionEmbeddedMedia,deleteSectionEmbeddedMedia} from '../controllers/';
+import { SectionEmbeddedMediaController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', getSectionEmbeddedMedias);
-router.post('/:portfolioId', createSectionEmbeddedMedia);
-router.patch('/:id', updateSectionEmbeddedMedia);
-router.delete('/:id', deleteSectionEmbeddedMedia);
+router.get('/', SectionEmbeddedMediaController.getSectionEmbeddedMedias);
+router.post('/:portfolioId', SectionEmbeddedMediaController.createSectionEmbeddedMedia);
+router.patch('/:id', SectionEmbeddedMediaController.updateSectionEmbeddedMedia);
+router.delete('/:id', SectionEmbeddedMediaController.deleteSectionEmbeddedMedia);
 
 export default router;

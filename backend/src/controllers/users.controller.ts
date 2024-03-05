@@ -50,8 +50,8 @@ export const list = async (
       pagination: {
         total: usersTotal,
         limit: +limit,
-        next: ((+page * +limit) < usersTotal) ? `/api/users?page=${(+page + 1)}?limit=${limit}` : null,
-        previous: (+page - 1 !== 0) ? `/api/users?page=${(+page - 1)}?limit=${limit}` : null,
+        next: ((+page * +limit) < usersTotal) ? `page=${(+page + 1)}` : null,
+        previous: (+page - 1 !== 0) ? `page=${(+page - 1)}` : null,
         page: +page,
       },
       users: usersRemap,

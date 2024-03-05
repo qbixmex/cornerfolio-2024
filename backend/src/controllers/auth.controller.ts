@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
-import { JWTAdapter, bcryptAdapter } from '../config';
+import { bcryptAdapter } from '../config';
 import { CustomError, generateToken } from '../helpers';
 
 type RegisterRequestBody = {
