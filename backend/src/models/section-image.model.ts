@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionImage extends Document {
-    url?: string;
-    alt?: string;
-    caption?: string;
-    position?: 'left' | 'center' | 'right';
+    url: string;
+    alt: string;
+    caption: string;
+    position: 'left' | 'center' | 'right';
 }
 
 type timestamps = {

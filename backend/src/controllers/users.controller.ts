@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { bcryptAdapter } from '../config';
-import { CustomError, generateToken } from '../helpers';
+import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
 type UsersQuery = {
@@ -46,7 +46,7 @@ export const list = async (
       updatedAt: user.updatedAt,
     }));
   
-    response.status(200).json({
+    return response.status(200).json({
       pagination: {
         total: usersTotal,
         limit: +limit,

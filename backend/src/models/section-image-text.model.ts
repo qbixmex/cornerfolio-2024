@@ -1,12 +1,12 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionImageText extends Document {
-    imgUrl?: string;
-    imgAlt?: string;
-    imgCaption?: string;
-    txtHeading?: string;
-    txtContent?: string;
-    position?: 'img_text' | 'text_img';
+    imgUrl: string;
+    imgAlt: string;
+    imgCaption: string;
+    txtHeading: string;
+    txtContent: string;
+    position: 'img_text' | 'text_img';
 }
 
 type timestamps = {
