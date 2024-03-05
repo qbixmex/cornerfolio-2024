@@ -1,11 +1,9 @@
-import { SignUpForm } from "@/app/register/components/signUpForm";
+import { SignUpForm } from '@/app/register/components/signUpForm';
 
 export default function SignUpPage() {
 	return (
-		<div className="bg-white">
-			<div>
-				<SignUpForm />
-			</div>
-		</div>
+		<section className="my-10">
+			<SignUpForm />
+		</section>
 	);
 }

@@ -1,11 +1,11 @@
 import express from 'express';
-import { getSectionDividers, createSectionDivider,updateSectionDivider,deleteSectionDivider} from '../controllers/';
+import { SectionDividerController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', getSectionDividers);
-router.post('/:portfolioId', createSectionDivider);
-router.patch('/:id', updateSectionDivider);
-router.delete('/:id', deleteSectionDivider);
+router.get('/', SectionDividerController.getSectionDividers);
+router.post('/:portfolioId', SectionDividerController.createSectionDivider);
+router.patch('/:id', SectionDividerController.updateSectionDivider);
+router.delete('/:id', SectionDividerController.deleteSectionDivider);
 
 export default router;
