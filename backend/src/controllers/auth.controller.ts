@@ -108,7 +108,7 @@ export const login = async (
   );
 
   //* return authenticated user and token.
-  return response.status(201).json({
+  return response.status(200).json({
     message: 'User logged in successfully !',
     user: {
       id: foundUser.id,
