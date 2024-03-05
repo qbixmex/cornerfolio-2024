@@ -35,7 +35,7 @@ const TemplateHeader = () => {
         <div className="py-[30px] px-[80px] border-b-gray-300 border-2">
             <div className="flex justify-between">
                 <p>name</p>
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                     <p>Home</p>
                     <p>About</p>
                 </div>
