@@ -40,6 +40,8 @@ export const list = async (
       active: user.active,
       course: user.course,
       schedule: user.schedule,
+      startDate: user.startDate ?? 'not set',
+      endDate: user.endDate ?? 'not set',
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }));
@@ -91,6 +93,8 @@ export const profile = async (
         active: foundUser.active,
         course: foundUser.course,
         schedule: foundUser.schedule,
+        startDate: foundUser.startDate ?? 'not set',
+        endDate: foundUser.endDate ?? 'not set',
         createdAt: foundUser.createdAt,
         updatedAt: foundUser.updatedAt,
       },

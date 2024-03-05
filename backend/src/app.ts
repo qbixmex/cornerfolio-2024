@@ -9,6 +9,7 @@ import {
     sectionEmbeddedMediaRoutes,
     sectionDividerRoutes,
 } from './routes';
+import cors from "cors";
 
 //* Start Express
 const app = express();
@@ -26,5 +27,9 @@ app.use('/api/section-image', sectionImageRoutes);
 app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
+
+
+//*Cors
+app.use(cors({ origin: "*" }));
 
 export default app;
