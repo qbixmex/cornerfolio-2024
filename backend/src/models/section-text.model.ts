@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ISectionText extends Document {
-    heading?: string;
-    content?: string;
-    position?: 'left' | 'center' | 'right';
+    heading: string;
+    content: string;
+    position: 'left' | 'center' | 'right';
 }
 
 type timestamps = {
