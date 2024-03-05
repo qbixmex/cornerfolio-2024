@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { SectionDivider} from '../models';
-import { from } from 'env-var';
+import { CustomError } from '../helpers';
+import { Types } from 'mongoose';
 
-export const getSectionDividers = async (req: Request, res: Response): Promise<{id:string; title:string}[]> => {
+export const getSectionDividers = async (req: Request, res: Response) => {
     try {
         const SectionDividers = await SectionDivider.find();
         const sections = SectionDividers.map(sectionDivider => {
@@ -11,59 +12,53 @@ export const getSectionDividers = async (req: Request, res: Response): Promise<{
                 title: sectionDivider.title,
             };
         });
-        res.status(200).json(sections);
-        return sections
+        return res.status(200).json(sections);
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message });
-        }
-        throw error
+        throw CustomError.internalServer('Error while fetching the Section Dividers,\n' + error);
     }
 };
 
-export const createSectionDivider = async (req: Request, res: Response): Promise<{ message: string; section: { id: string; title: string; } }> => {
+export const createSectionDivider = async (req: Request, res: Response) => {
     try {
         const newSectionDivider = new SectionDivider();
         await newSectionDivider.save();
 
-        const responseData = {
+        return res.status(201).json({
             message: 'Section divider created successfully !',
             section: {
                 id: newSectionDivider.id,
                 title: newSectionDivider.title,
             }
-        };
-
-        res.status(201).json(responseData);
-
-        return responseData;
+        });
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(400).json({ error: error.message });
-        }
-
-        throw error;
+        throw CustomError.internalServer('Error while creating the Section Divider,\n' + error);
     }
 };
 
-export const updateSectionDivider = async (req: Request, res: Response): Promise<void> => {
+export const updateSectionDivider = async (req: Request, res: Response) => {
     try {
-        const sectionDividerId = req.params.id;
-        const payload = req.body;
+        const id = req.params.id;
+
+        if (!Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+              error: `Invalid ID: ${id} !`,
+            });
+        }
         
-        const sectionDivider = await SectionDivider.findById(sectionDividerId);
+        const sectionDivider = await SectionDivider.findById(id);
         
         if (!sectionDivider) {
-            res.status(404).json({ error: 'Section divider not found' });
-            return;
+            return res.status(404).json({ error: 'Section Divider not found' });
         }
+
+        const payload = req.body;
         
         //? Note: if you pass undefined to a field, it will not be updated.
         sectionDivider.title = payload.title ?? undefined;
         
         await sectionDivider.save();
 
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Section divider updated successfully !',
             section: {
                 id: sectionDivider.id,
@@ -71,24 +66,29 @@ export const updateSectionDivider = async (req: Request, res: Response): Promise
             }
         });
     } catch (error) {
-        if(error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
-
-        throw error
+        throw CustomError.internalServer('Error while deleting the Section Divider,\n' + error);
     }
 };
 
-export const deleteSectionDivider = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const sectionDividerId = req.params.id;
-        await SectionDivider.findByIdAndDelete(sectionDividerId);
-        res.status(200).json({ message: 'Section divider deleted successfully' });
-    } catch (error) {
-        if(error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
+export const deleteSectionDivider = async (req: Request, res: Response) => {
+    const id = req.params.id;
 
-        throw error
+    if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: `Invalid ID: ${id} !`,
+        });
+    }
+
+    const sectionDivider = await SectionDivider.countDocuments({ _id: id });
+
+    if (!sectionDivider) {
+        return res.status(404).json({ error: 'Section Divider not found !' });
+    }
+
+    try {
+        await SectionDivider.findByIdAndDelete(id);
+        return res.status(200).json({ message: 'Section Divider deleted successfully' });
+    } catch (error) {
+        throw CustomError.internalServer('Error while deleting the Section Divider,\n' + error);
     }
 };

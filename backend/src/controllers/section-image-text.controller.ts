@@ -1,16 +1,9 @@
 import { Request, Response } from 'express';
 import { SectionImageText} from '../models';
-import { from } from 'env-var';
+import { CustomError } from '../helpers';
+import { Types } from 'mongoose';
 
-export const getSectionImageTexts = async (req: Request, res: Response)
-: Promise<{ 
-    id:string; 
-    imgUrl:string; 
-    imgAlt:string; 
-    imgCaption:string; 
-    txtHeading:string; 
-    txtContent:string; 
-    position:"text_img" |"img_text";}[]> => {
+export const getSectionImageTexts = async (req: Request, res: Response) => {
     try {
         const SectionImageTexts = await SectionImageText.find();
         const sections =SectionImageTexts.map(sectionImageText =>{
@@ -24,26 +17,13 @@ export const getSectionImageTexts = async (req: Request, res: Response)
                 position: sectionImageText.position,
             }
         })
-        res.status(200).json(sections);
-        return sections
+        return res.status(200).json(sections);
     } catch (error) {
-        if (error instanceof Error){
-            res.status(500).json({ error: error.message });
-        }
-        throw error
+        throw CustomError.internalServer('Error while fetching Section Image Texts,\n' + error);
     }
 };
 
-export const createSectionImageText = async (req: Request, res: Response)
-: Promise <{message:string; 
-    section: { 
-        id:string; 
-        imgUrl:string; 
-        imgAlt:string; 
-        imgCaption:string; 
-        txtHeading:string; 
-        txtContent:string; 
-        position:"text_img"|"img_text";}} > => {
+export const createSectionImageText = async (req: Request, res: Response) => {
     try {
         const newSectionImageText = new SectionImageText();
         await newSectionImageText.save();
@@ -60,28 +40,29 @@ export const createSectionImageText = async (req: Request, res: Response)
             }
         }
 
-        res.status(201).json(responseData);
-        return responseData
+        return res.status(201).json(responseData);
     } catch (error) {
-        if (error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
-
-        throw error
+        throw CustomError.internalServer('Error while creating Section Image Text,\n' + error);
     }
 };
 
-export const updateSectionImageText = async (req: Request, res: Response): Promise<void> => {
+export const updateSectionImageText = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: `Invalid ID: ${id} !`,
+        });
+    }
+
+    const sectionImageText = await SectionImageText.findById(id);
+    
+    if (!sectionImageText) {
+        return res.status(404).json({ error: 'Section image-text not found' });
+    }
+
     try {
-        const sectionImageTextId = req.params.id;
         const payload = req.body;
-        
-        const sectionImageText = await SectionImageText.findById(sectionImageTextId);
-        
-        if (!sectionImageText) {
-            res.status(404).json({ message: 'Section image-text not found' });
-            return;
-        }
         
         //? Note: if you pass undefined to a field, it will not be updated.
         sectionImageText.imgUrl = payload.imgUrl ?? undefined;
@@ -93,7 +74,7 @@ export const updateSectionImageText = async (req: Request, res: Response): Promi
 
         await sectionImageText.save();
 
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Section text-image updated successfully !',
             section: {
                 id: sectionImageText.id,
@@ -107,20 +88,29 @@ export const updateSectionImageText = async (req: Request, res: Response): Promi
         });
 
     } catch (error) {
-        if (error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
+        throw CustomError.internalServer('Error while updating Section Image Text,\n' + error);
     }
 };
 
-export const deleteSectionImageText = async (req: Request, res: Response): Promise<void> => {
+export const deleteSectionImageText = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: `Invalid ID: ${id} !`,
+        });
+    }
+
+    const sectionImageText = await SectionImageText.countDocuments({ _id: id });
+
+    if (!sectionImageText) {
+        return res.status(404).json({ error: 'Section Image Text not found !' });
+    }
+
     try {
-        const sectionImageTextId = req.params.id;
-        await SectionImageText.findByIdAndDelete(sectionImageTextId);
-        res.status(200).json({ message: 'Section image-text deleted successfully' });
+        await SectionImageText.findByIdAndDelete(id);
+        return res.status(200).json({ message: 'Section Image Text deleted successfully' });
     } catch (error) {
-        if (error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
+        throw CustomError.internalServer('Error while deleting Section Image Text,\n' + error);
     }
 };

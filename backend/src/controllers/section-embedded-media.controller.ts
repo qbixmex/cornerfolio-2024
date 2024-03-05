@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { SectionEmbeddedMedia} from '../models';
-import { from } from 'env-var';
+import { CustomError } from '../helpers';
+import { Types } from 'mongoose';
 
-export const getSectionEmbeddedMedias = async (req: Request, res: Response): Promise<{id:string; code:string}[]> => {
+export const getSectionEmbeddedMedias = async (req: Request, res: Response) => {
     try {
         const SectionEmbeddedMedias = await SectionEmbeddedMedia.find();
         const sections = SectionEmbeddedMedias.map(SectionEmbeddedMedia => {
@@ -11,59 +12,54 @@ export const getSectionEmbeddedMedias = async (req: Request, res: Response): Pro
                 code: SectionEmbeddedMedia.code,
             };
         });
-        res.status(200).json(sections);
-        return sections
+        return res.status(200).json(sections);
     } catch (error) {
-        if(error instanceof Error){
-            res.status(500).json({ error: error.message });
-        }
-        
-        throw error
+        throw CustomError.internalServer('Error while fetching the Section Embedded Medias,\n' + error);
     }
 };
 
-export const createSectionEmbeddedMedia = async (req: Request, res: Response): Promise< { message: string; section: { id: string; code: string; } }> => {
+export const createSectionEmbeddedMedia = async (req: Request, res: Response) => {
     try {
         const { code } = req.body;
         const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
         await newSectionEmbeddedMedia.save();
 
-        const responseData = {
-            message: 'Section embedded media created successfully !',
+        return res.status(201).json({
+            message: 'Section Embedded Media created successfully !',
             section: {
                 id: newSectionEmbeddedMedia.id,
                 code: newSectionEmbeddedMedia.code,
             }
-        }
-
-        res.status(201).json(responseData);
-        return responseData
+        });
     } catch (error) {
-        if(error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
-        throw error
+        throw CustomError.internalServer('Error while creating the Section Embedded Media,\n' + error);
     }
 };
 
-export const updateSectionEmbeddedMedia = async (req: Request, res: Response): Promise<void> => {
+export const updateSectionEmbeddedMedia = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: `Invalid ID: ${id} !`,
+        });
+    }
+
+    const sectionEmbeddedMedia = await SectionEmbeddedMedia.findById(id);
+    
+    if (!sectionEmbeddedMedia) {
+        return res.status(404).json({ error: 'Section Embedded Media not found' });
+    }
+
     try {
-        const sectionEmbeddedMediaId = req.params.id;
         const payload = req.body;
-        
-        const sectionEmbeddedMedia = await SectionEmbeddedMedia.findById(sectionEmbeddedMediaId);
-        
-        if (!sectionEmbeddedMedia) {
-            res.status(404).json({ message: 'Section embedded media not found' });
-            return;
-        }
 
         //? Note: if you pass undefined to a field, it will not be updated.
         sectionEmbeddedMedia.code = payload.code ?? undefined;
         
         await sectionEmbeddedMedia.save();
         
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Section embedded media updated successfully !',
             section: {
                 id: sectionEmbeddedMedia.id,
@@ -72,24 +68,29 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response): P
         });
 
     } catch (error) {
-        if (error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
-
-        throw error
+        throw CustomError.internalServer('Error while updating the Section Embedded Media,\n' + error);
     }
 };
 
-export const deleteSectionEmbeddedMedia = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const sectionEmbeddedMediaId = req.params.id;
-        await SectionEmbeddedMedia.findByIdAndDelete(sectionEmbeddedMediaId);
-        res.status(200).json({ message: 'Section embeded media deleted successfully' });
-    } catch (error) {
-        if (error instanceof Error){
-            res.status(400).json({ error: error.message });
-        }
+export const deleteSectionEmbeddedMedia = async (req: Request, res: Response) => {
+    const id = req.params.id;
 
-        throw error
+    if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: `Invalid ID: ${id} !`,
+        });
+    }
+
+    const sectionEmbeddedMedia = await SectionEmbeddedMedia.countDocuments({ _id: id });
+
+    if (!sectionEmbeddedMedia) {
+        return res.status(404).json({ error: 'Section Embedded Media not found !' });
+    }
+
+    try {
+        await SectionEmbeddedMedia.findByIdAndDelete(id);
+        return res.status(200).json({ message: 'Section embebed media deleted successfully' });
+    } catch (error) {
+        throw CustomError.internalServer('Error while deleting the Section Embedded Media,\n' + error);
     }
 };
