@@ -1,12 +1,12 @@
 import express from 'express';
-import { createPortfolio,getPortfolios,getPortfolioById,updatePortfolio,deletePortfolio} from '../controllers/';
+import { PortfolioController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', getPortfolios);
-router.get('/:id',getPortfolioById);
-router.post('/', createPortfolio);
-router.patch('/:id',updatePortfolio);
-router.delete('/:id',deletePortfolio);
+router.get('/', PortfolioController.getPortfolios);
+router.get('/:id', PortfolioController.getPortfolioById);
+router.post('/', PortfolioController.createPortfolio);
+router.patch('/:id',PortfolioController.updatePortfolio);
+router.delete('/:id',PortfolioController.deletePortfolio);
 
 export default router;
