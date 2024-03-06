@@ -32,9 +32,11 @@ export const createSectionImage = async (req: Request, res: Response) => {
         const newSectionImage = new SectionImage();
         await newSectionImage.save();
         
-        portfolio.sections.push(
-            newSectionImage.id
-        );
+        portfolio.sections.push({
+            kind: 'SectionImage',
+            item: newSectionImage.id
+        });
+
         await portfolio.save()
 
         return res.status(201).json({

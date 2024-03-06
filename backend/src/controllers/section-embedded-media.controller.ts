@@ -20,19 +20,28 @@ export const getSectionEmbeddedMedias = async (req: Request, res: Response) => {
 
 export const createSectionEmbeddedMedia = async (req: Request, res: Response) => {
     try {
-        const {portfolioId} =req.params;
-        const { code } = req.body;
+        const { portfolioId } = req.params;
+
         const portfolio = await Portfolio.findById(portfolioId);
+
         if (!portfolio) {
             return res.status(404).json({ message: 'Portfolio not found' });
         }
-        
+
+        const { code } = req.body;
+
+        if (!code) {
+            return res.status(400).json({ error: 'Code is required !' });
+        }
+
         const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
         await newSectionEmbeddedMedia.save();
 
-        portfolio.sections.push(
-            newSectionEmbeddedMedia.id
-        );
+        portfolio.sections.push({
+            kind: 'SectionEmbeddedMedia',
+            item: newSectionEmbeddedMedia.id
+        });
+
         await portfolio.save()
 
         return res.status(201).json({
@@ -62,8 +71,9 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response) =>
         return res.status(404).json({ error: 'Section Embedded Media not found' });
     }
 
+    const payload = req.body;
+
     try {
-        const payload = req.body;
 
         //? Note: if you pass undefined to a field, it will not be updated.
         sectionEmbeddedMedia.code = payload.code ?? undefined;
@@ -71,7 +81,7 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response) =>
         await sectionEmbeddedMedia.save();
         
         return res.status(200).json({
-            message: 'Section embedded media updated successfully !',
+            message: 'Section embedded media updated successfully 👍 !',
             section: {
                 id: sectionEmbeddedMedia.id,
                 code: sectionEmbeddedMedia.code,
@@ -100,7 +110,7 @@ export const deleteSectionEmbeddedMedia = async (req: Request, res: Response) =>
 
     try {
         await SectionEmbeddedMedia.findByIdAndDelete(id);
-        return res.status(200).json({ message: 'Section embebed media deleted successfully' });
+        return res.status(200).json({ message: 'Section embebed media deleted successfully 👍' });
     } catch (error) {
         throw CustomError.internalServer('Error while deleting the Section Embedded Media,\n' + error);
     }

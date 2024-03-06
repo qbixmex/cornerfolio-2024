@@ -34,13 +34,15 @@ export const createSectionImageText = async (req: Request, res: Response) => {
         const newSectionImageText = new SectionImageText();
         await newSectionImageText.save();
 
-        portfolio.sections.push(
-            newSectionImageText.id
-        );
+        portfolio.sections.push({
+            kind: 'SectionImageText',
+            item: newSectionImageText.id
+        });
+
         await portfolio.save()
 
         const responseData ={
-            message: 'Section text-image created successfully !',
+            message: 'Section text-image created successfully 👍 !',
             section: {
                 id: newSectionImageText.id,
                 imgUrl: newSectionImageText.imgUrl,
@@ -87,7 +89,7 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
         await sectionImageText.save();
 
         return res.status(200).json({
-            message: 'Section text-image updated successfully !',
+            message: 'Section text-image updated successfully 👍 !',
             section: {
                 id: sectionImageText.id,
                 imgUrl: sectionImageText.imgUrl,
@@ -121,7 +123,7 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
 
     try {
         await SectionImageText.findByIdAndDelete(id);
-        return res.status(200).json({ message: 'Section Image Text deleted successfully' });
+        return res.status(200).json({ message: 'Section Image Text deleted successfully 👍' });
     } catch (error) {
         throw CustomError.internalServer('Error while deleting Section Image Text,\n' + error);
     }

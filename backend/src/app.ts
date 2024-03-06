@@ -9,8 +9,7 @@ import {
     sectionEmbeddedMediaRoutes,
     sectionDividerRoutes,
     seedRoutes,
-    portfolioRoutes
-    
+    portfolioRoutes,
 } from './routes';
 import cors from "cors";
 
@@ -35,7 +34,5 @@ app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
-
-
 
 export default app;

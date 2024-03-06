@@ -22,8 +22,9 @@ export const getSectionTexts = async (req: Request, res: Response) => {
 
 export const createSectionText = async (req: Request, res: Response) => {
     try {
-        const {portfolioId} =req.params;
+        const { portfolioId } = req.params;
         const portfolio = await Portfolio.findById(portfolioId);
+
         if (!portfolio) {
             return res.status(404).json({ message: 'Portfolio not found' });
         }
@@ -31,10 +32,13 @@ export const createSectionText = async (req: Request, res: Response) => {
         const newSectionText = new SectionText();
         await newSectionText.save();
 
-        portfolio.sections.push(
-            newSectionText.id
-        );
-        await portfolio.save()
+        portfolio.sections.push({
+            kind: 'SectionText',
+            item: newSectionText._id
+        });
+
+        await portfolio.save();
+
         return res.status(201).json({
             message: 'Section text created successfully !',
             section: {

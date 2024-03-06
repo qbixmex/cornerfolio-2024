@@ -23,15 +23,15 @@ const SectionImageTextSchema = new Schema<ISectionImageText, ISectionImageTextMo
     },
     imgAlt: {
         type: String,
-        default:'<p>Here comes your alt</p>'
+        default:'<p>Lorem Ipsum Image</p>'
     },
     imgCaption: {
         type: String,
-        default: '<p>Here comes your caption</p>'
+        default: '<p>>Lorem Ipsum Image</p>'
     },
     txtHeading: {
         type: String,
-        default: '<h2>This is header. </h2>'
+        default: '<h2>This is header.</h2>'
     },
     txtContent: {
         type: String,
