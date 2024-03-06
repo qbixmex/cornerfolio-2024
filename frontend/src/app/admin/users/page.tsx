@@ -137,7 +137,7 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
               <div
                 className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">
-                  Showing {usersList.pagination.page} to {usersList.pagination.limit} of {usersList.pagination.total} Entries
+                  {usersList.pagination.page} - {Math.floor(usersList.pagination.total / usersList.pagination.limit) + 1} of {usersList.pagination.total} Entries
                 </span>
                 <div className="flex gap-x-2 mt-2 xs:mt-0">
                   <section>
