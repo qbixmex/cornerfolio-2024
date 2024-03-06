@@ -6,3 +6,4 @@ export { default as SectionText } from "./section-text.model";
 export { default as Template } from "./template.model";
 export { default as TemplateOptions } from "./templateOptions.model";
 export { default as User } from "./user.model";
+export { default as Portfolio } from "./portfolio.model"

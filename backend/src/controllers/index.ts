@@ -7,3 +7,4 @@ export * as SectionDividerController from './section-divider.controller';
 export * as SectionImageTextController from './section-image-text.controller';
 export * as SectionImageText from './section-image-text.controller';
 export * as SeedController from './seed.controller';
+export * as PortfolioController from './portfolio.controller';

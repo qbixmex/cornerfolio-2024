@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SectionImage} from '../models';
+import { Portfolio, SectionImage} from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
@@ -23,8 +23,21 @@ export const getSectionImages = async (req: Request, res: Response) => {
 
 export const createSectionImage = async (req: Request, res: Response) => {
     try {
+        const {portfolioId} =req.params;
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ message: 'Portfolio not found' });
+        }
+
         const newSectionImage = new SectionImage();
         await newSectionImage.save();
+        
+        portfolio.sections.push({
+            kind: 'SectionImage',
+            item: newSectionImage.id
+        });
+
+        await portfolio.save()
 
         return res.status(201).json({
             message: 'Section image created successfully !',
