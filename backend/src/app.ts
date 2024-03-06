@@ -9,6 +9,7 @@ import {
     sectionEmbeddedMediaRoutes,
     sectionDividerRoutes,
     seedRoutes,
+    portfolioRoutes,
 } from './routes';
 import cors from "cors";
 
@@ -20,6 +21,9 @@ app.use( express.json() );
 app.use( express.urlencoded({ extended: true }) );
 app.use(morgan('dev'));
 
+//*Cors
+app.use(cors({ origin: "*" }));
+
 //* Routes
 app.use('/api/users', usersRoutes);
 app.use('/api/auth', authRoutes);
@@ -29,8 +33,6 @@ app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
 app.use('/api/seed', seedRoutes);
-
-//*Cors
-app.use(cors({ origin: "*" }));
+app.use('/api/portfolio', portfolioRoutes);
 
 export default app;

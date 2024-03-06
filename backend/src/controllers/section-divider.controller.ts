@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { SectionDivider} from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
+import { Portfolio , SectionDivider}from '../models';
 
 export const getSectionDividers = async (req: Request, res: Response) => {
     try {
@@ -20,11 +20,24 @@ export const getSectionDividers = async (req: Request, res: Response) => {
 
 export const createSectionDivider = async (req: Request, res: Response) => {
     try {
+        const {portfolioId} =req.params;
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ message: 'Portfolio not found' });
+        }
+
         const newSectionDivider = new SectionDivider();
         await newSectionDivider.save();
 
+        portfolio.sections.push({
+            kind: 'SectionDivider',
+            item: newSectionDivider.id
+        });
+
+        await portfolio.save()
+
         return res.status(201).json({
-            message: 'Section divider created successfully !',
+            message: 'Section divider created successfully 👍 !',
             section: {
                 id: newSectionDivider.id,
                 title: newSectionDivider.title,
@@ -59,7 +72,7 @@ export const updateSectionDivider = async (req: Request, res: Response) => {
         await sectionDivider.save();
 
         return res.status(200).json({
-            message: 'Section divider updated successfully !',
+            message: 'Section divider updated successfully 👍 !',
             section: {
                 id: sectionDivider.id,
                 title: sectionDivider.title,
@@ -87,7 +100,7 @@ export const deleteSectionDivider = async (req: Request, res: Response) => {
 
     try {
         await SectionDivider.findByIdAndDelete(id);
-        return res.status(200).json({ message: 'Section Divider deleted successfully' });
+        return res.status(200).json({ message: 'Section Divider deleted successfully 👍' });
     } catch (error) {
         throw CustomError.internalServer('Error while deleting the Section Divider,\n' + error);
     }
