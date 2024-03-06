@@ -8,7 +8,9 @@ import {
     sectionImageTextRoutes,
     sectionEmbeddedMediaRoutes,
     sectionDividerRoutes,
-    portfolioRoutes,
+    seedRoutes,
+    portfolioRoutes
+    
 } from './routes';
 import cors from "cors";
 
@@ -31,8 +33,8 @@ app.use('/api/section-image', sectionImageRoutes);
 app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
+app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
-
 
 
 
