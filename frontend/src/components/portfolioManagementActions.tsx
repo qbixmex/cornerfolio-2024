@@ -5,7 +5,7 @@ import DeletePortfolioButton from "./deletePortfolioButton";
 import DraftButton from "./saveAsDraftButton";
 
 export default function PortfolioManagementActions() {
-	const published = false; //!this data is coming from the back end in the future
+	const published = true; //!this data is coming from the back end in the future
 	return (
 		<>
 			<h2 className="mt-24 text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -26,7 +26,7 @@ export default function PortfolioManagementActions() {
 
 						<DeletePortfolioButton />
 					</div>
-					<div className="flex w-6 justify-end absolute top-0 z-100 ml-52 mt-3">
+					<div className="flex w-6 justify-end absolute top-0 z-100 ml-52 mt-3 text-white">
 						{published ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
 					</div>
 				</li>
