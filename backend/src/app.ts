@@ -8,6 +8,7 @@ import {
     sectionImageTextRoutes,
     sectionEmbeddedMediaRoutes,
     sectionDividerRoutes,
+    portfolioRoutes,
 } from './routes';
 import cors from "cors";
 
@@ -19,6 +20,9 @@ app.use( express.json() );
 app.use( express.urlencoded({ extended: true }) );
 app.use(morgan('dev'));
 
+//*Cors
+app.use(cors({ origin: "*" }));
+
 //* Routes
 app.use('/api/users', usersRoutes);
 app.use('/api/auth', authRoutes);
@@ -27,9 +31,9 @@ app.use('/api/section-image', sectionImageRoutes);
 app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 
 
-//*Cors
-app.use(cors({ origin: "*" }));
+
 
 export default app;

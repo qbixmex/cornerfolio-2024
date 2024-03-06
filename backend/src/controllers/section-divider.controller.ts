@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { SectionDivider} from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
+import { Portfolio , SectionDivider}from '../models';
+import { Console } from 'console';
 
 export const getSectionDividers = async (req: Request, res: Response) => {
     try {
@@ -20,8 +21,18 @@ export const getSectionDividers = async (req: Request, res: Response) => {
 
 export const createSectionDivider = async (req: Request, res: Response) => {
     try {
+        const {portfolioId} =req.params;
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ message: 'Portfolio not found' });
+        }
+
         const newSectionDivider = new SectionDivider();
         await newSectionDivider.save();
+        portfolio.sections.push(
+            newSectionDivider.id
+        );
+        await portfolio.save()
 
         return res.status(201).json({
             message: 'Section divider created successfully !',

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SectionText} from '../models';
+import { Portfolio, SectionText} from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
@@ -22,8 +22,19 @@ export const getSectionTexts = async (req: Request, res: Response) => {
 
 export const createSectionText = async (req: Request, res: Response) => {
     try {
+        const {portfolioId} =req.params;
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ message: 'Portfolio not found' });
+        }
+
         const newSectionText = new SectionText();
         await newSectionText.save();
+
+        portfolio.sections.push(
+            newSectionText.id
+        );
+        await portfolio.save()
         return res.status(201).json({
             message: 'Section text created successfully !',
             section: {

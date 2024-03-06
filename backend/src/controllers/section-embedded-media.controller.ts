@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SectionEmbeddedMedia} from '../models';
+import {Portfolio, SectionEmbeddedMedia} from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
@@ -20,9 +20,20 @@ export const getSectionEmbeddedMedias = async (req: Request, res: Response) => {
 
 export const createSectionEmbeddedMedia = async (req: Request, res: Response) => {
     try {
+        const {portfolioId} =req.params;
         const { code } = req.body;
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ message: 'Portfolio not found' });
+        }
+        
         const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
         await newSectionEmbeddedMedia.save();
+
+        portfolio.sections.push(
+            newSectionEmbeddedMedia.id
+        );
+        await portfolio.save()
 
         return res.status(201).json({
             message: 'Section Embedded Media created successfully !',
