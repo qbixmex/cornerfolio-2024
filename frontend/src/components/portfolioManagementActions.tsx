@@ -1,11 +1,12 @@
-"use client";
-import { portFoliosFetch } from "@/api/portfolios.fetch";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import DeletePortfolioButton from "./deletePortfolioButton";
-import DraftButton from "./saveAsDraftButton";
+'use client';
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { portFoliosFetch } from '@/api/portfolios.fetch';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import DeletePortfolioButton from './deletePortfolioButton';
+import DraftButton from './saveAsDraftButton';
 
 type PortfolioHeader = {
 	title: string;
@@ -41,7 +42,6 @@ export default function PortfolioManagementActions() {
 
 		fetchData();
 	}, []);
-	console.log(allUserPortfolios);
 
 	return (
 		<>
@@ -52,7 +52,7 @@ export default function PortfolioManagementActions() {
 					<div key={index} className="bg-gray-200 mt-10 rounded-md p-10 scroll-ml-6 snap-start">
 						<div className="relative">
 							<Image
-								src="https://source.unsplash.com/random"
+								src="https://images.unsplash.com/photo-1588200908342-23b585c03e26"
 								alt="Random Image"
 								width={250}
 								height={250}
@@ -64,11 +64,11 @@ export default function PortfolioManagementActions() {
 								<DeletePortfolioButton />
 							</div>
 							<div className="flex w-6 justify-end absolute top-0 z-100 mt-3 text-white">
-								{portfolio.status === "draft" ? (
-									<FontAwesomeIcon icon={faEyeSlash} />
-								) : (
-									<FontAwesomeIcon icon={faEye} />
-								)}
+								{
+									portfolio.status === "draft"
+										? ( <FontAwesomeIcon icon={faEyeSlash} /> )
+										: ( <FontAwesomeIcon icon={faEye} /> )
+								}
 							</div>
 						</div>
 					</div>

@@ -1,19 +1,17 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from 'next/cache';
 
 export const portFoliosFetch = async () => {
-	const response = await fetch(`http://localhost:4000/api/portfolio`, {
-		method: "GET",
-	});
+	const response = await fetch(`http://localhost:4000/api/portfolio`);
 
 	if (!response.ok) {
-		console.error("Failed to fetch portfolios");
-		return { error: "Failed to fetch portfolios" };
+		console.error('Failed to fetch portfolios');
+		return { error: 'Failed to fetch portfolios, check logs !' };
 	}
 
 	const data = await response.json();
 
 	if (data.user) {
-		revalidatePath("/admin/portfolio-management");
+		revalidatePath('/admin/portfolio-management');
 	}
 
 	return data;
