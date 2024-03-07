@@ -1,9 +1,9 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function CreatePortfolioSection() {
 	return (
 		<>
-			<h2 className="mt-24 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+			<h2 className="mt-24 text-5xl text-slate-700 font-semibold  tracking-tight">
 				Manage Your Portfolios
 			</h2>
 			<div className="bg-gray-200 mt-10 rounded-md p-10 gap-7 ">

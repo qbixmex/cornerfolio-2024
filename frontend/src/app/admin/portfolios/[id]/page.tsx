@@ -1,11 +1,8 @@
-"use client"
-import { useState, useEffect } from "react";
-import { getPortfolio } from "@/portfolio/actions/portfolio.actions";
-import { FC } from "react";
-import TemplateFooter from "../components/templateFooter";
-import TemplateHeader from "../components/templateHeader";
-import SectionsList from "@/components/sections/sectionsList";
-import ChooseSection from "@/components/sections/chooseSection";
+import { FC, useEffect, useState } from 'react';
+import { getPortfolio } from '@/portfolios/actions/portfolio.action';
+import { TemplateHeader, TemplateFooter } from '@/portfolios/components';
+import SectionsList from '@/components/sections/sectionsList';
+import ChooseSection from '@/components/sections/chooseSection';
 
 type Props = {
     params: { id: string };
@@ -13,10 +10,11 @@ type Props = {
 };
 
 const EditPortfolioPage: FC<Props> = ({ params }) => {
-    // in the future, it sholud be in redux.
+    // in the future, it should be in redux.
     const [loading, setLoading] = useState(true);
-    const [portfolio,setPortfolio] =useState<any>({})
+    const [portfolio,setPortfolio] = useState<any>({})
     const id=params.id
+
     useEffect(()=>{
         const fetchPortfolio = async () => {
             try {
@@ -30,8 +28,7 @@ const EditPortfolioPage: FC<Props> = ({ params }) => {
         if (id){
             fetchPortfolio();
         }
-        
-    },[id])
+    },[id]);
     
 
     return (
