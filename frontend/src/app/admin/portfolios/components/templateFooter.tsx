@@ -22,6 +22,7 @@ const TemplateFooter: FC<Props> = ({ footer }) => {
                         <Link
                             href="#"
                             className="w-full outline-none text-base"
+                            key={link}
                         >
                             {link}
                         </Link>

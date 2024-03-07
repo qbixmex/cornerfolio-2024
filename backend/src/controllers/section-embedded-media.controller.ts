@@ -94,24 +94,37 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response) =>
 };
 
 export const deleteSectionEmbeddedMedia = async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const sectionId = req.params.id;
 
-    if (!Types.ObjectId.isValid(id)) {
+    if (!Types.ObjectId.isValid(sectionId)) {
         return res.status(400).json({
-          error: `Invalid ID: ${id} !`,
+          error: `Invalid ID: ${sectionId} !`,
         });
     }
 
-    const sectionEmbeddedMedia = await SectionEmbeddedMedia.countDocuments({ _id: id });
-
-    if (!sectionEmbeddedMedia) {
-        return res.status(404).json({ error: 'Section Embedded Media not found !' });
-    }
-
     try {
-        await SectionEmbeddedMedia.findByIdAndDelete(id);
-        return res.status(200).json({ message: 'Section embebed media deleted successfully 👍' });
+        // Delete the sectionEmbeddedMedia itself
+        await SectionEmbeddedMedia.findByIdAndDelete(sectionId);
+        
+        // Find the portfolio that contains a section with the given sectionId
+        const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
+        if (!portfolio) {
+            return res.status(404).json({ error: 'Portfolio not found !' });
+        }
+        console.log("debug portfolio",portfolio.id)
+
+        // Find the index of the section with the given sectionId in the portfolio's sections array
+        const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
+        if (sectionIndex === -1) {
+            return res.status(404).json({ error: 'Section not found in portfolio !' });
+        }
+
+        // Remove the section from the portfolio's sections array
+        portfolio.sections.splice(sectionIndex, 1);
+        await portfolio.save();
+
+        return res.status(200).json({ message: 'Section EmbeddedMedia deleted successfully 👍' });
     } catch (error) {
-        throw CustomError.internalServer('Error while deleting the Section Embedded Media,\n' + error);
+        throw CustomError.internalServer('Error while deleting the Section EmbeddedMedia,\n' + error);
     }
 };
