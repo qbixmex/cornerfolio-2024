@@ -1,4 +1,4 @@
-import { ISections } from './index'
+import { SectionText, SectionDivider, SectionEmbeddedMedia, SectionImage, SectionImageText } from './index'
 
 export interface IPortfolio{
     id: string,
@@ -7,11 +7,11 @@ export interface IPortfolio{
         subHeading: string;
     },
     status: string;
-    sections: ISections.ISectionText[]
-        | ISections.ISectionImage[]
-        | ISections.ISectionEmbeddedMedia[]
-        | ISections.ISectionImageText[]
-        | ISections.ISectionDivider[];
+    sections: SectionText[]
+        | SectionImage[]
+        | SectionEmbeddedMedia[]
+        | SectionImageText[]
+        | SectionDivider[];
     footer: {
         links: string[];
         text: string;
