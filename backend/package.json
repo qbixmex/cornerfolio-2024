@@ -1,6 +1,6 @@
 {
 	"name": "cornerfolio_backend",
-	"version": "0.6.3",
+	"version": "0.6.4",
 	"description": "Final Program Project",
 	"main": "server.js",
 	"scripts": {
