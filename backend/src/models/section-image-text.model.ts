@@ -27,7 +27,7 @@ const SectionImageTextSchema = new Schema<ISectionImageText, ISectionImageTextMo
     },
     imgCaption: {
         type: String,
-        default: '<p>>Lorem Ipsum Image</p>'
+        default: '<p>Lorem Ipsum Image</p>'
     },
     txtHeading: {
         type: String,
