@@ -1,10 +1,6 @@
 {
   "name": "cornerfolio",
-<<<<<<< HEAD
-  "version": "0.8.4",
-=======
   "version": "0.8.3",
->>>>>>> c31e17d26d14f44fbe5926aa2da454bc7256690d
   "private": true,
   "scripts": {
     "dev": "next dev",
