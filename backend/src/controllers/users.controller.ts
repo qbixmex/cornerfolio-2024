@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { bcryptAdapter } from '../config';
-import { CustomError, generateToken } from '../helpers';
+import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
 type UsersQuery = {
@@ -40,16 +40,18 @@ export const list = async (
       active: user.active,
       course: user.course,
       schedule: user.schedule,
+      startDate: user.startDate ?? 'not set',
+      endDate: user.endDate ?? 'not set',
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }));
   
-    response.status(200).json({
+    return response.status(200).json({
       pagination: {
         total: usersTotal,
         limit: +limit,
-        next: ((+page * +limit) < usersTotal) ? `/api/users?page=${(+page + 1)}?limit=${limit}` : null,
-        previous: (+page - 1 !== 0) ? `/api/users?page=${(+page - 1)}?limit=${limit}` : null,
+        next: ((+page * +limit) < usersTotal) ? `page=${(+page + 1)}` : null,
+        previous: (+page - 1 !== 0) ? `page=${(+page - 1)}` : null,
         page: +page,
       },
       users: usersRemap,
@@ -91,6 +93,8 @@ export const profile = async (
         active: foundUser.active,
         course: foundUser.course,
         schedule: foundUser.schedule,
+        startDate: foundUser.startDate ?? 'not set',
+        endDate: foundUser.endDate ?? 'not set',
         createdAt: foundUser.createdAt,
         updatedAt: foundUser.updatedAt,
       },

@@ -14,7 +14,7 @@ const EditPortfolioPage: FC<Props> = async ({ params }) => {
     return (
         <main className="ml-[52px] mt-[55px] text-2xl font-bold">
             <TemplateHeader header={portfolio.header} />
-            {portfolio.sections.length !== 0 && (
+            {portfolio.sections.length === 0 && (
                 <section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
                     <section className="bg-orange-500 rounded text-white w-fit p-5">
                         No section created yet

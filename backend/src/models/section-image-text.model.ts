@@ -1,12 +1,12 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface ISectionImageText extends Document {
-    imgUrl?: string;
-    imgAlt?: string;
-    imgCaption?: string;
-    txtHeading?: string;
-    txtContent?: string;
-    position?: 'img_text' | 'text_img';
+    imgUrl: string;
+    imgAlt: string;
+    imgCaption: string;
+    txtHeading: string;
+    txtContent: string;
+    position: 'img_text' | 'text_img';
 }
 
 type timestamps = {
@@ -23,15 +23,15 @@ const SectionImageTextSchema = new Schema<ISectionImageText, ISectionImageTextMo
     },
     imgAlt: {
         type: String,
-        default:'<p>Here comes your alt</p>'
+        default:'<p>Lorem Ipsum Image</p>'
     },
     imgCaption: {
         type: String,
-        default: '<p>Here comes your caption</p>'
+        default: '<p>>Lorem Ipsum Image</p>'
     },
     txtHeading: {
         type: String,
-        default: '<h2>This is header. </h2>'
+        default: '<h2>This is header.</h2>'
     },
     txtContent: {
         type: String,

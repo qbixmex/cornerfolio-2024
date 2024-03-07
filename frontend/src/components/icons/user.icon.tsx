@@ -3,14 +3,17 @@ import { CSSProperties, FC } from 'react';
 type Props = {
   className?: string;
   style?: CSSProperties;
+  size?: number;
 };
 
-const UserIcon: FC<Props> = ({ className, style }) => {
+const UserIcon: FC<Props> = ({ className, style, size }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       style={style}
+      width={size}
+      height={size}
       fill="currentColor"
       viewBox="0 0 448 512"
     >

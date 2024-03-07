@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import * as controller from '../controllers/users.controller';
+import { UsersController } from '../controllers';
 import { validateRegisterFields, validateUpdateFields } from './validation';
 
 const router = Router();
 
-router.get('/', controller.list);
-router.get('/:id', controller.profile);
-router.post('/', validateRegisterFields, controller.create);
-router.patch('/:id', validateUpdateFields, controller.update);
-router.delete('/:id', controller.remove);
+router.get('/', UsersController.list);
+router.get('/:id', UsersController.profile);
+router.post('/', validateRegisterFields, UsersController.create);
+router.patch('/:id', validateUpdateFields, UsersController.update);
+router.delete('/:id', UsersController.remove);
 
 export default router;

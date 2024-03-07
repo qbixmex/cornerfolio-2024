@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
-import { JWTAdapter, bcryptAdapter } from '../config';
+import { bcryptAdapter } from '../config';
 import { CustomError, generateToken } from '../helpers';
 
 type RegisterRequestBody = {
@@ -108,7 +108,7 @@ export const login = async (
   );
 
   //* return authenticated user and token.
-  return response.status(201).json({
+  return response.status(200).json({
     message: 'User logged in successfully !',
     user: {
       id: foundUser.id,
