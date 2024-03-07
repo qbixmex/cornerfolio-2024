@@ -1,8 +1,45 @@
-'use client';
+"use client";
 
-import { UserIcon } from './icons';
+import { FC, useState } from "react";
+import { UserIcon } from "./icons";
 
-export const ProfileBody = () => {
+type Props = {
+    user: {
+        id: string;
+        name: string;
+        email: string;
+        type?: "student" | "client" | "admin";
+        jobTitle: string;
+        active?: boolean;
+        course: string;
+        schedule: "morning" | "afternoon" | "evening";
+        startDate: string;
+        endDate: string;
+        createdAt: string;
+        updatedAt: string;
+    };
+};
+
+export const ProfileBody: FC<Props> = ({ user }) => {
+    console.log(user);
+
+    const [formData, setFormData] = useState({
+        name: user ? user.name : "",
+        email: user ? user.email : "",
+        type: user ? user.type : "student",
+        jobTitle: user ? user.jobTitle : "",
+        active: user ? user.active : false,
+        course: user ? user.course : "",
+        schedule: user ? user.schedule : "morning",
+        startDate: user ? user.startDate : "",
+        endDate: user ? user.endDate : "",
+    });
+
+    const onInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     return (
         <section className="w-[80%] mx-auto py-10">
@@ -18,7 +55,7 @@ export const ProfileBody = () => {
 
             <form
                 className="w-full mb-10"
-                action={() => console.log('Save User details')}
+                action={() => console.log("Save User details")}
             >
                 <section className="grid grid-cols-2 w-full gap-10">
                     <section>
@@ -34,7 +71,8 @@ export const ProfileBody = () => {
                                 id="name"
                                 name="name"
                                 type="text"
-                                defaultValue="John Doe"
+                                value={formData.name}
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
                         </section>
@@ -51,8 +89,8 @@ export const ProfileBody = () => {
                                 id="job-title"
                                 name="jobTitle"
                                 type="text"
-                                defaultValue="Software Engineer"
-                                onChange={() => { }}
+                                value={formData.jobTitle}
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
                         </section>
@@ -65,13 +103,13 @@ export const ProfileBody = () => {
                             >
                                 Email address
                             </label>
-                            
+
                             <input
                                 id="email"
                                 name="email"
                                 type="email"
-                                defaultValue="john@gmail.com"
-                                onChange={() => { }}
+                                value={formData.email}
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
                         </section>
@@ -84,16 +122,16 @@ export const ProfileBody = () => {
                             >
                                 Course
                             </label>
-                            
+
                             <input
                                 id="course"
                                 name="course"
                                 type="text"
-                                defaultValue={'Web Development'}
-                                onChange={() => {}}
+                                value={formData.course}
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
-                        </section> 
+                        </section>
                     </section>
 
                     <section>
@@ -126,13 +164,17 @@ export const ProfileBody = () => {
                             >
                                 Start Date
                             </label>
-                            
+
                             <input
                                 id="start-date"
                                 name="startDate"
                                 type="date"
-                                defaultValue={new Date().toISOString().split('T')[0]}
-                                onChange={() => { }}
+                                value={
+                                    new Date(formData.startDate)
+                                        .toISOString()
+                                        .split("T")[0]
+                                }
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
                         </section>
@@ -145,13 +187,17 @@ export const ProfileBody = () => {
                             >
                                 End Date
                             </label>
-                            
+
                             <input
                                 id="end-date"
                                 name="endDate"
                                 type="date"
-                                defaultValue={new Date().toISOString().split('T')[0]}
-                                onChange={() => { }}
+                                value={
+                                    new Date(formData.endDate)
+                                        .toISOString()
+                                        .split("T")[0]
+                                }
+                                onChange={onInputChange}
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             />
                         </section>
@@ -166,15 +212,15 @@ export const ProfileBody = () => {
                             >
                                 Status
                             </label>
-                        
-                            <input
-                                id="start-date"
-                                name="startDate"
-                                type="text"
-                                defaultValue={'active'}
-                                onChange={() => {}}
+                            <select
+                                id="active"
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
-                            />
+                                value={formData.active ? "true" : "false"}
+                                onChange={onInputChange}
+                            >
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
                         </section>
 
                         {/* Schedule*/}
@@ -189,6 +235,8 @@ export const ProfileBody = () => {
                             <select
                                 id="schedule"
                                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+                                value={formData.schedule}
+                                onChange={onInputChange}
                             >
                                 <option value="morning">Morning</option>
                                 <option value="afternoon">Afternoon</option>
@@ -218,7 +266,7 @@ export const ProfileBody = () => {
 
             <form
                 className="w-full mb-10"
-                action={() => console.log('changing password ...')}
+                action={() => console.log("changing password ...")}
             >
                 <section className="grid grid-cols-2 w-full gap-10">
                     <section className="mb-5">
@@ -232,7 +280,7 @@ export const ProfileBody = () => {
                             className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                             id="password"
                             type="password"
-                            defaultValue=''
+                            defaultValue=""
                             onChange={() => {}}
                         />
                     </section>
@@ -270,7 +318,7 @@ export const ProfileBody = () => {
                 Membership
             </h2>
 
-            <form action={() => console.log('Upgrading account ...')}>
+            <form action={() => console.log("Upgrading account ...")}>
                 <section className="grid grid-cols-2">
                     <section className="flex gap-3 items-center">
                         <h3 className="text-3xl text-slate-500 font-semibold tracking-tight">
@@ -299,7 +347,7 @@ export const ProfileBody = () => {
                 </h2>
 
                 <form
-                    action={() => console.log('deleting account ...')}
+                    action={() => console.log("deleting account ...")}
                     className="w-full"
                 >
                     <section className="w-full">
@@ -312,7 +360,6 @@ export const ProfileBody = () => {
                     </section>
                 </form>
             </section>
-
         </section>
     );
 };
