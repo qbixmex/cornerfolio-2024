@@ -1,28 +1,30 @@
 import React from 'react';
-import renderSection from './renderSection';
-import { ISections } from '@/interfaces';
+import RenderSection from './renderSection';
+import {
+	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider
+} from '@/interfaces';
 
-type Section = 
-    | ISections.ISectionText
-    | ISections.ISectionImage
-    | ISections.ISectionEmbeddedMedia
-    | ISections.ISectionImageText
-    | ISections.ISectionDivider;
+type Section =
+  | SectionText
+  | SectionImage
+  | SectionEmbeddedMedia
+  | SectionImageText
+  | SectionDivider;
 
 type Props = {
-    sections: Section[];
+  sections: Section[];
 };
 
 const SectionsList: React.FC<Props> = ({ sections }) => {
-    return (    
-        <div>
-            {sections.map((section, index) => (
-                <div className='mb-5 border-b ml-5 mr-5' key={section.id || index}>
-                    {renderSection(section)}
-                </div>
-            ))}
+  return (
+    <div>
+      {sections.map((section) => (
+        <div className='mb-5 border-b ml-5 mr-5' key={section.id}>
+          {<RenderSection section={section} />}
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default SectionsList;

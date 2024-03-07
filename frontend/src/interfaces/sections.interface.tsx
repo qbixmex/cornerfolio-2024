@@ -1,4 +1,4 @@
-export interface ISectionText {
+export interface SectionText {
     id: string;
     kind: string;
     item: {
@@ -11,7 +11,7 @@ export interface ISectionText {
     }
 }
 
-export interface ISectionImage {
+export interface SectionImage {
     id: string;
     kind: string;
     item: {
@@ -25,7 +25,7 @@ export interface ISectionImage {
     }
 }
 
-export interface ISectionEmbeddedMedia {
+export interface SectionEmbeddedMedia {
     id: string;
     kind: string;
     item: {
@@ -36,7 +36,7 @@ export interface ISectionEmbeddedMedia {
     }
 }
 
-export interface ISectionImageText {
+export interface SectionImageText {
     id: string;
     kind: string;
     item: {
@@ -52,7 +52,7 @@ export interface ISectionImageText {
     }
 }
 
-export interface ISectionDivider {
+export interface SectionDivider {
     id: string;
     kind: string;
     item: {

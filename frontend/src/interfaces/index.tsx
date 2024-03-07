@@ -1,2 +1,2 @@
 export * from './portfolio.interface'
-export * as ISections from './sections.interface'
+export * from './sections.interface'
