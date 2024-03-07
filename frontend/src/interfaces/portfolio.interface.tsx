@@ -1,4 +1,6 @@
-import { SectionText, SectionDivider, SectionEmbeddedMedia, SectionImage, SectionImageText } from './index'
+import {
+    SectionText, SectionDivider, SectionEmbeddedMedia, SectionImage, SectionImageText
+} from '.';
 
 export interface IPortfolio{
     id: string,
@@ -7,7 +9,8 @@ export interface IPortfolio{
         subHeading: string;
     },
     status: string;
-    sections: SectionText[]
+    sections:
+        | SectionText[]
         | SectionImage[]
         | SectionEmbeddedMedia[]
         | SectionImageText[]
