@@ -1,8 +1,7 @@
-import { getPortfolio } from "@/portfolio/actions/portfolio.actions";
-import { FC } from "react";
-import { MdAdd } from "react-icons/md";
-import TemplateFooter from "../components/templateFooter";
-import TemplateHeader from "../components/templateHeader";
+import { FC } from 'react';
+import { MdAdd } from 'react-icons/md';
+import { getPortfolio } from '@/portfolios/actions/portfolio.action';
+import { TemplateHeader, TemplateFooter } from '@/portfolios/components';
 
 type Props = {
     params: { id: string };
