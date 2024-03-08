@@ -1,8 +1,9 @@
 'use client';
 
-import { UserIcon } from '@/components/icons';
 import { ChangeEvent, FC, useState } from 'react';
-import { updatePassword, updateUser } from '../actions/user.actions';
+import Swal from 'sweetalert2';
+import { UserIcon } from '@/components/icons';
+import { deleteUser, updatePassword, updateUser } from '../actions/user.actions';
 import styles from './profile.module.css'
 import { User, UserResponse } from '../interfaces/users';
 
@@ -83,6 +84,24 @@ const ProfileBody: FC<Props> = ({ user }) => {
 		}
 
 		setTimeout(() => setToast({ message: '', type: '' }), 3000);
+	};
+
+	const handleDeleteUser = () => {
+
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!"
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				await deleteUser(user.id);
+			}
+		});
+
 	};
 
 	return (
@@ -373,7 +392,7 @@ const ProfileBody: FC<Props> = ({ user }) => {
 						Delete Account
 					</h2>
 					<form
-						action={() => console.log("deleting account ...")}
+						action={handleDeleteUser}
 						className="w-full"
 					>
 						<section className="w-full">
