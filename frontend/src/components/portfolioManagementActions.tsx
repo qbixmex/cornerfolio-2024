@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import DeletePortfolioButton from "./deletePortfolioButton";
 import DraftButton from "./saveAsDraftButton";
+import { deletePortfolio } from "@/api/deletePortfolioById.fetch";
 
 type PortfolioHeader = {
 	title: string;
@@ -70,6 +71,8 @@ export default function PortfolioManagementActions() {
 		}
 	};
 
+	
+
 	return (
 		<>
 			<h2 className="mt-24 text-5xl text-slate-700 font-semibold  tracking-tight ">Portfolios</h2>
@@ -93,7 +96,7 @@ export default function PortfolioManagementActions() {
 
 							<div className="flex justify-between absolute w-full bottom-0 z-10 p-4">
 								<DraftButton status={portfolio.status} />
-								<DeletePortfolioButton />
+								<DeletePortfolioButton id={portfolio.id} />
 							</div>
 							<div className="flex w-6 justify-end absolute top-0 z-100 mt-3 text-white">
 								{portfolio.status === "draft" ? (
