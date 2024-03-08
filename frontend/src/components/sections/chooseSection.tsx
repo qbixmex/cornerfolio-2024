@@ -9,8 +9,9 @@ import CreateEmbeddedMedia from './createEmbeddedMedia';
 
 type Props = {
     portfolioId:string;
+    order: number;
 };
-const ChooseSection :React.FC<Props>= ({portfolioId}) => {
+const ChooseSection :React.FC<Props>= ({portfolioId,order}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const openModal = () => {
@@ -25,7 +26,7 @@ const ChooseSection :React.FC<Props>= ({portfolioId}) => {
         <>
             {/* Open modal button */}
             <div className='flex justify-center'>
-                <button className="bg-slate-600 p-2 rounded text-white" type="button" onClick={openModal}>
+                <button  className="bg-slate-600 p-2 rounded text-white" type="button" onClick={openModal}>
                     <MdAdd size={20} />
                 </button>
             </div>
@@ -46,11 +47,11 @@ const ChooseSection :React.FC<Props>= ({portfolioId}) => {
                         <div>
                             <h2 className='text-xl'>Add section</h2>
                             <div className='border flex flex-wrap'>
-                                <CreateText portfolioId={portfolioId}/>
-                                <CreateImage portfolioId={portfolioId}/>
-                                <CreateImageText portfolioId={portfolioId} />
-                                <CreateEmbeddedMedia portfolioId={portfolioId}/>
-                                <CreateDivider portfolioId={portfolioId}/>
+                                <CreateText portfolioId={portfolioId} order={order}/>
+                                <CreateImage portfolioId={portfolioId} order={order}/>
+                                <CreateImageText portfolioId={portfolioId} order={order}/>
+                                <CreateEmbeddedMedia portfolioId={portfolioId} order={order}/>
+                                <CreateDivider portfolioId={portfolioId} order={order}/>
                             </div>
                         </div>
                     </div>

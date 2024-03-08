@@ -24,6 +24,8 @@ export const getSectionImages = async (req: Request, res: Response) => {
 export const createSectionImage = async (req: Request, res: Response) => {
     try {
         const {portfolioId} =req.params;
+        const order = req.query.order as string;
+
         const portfolio = await Portfolio.findById(portfolioId);
         if (!portfolio) {
             return res.status(404).json({ message: 'Portfolio not found' });
@@ -32,10 +34,25 @@ export const createSectionImage = async (req: Request, res: Response) => {
         const newSectionImage = new SectionImage();
         await newSectionImage.save();
         
-        portfolio.sections.push({
-            kind: 'SectionImage',
-            item: newSectionImage.id
-        });
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionImage',
+                    item: newSectionImage._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionImage',
+                    item: newSectionImage._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionImage',
+                item: newSectionImage._id
+            });
+        }
 
         await portfolio.save()
 

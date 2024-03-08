@@ -1,5 +1,6 @@
 import React from 'react';
 import RenderSection from './renderSection';
+import ChooseSection from './chooseSection';
 import {
 	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider
 } from '@/interfaces';
@@ -13,16 +14,21 @@ type Section =
 
 type Props = {
   sections: Section[];
+  portfolioId: string;
 };
 
-const SectionsList: React.FC<Props> = ({ sections }) => {
+const SectionsList: React.FC<Props> = ({ sections , portfolioId}) => {
   return (
-    <div>
-      {sections.map((section) => (
-        <div className='mb-5 border-b ml-5 mr-5' key={section.id}>
-          {<RenderSection section={section} />}
-        </div>
-      ))}
+      <div>
+          {sections.map((section, index) => (
+          <div key={section.item.id}>
+            <div className='mb-5 border-b ml-5 mr-5' >
+              {<RenderSection section={section} />}
+            </div>
+            <ChooseSection portfolioId={portfolioId} order={index+1}/>
+            <hr></hr>
+          </div>
+        ))}
     </div>
   );
 };

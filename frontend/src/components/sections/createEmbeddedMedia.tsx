@@ -1,9 +1,12 @@
 "use client"
 import { useState } from "react";
+import { createSectionEmbeddedMedia } from "@/sections/actions/section.action";
+
 type Props = {
     portfolioId:string;
+    order:number;
 };
-const CreateEmbeddedMedia:React.FC<Props> = ({portfolioId}) => {
+const CreateEmbeddedMedia:React.FC<Props> = ({portfolioId,order}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [code,setCode] =useState(null);
 
@@ -21,25 +24,11 @@ const CreateEmbeddedMedia:React.FC<Props> = ({portfolioId}) => {
 
     const handleCreateEmbeddedMedia= async () => {
         if (!code || code==="") {
+            // we need more better validation here.
             alert('Please enter some code.');
             return;
         }
-
-        const response = await fetch(`http://localhost:4000/api/section-embedded-media/${portfolioId}`, {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json",
-            },
-            body:JSON.stringify({code:code})
-        });
-
-        if (response.ok) {
-            const data=await response.json()
-            console.log(data);
-        } else {
-            console.error('Failed to create embedded media');
-        }
-        
+        createSectionEmbeddedMedia(portfolioId,order,code)
     };
 
     return (
@@ -64,7 +53,7 @@ const CreateEmbeddedMedia:React.FC<Props> = ({portfolioId}) => {
                         {/* Modal content */}
                         <div>
                             <h2 className='text-xl'>Add Link</h2>
-                            <textarea onChange={handleCodeChange} className="border w-full text-sm">{code}</textarea>
+                            <textarea onChange={handleCodeChange} className="border w-full h-[200px] text-sm">{code}</textarea>
                             <button 
                                 className="m-4 bg-gray-200 hover:bg-gray-300"
                                 onClick={handleCreateEmbeddedMedia}>

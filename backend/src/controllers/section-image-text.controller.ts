@@ -26,6 +26,7 @@ export const getSectionImageTexts = async (req: Request, res: Response) => {
 export const createSectionImageText = async (req: Request, res: Response) => {
     try {
         const {portfolioId} =req.params;
+        const order = req.query.order as string;
         const portfolio = await Portfolio.findById(portfolioId);
         if (!portfolio) {
             return res.status(404).json({ message: 'Portfolio not found' });
@@ -34,10 +35,27 @@ export const createSectionImageText = async (req: Request, res: Response) => {
         const newSectionImageText = new SectionImageText();
         await newSectionImageText.save();
 
-        portfolio.sections.push({
-            kind: 'SectionImageText',
-            item: newSectionImageText.id
-        });
+        console.log("img-text: ", order)
+
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionImageText',
+                    item: newSectionImageText._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionImageText',
+                    item: newSectionImageText._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionImageText',
+                item: newSectionImageText._id
+            });
+        }
 
         await portfolio.save()
 

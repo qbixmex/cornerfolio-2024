@@ -23,6 +23,7 @@ export const getSectionTexts = async (req: Request, res: Response) => {
 export const createSectionText = async (req: Request, res: Response) => {
     try {
         const { portfolioId } = req.params;
+        const  order  = req.query.order as string;
         const portfolio = await Portfolio.findById(portfolioId);
 
         if (!portfolio) {
@@ -32,10 +33,25 @@ export const createSectionText = async (req: Request, res: Response) => {
         const newSectionText = new SectionText();
         await newSectionText.save();
 
-        portfolio.sections.push({
-            kind: 'SectionText',
-            item: newSectionText._id
-        });
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionText',
+                    item: newSectionText._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionText',
+                    item: newSectionText._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionText',
+                item: newSectionText._id
+            });
+        }
 
         await portfolio.save();
 
@@ -52,6 +68,7 @@ export const createSectionText = async (req: Request, res: Response) => {
         throw CustomError.internalServer('Error while creating Section Text,\n' + error);
     }
 };
+
 
 export const updateSectionText = async (req: Request, res: Response) => {
     const id = req.params.id;

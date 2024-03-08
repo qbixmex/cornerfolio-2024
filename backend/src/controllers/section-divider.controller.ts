@@ -21,6 +21,8 @@ export const getSectionDividers = async (req: Request, res: Response) => {
 export const createSectionDivider = async (req: Request, res: Response) => {
     try {
         const {portfolioId} =req.params;
+        const order =req.query.order as string;
+
         const portfolio = await Portfolio.findById(portfolioId);
         if (!portfolio) {
             return res.status(404).json({ message: 'Portfolio not found' });
@@ -29,10 +31,25 @@ export const createSectionDivider = async (req: Request, res: Response) => {
         const newSectionDivider = new SectionDivider();
         await newSectionDivider.save();
 
-        portfolio.sections.push({
-            kind: 'SectionDivider',
-            item: newSectionDivider.id
-        });
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionDivider',
+                    item: newSectionDivider._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionDivider',
+                    item: newSectionDivider._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionDivider',
+                item: newSectionDivider._id
+            });
+        }
 
         await portfolio.save()
 

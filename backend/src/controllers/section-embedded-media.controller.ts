@@ -21,6 +21,7 @@ export const getSectionEmbeddedMedias = async (req: Request, res: Response) => {
 export const createSectionEmbeddedMedia = async (req: Request, res: Response) => {
     try {
         const { portfolioId } = req.params;
+        const order = req.query.order as string;
 
         const portfolio = await Portfolio.findById(portfolioId);
 
@@ -37,10 +38,26 @@ export const createSectionEmbeddedMedia = async (req: Request, res: Response) =>
         const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
         await newSectionEmbeddedMedia.save();
 
-        portfolio.sections.push({
-            kind: 'SectionEmbeddedMedia',
-            item: newSectionEmbeddedMedia.id
-        });
+        console.log('embeddedmedia: ',order)
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionEmbeddedMedia',
+                    item: newSectionEmbeddedMedia._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionEmbeddedMedia',
+                    item: newSectionEmbeddedMedia._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionEmbeddedMedia',
+                item: newSectionEmbeddedMedia._id
+            });
+        }
 
         await portfolio.save()
 
