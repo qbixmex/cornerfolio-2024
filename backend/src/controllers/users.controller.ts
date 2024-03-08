@@ -125,8 +125,12 @@ export const create = async (
   const newUser = new User({
     name: payload.name,
     email: payload.email,
+    type: payload.type,
     password: hashedPassword,
     jobTitle: payload.jobTitle,
+    startDate: payload.startDate,
+    endDate: payload.endDate,
+    active: payload.active,
     course: payload.course,
     schedule: payload.schedule,
   });
@@ -143,7 +147,10 @@ export const create = async (
         email: savedUser.email,
         jobTitle: savedUser.jobTitle,
         course: savedUser.course,
+        startDate: savedUser.startDate,
+        endDate: savedUser.endDate,
         schedule: savedUser.schedule,
+        active: savedUser.active,
         createdAt: savedUser.createdAt,
         updatedAt: savedUser.updatedAt,
       },
