@@ -179,11 +179,15 @@ export const update = async (
   try {
 
     const updatedUser = await User.findByIdAndUpdate(id, {
-      name: payload.name ?? undefined,
+      name: payload.name,
       email: (payload.email && foundUser.email === payload.email) ? undefined : payload.email,
-      jobTitle: payload.jobTitle ?? undefined,
-      course: payload.course ?? undefined,
-      schedule: payload.schedule ?? undefined,
+      type: payload.type,
+      jobTitle: payload.jobTitle,
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      active: payload.active,
+      course: payload.course,
+      schedule: payload.schedule,
     }, { new: true });
 
     return response.status(200).json({
