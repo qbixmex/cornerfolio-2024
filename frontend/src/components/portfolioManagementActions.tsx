@@ -4,6 +4,7 @@ import { updatePortfolio } from "@/api/changePortfolioTitle.fetch";
 import { portFoliosFetch } from "@/api/portfolios.fetch";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -51,7 +52,19 @@ export default function PortfolioManagementActions() {
 		try {
 			await updatePortfolio(id, newTitle);
 
-			// update state on line# 33 allUserPortfolios
+			setAllUserPortfolios((prevPortfolios) =>
+				prevPortfolios.map((portfolio) => {
+					if (portfolio.id === id) {
+						return { ...portfolio, portfolioTitle: newTitle };
+					} else {
+						return portfolio;
+					}
+				}),
+			);
+			const inputField = document.getElementById(`portfolioTitleInput_${id}`) as HTMLInputElement;
+			if (inputField) {
+				inputField.value = "";
+			}
 		} catch (error) {
 			console.error("Error updating portfolio title:", error);
 		}
@@ -98,6 +111,7 @@ export default function PortfolioManagementActions() {
 									className="rounded-lg p-2"
 									placeholder={portfolio.portfolioTitle}
 									type="text"
+									id={`portfolioTitleInput_${portfolio.id}`}
 								/>
 							</div>
 						</div>
