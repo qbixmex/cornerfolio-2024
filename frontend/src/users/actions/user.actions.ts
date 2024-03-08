@@ -35,3 +35,16 @@ export const updateUser = async (id: string, formData: User) => {
 
     return response.json();
 };
+
+export const updatePassword = async (id: string, password: string) => {
+
+    const response = await fetch(`http://localhost:4000/api/users/${id}/update-password`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password}),
+    });
+
+    return response.json();
+};

@@ -2,7 +2,7 @@
 
 import { UserIcon } from '@/components/icons';
 import { ChangeEvent, FC, useState } from 'react';
-import { updateUser } from '../actions/user.actions';
+import { updatePassword, updateUser } from '../actions/user.actions';
 import styles from './profile.module.css'
 import { User, UserResponse } from '../interfaces/users';
 
@@ -24,6 +24,11 @@ const ProfileBody: FC<Props> = ({ user }) => {
 		endDate: user ? user.endDate : "",
 	});
 
+	const [ passwords, setPasswords ] = useState({
+		password: '',
+		passwordConfirmation: '',
+	});
+
 	const [toast, setToast] = useState({
 		message: '',
 		type: ''
@@ -36,19 +41,45 @@ const ProfileBody: FC<Props> = ({ user }) => {
     if (event.target.name === 'active') {
 			value = (value === 'true') ? true : false;
     }
-		setFormData({
-			...formData,
+		setFormData(prevFormData => ({
+			...prevFormData,
 			[event.target.name]: value
-		});
+		}));
 	};
 
-	const handleSubmit = async () => {
+	const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setPasswords(prevPasswords => ({
+			...prevPasswords,
+			[event.target.name]: event.target.value
+		}));
+	};
+
+	const handleUpdateUser = async () => {
 		const data = await updateUser(user.id, formData);
 
 		if (data.error) {
 			setToast({ message: data.error, type: 'error' });
 		} else {
 			setToast({ message: data.message, type: 'success' });
+		}
+
+		setTimeout(() => setToast({ message: '', type: '' }), 3000);
+	};
+
+	const handleUpdatePassword = async () => {
+		if (passwords.password !== passwords.passwordConfirmation) {
+			setToast({ message: "Passwords don't not match !", type: 'error' });
+			setTimeout(() => setToast({ message: '', type: '' }), 3000);
+			return;
+		}
+
+		const data = await updatePassword(user.id, passwords.password);
+
+		if (data.error) {
+			setToast({ message: data.error, type: 'error' });
+		} else {
+			setToast({ message: data.message, type: 'success' });
+			setPasswords({ password: '', passwordConfirmation: '' });
 		}
 
 		setTimeout(() => setToast({ message: '', type: '' }), 3000);
@@ -66,11 +97,14 @@ const ProfileBody: FC<Props> = ({ user }) => {
 				<h1 className="text-6xl text-slate-700 font-semibold tracking-tight mb-10">
 					User Profile
 				</h1>
+
 				<h2 className="text-4xl text-slate-700 font-semibold tracking-tight mb-5">
 					Account Details
 				</h2>
+
 				<hr className="border-b-1 w-full mb-10" />
-				<form className="w-full mb-10" action={handleSubmit}>
+
+				<form className="w-full mb-10" action={handleUpdateUser}>
 					<section className="grid grid-cols-2 w-full gap-10">
 						<section>
 							{/* Name */}
@@ -256,15 +290,16 @@ const ProfileBody: FC<Props> = ({ user }) => {
 						</button>
 					</section>
 				</form>
+
 				<hr className="border-b-1 w-full my-10" />
+
 				<h2 className="text-4xl text-slate-700 font-semibold tracking-tight mb-5">
 					Update Password
 				</h2>
+
 				<hr className="border-b-1 w-full mb-10" />
-				<form
-					className="w-full mb-10"
-					action={() => console.log("changing password ...")}
-				>
+
+				<form className="w-full mb-10" action={handleUpdatePassword}>
 					<section className="grid grid-cols-2 w-full gap-10">
 						<section className="mb-5">
 							<label
@@ -277,8 +312,9 @@ const ProfileBody: FC<Props> = ({ user }) => {
 								className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 								id="password"
 								type="password"
-								defaultValue=""
-								onChange={() => { }}
+								name="password"
+								value={passwords.password}
+								onChange={onPasswordChange}
 							/>
 						</section>
 						<section className="mb-5">
@@ -290,10 +326,11 @@ const ProfileBody: FC<Props> = ({ user }) => {
 							</label>
 							<input
 								className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
-								name="passwordConfirmation"
 								id="password-confirmation"
+								name="passwordConfirmation"
 								type="password"
-								onChange={() => { }}
+								value={passwords.passwordConfirmation}
+								onChange={onPasswordChange}
 							/>
 						</section>
 					</section>
