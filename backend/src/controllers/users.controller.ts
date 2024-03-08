@@ -208,6 +208,43 @@ export const update = async (
   }
 };
 
+export const updatePassword = async (
+  request: Request<{ id: string }, never, { password: string }>,
+  response: Response
+) => {
+
+  const id = request.params.id;
+
+  if (!Types.ObjectId.isValid(id)) {
+    return response.status(400).json({
+      error: `Invalid user ID: ${id} !`,
+    });
+  }
+
+  const payload = request.body;
+
+  const foundUser = await User.findById(id);
+
+  if (!foundUser) {
+    return response.status(404).json({
+      error: `User not found with ID: ${id} !`,
+    });
+  }
+
+  if (bcryptAdapter.compare(payload.password, foundUser.password)) {
+    return response.status(400).json({
+      error: `New password is the same as the old one !`,
+    });
+  }
+
+  try {
+    await User.findByIdAndUpdate(id, { password: bcryptAdapter.hash(payload.password) });
+    return response.status(200).json({ message: `User password has been updated successfully 👍` });
+  } catch (error) {
+    throw CustomError.internalServer('Error while deleting the account,\n' + error);
+  }
+};
+
 export const remove = async (
   request: Request<{ id: string }>,
   response: Response
