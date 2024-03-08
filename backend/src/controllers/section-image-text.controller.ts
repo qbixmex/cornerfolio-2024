@@ -23,21 +23,41 @@ export const getSectionImageTexts = async (req: Request, res: Response) => {
     }
 };
 
-export const createSectionImageText = async (req: Request, res: Response) => {
+export const createSectionImageText = async (
+    req: Request<never, never, never, { order?: string }>,
+    res: Response
+) => {
     try {
-        const {portfolioId} =req.params;
+        const {portfolioId} = req.params;
+        const order = req.query.order;
         const portfolio = await Portfolio.findById(portfolioId);
+
         if (!portfolio) {
-            return res.status(404).json({ message: 'Portfolio not found' });
+            return res.status(404).json({ error: 'Portfolio not found !' });
         }
 
         const newSectionImageText = new SectionImageText();
         await newSectionImageText.save();
 
-        portfolio.sections.push({
-            kind: 'SectionImageText',
-            item: newSectionImageText.id
-        });
+        if (order && !isNaN(parseInt(order))) {
+            const index = parseInt(order);
+            if (index >= 0 && index <= portfolio.sections.length) {
+                portfolio.sections.splice(index, 0, {
+                    kind: 'SectionImageText',
+                    item: newSectionImageText._id
+                });
+            } else {
+                portfolio.sections.push({
+                    kind: 'SectionImageText',
+                    item: newSectionImageText._id
+                });
+            }
+        } else {
+            portfolio.sections.push({
+                kind: 'SectionImageText',
+                item: newSectionImageText._id
+            });
+        }
 
         await portfolio.save()
 
@@ -72,7 +92,7 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
     const sectionImageText = await SectionImageText.findById(id);
     
     if (!sectionImageText) {
-        return res.status(404).json({ error: 'Section image-text not found' });
+        return res.status(404).json({ error: 'Section Image Text not found' });
     }
 
     try {
@@ -110,9 +130,7 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
     const sectionId = req.params.id;
 
     if (!Types.ObjectId.isValid(sectionId)) {
-        return res.status(400).json({
-          error: `Invalid ID: ${sectionId} !`,
-        });
+        return res.status(400).json({ error: `Invalid ID: ${sectionId} !` });
     }
 
     try {
@@ -121,10 +139,10 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
         
         // Find the portfolio that contains a section with the given sectionId
         const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
+
         if (!portfolio) {
             return res.status(404).json({ error: 'Portfolio not found !' });
         }
-        console.log("debug portfolio",portfolio.id)
 
         // Find the index of the section with the given sectionId in the portfolio's sections array
         const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
@@ -134,6 +152,7 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
 
         // Remove the section from the portfolio's sections array
         portfolio.sections.splice(sectionIndex, 1);
+
         await portfolio.save();
 
         return res.status(200).json({ message: 'Section ImageText deleted successfully 👍' });

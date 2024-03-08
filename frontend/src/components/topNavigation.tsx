@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 const TopNavigation = () => {
-	const [rightMenuOpen, setRightMenuOpen] = useState<boolean>(false);
-	const [centerMenuOpen, setCenterMenuOpen] = useState<boolean>(false);
+	const [rightMenuOpen, setRightMenuOpen] = useState(false);
+	const [centerMenuOpen, setCenterMenuOpen] = useState(false);
 
 	//* Get login User from redux?
 	const [loginUser, setLoginUser] = useState({
@@ -35,7 +35,7 @@ const TopNavigation = () => {
 				<div className="font-bold text-white">Cornerfolio</div>
 			</div>
 
-			<div className="min-h-screen flex items-center justify-center">
+			<div className="h-[300px] flex items-center justify-center">
 				<div className="relative group">
 					<button
 						id="dropdown-button"
