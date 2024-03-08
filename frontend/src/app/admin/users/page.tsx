@@ -49,9 +49,12 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
               />
             </div>
             <div className="ml-auto">
-              <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
+              <Link
+                href="/admin/users/create"
+                className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+              >
                 Create
-              </button>
+              </Link>
             </div>
           </div>
         </div>
