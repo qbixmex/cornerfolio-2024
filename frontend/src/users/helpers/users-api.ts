@@ -28,7 +28,7 @@ export const getUsersListByURL = async (searchParams: { page: string }): Promise
   const API_URL = process.env.API_URL ?? 'http://localhost:4000';
 
   const response = await fetch(`${API_URL}/api/users?${queryParams.toString()}`, {
-    next: { tags: ["users-table"]}
+    next: { tags: [ 'users-table' ] }
   });
 
   return response.json();

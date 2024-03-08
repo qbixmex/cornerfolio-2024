@@ -20,8 +20,8 @@ type Props = {
 const UsersPage: FC<Props> = async ({ searchParams }) => {
 
   const usersList = await getUsersListByURL(searchParams);
-  const getNextUsersWithUrl = fetchUsers.bind(null, usersList.pagination.next ?? '');
-  const getPreviousUsersWithUrl = fetchUsers.bind(null, usersList.pagination.previous ?? '');
+  const getNextUsersWithUrl = fetchUsers.bind(null, usersList.pagination.next!);
+  const getPreviousUsersWithUrl = fetchUsers.bind(null, usersList.pagination.previous!);
 
   return (
     <section className="w-[90%] mx-auto py-10">
