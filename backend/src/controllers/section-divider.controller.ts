@@ -18,14 +18,18 @@ export const getSectionDividers = async (req: Request, res: Response) => {
     }
 };
 
-export const createSectionDivider = async (req: Request, res: Response) => {
+export const createSectionDivider = async (
+    req: Request<never, never, never, { order?: string; }>,
+    res: Response
+) => {
     try {
-        const {portfolioId} =req.params;
-        const order =req.query.order as string;
+        const { portfolioId } = req.params;
+        const order = req.query.order;
 
         const portfolio = await Portfolio.findById(portfolioId);
+
         if (!portfolio) {
-            return res.status(404).json({ message: 'Portfolio not found' });
+            return res.status(404).json({ error: 'Portfolio not found !' });
         }
 
         const newSectionDivider = new SectionDivider();

@@ -20,14 +20,17 @@ export const getSectionTexts = async (req: Request, res: Response) => {
     }
 };
 
-export const createSectionText = async (req: Request, res: Response) => {
+export const createSectionText = async (
+    req: Request<never, never, never, { order?: string }>,
+    res: Response
+) => {
     try {
         const { portfolioId } = req.params;
-        const  order  = req.query.order as string;
+        const  order  = req.query.order;
         const portfolio = await Portfolio.findById(portfolioId);
 
         if (!portfolio) {
-            return res.status(404).json({ message: 'Portfolio not found' });
+            return res.status(404).json({ error: 'Portfolio not found !' });
         }
 
         const newSectionText = new SectionText();
@@ -74,15 +77,13 @@ export const updateSectionText = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     if (!Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-          error: `Invalid ID: ${id} !`,
-        });
+        return res.status(400).json({ error: `Invalid ID: ${id} !` });
     }
 
     const sectionText = await SectionText.findById(id);
 
     if (!sectionText) {
-        return res.status(404).json({ error: 'Section text not found' });
+        return res.status(404).json({ error: 'Section text not found !' });
     }
 
     try {
@@ -125,10 +126,10 @@ export const deleteSectionText = async (req: Request, res: Response) => {
         
         // Find the portfolio that contains a section with the given sectionId
         const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
+
         if (!portfolio) {
             return res.status(404).json({ error: 'Portfolio not found !' });
         }
-        console.log("debug portfolio",portfolio.id)
 
         // Find the index of the section with the given sectionId in the portfolio's sections array
         const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);

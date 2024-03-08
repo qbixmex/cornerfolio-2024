@@ -37,29 +37,26 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
       {!loading && (
         <>
           <TemplateHeader header={portfolio.header} />
-          <ChooseSection portfolioId={id} order={0}/>
-        <hr></hr>
+          <ChooseSection portfolioId={id} order={0} />
+
+          <hr />
+          
           {portfolio && portfolio.sections.length === 0 && (
             <section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
               <section className="bg-orange-500 rounded text-white w-fit p-5">
-                No section created yet
+                No section created yet !
               </section>
             </section>
           )}
 
-          {
-            portfolio && portfolio.sections.length > 0 && (
-              <>
-                <SectionsList sections={portfolio.sections} portfolioId={id}/>
-              </>
-            ) 
-          }
+          {portfolio && portfolio.sections.length > 0 && (
+            <SectionsList sections={portfolio.sections} portfolioId={id} />
+          )}
 
           <TemplateFooter footer={portfolio.footer} />
         </>
       )}
     </main>
-
   );
 };
 
