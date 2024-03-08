@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { User } from '../interfaces/users';
+import { redirect } from 'next/navigation';
 
 export const getUser = async (id: string) => {
 	const response = await fetch(`http://localhost:4000/api/users/${id}`);
@@ -59,6 +60,17 @@ export const updatePassword = async (id: string, password: string) => {
 		},
 		body: JSON.stringify({ password }),
 	});
+
+	return response.json();
+};
+
+export const deleteUser = async (id: string) => {
+	const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+		method: 'DELETE',
+	});
+
+	revalidateTag('users-table');
+	redirect('/admin/users');
 
 	return response.json();
 };
