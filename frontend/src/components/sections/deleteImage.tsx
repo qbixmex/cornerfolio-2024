@@ -1,4 +1,5 @@
 import { FaTrash } from 'react-icons/fa';
+import { deleteSectionImage } from '@/sections/actions/section.action';
 
 type Props = {
 	sectionId: string;
@@ -6,19 +7,7 @@ type Props = {
 
 const DeleteImage: React.FC<Props> = ({ sectionId }) => {
 	const handleDeleteImage = async () => {
-		const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
-			method: 'DELETE',
-			headers: {
-				"content-type": "application/json",
-			}
-		});
-
-		if (response.ok) {
-			const data = await response.json()
-			console.log(data);
-		} else {
-			console.error('Failed to delete image');
-		}
+		deleteSectionImage(sectionId)
 	};
 
 	return (
