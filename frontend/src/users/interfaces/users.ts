@@ -1,16 +1,19 @@
 export interface User {
-  id: string;
   name: string;
   email: string;
   type: string;
   jobTitle: string;
-  active: string;
+  active: boolean;
   course: string;
   schedule: string;
   startDate: string;
   endDate: string;
-  createdAt: string;
-  updatedAt: string;
+}
+
+export interface UserResponse extends User {
+	id: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Pagination {
@@ -23,5 +26,5 @@ export interface Pagination {
 
 export type UsersList = {
   pagination: Pagination;
-  users: User[];
+  users: UserResponse[];
 };

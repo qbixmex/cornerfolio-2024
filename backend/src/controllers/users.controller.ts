@@ -125,8 +125,12 @@ export const create = async (
   const newUser = new User({
     name: payload.name,
     email: payload.email,
+    type: payload.type,
     password: hashedPassword,
     jobTitle: payload.jobTitle,
+    startDate: payload.startDate,
+    endDate: payload.endDate,
+    active: payload.active,
     course: payload.course,
     schedule: payload.schedule,
   });
@@ -143,7 +147,10 @@ export const create = async (
         email: savedUser.email,
         jobTitle: savedUser.jobTitle,
         course: savedUser.course,
+        startDate: savedUser.startDate,
+        endDate: savedUser.endDate,
         schedule: savedUser.schedule,
+        active: savedUser.active,
         createdAt: savedUser.createdAt,
         updatedAt: savedUser.updatedAt,
       },
@@ -179,11 +186,15 @@ export const update = async (
   try {
 
     const updatedUser = await User.findByIdAndUpdate(id, {
-      name: payload.name ?? undefined,
+      name: payload.name,
       email: (payload.email && foundUser.email === payload.email) ? undefined : payload.email,
-      jobTitle: payload.jobTitle ?? undefined,
-      course: payload.course ?? undefined,
-      schedule: payload.schedule ?? undefined,
+      type: payload.type,
+      jobTitle: payload.jobTitle,
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      active: payload.active,
+      course: payload.course,
+      schedule: payload.schedule,
     }, { new: true });
 
     return response.status(200).json({
@@ -199,6 +210,43 @@ export const update = async (
         updatedAt: updatedUser?.updatedAt,
       }
     });  
+  } catch (error) {
+    throw CustomError.internalServer('Error while deleting the account,\n' + error);
+  }
+};
+
+export const updatePassword = async (
+  request: Request<{ id: string }, never, { password: string }>,
+  response: Response
+) => {
+
+  const id = request.params.id;
+
+  if (!Types.ObjectId.isValid(id)) {
+    return response.status(400).json({
+      error: `Invalid user ID: ${id} !`,
+    });
+  }
+
+  const payload = request.body;
+
+  const foundUser = await User.findById(id);
+
+  if (!foundUser) {
+    return response.status(404).json({
+      error: `User not found with ID: ${id} !`,
+    });
+  }
+
+  if (bcryptAdapter.compare(payload.password, foundUser.password)) {
+    return response.status(400).json({
+      error: `New password is the same as the old one !`,
+    });
+  }
+
+  try {
+    await User.findByIdAndUpdate(id, { password: bcryptAdapter.hash(payload.password) });
+    return response.status(200).json({ message: `User password has been updated successfully 👍` });
   } catch (error) {
     throw CustomError.internalServer('Error while deleting the account,\n' + error);
   }
