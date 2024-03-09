@@ -1,33 +1,24 @@
+import { FC } from 'react';
+import { createSectionImageText } from '@/sections/actions/section.action';
+
 type Props = {
-    portfolioId:string;
+	portfolioId: string;
+	order: number;
 };
-const CreateImageText:React.FC<Props> = ({portfolioId}) => {
-    const handleCreateImageText= async () => {
-        const response = await fetch(`http://localhost:4000/api/section-image-text/${portfolioId}`, {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json",
-            },
-            body:JSON.stringify({})
-        });
 
-        if (response.ok) {
-            const data=await response.json()
-            console.log(data);
-        } else {
-            console.error('Failed to create image-text');
-        }
-        
-    };
+const CreateImageText: FC<Props> = ({ portfolioId, order }) => {
+	const handleCreateImageText = async () => {
+		createSectionImageText(portfolioId, order)
+	};
 
-    return (
-        <button
-            className="m-4 bg-gray-200 hover:bg-gray-300"
-            onClick={handleCreateImageText}
-        >
-            Image & Text
-        </button>
-    );
+	return (
+		<button
+			className="m-4 bg-gray-200 hover:bg-gray-300"
+			onClick={handleCreateImageText}
+		>
+			Image & Text
+		</button>
+	);
 };
 
 export default CreateImageText;

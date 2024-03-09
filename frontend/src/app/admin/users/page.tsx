@@ -20,8 +20,8 @@ type Props = {
 const UsersPage: FC<Props> = async ({ searchParams }) => {
 
   const usersList = await getUsersListByURL(searchParams);
-  const getNextUsersWithUrl = fetchUsers.bind(null, usersList.pagination.next ?? '');
-  const getPreviousUsersWithUrl = fetchUsers.bind(null, usersList.pagination.previous ?? '');
+  const getNextUsersWithUrl = fetchUsers.bind(null, usersList.pagination.next!);
+  const getPreviousUsersWithUrl = fetchUsers.bind(null, usersList.pagination.previous!);
 
   return (
     <section className="w-[90%] mx-auto py-10">
@@ -49,9 +49,12 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
               />
             </div>
             <div className="ml-auto">
-              <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
+              <Link
+                href="/admin/users/create"
+                className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+              >
                 Create
-              </button>
+              </Link>
             </div>
           </div>
         </div>
