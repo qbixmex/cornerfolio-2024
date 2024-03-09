@@ -18,6 +18,7 @@ type Props = {
 };
 
 const SectionsList: FC<Props> = ({ sections, portfolioId }) => {
+  
   return (
     <div>
       {sections.map((section, index) => (

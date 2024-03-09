@@ -4,6 +4,7 @@ interface ISectionImage extends Document {
     url: string;
     alt: string;
     caption: string;
+    captionSize: number;
     position: 'left' | 'center' | 'right';
 }
 
@@ -21,11 +22,15 @@ const SectionImageSchema = new Schema<ISectionImage, ISectionImageModel>({
     },
     alt: {
         type: String,
-        default:'<p>Here comes your alt</p>'
+        default:'Here comes your alt'
     },
     caption: {
         type: String,
-        default: '<p>Here comes your caption</p>'
+        default: 'Here comes your caption'
+    },
+    captionSize: {
+        type: Number,
+        default: 15,
     },
     position: {
         type: String,

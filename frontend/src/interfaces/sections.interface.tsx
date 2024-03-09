@@ -5,7 +5,9 @@ export interface SectionText {
         id: string;
         heading: string;
         content: string;
-        position: string;
+        position: 'left'|'center'|'right';
+        headingSize: number;
+        contentSize: number;
         createdAt: string;
         updatedAt: string;
     }
@@ -19,7 +21,8 @@ export interface SectionImage {
         url: string;
         alt: string;
         caption: string;
-        position: string;
+        captionSize: number;
+        position: 'left'|'center'|'right';
         createdAt: string;
         updatedAt: string;
     }
@@ -44,9 +47,12 @@ export interface SectionImageText {
         imgUrl: string;
         imgAlt: string;
         imgCaption: string;
+        imgCaptionSize: number;
         txtHeading: string;
         txtContent: string;
-        position: string;
+        txtHeadingSize: number;
+        txtContentSize: number;
+        position: 'img_text'|'text_img';
         createdAt: string;
         updatedAt: string;
     }
@@ -58,6 +64,7 @@ export interface SectionDivider {
     item: {
         id: string;
         title: string;
+        titleSize: number;
         createdAt: string;
         updatedAt: string;
     }

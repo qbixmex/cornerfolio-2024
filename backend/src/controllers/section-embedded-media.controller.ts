@@ -93,7 +93,7 @@ export const updateSectionEmbeddedMedia = async (req: Request, res: Response) =>
     try {
 
         //? Note: if you pass undefined to a field, it will not be updated.
-        sectionEmbeddedMedia.code = payload.code ?? undefined;
+        sectionEmbeddedMedia.code = payload.code !== undefined ? payload.code : sectionEmbeddedMedia.code;
         
         await sectionEmbeddedMedia.save();
         

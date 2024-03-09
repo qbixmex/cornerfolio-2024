@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 import { Portfolio , SectionDivider}from '../models';
+import { title } from 'process';
 
 export const getSectionDividers = async (req: Request, res: Response) => {
     try {
@@ -10,6 +11,7 @@ export const getSectionDividers = async (req: Request, res: Response) => {
             return {
                 id: sectionDivider.id,
                 title: sectionDivider.title,
+                titleSize: sectionDivider.titleSize,
             };
         });
         return res.status(200).json(sections);
@@ -62,6 +64,7 @@ export const createSectionDivider = async (
             section: {
                 id: newSectionDivider.id,
                 title: newSectionDivider.title,
+                titleSize: newSectionDivider.titleSize,
             }
         });
     } catch (error) {
@@ -88,8 +91,9 @@ export const updateSectionDivider = async (req: Request, res: Response) => {
         const payload = req.body;
         
         //? Note: if you pass undefined to a field, it will not be updated.
-        sectionDivider.title = payload.title ?? undefined;
-        
+        sectionDivider.title = payload.title !== undefined ? payload.title : sectionDivider.title;
+        sectionDivider.titleSize = payload.titleSize !== undefined ? payload.titleSize : sectionDivider.titleSize;
+
         await sectionDivider.save();
 
         return res.status(200).json({
@@ -97,6 +101,7 @@ export const updateSectionDivider = async (req: Request, res: Response) => {
             section: {
                 id: sectionDivider.id,
                 title: sectionDivider.title,
+                titleSize: sectionDivider.titleSize,
             }
         });
     } catch (error) {

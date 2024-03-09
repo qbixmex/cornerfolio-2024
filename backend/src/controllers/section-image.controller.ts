@@ -12,6 +12,7 @@ export const getSectionImages = async (req: Request, res: Response) => {
                 url: sectionImage.url,
                 alt: sectionImage.alt,
                 caption: sectionImage.caption,
+                captionSize: sectionImage.captionSize,
                 position: sectionImage.position,
             };
         });
@@ -67,6 +68,7 @@ export const createSectionImage = async (
                 url: newSectionImage.url,
                 alt: newSectionImage.alt,
                 caption: newSectionImage.caption,
+                captionSize: newSectionImage.captionSize,
                 position: newSectionImage.position,
             }
         });
@@ -96,10 +98,11 @@ export const updateSectionImage = async (req: Request, res: Response) => {
         const payload = req.body;
 
         //? Note: if you pass undefined to a field, it will not be updated.
-        sectionImage.url = payload.url ?? undefined;
-        sectionImage.alt = payload.alt ?? undefined;
-        sectionImage.caption = payload.caption ?? undefined;
-        sectionImage.position = payload.position ?? undefined;
+        sectionImage.url = payload.url !== undefined ? payload.url : sectionImage.url;
+        sectionImage.alt = payload.alt !== undefined ? payload.alt : sectionImage.alt;
+        sectionImage.caption = payload.caption !== undefined ? payload.caption : sectionImage.caption;
+        sectionImage.captionSize = payload.captionSize !== undefined ? payload.captionSize : sectionImage.captionSize;
+        sectionImage.position = payload.position !== undefined ? payload.position : sectionImage.position;
 
         await sectionImage.save();
 
@@ -110,6 +113,7 @@ export const updateSectionImage = async (req: Request, res: Response) => {
                 url: sectionImage.url,
                 alt: sectionImage.alt,
                 caption: sectionImage.caption,
+                captionSize: sectionImage.captionSize,
                 position: sectionImage.position
             }
         });

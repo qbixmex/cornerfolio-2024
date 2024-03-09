@@ -12,8 +12,11 @@ export const getSectionImageTexts = async (req: Request, res: Response) => {
                 imgUrl: sectionImageText.imgUrl,
                 imgAlt: sectionImageText.imgAlt,
                 imgCaption: sectionImageText.imgCaption,
+                imgCaptionSize: sectionImageText.imgCaptionSize,
                 txtHeading: sectionImageText.txtHeading,
                 txtContent: sectionImageText.txtContent,
+                txtHeadingSize: sectionImageText.txtHeadingSize,
+                txtContentSize: sectionImageText.txtContentSize,
                 position: sectionImageText.position,
             }
         })
@@ -68,8 +71,11 @@ export const createSectionImageText = async (
                 imgUrl: newSectionImageText.imgUrl,
                 imgAlt: newSectionImageText.imgAlt,
                 imgCaption: newSectionImageText.imgCaption,
+                imgCaptionSize: newSectionImageText.imgCaptionSize,
                 txtHeading: newSectionImageText.txtHeading,
                 txtContent: newSectionImageText.txtContent,
+                txtHeadingSize: newSectionImageText.txtHeadingSize,
+                txtContentSize: newSectionImageText.txtContentSize,
                 position: newSectionImageText.position,
             }
         }
@@ -99,12 +105,16 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
         const payload = req.body;
         
         //? Note: if you pass undefined to a field, it will not be updated.
-        sectionImageText.imgUrl = payload.imgUrl ?? undefined;
-        sectionImageText.imgAlt = payload.imgAlt ?? undefined;
-        sectionImageText.imgCaption = payload.imgCaption ?? undefined;
-        sectionImageText.txtHeading = payload.txtHeading ?? undefined;
-        sectionImageText.txtContent = payload.txtContent ?? undefined;
-        sectionImageText.position = payload.position ?? undefined;
+        sectionImageText.imgUrl = payload.imgUrl !== undefined ? payload.imgUrl : sectionImageText.imgUrl;
+        sectionImageText.imgAlt = payload.imgAlt !== undefined ? payload.imgAlt : sectionImageText.imgAlt;
+        sectionImageText.imgCaption = payload.imgCaption !== undefined ? payload.imgCaption : sectionImageText.imgCaption;
+        sectionImageText.imgCaptionSize = payload.imgCaptionSize !== undefined ? payload.imgCaptionSize : sectionImageText.imgCaptionSize;
+        sectionImageText.txtHeading = payload.txtHeading !== undefined ? payload.txtHeading : sectionImageText.txtHeading;
+        sectionImageText.txtContent = payload.txtContent !== undefined ? payload.txtContent : sectionImageText.txtContent;
+        sectionImageText.txtHeadingSize = payload.txtHeadingSize !== undefined ? payload.txtHeadingSize : sectionImageText.txtHeadingSize;
+        sectionImageText.txtContentSize = payload.txtContentSize !== undefined ? payload.txtContentSize : sectionImageText.txtContentSize;
+        sectionImageText.position = payload.position !== undefined ? payload.position : sectionImageText.position;
+
 
         await sectionImageText.save();
 
@@ -115,8 +125,11 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
                 imgUrl: sectionImageText.imgUrl,
                 imgAlt: sectionImageText.imgAlt,
                 imgCaption: sectionImageText.imgCaption,
+                imgCaptionSize: sectionImageText.imgCaptionSize,
                 txtHeading: sectionImageText.txtHeading,
                 txtContent: sectionImageText.txtContent,
+                txtHeadingSize: sectionImageText.txtHeadingSize,
+                txtContentSize: sectionImageText.txtContentSize,
                 position: sectionImageText.position,
             }
         });
