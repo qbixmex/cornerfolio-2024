@@ -20,7 +20,7 @@ const Sidebar = () => {
     });
 
     return (
-        <div className=" fixed left-0 top-5 sidebar h-screen w-[3.35rem] overflow-hidden border-r hover:w-56 hover:bg-white hover:shadow-lg">
+        <div className="fixed z-10 left-0 top-5 sidebar h-screen w-[3.35rem] overflow-hidden border-r hover:w-56 hover:bg-white hover:shadow-lg">
             <div className="flex h-screen flex-col justify-between pt-2 pb-6">
                 <div>
                     <ul className="mt-6 space-y-2 tracking-wide">
