@@ -1,3 +1,5 @@
+"use client";
+
 import { deletePortfolio } from "@/api/deletePortfolioById.fetch";
 
 function DeletePortfolioButton({ id }: { id: string }) {

@@ -1,5 +1,3 @@
-import { Portfolio } from "@/components/portfolioManagementActions";
-
 export const updatePortfolio = async (id: string, newTitle: string) => {
 	try {
 		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
@@ -7,7 +5,7 @@ export const updatePortfolio = async (id: string, newTitle: string) => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({portfolioTitle: newTitle}),
+			body: JSON.stringify({ portfolioTitle: newTitle }),
 		});
 
 		if (!response.ok) {

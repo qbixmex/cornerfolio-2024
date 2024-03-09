@@ -1,8 +1,4 @@
-"use client"
-
-import { portFoliosFetch } from "@/api/portfolios.fetch";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { createNewPortfolio } from "@/app/admin/portfolio-management/actions/portfolioActions";
 
 type PortfolioHeader = {
 	title: string;
@@ -23,21 +19,12 @@ type Portfolio = {
 	template: string;
 };
 
-export default function CreatePortfolioSection() {
-	const [allUserPortfolios, setAllUserPortfolios] = useState<Portfolio[]>([]);
+type Props = {
+	portfolios?: Portfolio[];
+	portfolioCount: number;
+};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const portfolios: Portfolio[] = await portFoliosFetch();
-				setAllUserPortfolios(portfolios);
-			} catch (error) {
-				console.error("Error fetching portfolios:", error);
-			}
-		};
-
-		fetchData();
-	}, []);
+export default function CreatePortfolioSection({ portfolioCount }: Props) {
 	return (
 		<>
 			<h2 className="mt-24 text-5xl text-slate-700 font-semibold  tracking-tight">
@@ -45,14 +32,17 @@ export default function CreatePortfolioSection() {
 			</h2>
 			<div className="bg-gray-200 mt-10 rounded-md p-10 gap-7">
 				<div className="mb-10">
-					<h3>You have published {allUserPortfolios.length} Portfolios</h3>
+					<h3>You have published {portfolioCount} Portfolios</h3>
 				</div>
 
-				<Link href={"/"}>
-					<button className="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow">
+				<form action={createNewPortfolio}>
+					<button
+						className="flex w-full justify-center cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow"
+						type="submit"
+					>
 						<span className="cursor-pointer">Create New Portfolio</span>
 					</button>
-				</Link>
+				</form>
 			</div>
 		</>
 	);
