@@ -1,7 +1,10 @@
 import { revalidatePath } from 'next/cache';
 
 export const portFoliosFetch = async () => {
-	const response = await fetch(`http://localhost:4000/api/portfolio`);
+	const response = await fetch(`http://localhost:4000/api/portfolio`, {
+		next: {tags: ["portfolios"]},
+		cache:'no-cache'
+	});
 
 	if (!response.ok) {
 		console.error('Failed to fetch portfolios');
