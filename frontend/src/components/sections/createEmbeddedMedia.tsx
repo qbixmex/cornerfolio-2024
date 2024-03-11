@@ -25,9 +25,11 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 	};
 
 	const handleCreateEmbeddedMedia = async () => {
-		if (!code || code === "") {
-			// we need more better validation here.
-			alert('Please enter some code.');
+		// Regex pattern
+		const iframePattern = /^<iframe(?:\s[^>]*)?><\/iframe>$/i;
+
+		if (!iframePattern.test(code)) {
+			alert('Please enter a valid iframe code.');
 			return;
 		}
 
@@ -60,12 +62,13 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 						{/* Modal content */}
 						<section>
 							<h2 className='text-xl'>Add Link</h2>
-							<textarea onChange={handleCodeChange} className="border w-full h-[200px] text-sm">{code}</textarea>
+							<textarea onChange={handleCodeChange} className="border w-full h-[150px] text-sm">{code}</textarea>
 							<button
 								className="m-4 bg-gray-200 hover:bg-gray-300"
 								onClick={handleCreateEmbeddedMedia}>
 								Insert Video
 							</button>
+							<p className='text-xs'>* Please paste {"<iframe></iframe>"} code.</p>
 						</section>
 					</div>
 				</div>
