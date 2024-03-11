@@ -11,6 +11,8 @@ export const getSectionTexts = async (req: Request, res: Response) => {
                 id: sectionText.id,
                 heading: sectionText.heading,
                 content: sectionText.content,
+                headingSize: sectionText.headingSize,
+                contentSize: sectionText.contentSize,
                 position: sectionText.position
             };
         });
@@ -64,6 +66,8 @@ export const createSectionText = async (
                 id: newSectionText.id,
                 heading: newSectionText.heading,
                 content: newSectionText.content,
+                headingSize: newSectionText.headingSize,
+                contentSize: newSectionText.contentSize,
                 position: newSectionText.position,
             }
         });
@@ -90,9 +94,11 @@ export const updateSectionText = async (req: Request, res: Response) => {
         const payload = req.body;
 
         //? Note: if you pass undefined to a field, it will not be updated.
-        sectionText.heading = payload.heading ?? undefined;
-        sectionText.content = payload.content ?? undefined;
-        sectionText.position = payload.position ?? undefined;
+        sectionText.heading = payload.heading !== undefined ? payload.heading : sectionText.heading;
+        sectionText.content = payload.content !== undefined ? payload.content : sectionText.content;
+        sectionText.headingSize = payload.headingSize !== undefined ? payload.headingSize : sectionText.headingSize;
+        sectionText.contentSize = payload.contentSize !== undefined ? payload.contentSize : sectionText.contentSize;
+        sectionText.position = payload.position !== undefined ? payload.position : sectionText.position;
 
         await sectionText.save();
 
@@ -102,6 +108,8 @@ export const updateSectionText = async (req: Request, res: Response) => {
                 id: sectionText.id,
                 heading: sectionText.heading,
                 content: sectionText.content,
+                headingSize: sectionText.headingSize,
+                contentSize: sectionText.contentSize,
                 position: sectionText.position,
             }
         });

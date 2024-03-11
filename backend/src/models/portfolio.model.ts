@@ -2,6 +2,7 @@ import mongoose, { Model, Schema, Types } from "mongoose";
 
 export type PortfolioType = {
 	id: Types.ObjectId;
+	portfolioTitle: string;
 	header: {
 		title: string[];
 		subHeading: string;
@@ -14,11 +15,11 @@ export type PortfolioType = {
 	template: Types.ObjectId;
 	sections: {
 		kind:
-			| 'SectionText'
-			| 'SectionImage'
-			| 'SectionEmbeddedMedia'
-			| 'SectionImageText'
-			| 'SectionDivider';
+			| "SectionText"
+			| "SectionImage"
+			| "SectionEmbeddedMedia"
+			| "SectionImageText"
+			| "SectionDivider";
 		item: Types.ObjectId;
 	}[];
 };
@@ -32,19 +33,23 @@ export type PortfolioModel = Model<PortfolioType & timestamps>;
 
 const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 	{
+		portfolioTitle: {
+			type: String,
+			required: true
+		},
 		header: {
 			title: {
 				type: String,
-				default: 'Hi, I\'m John Doe, software engineer',
+				default: "Hi, I'm John Doe, software engineer",
 			},
 			subHeading: {
 				type: String,
-				default: 'Currently at Cornerstone, based in Vancouver',
+				default: "Currently at Cornerstone, based in Vancouver",
 			},
 		},
 		status: {
 			type: String,
-			enum: ['draft', 'published'],
+			enum: ["draft", "published"],
 			default: "draft",
 		},
 		footer: {
@@ -53,32 +58,34 @@ const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 			},
 			text: {
 				type: String,
-				default: '© 2024 John Doe. All rights reserved.',
+				default: "© 2024 John Doe. All rights reserved.",
 			},
 		},
 		template: {
 			type: Schema.Types.ObjectId,
 			ref: "Template",
-			required: [true, 'Portfolio is required'],
+			required: [true, "Portfolio is required"],
 		},
-		sections: [{
-			kind: {
-				type: String,
-				enum: [
-					'SectionText',
-					'SectionImage',
-					'SectionEmbeddedMedia',
-					'SectionImageText',
-					'SectionDivider',
-				],
+		sections: [
+			{
+				kind: {
+					type: String,
+					enum: [
+						"SectionText",
+						"SectionImage",
+						"SectionEmbeddedMedia",
+						"SectionImageText",
+						"SectionDivider",
+					],
+				},
+				item: {
+					type: Schema.Types.ObjectId,
+					refPath: "sections.kind",
+				},
 			},
-			item: {
-				type: Schema.Types.ObjectId,
-				refPath: 'sections.kind',
-			}
-		}],
+		],
 	},
-	{ timestamps: true }
+	{ timestamps: true },
 );
 
 PortfolioSchema.set("toJSON", {
@@ -89,9 +96,6 @@ PortfolioSchema.set("toJSON", {
 	},
 });
 
-const Portfolio = mongoose.model<PortfolioType, PortfolioModel>(
-	"Portfolio",
-	PortfolioSchema
-);
+const Portfolio = mongoose.model<PortfolioType, PortfolioModel>("Portfolio", PortfolioSchema);
 
 export default Portfolio;
