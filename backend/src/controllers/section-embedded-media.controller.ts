@@ -1,147 +1,147 @@
 import { Request, Response } from 'express';
-import {Portfolio, SectionEmbeddedMedia} from '../models';
+import { Portfolio, SectionEmbeddedMedia } from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
 
 export const getSectionEmbeddedMedias = async (req: Request, res: Response) => {
-    try {
-        const SectionEmbeddedMedias = await SectionEmbeddedMedia.find();
-        const sections = SectionEmbeddedMedias.map(SectionEmbeddedMedia => {
-            return {
-                id: SectionEmbeddedMedia.id,
-                code: SectionEmbeddedMedia.code,
-            };
-        });
-        return res.status(200).json(sections);
-    } catch (error) {
-        throw CustomError.internalServer('Error while fetching the Section Embedded Medias,\n' + error);
-    }
+	try {
+		const SectionEmbeddedMedias = await SectionEmbeddedMedia.find();
+		const sections = SectionEmbeddedMedias.map(SectionEmbeddedMedia => {
+			return {
+				id: SectionEmbeddedMedia.id,
+				code: SectionEmbeddedMedia.code,
+			};
+		});
+		return res.status(200).json(sections);
+	} catch (error) {
+		throw CustomError.internalServer('Error while fetching the Section Embedded Medias,\n' + error);
+	}
 };
 
 export const createSectionEmbeddedMedia = async (req: Request, res: Response) => {
-    try {
-        const { portfolioId } = req.params;
-        const order = req.query.order as string;
+	try {
+		const { portfolioId } = req.params;
+		const order = req.query.order as string;
 
-        const portfolio = await Portfolio.findById(portfolioId);
+		const portfolio = await Portfolio.findById(portfolioId);
 
-        if (!portfolio) {
-            return res.status(404).json({ message: 'Portfolio not found' });
-        }
+		if (!portfolio) {
+			return res.status(404).json({ message: 'Portfolio not found' });
+		}
 
-        const { code } = req.body;
+		const { code } = req.body;
 
-        if (!code) {
-            return res.status(400).json({ error: 'Code is required !' });
-        }
+		if (!code) {
+			return res.status(400).json({ error: 'Code is required !' });
+		}
 
-        const newSectionEmbeddedMedia = new SectionEmbeddedMedia({code});
-        await newSectionEmbeddedMedia.save();
+		const newSectionEmbeddedMedia = new SectionEmbeddedMedia({ code });
+		await newSectionEmbeddedMedia.save();
 
-        console.log('embeddedmedia: ',order)
-        if (order && !isNaN(parseInt(order))) {
-            const index = parseInt(order);
-            if (index >= 0 && index <= portfolio.sections.length) {
-                portfolio.sections.splice(index, 0, {
-                    kind: 'SectionEmbeddedMedia',
-                    item: newSectionEmbeddedMedia._id
-                });
-            } else {
-                portfolio.sections.push({
-                    kind: 'SectionEmbeddedMedia',
-                    item: newSectionEmbeddedMedia._id
-                });
-            }
-        } else {
-            portfolio.sections.push({
-                kind: 'SectionEmbeddedMedia',
-                item: newSectionEmbeddedMedia._id
-            });
-        }
+		console.log('embeddedmedia: ', order)
+		if (order && !isNaN(parseInt(order))) {
+			const index = parseInt(order);
+			if (index >= 0 && index <= portfolio.sections.length) {
+				portfolio.sections.splice(index, 0, {
+					kind: 'SectionEmbeddedMedia',
+					item: newSectionEmbeddedMedia._id
+				});
+			} else {
+				portfolio.sections.push({
+					kind: 'SectionEmbeddedMedia',
+					item: newSectionEmbeddedMedia._id
+				});
+			}
+		} else {
+			portfolio.sections.push({
+				kind: 'SectionEmbeddedMedia',
+				item: newSectionEmbeddedMedia._id
+			});
+		}
 
-        await portfolio.save()
+		await portfolio.save()
 
-        return res.status(201).json({
-            message: 'Section Embedded Media created successfully !',
-            section: {
-                id: newSectionEmbeddedMedia.id,
-                code: newSectionEmbeddedMedia.code,
-            }
-        });
-    } catch (error) {
-        throw CustomError.internalServer('Error while creating the Section Embedded Media,\n' + error);
-    }
+		return res.status(201).json({
+			message: 'Section Embedded Media created successfully !',
+			section: {
+				id: newSectionEmbeddedMedia.id,
+				code: newSectionEmbeddedMedia.code,
+			}
+		});
+	} catch (error) {
+		throw CustomError.internalServer('Error while creating the Section Embedded Media,\n' + error);
+	}
 };
 
 export const updateSectionEmbeddedMedia = async (req: Request, res: Response) => {
-    const id = req.params.id;
+	const id = req.params.id;
 
-    if (!Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-          error: `Invalid ID: ${id} !`,
-        });
-    }
+	if (!Types.ObjectId.isValid(id)) {
+		return res.status(400).json({
+			error: `Invalid ID: ${id} !`,
+		});
+	}
 
-    const sectionEmbeddedMedia = await SectionEmbeddedMedia.findById(id);
-    
-    if (!sectionEmbeddedMedia) {
-        return res.status(404).json({ error: 'Section Embedded Media not found' });
-    }
+	const sectionEmbeddedMedia = await SectionEmbeddedMedia.findById(id);
 
-    const payload = req.body;
+	if (!sectionEmbeddedMedia) {
+		return res.status(404).json({ error: 'Section Embedded Media not found' });
+	}
 
-    try {
+	const payload = req.body;
 
-        //? Note: if you pass undefined to a field, it will not be updated.
-        sectionEmbeddedMedia.code = payload.code !== undefined ? payload.code : sectionEmbeddedMedia.code;
-        
-        await sectionEmbeddedMedia.save();
-        
-        return res.status(200).json({
-            message: 'Section embedded media updated successfully 👍 !',
-            section: {
-                id: sectionEmbeddedMedia.id,
-                code: sectionEmbeddedMedia.code,
-            }
-        });
+	try {
 
-    } catch (error) {
-        throw CustomError.internalServer('Error while updating the Section Embedded Media,\n' + error);
-    }
+		//? Note: if you pass undefined to a field, it will not be updated.
+		sectionEmbeddedMedia.code = payload.code !== undefined ? payload.code : sectionEmbeddedMedia.code;
+
+		await sectionEmbeddedMedia.save();
+
+		return res.status(200).json({
+			message: 'Section embedded media updated successfully 👍 !',
+			section: {
+				id: sectionEmbeddedMedia.id,
+				code: sectionEmbeddedMedia.code,
+			}
+		});
+
+	} catch (error) {
+		throw CustomError.internalServer('Error while updating the Section Embedded Media,\n' + error);
+	}
 };
 
 export const deleteSectionEmbeddedMedia = async (req: Request, res: Response) => {
-    const sectionId = req.params.id;
+	const sectionId = req.params.id;
 
-    if (!Types.ObjectId.isValid(sectionId)) {
-        return res.status(400).json({
-          error: `Invalid ID: ${sectionId} !`,
-        });
-    }
+	if (!Types.ObjectId.isValid(sectionId)) {
+		return res.status(400).json({
+			error: `Invalid ID: ${sectionId} !`,
+		});
+	}
 
-    try {
-        // Delete the sectionEmbeddedMedia itself
-        await SectionEmbeddedMedia.findByIdAndDelete(sectionId);
-        
-        // Find the portfolio that contains a section with the given sectionId
-        const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
-        if (!portfolio) {
-            return res.status(404).json({ error: 'Portfolio not found !' });
-        }
-        console.log("debug portfolio",portfolio.id)
+	try {
+		// Delete the sectionEmbeddedMedia itself
+		await SectionEmbeddedMedia.findByIdAndDelete(sectionId);
 
-        // Find the index of the section with the given sectionId in the portfolio's sections array
-        const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
-        if (sectionIndex === -1) {
-            return res.status(404).json({ error: 'Section not found in portfolio !' });
-        }
+		// Find the portfolio that contains a section with the given sectionId
+		const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
+		if (!portfolio) {
+			return res.status(404).json({ error: 'Portfolio not found !' });
+		}
+		console.log("debug portfolio", portfolio.id)
 
-        // Remove the section from the portfolio's sections array
-        portfolio.sections.splice(sectionIndex, 1);
-        await portfolio.save();
+		// Find the index of the section with the given sectionId in the portfolio's sections array
+		const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
+		if (sectionIndex === -1) {
+			return res.status(404).json({ error: 'Section not found in portfolio !' });
+		}
 
-        return res.status(200).json({ message: 'Section EmbeddedMedia deleted successfully 👍' });
-    } catch (error) {
-        throw CustomError.internalServer('Error while deleting the Section EmbeddedMedia,\n' + error);
-    }
+		// Remove the section from the portfolio's sections array
+		portfolio.sections.splice(sectionIndex, 1);
+		await portfolio.save();
+
+		return res.status(200).json({ message: 'Section EmbeddedMedia deleted successfully 👍' });
+	} catch (error) {
+		throw CustomError.internalServer('Error while deleting the Section EmbeddedMedia,\n' + error);
+	}
 };

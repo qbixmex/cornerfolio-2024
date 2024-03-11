@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import DeleteDivider from './deleteDivider';
 import DeleteText from './deleteText';
 import DeleteImage from './deleteImage';
@@ -14,9 +13,9 @@ import InputSectionTextContent from './inputSectionTextContent';
 import InputSectionImageTextHeading from './inputSectionImageTextHeading';
 import InputSectionImageTextContent from './inputSectionImageTextContent';
 import InputSectionImageTextCaption from './inputSectionImageTextCaption';
-import ChangePostionSectionImageText from './positionSectionImageText';
-import ChangePostionSectionImage from './positionSectionImage';
-import ChangePostionSectionText from './positionSectionText';
+import ChangePositionSectionImageText from './positionSectionImageText';
+import ChangePositionSectionImage from './positionSectionImage';
+import ChangePositionSectionText from './positionSectionText';
 
 type Section =
 	| SectionText
@@ -29,7 +28,7 @@ type Props = {
 	section: Section;
 };
 
-const RenderSection: FC<Props> = ({ section }) => {
+const RenderSection: React.FC<Props> = ({ section }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
@@ -44,7 +43,7 @@ const RenderSection: FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteText sectionId={section.item.id} />
-					<ChangePostionSectionText section={section as SectionText}/>
+					<ChangePositionSectionText section={section as SectionText}/>
 					<div
 						className={
 							`flex ${
@@ -67,7 +66,7 @@ const RenderSection: FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteImage sectionId={section.item.id} />
-					<ChangePostionSectionImage section={section as SectionImage} />
+					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
 						className={
 							`flex ${
@@ -95,7 +94,7 @@ const RenderSection: FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteImageText sectionId={section.item.id} />
-					<ChangePostionSectionImageText section={section as SectionImageText} />
+					<ChangePositionSectionImageText section={section as SectionImageText} />
 					<div className={
 						`flex justify-evenly ${
 							((section as SectionImageText).item.position === 'text_img')

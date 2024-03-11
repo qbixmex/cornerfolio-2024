@@ -22,7 +22,6 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
         const fetchData = await getPortfolio(id);
         setPortfolio(fetchData)
         setLoading(false)
-        console.log(fetchData)
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }

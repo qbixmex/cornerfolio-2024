@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import RenderSection from './renderSection';
 import ChooseSection from './chooseSection';
 import {
@@ -17,7 +16,7 @@ type Props = {
   portfolioId: string;
 };
 
-const SectionsList: FC<Props> = ({ sections, portfolioId }) => {
+const SectionsList: React.FC<Props> = ({ sections, portfolioId }) => {
   
   return (
     <div>
