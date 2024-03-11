@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import DeleteDivider from './deleteDivider';
 import DeleteText from './deleteText';
 import DeleteImage from './deleteImage';
@@ -7,37 +6,44 @@ import DeleteEmbeddedMedia from './deleteEmbeddedMedia';
 import {
 	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider
 } from '@/interfaces';
+import InputSectionDivider from './inputSectionDivider';
+import InputSectionImage from './inputSectionImage';
+import InputSectionTextHeading from './inputSectionTextHeading';
+import InputSectionTextContent from './inputSectionTextContent';
+import InputSectionImageTextHeading from './inputSectionImageTextHeading';
+import InputSectionImageTextContent from './inputSectionImageTextContent';
+import InputSectionImageTextCaption from './inputSectionImageTextCaption';
+import ChangePositionSectionImageText from './positionSectionImageText';
+import ChangePositionSectionImage from './positionSectionImage';
+import ChangePositionSectionText from './positionSectionText';
 
 type Section =
-  | SectionText
-  | SectionImage
-  | SectionEmbeddedMedia
-  | SectionImageText
-  | SectionDivider;
+	| SectionText
+	| SectionImage
+	| SectionEmbeddedMedia
+	| SectionImageText
+	| SectionDivider;
 
 type Props = {
 	section: Section;
 };
 
-const RenderSection: FC<Props> = ({ section }) => {
+const RenderSection: React.FC<Props> = ({ section }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
 				<>
 					<DeleteDivider sectionId={section.item.id} />
-					<div
-						key={section.id}
-						className="text-base border-b mb-3 pb-5"
-						dangerouslySetInnerHTML={{
-							__html: (section as SectionDivider).item.title
-						}}
-					/>
+					<div className='border-transparent border-2 hover:border-gray-300'>
+						<InputSectionDivider section={section as SectionDivider} />
+					</div>
 				</>
 			)
 		case 'SectionText':
 			return (
 				<>
 					<DeleteText sectionId={section.item.id} />
+					<ChangePositionSectionText section={section as SectionText}/>
 					<div
 						className={
 							`flex ${
@@ -46,21 +52,12 @@ const RenderSection: FC<Props> = ({ section }) => {
 									: ((section as SectionText).item.position === 'right')
 										? 'justify-end'
 										: ''
-							}`
+							}
+							`
 						}>
-						<div key={section.item.id} className="w-3/4">
-							<div 
-								className="text-xl"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionText).item.heading
-								}}
-							/>
-							<div
-								className="text-base"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionText).item.content
-								}}
-							/>
+						<div key={section.item.id} className="w-3/4 border-transparent border-2 hover:border-gray-300">
+							<InputSectionTextHeading section={section as SectionText}/>
+							<InputSectionTextContent section={section as SectionText} />
 						</div>
 					</div>
 				</>
@@ -69,6 +66,7 @@ const RenderSection: FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteImage sectionId={section.item.id} />
+					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
 						className={
 							`flex ${
@@ -85,12 +83,9 @@ const RenderSection: FC<Props> = ({ section }) => {
 								src={(section as SectionImage).item.url}
 								alt={(section as SectionImage).item.alt}
 							/>
-							<div
-								className="text-base"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionImage).item.caption
-								}}
-							/>
+							<div className='border-transparent border-2 hover:border-gray-300'>
+							<InputSectionImage section={section as SectionImage}/>
+							</div>
 						</div>
 					</div>
 				</>
@@ -99,7 +94,7 @@ const RenderSection: FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteImageText sectionId={section.item.id} />
-
+					<ChangePositionSectionImageText section={section as SectionImageText} />
 					<div className={
 						`flex justify-evenly ${
 							((section as SectionImageText).item.position === 'text_img')
@@ -107,32 +102,19 @@ const RenderSection: FC<Props> = ({ section }) => {
 								: ''
 						}`
 					}>
-						<div className="w-1/3" key={`img-${section.item.id}`}>
+						<div className="w-1/2" key={`img-${section.item.id}`}>
 							<img
 								src={(section as SectionImageText).item.imgUrl}
 								alt={(section as SectionImageText).item.imgAlt}
 							/>
-							<div
-								className="text-base"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionImageText).item.imgCaption
-									}}
-								/>
+							<div className='border-transparent border-2 hover:border-gray-300'>
+							<InputSectionImageTextCaption section={section as SectionImageText}/>
+							</div>
 						</div>
 
-						<div className="w-1/3" key={`text-${section.item.id}`}>
-							<div
-								className="text-xl"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionImageText).item.txtHeading
-								}}
-								/>
-							<div
-								className="text-base"
-								dangerouslySetInnerHTML={{
-									__html: (section as SectionImageText).item.txtContent
-								}}
-								/>
+						<div className="w-1/2 border-transparent border-2 hover:border-gray-300" key={`text-${section.item.id}`}>
+							<InputSectionImageTextHeading section={section as SectionImageText} />
+							<InputSectionImageTextContent section={section as SectionImageText}/>
 						</div>
 					</div>
 				</>
