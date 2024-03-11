@@ -1,16 +1,24 @@
 "use client";
 
 import { deletePortfolio } from "@/api/deletePortfolioById.fetch";
+import Swal from "sweetalert2";
 
 function DeletePortfolioButton({ id }: { id: string }) {
+	
 	const deletePortfolioById = async (id: string) => {
-		try {
-			await deletePortfolio(id);
-
-			console.log("Portfolio deleted successfully");
-		} catch (error) {
-			console.error("Error deleting portfolio:", error);
-		}
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				await deletePortfolio(id);
+			}
+		});
 	};
 
 	return (

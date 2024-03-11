@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface ISectionDivider extends Document {
+export interface ISectionDivider extends Document {
     title: string;
 }
 

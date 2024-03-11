@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface ISectionEmbeddedMedia extends Document {
+export interface ISectionEmbeddedMedia extends Document {
     code: string;
 }
 

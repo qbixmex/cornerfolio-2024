@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface ISectionImage extends Document {
+export interface ISectionImage extends Document {
     url: string;
     alt: string;
     caption: string;

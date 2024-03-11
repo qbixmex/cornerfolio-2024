@@ -1,10 +1,10 @@
+"use server";
+import { revalidatePath, revalidateTag } from "next/cache";
+
 export const deletePortfolio = async (id: string) => {
-	try {
+	{
 		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
 			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
 		});
 
 		if (!response.ok) {
@@ -13,9 +13,9 @@ export const deletePortfolio = async (id: string) => {
 		}
 
 		const responseData = await response.json();
+		revalidateTag("portfolios");
+		
+		// revalidatePath("/admin/portfolio-management");
 		return responseData;
-	} catch (error) {
-		console.error("Error updating portfolio:", error);
-		throw error;
 	}
 };

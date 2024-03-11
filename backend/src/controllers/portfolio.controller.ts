@@ -147,6 +147,8 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 export const deletePortfolio = async (req: Request, res: Response) => {
 	const id = req.params.id;
 
+	
+
 	if (!Types.ObjectId.isValid(id)) {
 		return res.status(400).json({
 			error: `Invalid ID: ${id} !`,
@@ -159,8 +161,12 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 		return res.status(404).json({ error: "Portfolio not found !" });
 	}
 
+
 	try {
-		await Models.Portfolio.findByIdAndDelete(id);
+		const deleted = await Models.Portfolio.findOneAndDelete({_id: id});
+
+		// do the same as logic in .post method....
+		
 		return res.status(200).json({ message: "Portfolio deleted successfully 👍 !" });
 	} catch (error) {
 		throw CustomError.internalServer("Error while deleting the Portfolio,\n" + error);

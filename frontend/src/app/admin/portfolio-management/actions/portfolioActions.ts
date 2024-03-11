@@ -11,8 +11,6 @@ export const createNewPortfolio = async () => {
 		// revalidate
 		revalidateTag("portfolios");
 
-		// redirect to the current page
-		redirect("/admin/portfolio-management");
 	} catch (error) {
 		console.log("Error trying create a new portfolio ", error);
 	}
