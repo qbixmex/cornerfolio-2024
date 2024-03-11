@@ -66,7 +66,7 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 							<button
 								className="m-4 bg-gray-200 hover:bg-gray-300"
 								onClick={handleCreateEmbeddedMedia}>
-								Insert Video
+								Insert Media
 							</button>
 							<p className='text-xs'>* Please paste {"<iframe></iframe>"} code.</p>
 						</section>
