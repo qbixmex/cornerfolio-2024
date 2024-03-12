@@ -3,8 +3,9 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 export interface ISectionText extends Document {
 	heading: string;
 	content: string;
-	position: "left" | "center" | "right";
-	item?: string;
+	headingSize: number;
+	contentSize: number;
+	position: 'left' | 'center' | 'right';
 }
 
 type timestamps = {
@@ -14,24 +15,31 @@ type timestamps = {
 
 export type SectionTextModel = Model<ISectionText & timestamps>;
 
-export const sectionTextSchema = new Schema<ISectionText, SectionTextModel>({
+const sectionTextSchema = new Schema<ISectionText, SectionTextModel>({
 	heading: {
 		type: String,
-		default: "<h2>This is header.</h2>",
+		default: 'This is header.'
 	},
 	content: {
 		type: String,
-		default:
-			"<p>You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words. Click here and try it out.</p>",
+		default: 'You can write here as much as you want, this text will always look nice, whether you write longer paragraphs or just a few words. Click here and try it out.'
+	},
+	headingSize: {
+		type: Number,
+		default: 30,
+	},
+	contentSize: {
+		type: Number,
+		default: 15,
 	},
 	position: {
 		type: String,
-		enum: ["left", "center", "right"],
-		default: "left",
-	},
+		enum: ['left', 'center', 'right'],
+		default: 'left'
+	}
 });
 
-sectionTextSchema.set("toJSON", {
+sectionTextSchema.set('toJSON', {
 	virtuals: true, //? convert _id to id
 	versionKey: false,
 	transform: function (doc, ret, options) {

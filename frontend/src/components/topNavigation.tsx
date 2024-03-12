@@ -14,18 +14,18 @@ const TopNavigation = () => {
 		setPortfolios(data);
 	}
 
-	//* Get login User from redux?
-	const [loginUser, setLoginUser] = useState({
-		id: 1,
-		name: "Taisei Yamaguchi",
-		email: "aries0326taisei@gmail.com",
-		type: "student",
-		course: "Web development",
-		schedule: "afternoon",
-		portfolios: [],
-		jobTitle: "Web Engineer",
-		img: "https://avatars.githubusercontent.com/u/119865966?v=4",
-	});
+    //* Get login User from redux?
+    const [loginUser, setLoginUser] = useState({
+        id: "65e7c54129def4d96ff27aba",
+        name: "Taisei Yamaguchi",
+        email: "aries0326taisei@gmail.com",
+        type: "student",
+        course: "Web development",
+        schedule: "afternoon",
+        portfolios: [],
+        jobTitle: "Web Engineer",
+        img: "https://avatars.githubusercontent.com/u/119865966?v=4",
+    });
 
 	const toggleCenterMenu = () => {
 		fetchDataForPortfolio();
@@ -35,14 +35,14 @@ const TopNavigation = () => {
 		setRightMenuOpen(!rightMenuOpen);
 	};
 
-	return (
-		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between border-b border-gray-200 bg-blue-700 p-2">
-			<div className="flex items-center space-x-2">
-				<button type="button" className="text-3xl asideOpen">
-					<i className="bx bx-menu"></i>
-				</button>
-				<div className="font-bold text-white">Cornerfolio</div>
-			</div>
+    return (
+        <header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between border-b border-gray-200 bg-blue-700 p-2">
+            <div className="flex items-center space-x-2">
+                <button type="button" className="text-3xl asideOpen">
+                    <i className="bx bx-menu"></i>
+                </button>
+                <div className="font-bold text-white">Cornerfolio</div>
+            </div>
 
 			<div className="h-[300px] flex items-center justify-center" onMouseLeave={()=> setCenterMenuOpen(false)}>
 				<div className="relative group">
@@ -92,65 +92,81 @@ const TopNavigation = () => {
 				</div>
 			</div>
 
-			<div>
-				<button
-					type="button"
-					className="h-8 w-8 overflow-hidden rounded-full"
-					onClick={toggleRightMenu}
-				>
-					<img src={loginUser.img} alt={loginUser.name} />
-				</button>
+            <div>
+                <button
+                    type="button"
+                    className="h-8 w-8 overflow-hidden rounded-full"
+                    onClick={toggleRightMenu}
+                >
+                    <img src={loginUser.img} alt={loginUser.name} />
+                </button>
 
-				<div
-					className={`${
-						rightMenuOpen ? "" : "hidden"
-					} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
-					x-show="profileOpen"
-					x-transition="true"
-				>
-					<div className="flex items-center space-x-2 p-2">
-						<img src={loginUser.img} alt={loginUser.name} className="h-9 w-9 rounded-full" />
-						<div className="font-medium">{loginUser.name}</div>
-					</div>
+                <div
+                    className={`${
+                        rightMenuOpen ? "" : "hidden"
+                    } absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
+                    x-show="profileOpen"
+                    x-transition="true"
+                >
+                    <div className="flex items-center space-x-2 p-2">
+                        <img
+                            src={loginUser.img}
+                            alt={loginUser.name}
+                            className="h-9 w-9 rounded-full"
+                        />
+                        <div className="font-medium">{loginUser.name}</div>
+                    </div>
 
-					<div className="flex flex-col space-y-3 p-2">
-						<a href="#" className="text-sm transition hover:text-blue-600">
-							My Profile
-						</a>
-						<a href="#" className="text-sm transition hover:text-blue-600">
-							Settings
-						</a>
-						<a href="../login" className="text-sm transition hover:text-blue-600">
-							Login
-						</a>
-						<a href="../register" className="text-sm transition hover:text-blue-600">
-							Register
-						</a>
-					</div>
+                    <div className="flex flex-col space-y-3 p-2">
+                        <a
+                            href="#"
+                            className="text-sm transition hover:text-blue-600"
+                        >
+                            My Profile
+                        </a>
+                        <a
+                            href="#"
+                            className="text-sm transition hover:text-blue-600"
+                        >
+                            Settings
+                        </a>
+                        <a
+                            href="../login"
+                            className="text-sm transition hover:text-blue-600"
+                        >
+                            Login
+                        </a>
+                        <a
+                            href="../register"
+                            className="text-sm transition hover:text-blue-600"
+                        >
+                            Register
+                        </a>
+                    </div>
 
-					<div className="p-2">
-						<button className="flex items-center space-x-2 transition hover:text-blue-600">
-							<svg
-								className="h-4 w-4"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-								></path>
-							</svg>
-							<div>Log Out</div>
-						</button>
-					</div>
-				</div>
-			</div>
-		</header>
-	);
+                    <div className="p-2">
+                        <button className="flex items-center space-x-2 transition hover:text-blue-600">
+                            <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                ></path>
+                            </svg>
+                            <div>Log Out</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    );
 };
 
 export default TopNavigation;
