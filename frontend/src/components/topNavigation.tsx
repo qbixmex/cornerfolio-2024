@@ -1,10 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { portFoliosFetch } from "@/api/portfolios.fetch";
+import { useState } from "react";
+import { Portfolio } from "./portfolioManagementActions";
 
 const TopNavigation = () => {
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
 	const [centerMenuOpen, setCenterMenuOpen] = useState(false);
+	const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+
+	async function fetchDataForPortfolio() {
+		const data = await portFoliosFetch();
+		setPortfolios(data);
+	}
 
 	//* Get login User from redux?
 	const [loginUser, setLoginUser] = useState({
@@ -20,6 +28,7 @@ const TopNavigation = () => {
 	});
 
 	const toggleCenterMenu = () => {
+		fetchDataForPortfolio();
 		setCenterMenuOpen(!centerMenuOpen);
 	};
 	const toggleRightMenu = () => {
@@ -35,7 +44,7 @@ const TopNavigation = () => {
 				<div className="font-bold text-white">Cornerfolio</div>
 			</div>
 
-			<div className="h-[300px] flex items-center justify-center">
+			<div className="h-[300px] flex items-center justify-center" onMouseLeave={()=> setCenterMenuOpen(false)}>
 				<div className="relative group">
 					<button
 						id="dropdown-button"
@@ -69,12 +78,16 @@ const TopNavigation = () => {
 						>
 							Manage Portfolios
 						</a>
-						<a
-							href="#"
-							className="text-white text-sm block p-5 px-4 py-2 hover:bg-blue-300 active:bg-blue-100 cursor-pointer rounded-md"
-						>
-							Yours
-						</a>
+
+						{portfolios.map((portfolio: Portfolio) => (
+							<a
+								key={portfolio.id}
+								href={`/admin/portfolios/${portfolio.id}`}
+								className="text-white text-sm block p-5 px-4 py-2 hover:bg-blue-300 active:bg-blue-100 cursor-pointer rounded-md"
+							>
+								{portfolio.portfolioTitle}
+							</a>
+						))}
 					</div>
 				</div>
 			</div>
