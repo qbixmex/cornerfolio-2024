@@ -1,9 +1,8 @@
 import { FC } from 'react';
-import { convertDate, getUsersListByURL } from '@/users';
+import { convertDate, getUsersList } from '@/users';
 import Link from 'next/link';
 import { UserIcon } from '@/components/icons';
-import { fetchUsers } from '@/users/actions/pagination.actions';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { UsersPagination } from '@/users/components';
 
 export const metadata = {
   title: 'Users List',
@@ -19,9 +18,7 @@ type Props = {
 
 const UsersPage: FC<Props> = async ({ searchParams }) => {
 
-  const usersList = await getUsersListByURL(searchParams);
-  const getNextUsersWithUrl = fetchUsers.bind(null, usersList.pagination.next!);
-  const getPreviousUsersWithUrl = fetchUsers.bind(null, usersList.pagination.previous!);
+  const data = await getUsersList({ page: searchParams.page ? +searchParams.page : 1 });
 
   return (
     <section className="w-[90%] mx-auto py-10">
@@ -88,7 +85,7 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {usersList.users.map((user) => (
+                  {data.users.map((user) => (
                     <tr key={user.id}>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div className="flex items-center">
@@ -137,32 +134,9 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
                   ))}
                 </tbody>
               </table>
-              <div
-                className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                <span className="text-xs xs:text-sm text-gray-900">
-                  {usersList.pagination.page} - {Math.floor(usersList.pagination.total / usersList.pagination.limit) + 1} of {usersList.pagination.total} Entries
-                </span>
-                <div className="flex gap-x-2 mt-2 xs:mt-0">
-                  <section>
-                    <form action={getPreviousUsersWithUrl}>
-                      <button
-                        type="submit"
-                        disabled={!usersList.pagination.previous}
-                        className={`text-xl transition duration-150 ${usersList.pagination.previous ? 'text-indigo-50 hover:bg-indigo-500 bg-indigo-600' : 'text-gray-400 bg-gray-200 hover:bg-none cursor-not-allowed'} font-semibold py-2 px-4 rounded-md`}
-                      ><FaAngleLeft /></button>
-                    </form>
-                  </section>
-                  <section>
-                    <form action={getNextUsersWithUrl}>
-                      <button
-                        type="submit"
-                        disabled={!usersList.pagination.next}
-                        className={`text-xl transition duration-150 ${usersList.pagination.next ? 'text-indigo-50 hover:bg-indigo-500 bg-indigo-600' : 'text-gray-400 bg-gray-200 hover:bg-none cursor-not-allowed'} font-semibold py-2 px-4 rounded-md`}
-                      ><FaAngleRight /></button>
-                    </form>
-                  </section>
-                </div>
-              </div>
+
+              <UsersPagination pagination={data.pagination} />
+
             </div>
           </div>
         </div>

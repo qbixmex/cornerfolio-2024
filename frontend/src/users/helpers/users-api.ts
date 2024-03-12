@@ -1,4 +1,7 @@
+'use server';
+
 import { UsersList } from '../interfaces/users';
+import { revalidateTag } from 'next/cache';
 
 type Options = {
   page?: number;
@@ -17,19 +20,20 @@ export const getUsersList = async (options?: Options): Promise<UsersList> => {
     + `&orderBy=${options?.orderBy ?? 'name'}`
     + `&order=${options?.order ?? 'asc'}`;
 
-  const response = await fetch(URL);
-
-  return response.json();
-};
-
-export const getUsersListByURL = async (searchParams: { page: string }): Promise<UsersList> => {
-  const queryParams = new URLSearchParams(searchParams);
-
-  const API_URL = process.env.API_URL ?? 'http://localhost:4000';
-
-  const response = await fetch(`${API_URL}/api/users?${queryParams.toString()}`, {
+  const response = await fetch(URL, {
+    method: 'GET',
+    headers: {
+      // 'authorization': `Bearer ${process.env.API_TOKEN}`// TODO: Add API Token
+    },
+    cache: 'force-cache',
     next: { tags: [ 'users-table' ] }
   });
 
-  return response.json();
+  const data = await response.json();
+
+  if (options?.page !== 1) {
+    revalidateTag('users-table');
+  }
+
+  return data;
 };
