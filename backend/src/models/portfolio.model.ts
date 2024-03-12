@@ -1,4 +1,33 @@
+import console from "console";
 import mongoose, { Model, Schema, Types } from "mongoose";
+import { SectionText } from ".";
+import SectionEmbeddedMediaModel from "../models/section-embedded-media.model";
+import SectionDivider from "./section-divider.model";
+import SectionImageText from "./section-image-text.model";
+import SectionImage from "./section-image.model";
+
+const sectionKinds = [
+	"SectionText",
+	"SectionImage",
+	"SectionEmbeddedMedia",
+	"SectionImageText",
+	"SectionDivider",
+] as const;
+
+enum SectionType {
+	TEXT = "SectionText",
+	DIVIDER = "SectionDivider",
+	EMBEDDED_MEDIA = "SectionEmbeddedMedia",
+	IMAGE_TEXT = "SectionImageText",
+	IMAGE = "SectionImage",
+}
+
+type SectionKind = (typeof sectionKinds)[number];
+
+type Section = {
+	kind: SectionKind;
+	item: string;
+};
 
 export type PortfolioType = {
 	id: Types.ObjectId;
@@ -13,15 +42,7 @@ export type PortfolioType = {
 		text: string;
 	};
 	template: Types.ObjectId;
-	sections: {
-		kind:
-			| "SectionText"
-			| "SectionImage"
-			| "SectionEmbeddedMedia"
-			| "SectionImageText"
-			| "SectionDivider";
-		item: Types.ObjectId;
-	}[];
+	sections: Section[];
 };
 
 type timestamps = {
@@ -31,11 +52,11 @@ type timestamps = {
 
 export type PortfolioModel = Model<PortfolioType & timestamps>;
 
-const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
+export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 	{
 		portfolioTitle: {
 			type: String,
-			required: true
+			required: true,
 		},
 		header: {
 			title: {
@@ -70,13 +91,7 @@ const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 			{
 				kind: {
 					type: String,
-					enum: [
-						"SectionText",
-						"SectionImage",
-						"SectionEmbeddedMedia",
-						"SectionImageText",
-						"SectionDivider",
-					],
+					enum: sectionKinds,
 				},
 				item: {
 					type: Schema.Types.ObjectId,
@@ -94,6 +109,45 @@ PortfolioSchema.set("toJSON", {
 	transform: function (doc, ret, options) {
 		delete ret._id;
 	},
+});
+
+PortfolioSchema.post("findOneAndDelete", async (doc) => {
+	doc.sections.forEach(async (section: Section) => {
+		try {
+			switch (section.kind) {
+				case SectionType.TEXT:
+					await SectionText.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.DIVIDER:
+					await SectionDivider.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.EMBEDDED_MEDIA:
+					await SectionEmbeddedMediaModel.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.IMAGE_TEXT:
+					await SectionImageText.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.IMAGE:
+					await SectionImage.findByIdAndDelete(section.item);
+					break;
+
+				default:
+					throw new Error("Invalid Section Kind");
+			}
+		} catch (error) {
+			if (error instanceof mongoose.Error) {
+				throw new Error(error.message);
+			}
+
+			console.log(error);
+
+			throw new Error("Unexpected Error, check logs !");
+		}
+	});
 });
 
 const Portfolio = mongoose.model<PortfolioType, PortfolioModel>("Portfolio", PortfolioSchema);

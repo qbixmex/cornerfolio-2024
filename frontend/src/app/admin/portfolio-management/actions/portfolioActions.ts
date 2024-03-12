@@ -1,19 +1,13 @@
-"use server";
+'use server';
 
-import { createPortfolio } from "@/api/createPortfolio.fetch";
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
+import { createPortfolio } from '@/api/createPortfolio.fetch';
+import { revalidateTag } from 'next/cache';
 
 export const createNewPortfolio = async () => {
-	try {
-		await createPortfolio();
 
-		// revalidate
-		revalidateTag("portfolios");
+	await createPortfolio();
 
-		// redirect to the current page
-		redirect("/admin/portfolio-management");
-	} catch (error) {
-		console.log("Error trying create a new portfolio ", error);
-	}
+	//? Revalidate Tag
+	revalidateTag('portfolios');
+
 };

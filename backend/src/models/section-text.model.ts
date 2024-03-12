@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface ISectionText extends Document {
 	heading: string;
@@ -47,8 +47,9 @@ sectionTextSchema.set('toJSON', {
 	},
 });
 
-
-const SectionText = mongoose.model<ISectionText, SectionTextModel>('SectionText', sectionTextSchema);
+const SectionText = mongoose.model<ISectionText, SectionTextModel>(
+	"SectionText",
+	sectionTextSchema,
+);
 
 export default SectionText;
-

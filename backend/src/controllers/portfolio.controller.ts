@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { Types } from "mongoose";
-import { CustomError } from "../helpers";
-import * as Models from "../models";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
+import { CustomError } from '../helpers';
+import * as Models from '../models';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -160,7 +160,10 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 	}
 
 	try {
-		await Models.Portfolio.findByIdAndDelete(id);
+		await Models.Portfolio.findOneAndDelete({ _id: id });
+
+		// do the same as logic in .post method....
+		
 		return res.status(200).json({ message: "Portfolio deleted successfully 👍 !" });
 	} catch (error) {
 		throw CustomError.internalServer("Error while deleting the Portfolio,\n" + error);
