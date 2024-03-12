@@ -5,6 +5,7 @@ import { getPortfolio } from '@/portfolios/actions/portfolio.action';
 import { TemplateHeader, TemplateFooter } from '@/portfolios/components';
 import SectionsList from '@/components/sections/sectionsList';
 import ChooseSection from '@/components/sections/chooseSection';
+import { useAppSelector } from '@/store';
 
 type Props = {
   params: { id: string };
@@ -12,9 +13,9 @@ type Props = {
 };
 
 const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
-  // in the future, it should be in redux.
   const [loading, setLoading] = useState(true);
   const [portfolio, setPortfolio] = useState<any>({});
+  const reloading = useAppSelector(state => state.reloading.reloading); 
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -22,6 +23,7 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
         const fetchData = await getPortfolio(id);
         setPortfolio(fetchData)
         setLoading(false)
+        console.log(reloading)
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }
@@ -29,7 +31,7 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     if (id) {
       fetchPortfolio();
     }
-  }, [id]);
+  }, [id,reloading]);
 
 
   return (

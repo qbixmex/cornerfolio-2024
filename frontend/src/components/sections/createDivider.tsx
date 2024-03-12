@@ -1,12 +1,22 @@
 import { createSectionDivider } from "@/sections/actions/section.action";
+import { setReloading } from "@/store/slices/reload.slice";
+import { useAppDispatch } from '@/store';
 
 type Props = {
     portfolioId:string;
     order:number;
 };
 const CreateDivider:React.FC<Props> = ({portfolioId,order}) => {
+    const dispatch=useAppDispatch()
     const handleCreateDivider = async () => {
-        createSectionDivider(portfolioId,order)
+        try {
+            dispatch(setReloading(true)); // reloading true
+            await createSectionDivider(portfolioId, order); 
+        } catch (error) {
+            console.error('Error creating divider:', error);
+        } finally {
+            dispatch(setReloading(false)); // reloading false
+        }
     };
 
     return (

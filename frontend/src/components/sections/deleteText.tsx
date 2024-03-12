@@ -1,14 +1,25 @@
 import { FC } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionText } from '@/sections/actions/section.action';
+import { setReloading } from "@/store/slices/reload.slice";
+import { useAppDispatch } from '@/store';
 
 type Props = {
 	sectionId: string;
 };
 
 const DeleteText: FC<Props> = ({ sectionId }) => {
+	const dispatch=useAppDispatch()
 	const handleDeleteText = async () => {
 		deleteSectionText(sectionId)
+		try {
+			dispatch(setReloading(true)); // reloading true
+			await deleteSectionText(sectionId)
+		} catch (error) {
+			console.error('Error deleting text:', error);
+		} finally {
+			  dispatch(setReloading(false)); // reloading false
+		}
 	};
 
 	return (
