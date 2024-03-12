@@ -1,9 +1,9 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from 'next/cache';
 
 export const portFoliosFetch = async () => {
 	const response = await fetch(`http://localhost:4000/api/portfolio`, {
-		next: { tags: ["portfolios"] },
-		cache: "no-cache",
+		next: { tags: [ 'portfolios' ] },
+		cache: 'no-cache',
 	});
 
 	if (!response.ok) {
@@ -14,7 +14,7 @@ export const portFoliosFetch = async () => {
 	const data = await response.json();
 
 	if (data.user) {
-		revalidatePath("/admin/portfolio-management");
+		revalidatePath('/admin/portfolio-management');
 	}
 
 	return data;

@@ -1,25 +1,25 @@
-import { Request, Response } from "express";
-import { Types } from "mongoose";
-import { CustomError } from "../helpers";
-import { Portfolio, SectionText } from "../models";
+import { Request, Response } from 'express';
+import { Types } from 'mongoose';
+import { CustomError } from '../helpers';
+import { Portfolio, SectionText } from '../models';
 
 export const getSectionTexts = async (req: Request, res: Response) => {
-    try {
-        const sectionTexts = await SectionText.find();
-        const sections = sectionTexts.map(sectionText => {
-            return {
-                id: sectionText.id,
-                heading: sectionText.heading,
-                content: sectionText.content,
-                headingSize: sectionText.headingSize,
-                contentSize: sectionText.contentSize,
-                position: sectionText.position
-            };
-        });
-        return res.status(200).json(sections);
-    } catch (error) {
-        throw CustomError.internalServer('Error while fetching Section Texts,\n' + error);
-    }
+	try {
+		const sectionTexts = await SectionText.find();
+		const sections = sectionTexts.map(sectionText => {
+			return {
+				id: sectionText.id,
+				heading: sectionText.heading,
+				content: sectionText.content,
+				headingSize: sectionText.headingSize,
+				contentSize: sectionText.contentSize,
+				position: sectionText.position
+			};
+		});
+		return res.status(200).json(sections);
+	} catch (error) {
+		throw CustomError.internalServer('Error while fetching Section Texts,\n' + error);
+	}
 };
 
 export const createSectionText = async (
@@ -60,20 +60,20 @@ export const createSectionText = async (
 
 		await portfolio.save();
 
-        return res.status(201).json({
-            message: 'Section text created successfully !',
-            section: {
-                id: newSectionText.id,
-                heading: newSectionText.heading,
-                content: newSectionText.content,
-                headingSize: newSectionText.headingSize,
-                contentSize: newSectionText.contentSize,
-                position: newSectionText.position,
-            }
-        });
-    } catch (error) {
-        throw CustomError.internalServer('Error while creating Section Text,\n' + error);
-    }
+		return res.status(201).json({
+			message: 'Section text created successfully !',
+			section: {
+				id: newSectionText.id,
+				heading: newSectionText.heading,
+				content: newSectionText.content,
+				headingSize: newSectionText.headingSize,
+				contentSize: newSectionText.contentSize,
+				position: newSectionText.position,
+			}
+		});
+	} catch (error) {
+		throw CustomError.internalServer('Error while creating Section Text,\n' + error);
+	}
 };
 
 export const updateSectionText = async (req: Request, res: Response) => {
@@ -92,30 +92,30 @@ export const updateSectionText = async (req: Request, res: Response) => {
 	try {
 		const payload = req.body;
 
-        //? Note: if you pass undefined to a field, it will not be updated.
-        sectionText.heading = payload.heading !== undefined ? payload.heading : sectionText.heading;
-        sectionText.content = payload.content !== undefined ? payload.content : sectionText.content;
-        sectionText.headingSize = payload.headingSize !== undefined ? payload.headingSize : sectionText.headingSize;
-        sectionText.contentSize = payload.contentSize !== undefined ? payload.contentSize : sectionText.contentSize;
-        sectionText.position = payload.position !== undefined ? payload.position : sectionText.position;
+		//? Note: if you pass undefined to a field, it will not be updated.
+		sectionText.heading = payload.heading !== undefined ? payload.heading : sectionText.heading;
+		sectionText.content = payload.content !== undefined ? payload.content : sectionText.content;
+		sectionText.headingSize = payload.headingSize !== undefined ? payload.headingSize : sectionText.headingSize;
+		sectionText.contentSize = payload.contentSize !== undefined ? payload.contentSize : sectionText.contentSize;
+		sectionText.position = payload.position !== undefined ? payload.position : sectionText.position;
 
 		await sectionText.save();
 
-        return res.status(200).json({
-            message: 'Section text updated successfully !',
-            section: {
-                id: sectionText.id,
-                heading: sectionText.heading,
-                content: sectionText.content,
-                headingSize: sectionText.headingSize,
-                contentSize: sectionText.contentSize,
-                position: sectionText.position,
-            }
-        });
+		return res.status(200).json({
+			message: 'Section text updated successfully !',
+			section: {
+				id: sectionText.id,
+				heading: sectionText.heading,
+				content: sectionText.content,
+				headingSize: sectionText.headingSize,
+				contentSize: sectionText.contentSize,
+				position: sectionText.position,
+			}
+		});
 
-    } catch (error) {
-        throw CustomError.internalServer('Error while updating Section Text,\n' + error);
-    }
+	} catch (error) {
+		throw CustomError.internalServer('Error while updating Section Text,\n' + error);
+	}
 };
 
 export const deleteSectionText = async (req: Request, res: Response) => {
@@ -142,12 +142,14 @@ export const deleteSectionText = async (req: Request, res: Response) => {
 		const sectionIndex = portfolio.sections.findIndex(
 			(section) => section.item.toString() === sectionId,
 		);
+
 		if (sectionIndex === -1) {
 			return res.status(404).json({ error: "Section not found in portfolio !" });
 		}
 
 		// Remove the section from the portfolio's sections array
 		portfolio.sections.splice(sectionIndex, 1);
+
 		await portfolio.save();
 
 		return res.status(200).json({ message: "Section Text deleted successfully 👍" });

@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { Types } from "mongoose";
-import { CustomError } from "../helpers";
-import * as Models from "../models";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
+import { CustomError } from '../helpers';
+import * as Models from '../models';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -147,8 +147,6 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 export const deletePortfolio = async (req: Request, res: Response) => {
 	const id = req.params.id;
 
-	
-
 	if (!Types.ObjectId.isValid(id)) {
 		return res.status(400).json({
 			error: `Invalid ID: ${id} !`,
@@ -161,9 +159,8 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 		return res.status(404).json({ error: "Portfolio not found !" });
 	}
 
-
 	try {
-		const deleted = await Models.Portfolio.findOneAndDelete({_id: id});
+		await Models.Portfolio.findOneAndDelete({ _id: id });
 
 		// do the same as logic in .post method....
 		

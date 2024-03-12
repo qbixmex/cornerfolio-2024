@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { deletePortfolio } from "@/api/deletePortfolioById.fetch";
-import Swal from "sweetalert2";
+import { deletePortfolio } from '@/api/deletePortfolioById.fetch';
+import Swal from 'sweetalert2';
 
 function DeletePortfolioButton({ id }: { id: string }) {
 	

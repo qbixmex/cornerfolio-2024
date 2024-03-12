@@ -139,12 +139,13 @@ PortfolioSchema.post("findOneAndDelete", async (doc) => {
 					throw new Error("Invalid Section Kind");
 			}
 		} catch (error) {
-			if (error instanceof Error) {
-				throw new Error("Something wrong happened while deleting portfolio", error);
+			if (error instanceof mongoose.Error) {
+				throw new Error(error.message);
 			}
+
 			console.log(error);
 
-			throw new Error("Unexpected Error, check logs");
+			throw new Error("Unexpected Error, check logs !");
 		}
 	});
 });
