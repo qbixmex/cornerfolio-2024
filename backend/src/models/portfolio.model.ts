@@ -38,7 +38,7 @@ export type PortfolioType = {
 	};
 	status: string;
 	footer: {
-		links: string[];
+		links: string;
 		text: string;
 	};
 	template: Types.ObjectId;
@@ -75,7 +75,7 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 		},
 		footer: {
 			links: {
-				type: [String],
+				type: String,
 			},
 			text: {
 				type: String,
