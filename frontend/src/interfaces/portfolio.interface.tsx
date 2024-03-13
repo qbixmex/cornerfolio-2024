@@ -16,7 +16,7 @@ export interface IPortfolio{
         | SectionImageText[]
         | SectionDivider[];
     footer: {
-        links: string[];
+        links: string;
         text: string;
     },
     template: string;

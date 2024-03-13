@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { getPortfolio } from '@/portfolios/actions/portfolio.action';
-import { TemplateHeader, TemplateFooter } from '@/portfolios/components';
+import { TemplateHeader, TemplateFooter} from '@/portfolios/components';
 import SectionsList from '@/components/sections/sectionsList';
 import ChooseSection from '@/components/sections/chooseSection';
 import { useAppSelector } from '@/store';
@@ -22,7 +22,7 @@ const PORTFOLIO_DATA: IPortfolio = {
   status: '',
   sections: [],
   footer: {
-    links: [],
+    links:'',
     text: ''
   },
   template: ''
@@ -37,8 +37,8 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
-        setPortfolio(fetchData);
-        setLoading(false);
+        setPortfolio(fetchData)
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }
@@ -46,18 +46,17 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     if (id) {
       fetchPortfolio();
     }
-  }, [ id, reloading ]);
+  }, [id,reloading]);
 
 
   return (
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
-      {!loading && (
+      {!loading &&(
         <>
-          <TemplateHeader header={portfolio.header} />
+          <TemplateHeader portfolio={portfolio} />
           <ChooseSection portfolioId={id} order={0} />
 
           <hr />
-          
           {portfolio && portfolio.sections.length === 0 && (
             <section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
               <section className="bg-orange-500 rounded text-white w-fit p-5">
@@ -68,9 +67,9 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
 
           {portfolio && portfolio.sections.length > 0 && (
             <SectionsList sections={portfolio.sections} portfolioId={id} />
-          )}
+          )} 
 
-          <TemplateFooter footer={portfolio.footer} />
+          <TemplateFooter portfolio={portfolio} />
         </>
       )}
     </main>

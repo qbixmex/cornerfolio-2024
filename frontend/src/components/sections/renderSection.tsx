@@ -55,7 +55,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							}
 							`
 						}>
-						<div key={section.item.id} className="w-3/4 border-transparent border-2 hover:border-gray-300">
+						<div key={section.item.id} className="w-3/4 ">
 							<InputSectionTextHeading section={section as SectionText}/>
 							<InputSectionTextContent section={section as SectionText} />
 						</div>
@@ -112,7 +112,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							</div>
 						</div>
 
-						<div className="w-1/2 border-transparent border-2 hover:border-gray-300" key={`text-${section.item.id}`}>
+						<div className="w-1/2 " key={`text-${section.item.id}`}>
 							<InputSectionImageTextHeading section={section as SectionImageText} />
 							<InputSectionImageTextContent section={section as SectionImageText}/>
 						</div>

@@ -68,7 +68,7 @@ export const createPortfolio = async (req: Request, res: Response) => {
 		};
 
 		const footer = {
-			links: [`${loginUser.email}`],
+			links: `${loginUser.email}`,
 			text: `© 2024 ${loginUser.name}. All rights reserved.`,
 		};
 
@@ -122,8 +122,9 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 		}
 
 		//? Note: if you pass undefined to a field, it will not be updated.
-		portfolio.header = payload.header ?? undefined;
-		portfolio.footer = payload.footer ?? undefined;
+		portfolio.header = payload.header !== undefined ? payload.header : portfolio.header;
+		portfolio.footer = payload.footer !== undefined ? payload.footer : portfolio.footer;
+		
 
 		await portfolio.save();
 
