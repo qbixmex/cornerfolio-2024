@@ -1,4 +1,4 @@
-import { createNewPortfolio } from "@/app/admin/portfolio-management/actions/portfolioActions";
+import { createNewPortfolio } from '@/app/admin/portfolio-management/actions/portfolioActions';
 
 type PortfolioHeader = {
 	title: string;
@@ -27,7 +27,7 @@ type Props = {
 export default function CreatePortfolioSection({ portfolioCount }: Props) {
 	return (
 		<>
-			<h2 className="mt-24 text-5xl text-slate-700 font-semibold  tracking-tight">
+			<h2 className="mt-24 text-2xl lg:text-5xl text-slate-700 font-semibold  tracking-tight">
 				Manage Your Portfolios
 			</h2>
 			<div className="bg-gray-200 mt-10 rounded-md p-10 gap-7">
