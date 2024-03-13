@@ -1,7 +1,10 @@
 'use client';
 
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState, useEffect } from 'react';
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
+import { setReloading } from '@/store/slices/reload.slice';
+import { useAppDispatch } from '@/store';
+import { useAppSelector } from '@/store';
 
 type Props = {
 	portfolioId: string;
@@ -9,8 +12,14 @@ type Props = {
 };
 
 const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
+	const dispatch=useAppDispatch()
+	const reloading = useAppSelector(state => state.reloading.reloading); 
 	const [isOpen, setIsOpen] = useState(false);
 	const [code, setCode] = useState('');
+
+	useEffect(()=>{
+		setIsOpen(false)
+	},[reloading])
 
 	const openModal = () => {
 		setIsOpen(true);
@@ -33,7 +42,15 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 			return;
 		}
 
-		createSectionEmbeddedMedia(portfolioId, order, code)
+		try {
+			dispatch(setReloading(true)); // reloading true
+			await createSectionEmbeddedMedia(portfolioId, order, code)
+		} catch (error) {
+			console.error('Error creating embedded-media:', error);
+		} finally {
+			dispatch(setReloading(false)); // reloading false
+		}
+
 	};
 
 	return (
@@ -62,7 +79,7 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 						{/* Modal content */}
 						<section>
 							<h2 className='text-xl'>Add Link</h2>
-							<textarea onChange={handleCodeChange} className="border w-full h-[150px] text-sm">{code}</textarea>
+							<textarea onChange={handleCodeChange} value={code} className="border w-full h-[150px] text-sm"></textarea>
 							<button
 								className="m-4 bg-gray-200 hover:bg-gray-300"
 								onClick={handleCreateEmbeddedMedia}>

@@ -1,14 +1,25 @@
 import { updateSectionImage } from '@/sections/actions/section.update.action';
 import { SectionImage } from '@/interfaces';
+import { setReloading } from '@/store/slices/reload.slice';
+import { useAppDispatch } from '@/store';
 
 type Props = {
   section: SectionImage;
 };
 
 const ChangePositionSectionImage: React.FC<Props> = ({ section }) => {
+  const dispatch = useAppDispatch();
   const handleUpdate = async (newPosition: 'left' | 'center' | 'right') => {
     const formData = { position: newPosition };
-    await updateSectionImage(section.item.id, formData);
+    
+    try {
+			dispatch(setReloading(true)); // reloading true
+			await updateSectionImage(section.item.id, formData);
+		} catch (error) {
+			console.error('Error updating image:', error);
+		} finally {
+			  dispatch(setReloading(false)); // reloading false
+		}
   };
 
   return (

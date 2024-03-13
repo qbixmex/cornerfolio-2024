@@ -1,12 +1,13 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState ,useEffect} from 'react';
 import { MdAdd } from 'react-icons/md';
 import CreateDivider from './createDivider';
 import CreateText from './createText';
 import CreateImage from './createImage';
 import CreateImageText from './createImageText';
 import CreateEmbeddedMedia from './createEmbeddedMedia';
+import { useAppSelector } from '@/store';
 
 type Props = {
 	portfolioId: string;
@@ -14,7 +15,12 @@ type Props = {
 };
 
 const ChooseSection: FC<Props> = ({ portfolioId, order }) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const reloading = useAppSelector(state => state.reloading.reloading); 
+	const [ isOpen, setIsOpen ] = useState(false);
+
+	useEffect(()=>{
+		setIsOpen(false)
+	}, [ reloading ])
 
 	const openModal = () => {
 		setIsOpen(true);

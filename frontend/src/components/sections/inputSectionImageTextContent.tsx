@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SectionImageText } from '@/interfaces';
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import styles from '@/users/components/profile.module.css';
+import { setReloading } from '@/store/slices/reload.slice';
+import { useAppDispatch } from '@/store';
 
 type Props = {
 	section: SectionImageText;
@@ -16,19 +18,28 @@ const formSchema = yup.object().shape({
 });
 
 const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
+	const dispatch=useAppDispatch()
 	const formik = useFormik<{ txtContent: string }>({
 		initialValues: {
 			txtContent: section.item.txtContent
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
-			const data = await updateSectionImageText(section.item.id, formData);
-			if (data.error) {
-				setToast({ message: data.error, type: 'error' });
-			} else {
-				setToast({ message: data.message, type: 'success' });
+			try {
+				dispatch(setReloading(true)); // reloading true
+				
+				const data = await updateSectionImageText(section.item.id, formData);
+				if (data.error) {
+					setToast({ message: data.error, type: 'error' });
+				} else {
+					setToast({ message: data.message, type: 'success' });
+				}
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
+			} catch (error) {
+				console.error('Error updating image-text:', error);
+			} finally {
+				dispatch(setReloading(false)); // reloading false
 			}
-			setTimeout(() => setToast({ message: '', type: '' }), 4000);
 		},
 	});
 
