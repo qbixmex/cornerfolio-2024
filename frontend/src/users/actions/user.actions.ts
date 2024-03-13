@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
-import { User } from '../interfaces/users';
+import { User, UserUpdate } from '../interfaces/users';
 import { redirect } from 'next/navigation';
 
 export const getUser = async (id: string) => {
@@ -23,8 +23,7 @@ export const createUser = async (formData: User) => {
 	return response.json();
 };
 
-export const updateUser = async (id: string, formData: User) => {
-
+export const updateUser = async (id: string, formData: UserUpdate) => {
 	const payload = {
 		name: formData.name,
 		email: formData.email,
@@ -49,6 +48,7 @@ export const updateUser = async (id: string, formData: User) => {
 	revalidatePath(`/admin/users/profile/${id}`);
 
 	return response.json();
+
 };
 
 export const updatePassword = async (id: string, password: string) => {

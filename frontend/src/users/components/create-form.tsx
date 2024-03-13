@@ -260,7 +260,8 @@ const CreateUserForm = () => {
                 />
                 <label
                   htmlFor="active"
-                  className="font-medium text-gray-900">Active</label>
+                  className="font-medium text-gray-900"
+                >Active</label>
               </div>
             </section>
             {/* Schedule */}
