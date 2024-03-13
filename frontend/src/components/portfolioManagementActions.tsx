@@ -34,7 +34,7 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 	return (
 		<>
 			{portfolios.length === 0 ? (
-				<div className="max-w-lg mx-auto mt-50vh" style={{ marginTop: "10vh" }}>
+				<div className="max-w-lg mx-auto mt-50vh mt-[10vh]">
 					<div className="flex bg-blue-100 rounded-lg p-4 mb-4 text-sm text-blue-700" role="alert">
 						<svg
 							className="w-5 h-5 inline mr-3"

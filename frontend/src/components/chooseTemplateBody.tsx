@@ -1,5 +1,5 @@
-import { createNewPortfolioAndEdit } from "@/app/admin/portfolio-management/actions/portfolioActions";
-import Image from "next/image";
+import { createNewPortfolioAndEdit } from '@/app/admin/portfolio-management/actions/portfolioActions';
+import Image from 'next/image';
 
 export default function ChooseTemplateBody() {
 	return (

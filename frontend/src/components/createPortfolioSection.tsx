@@ -1,4 +1,4 @@
-import { createNewPortfolio } from "@/app/admin/portfolio-management/actions/portfolioActions";
+import { createNewPortfolio } from '@/app/admin/portfolio-management/actions/portfolioActions';
 
 type PortfolioHeader = {
 	title: string;
