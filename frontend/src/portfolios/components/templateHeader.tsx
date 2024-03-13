@@ -1,42 +1,116 @@
 'use client';
 
-import { ChangeEvent, FC, useState } from 'react';
+import { useState } from 'react';
+import { IPortfolio } from '@/interfaces';
+import { useFormik } from 'formik';
+import * as yup from 'yup'
+import { updatePortfolioHeader } from '@/api/updatePortfolioHeader';
+import { useAppDispatch } from '@/store';
+import { setReloading } from '@/store/slices/reload.slice';
+import styles from '@/users/components/profile.module.css';
 
 type Props = {
-    header: {
-        title: string;
-        subHeading: string;
-    };
+  portfolio: IPortfolio
 };
 
-export const TemplateHeader: FC<Props> = ({ header }) => {
-    const [title, setTitle] = useState(header.title);
-    const [subtitle, setSubtitle] = useState(header.subHeading);
+const formSchema = yup.object().shape({
+  title: yup.string()
+    .min(1, 'Title must be at least 1 character')
+    .required('Title is required !'),
+  subHeading: yup.string()
+    .min(1, 'SubHeading must be at least 1 character')
+    .required('SubHeading is required !'),
+});
 
-    const handleTitlechange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
-    };
+type Header = {
+  title: string,
+  subHeading: string,
+}
 
-    const handleSubtitlechange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSubtitle(e.target.value);
-    };
+export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
+  const dispatch = useAppDispatch()
 
-    return (
-        <div className="py-[30px] px-[80px] border-b-gray-300 border-2">
-            <div className="gap-10 border-transparent border-2 w-full h-[150px] mt-[20px] p-[20px] hover:border-gray-300">
-                <input
-                    value={title}
-                    onChange={handleTitlechange}
-                    className="w-full outline-none text-5xl"
-                    type="text"
-                />
-                <input
-                    value={subtitle}
-                    onChange={handleSubtitlechange}
-                    className="w-full outline-none"
-                    type="text"
-                />
-            </div>
+  const formik = useFormik<Header>({
+    initialValues: {
+      title: portfolio.header.title,
+      subHeading: portfolio.header.subHeading
+    },
+    validationSchema: formSchema,
+    onSubmit: async (formData) => {
+      try {
+        dispatch(setReloading(true)); // reloading true
+
+        const data = await updatePortfolioHeader(portfolio.id, formData);
+        console.log(formData)
+        if (data.error) {
+          setToast({ message: data.error, type: 'error' });
+        } else {
+          setToast({ message: data.message, type: 'success' });
+        }
+        setTimeout(() => setToast({ message: '', type: '' }), 4000);
+      } catch (error) {
+        console.error('Error updating header:', error);
+      } finally {
+        dispatch(setReloading(false)); // reloading false
+      }
+    },
+  });
+
+  const [toast, setToast] = useState({
+    message: '',
+    type: ''
+  });
+
+  return (
+    <>
+      {toast.message && (
+        <div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
+          {toast.message}
         </div>
-    );
+      )}
+
+      <div className="py-[30px] px-[80px] border-b-gray-300 border-2">
+        <form className="gap-10 border-transparent border-2 w-full h-[150px] mt-[20px] p-[20px] hover:border-gray-300" onSubmit={formik.handleSubmit}>
+          <div className="w-full outline-none text-5xl">
+            <input
+              id="title"
+              name="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full outline-none text-5xl ${formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'} `}
+              type="text"
+            />
+            {formik.errors.title && formik.touched.title && (
+              <p className="text-red-500 text-xs">
+                {formik.errors.title}
+              </p>
+            )}
+          </div>
+          <div className="w-full outline-none ">
+            <input
+              id="subHeading"
+              name="subHeading"
+              value={formik.values.subHeading}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full outline-none ${formik.touched.subHeading && formik.errors.subHeading ? 'border-2 border-red-500' : 'border-0'} `}
+              type="text"
+            />
+            {formik.errors.subHeading && formik.touched.subHeading && (
+              <p className="text-red-500 text-xs">
+                {formik.errors.subHeading}
+              </p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className={`${formik.errors.title || formik.errors.subHeading ? 'hidden' : ''} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
+          >
+            save
+          </button>
+        </form>
+      </div>
+    </>
+  );
 };
