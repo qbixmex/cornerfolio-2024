@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { bcryptAdapter } from '../config';
-import { CustomError } from '../helpers';
+import { CustomError, uploadImage } from '../helpers';
 import { Types } from 'mongoose';
 
 type UsersQuery = {
@@ -105,8 +105,21 @@ export const profile = async (
 
 };
 
+type RequestCreateBody = {
+  name: string;
+  email: string;
+  password: string;
+  type: string;
+  jobTitle: string;
+  startDate: string;
+  endDate: string;
+  active: boolean;
+  course: string;
+  schedule: string;
+};
+
 export const create = async (
-  request: Request,
+  request: Request<never, never, RequestCreateBody>,
   response: Response
 ) => {
   const payload = request.body;
@@ -138,6 +151,9 @@ export const create = async (
   try {
     //* Save the new user to the database
     const savedUser = await newUser.save();
+
+    // TODO: UPLOAD IMAGE TO CLOUDINARY
+    await uploadImage('something');
 
     return response.status(200).json({
       message: 'User created successfully 👍',

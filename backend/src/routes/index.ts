@@ -7,3 +7,4 @@ export { default as sectionEmbeddedMediaRoutes } from './section-embedded-media.
 export { default as sectionDividerRoutes } from './section-divider.routes';
 export { default as seedRoutes } from './seed.routes';
 export { default as portfolioRoutes } from './portfolio.routes';
+export { default as fileRoutes } from './files.routes';
