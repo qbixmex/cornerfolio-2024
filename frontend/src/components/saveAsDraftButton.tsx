@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
 type Props = {
 	status: string;
 };
 
-function DraftButton({status}: Props) {
+function DraftButton({ status }: Props) {
 	const saveAsDraft = (formData: FormData) => {
-		console.log('Save as Draft button clicked:');
+		console.log("Save as Draft button clicked:");
 		console.log({ status });
 	};
 
