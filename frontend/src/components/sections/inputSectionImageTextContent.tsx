@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SectionImageText } from '@/interfaces';
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import styles from '@/users/components/profile.module.css';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -38,7 +38,7 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 			} catch (error) {
 				console.error('Error updating image-text:', error);
 			} finally {
-				  dispatch(setReloading(false)); // reloading false
+				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});

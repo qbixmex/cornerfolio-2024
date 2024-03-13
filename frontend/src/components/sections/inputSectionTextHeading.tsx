@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import styles from '@/users/components/profile.module.css';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -27,8 +27,9 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
-				
+
 				const data = await updateSectionText(section.item.id, formData);
+
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
@@ -38,7 +39,7 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 			} catch (error) {
 				console.error('Error updating text:', error);
 			} finally {
-				  dispatch(setReloading(false)); // reloading false
+				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});

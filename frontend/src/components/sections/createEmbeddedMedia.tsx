@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FC, useState, useEffect } from 'react';
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 import { useAppSelector } from '@/store';
 
@@ -43,14 +43,14 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 		}
 
 		try {
-            dispatch(setReloading(true)); // reloading true
-            await createSectionEmbeddedMedia(portfolioId, order, code)
-        } catch (error) {
-            console.error('Error creating embedded-media:', error);
-        } finally {
-            dispatch(setReloading(false)); // reloading false
-        }
-		
+			dispatch(setReloading(true)); // reloading true
+			await createSectionEmbeddedMedia(portfolioId, order, code)
+		} catch (error) {
+			console.error('Error creating embedded-media:', error);
+		} finally {
+			dispatch(setReloading(false)); // reloading false
+		}
+
 	};
 
 	return (

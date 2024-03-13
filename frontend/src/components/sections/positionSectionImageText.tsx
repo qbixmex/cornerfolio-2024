@@ -1,6 +1,6 @@
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
 import { SectionImageText } from '@/interfaces';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {

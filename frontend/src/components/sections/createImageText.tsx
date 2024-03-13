@@ -1,6 +1,5 @@
-import { FC } from 'react';
 import { createSectionImageText } from '@/sections/actions/section.action';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -8,17 +7,17 @@ type Props = {
 	order: number;
 };
 
-const CreateImageText: FC<Props> = ({ portfolioId, order }) => {
-	const dispatch=useAppDispatch()
+const CreateImageText: React.FC<Props> = ({ portfolioId, order }) => {
+	const dispatch = useAppDispatch()
 	const handleCreateImageText = async () => {
 		try {
-        	dispatch(setReloading(true)); // reloading true
-            await createSectionImageText(portfolioId, order)
-        } catch (error) {
-            console.error('Error creating image-text:', error);
-        } finally {
-            dispatch(setReloading(false)); // reloading false
-        }
+			dispatch(setReloading(true)); // reloading true
+			await createSectionImageText(portfolioId, order)
+		} catch (error) {
+			console.error('Error creating image-text:', error);
+		} finally {
+			dispatch(setReloading(false)); // reloading false
+		}
 	};
 
 	return (

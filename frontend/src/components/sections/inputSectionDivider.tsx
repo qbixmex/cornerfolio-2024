@@ -4,7 +4,7 @@ import { updateSectionDivider } from '@/sections/actions/section.update.action';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import styles from '@/users/components/profile.module.css';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -18,14 +18,7 @@ const formSchema = yup.object().shape({
 });
 
 const InputSectionDivider: React.FC<Props> = ({ section }) => {
-	const dispatch=useAppDispatch()
-	// const [title, setTitle] = useState(section.item.title);
-	// const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
-
-	// const updateAIRequestSection= async () => {
-	//     const updateData ={title: title}
-	//     await updateSectionDivider(section.item.id, updateData)
-	// };
+	const dispatch=useAppDispatch();
 
 	const formik = useFormik<{ title: string }>({
 		initialValues: {
@@ -55,32 +48,6 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 		message: '',
 		type: ''
 	});
-
-	// If we want to save data automatically, this below is available.↓
-
-	// useEffect(() => {
-	//     //If you change input before API reqeust, setTime will be reset. 
-	//     if (typingTimeout) {
-	//         clearTimeout(typingTimeout);
-	//     }
-
-	//     const newTimeout = setTimeout(() => {
-	//         console.log('API Request:', formik.values.title);
-	//         // updateAIRequestSection()
-	//     }, 1000); // if user doesn't change data for 1 second, API request
-	//     setTypingTimeout(newTimeout);
-
-	//     // clean Time
-	//     return () => {
-	//         if (typingTimeout) {
-	//             clearTimeout(typingTimeout);
-	//         }
-	//     };
-	// }, [formik.values.title]); //every time changing input, this will be called.
-
-	// // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// //     setTitle(e.target.value);
-	// // };
 
 	return (
 		<div>

@@ -1,13 +1,12 @@
-import { FC } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionEmbeddedMedia } from '@/sections/actions/section.action';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
   sectionId: string;
 };
-const DeleteEmbeddedMedia: FC<Props> = ({ sectionId }) => {
+const DeleteEmbeddedMedia: React.FC<Props> = ({ sectionId }) => {
   const dispatch=useAppDispatch()
   const handleDeleteEmbeddedMedia = async () => {
     try {

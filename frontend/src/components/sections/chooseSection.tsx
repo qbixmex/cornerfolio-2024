@@ -16,11 +16,11 @@ type Props = {
 
 const ChooseSection: FC<Props> = ({ portfolioId, order }) => {
 	const reloading = useAppSelector(state => state.reloading.reloading); 
-	const [isOpen, setIsOpen] = useState(false);
+	const [ isOpen, setIsOpen ] = useState(false);
 
 	useEffect(()=>{
 		setIsOpen(false)
-	},[reloading])
+	}, [ reloading ])
 
 	const openModal = () => {
 		setIsOpen(true);

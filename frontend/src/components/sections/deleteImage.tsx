@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionImage } from '@/sections/actions/section.action';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
 	sectionId: string;
 };
 
-const DeleteImage: FC<Props> = ({ sectionId }) => {
+const DeleteImage: React.FC<Props> = ({ sectionId }) => {
 	const dispatch=useAppDispatch()
 	const handleDeleteImage = async () => {
 		try {

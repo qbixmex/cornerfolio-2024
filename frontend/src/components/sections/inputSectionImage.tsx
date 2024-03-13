@@ -4,7 +4,7 @@ import { updateSectionImage } from '@/sections/actions/section.update.action';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import styles from '@/users/components/profile.module.css';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {

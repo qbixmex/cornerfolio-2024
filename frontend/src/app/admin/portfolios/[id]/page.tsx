@@ -6,24 +6,39 @@ import { TemplateHeader, TemplateFooter } from '@/portfolios/components';
 import SectionsList from '@/components/sections/sectionsList';
 import ChooseSection from '@/components/sections/chooseSection';
 import { useAppSelector } from '@/store';
+import { IPortfolio } from '@/interfaces';
 
 type Props = {
   params: { id: string };
   searchParams: {};
 };
 
+const PORTFOLIO_DATA: IPortfolio = {
+  id: '',
+  header: {
+    title: '',
+    subHeading: ''
+  },
+  status: '',
+  sections: [],
+  footer: {
+    links: [],
+    text: ''
+  },
+  template: ''
+};
+
 const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
-  const [loading, setLoading] = useState(true);
-  const [portfolio, setPortfolio] = useState<any>({});
+  const [ loading, setLoading ] = useState(true);
+  const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
-        setPortfolio(fetchData)
-        setLoading(false)
-        console.log(reloading)
+        setPortfolio(fetchData);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }
@@ -31,7 +46,7 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     if (id) {
       fetchPortfolio();
     }
-  }, [id,reloading]);
+  }, [ id, reloading ]);
 
 
   return (

@@ -2,7 +2,7 @@
 
 import { updateSectionText } from '@/sections/actions/section.update.action';
 import { SectionText } from '@/interfaces';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -20,7 +20,7 @@ const ChangePositionSectionText: React.FC<Props> = ({ section }) => {
 		} catch (error) {
 			console.error('Error updating text:', error);
 		} finally {
-			  dispatch(setReloading(false)); // reloading false
+      dispatch(setReloading(false)); // reloading false
 		}
   };
 

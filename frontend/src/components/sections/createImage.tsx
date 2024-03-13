@@ -1,5 +1,5 @@
-import { createSectionImage } from "@/sections/actions/section.action";
-import { setReloading } from "@/store/slices/reload.slice";
+import { createSectionImage } from '@/sections/actions/section.action';
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -7,16 +7,16 @@ type Props = {
 	order: number;
 };
 const CreateImage: React.FC<Props> = ({ portfolioId, order }) => {
-	const dispatch=useAppDispatch()
+	const dispatch = useAppDispatch()
 	const handleCreateImage = async () => {
 		try {
-            dispatch(setReloading(true)); // reloading true
-            await createSectionImage(portfolioId, order)
-        } catch (error) {
-            console.error('Error creating image:', error);
-        } finally {
-            dispatch(setReloading(false)); // reloading false
-        }
+			dispatch(setReloading(true)); // reloading true
+			await createSectionImage(portfolioId, order)
+		} catch (error) {
+			console.error('Error creating image:', error);
+		} finally {
+			dispatch(setReloading(false)); // reloading false
+		}
 	};
 
 	return (

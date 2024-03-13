@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionText } from '@/sections/actions/section.action';
-import { setReloading } from "@/store/slices/reload.slice";
+import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
 	sectionId: string;
 };
 
-const DeleteText: FC<Props> = ({ sectionId }) => {
+const DeleteText: React.FC<Props> = ({ sectionId }) => {
 	const dispatch=useAppDispatch()
 	const handleDeleteText = async () => {
 		deleteSectionText(sectionId)
@@ -18,7 +17,7 @@ const DeleteText: FC<Props> = ({ sectionId }) => {
 		} catch (error) {
 			console.error('Error deleting text:', error);
 		} finally {
-			  dispatch(setReloading(false)); // reloading false
+			dispatch(setReloading(false)); // reloading false
 		}
 	};
 
