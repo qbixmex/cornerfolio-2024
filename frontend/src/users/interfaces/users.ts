@@ -10,6 +10,23 @@ export interface User {
   endDate: string;
 }
 
+export interface UserUpdate {
+  name?: string;
+  email?: string;
+  type?: string;
+  jobTitle?: string;
+  active?: boolean;
+  course?: string;
+  schedule?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface UserPassword {
+  password: string;
+  passwordConfirmation: string;
+}
+
 export interface UserResponse extends User {
 	id: string;
 	createdAt: string;
