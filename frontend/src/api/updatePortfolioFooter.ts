@@ -1,6 +1,6 @@
 type PortfolioFooter = {
 	links:string;
-    text: string;
+	text: string;
 };
 
 export const updatePortfolioFooter = async (portfolioId: string, updateData: PortfolioFooter) => {
@@ -9,7 +9,7 @@ export const updatePortfolioFooter = async (portfolioId: string, updateData: Por
 		headers: {
 			'content-type': 'application/json',
 		},
-		body: JSON.stringify({footer:updateData})
+		body: JSON.stringify({ footer: updateData })
 	});
 
 	return response.json();

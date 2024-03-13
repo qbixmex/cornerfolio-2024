@@ -1,6 +1,6 @@
 type PortfolioHeader = {
 	title: string;
-    subHeading: string;
+	subHeading: string;
 };
 
 export const updatePortfolioHeader = async (portfolioId: string, updateData: PortfolioHeader) => {
@@ -9,7 +9,7 @@ export const updatePortfolioHeader = async (portfolioId: string, updateData: Por
 		headers: {
 			'content-type': 'application/json',
 		},
-		body: JSON.stringify({header:updateData})
+		body: JSON.stringify({ header: updateData })
 	});
 
 	return response.json();

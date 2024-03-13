@@ -22,7 +22,7 @@ const PORTFOLIO_DATA: IPortfolio = {
   status: '',
   sections: [],
   footer: {
-    links:'',
+    links: '',
     text: ''
   },
   template: ''
@@ -46,7 +46,7 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     if (id) {
       fetchPortfolio();
     }
-  }, [id,reloading]);
+  }, [ id, reloading ]);
 
 
   return (

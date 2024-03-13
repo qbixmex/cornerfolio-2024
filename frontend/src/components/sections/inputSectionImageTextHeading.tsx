@@ -55,7 +55,10 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 					{toast.message}
 				</div>
 			)}
-			<form className="flex items-between m-4 border-transparent border-2 hover:border-gray-300" onSubmit={formik.handleSubmit}>
+			<form
+				className="flex items-between m-4 border-transparent border-2 hover:border-gray-300"
+				onSubmit={formik.handleSubmit}
+			>
 				<input
 					id="txtHeading"
 					name="txtHeading"

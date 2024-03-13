@@ -55,7 +55,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							}
 							`
 						}>
-						<div key={section.item.id} className="w-3/4 ">
+						<div key={section.item.id} className="w-3/4">
 							<InputSectionTextHeading section={section as SectionText}/>
 							<InputSectionTextContent section={section as SectionText} />
 						</div>
