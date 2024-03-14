@@ -1,25 +1,35 @@
 import express from 'express';
 import morgan from 'morgan';
-import { 
-    usersRoutes, 
-    authRoutes,
-    sectionTextRoutes,
-    sectionImageRoutes,
-    sectionImageTextRoutes,
-    sectionEmbeddedMediaRoutes,
-    sectionDividerRoutes,
-    seedRoutes,
-    portfolioRoutes,
+import {
+	usersRoutes,
+	authRoutes,
+	sectionTextRoutes,
+	sectionImageRoutes,
+	sectionImageTextRoutes,
+	sectionEmbeddedMediaRoutes,
+	sectionDividerRoutes,
+	seedRoutes,
+	portfolioRoutes,
 } from './routes';
 import cors from "cors";
+import fileUpload from 'express-fileupload';
 
 //* Start Express
 const app = express();
 
 //* Middlewares
-app.use( express.json() );
-app.use( express.urlencoded({ extended: true }) );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
+//* File Upload
+app.use(
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: '/tmp/',
+		createParentPath: true,
+	})
+);
 
 //*Cors
 app.use(cors({ origin: "*" }));
