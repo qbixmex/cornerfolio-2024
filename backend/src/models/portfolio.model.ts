@@ -76,6 +76,7 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 		footer: {
 			links: {
 				type: String,
+				default: 'sample@example.com'
 			},
 			text: {
 				type: String,
