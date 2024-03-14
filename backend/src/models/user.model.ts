@@ -4,7 +4,7 @@ export type UserType = {
   name: string;
   email: string;
   password: string;
-  imageURL?: string;
+  image?: string;
   type?: 'student' | 'client' | 'admin';
   jobTitle: string;
   startDate?: Date;
@@ -37,7 +37,7 @@ const UserSchema = new Schema<UserType, UserModel>({
     type: String,
     required: [ true, 'Password is required' ],
   },
-  imageURL: String,
+  image: String,
   type: {
     type: String,
     enum: [ 'student', 'client', 'admin' ],

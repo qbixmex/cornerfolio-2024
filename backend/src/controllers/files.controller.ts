@@ -1,33 +1,21 @@
-import path from 'path';
 import { Request, Response } from 'express';
-
-type Image = {
-  name: string;
-};
+import { loadImage } from '../helpers';
 
 export const upload = async (
   request: Request,
   response: Response
 ) => {
 
-  const image = request.files?.image;
+  try {
 
-  if (Array.isArray(image)) {
-    return response.status(400).json({
-      error: 'Multiple files are not supported !'
+    const imageName = await loadImage(request.files, 'users');
+
+    response.json({
+      message: 'Image uploaded successfully !',
+      image: imageName,
     });
+
+  } catch (error) {
+    response.status(400).json({ error });
   }
-
-  const uploadPath = path.join(__dirname, `../uploads/${image!.name}`);
-
-  image!.mv(uploadPath, (error) => {
-    if (error) {
-      return response.status(500).json({ error });
-    }
-
-    return response.status(200).json({
-      message: `File uploaded to: ${uploadPath}`
-    });
-  });
-
 };

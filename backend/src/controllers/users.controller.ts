@@ -1,8 +1,11 @@
+import path from 'path';
+import fs from 'fs';
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { bcryptAdapter } from '../config';
-import { CustomError, uploadImage } from '../helpers';
+import { CustomError, loadImage } from '../helpers';
 import { Types } from 'mongoose';
+import fileUpload from 'express-fileupload';
 
 type UsersQuery = {
   limit: number;
@@ -88,6 +91,7 @@ export const profile = async (
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,
+        image: foundUser.image ?? null,
         type: foundUser.type,
         jobTitle: foundUser.jobTitle,
         active: foundUser.active,
@@ -109,6 +113,7 @@ type RequestCreateBody = {
   name: string;
   email: string;
   password: string;
+  files?: fileUpload.FileArray | null | undefined;
   type: string;
   jobTitle: string;
   startDate: string;
@@ -153,7 +158,16 @@ export const create = async (
     const savedUser = await newUser.save();
 
     // TODO: UPLOAD IMAGE TO CLOUDINARY
-    await uploadImage('something');
+    if (request.files !== null && request.files !== undefined) {
+      //* First we need to upload the image to filesystem.
+      const imageName = await loadImage(request.files, 'users');
+
+      //* Set the image name to the user object.
+      savedUser.image = imageName;
+
+      //* Save the user with the new image name to the database.
+      savedUser.save();
+    }
 
     return response.status(200).json({
       message: 'User created successfully 👍',
@@ -161,6 +175,7 @@ export const create = async (
         id: savedUser._id,
         name: savedUser.name,
         email: savedUser.email,
+        image: savedUser.image,
         jobTitle: savedUser.jobTitle,
         course: savedUser.course,
         startDate: savedUser.startDate,
@@ -177,8 +192,21 @@ export const create = async (
 
 };
 
+type RequestUpdateBody = {
+  name?: string;
+  email?: string;
+  files?: fileUpload.FileArray | null | undefined;
+  type?: string;
+  jobTitle?: string;
+  startDate?: string;
+  endDate?: string;
+  active?: boolean;
+  course?: string;
+  schedule?: string;
+};
+
 export const update = async (
-  request: Request<{ id: string }>,
+  request: Request<{ id: string }, never, RequestUpdateBody>,
   response: Response
 ) => {
   const id = request.params.id;
@@ -213,12 +241,33 @@ export const update = async (
       schedule: payload.schedule,
     }, { new: true });
 
+    // TODO: UPLOAD IMAGE TO CLOUDINARY
+    if (updatedUser && request.files !== null && request.files !== undefined) {
+      //* First we need to remove the old image from the filesystem.
+      const imagePath = path.join(__dirname, `../uploads/users/${updatedUser.image}`);
+
+      //* If the image exists, we remove it.
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+
+      //* Then we need to upload the image to filesystem.
+      const imageName = await loadImage(request.files, 'users');
+
+      //* Then set the image name to the user object.
+      updatedUser.image = imageName;
+
+      //* Then save the user with the new image name to the database.
+      updatedUser.save();
+    }
+
     return response.status(200).json({
       message: `User has been updated successfully 👍`,
       user: {
         id: updatedUser?.id,
         name: updatedUser?.name,
         email: updatedUser?.email,
+        image: updatedUser?.image,
         jobTitle: updatedUser?.jobTitle,
         course: updatedUser?.course,
         schedule: updatedUser?.schedule,
@@ -281,12 +330,20 @@ export const remove = async (
   }
 
   try {
-    const userExists = await User.countDocuments({ _id: id });
+    const userFound = await User.findById(id );
 
-    if (!userExists) {
+    if (!userFound) {
       return response.status(404).json({
         error: `User not found with ID: ${id} !`,
       });
+    }
+
+    //* First we need to remove the old image from the filesystem.
+    const imagePath = path.join(__dirname, `../uploads/users/${userFound.image}`);
+
+    //* If the image exists, we remove it.
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
     }
 
     await User.findByIdAndDelete(id);
