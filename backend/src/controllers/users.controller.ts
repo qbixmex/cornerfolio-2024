@@ -1,11 +1,10 @@
-import path from 'path';
-import fs from 'fs';
 import { Request, Response } from 'express';
 import { User } from '../models';
 import { bcryptAdapter } from '../config';
-import { CustomError, loadImage } from '../helpers';
+import { CustomError} from '../helpers';
 import { Types } from 'mongoose';
 import fileUpload from 'express-fileupload';
+import { v2 as cloudinary } from 'cloudinary';
 
 type UsersQuery = {
   limit: number;
@@ -38,6 +37,7 @@ export const list = async (
       id: user.id,
       name: user.name,
       email: user.email,
+      imageUrl: user.imageURL ?? null,
       type: user.type,
       jobTitle: user.jobTitle,
       active: user.active,
@@ -62,8 +62,8 @@ export const list = async (
   } catch (error) {
     throw CustomError.internalServer('Error while fetching the users list,\n' + error);
   }
-
-};
+}
+;
 
 export const profile = async (
   request: Request<{ id: string }>,
@@ -91,7 +91,7 @@ export const profile = async (
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,
-        image: foundUser.image ?? null,
+        imageUrl: foundUser.imageURL ?? null,
         type: foundUser.type,
         jobTitle: foundUser.jobTitle,
         active: foundUser.active,
@@ -157,13 +157,19 @@ export const create = async (
     //* Save the new user to the database
     const savedUser = await newUser.save();
 
-    // TODO: UPLOAD IMAGE TO CLOUDINARY
+    //* Upload image to cloudinary.
     if (request.files !== null && request.files !== undefined) {
-      //* First we need to upload the image to filesystem.
-      const imageName = await loadImage(request.files, 'users');
+      //* Get the image path
+      const temporaryFilePath = (request.files.image as fileUpload.UploadedFile).tempFilePath;
 
-      //* Set the image name to the user object.
-      savedUser.image = imageName;
+      //* Upload the image to cloudinary.
+      const responseCloudinary = await cloudinary.uploader.upload(temporaryFilePath, {
+        folder: 'users',
+        overwrite: true,
+      });
+
+      //* Set the image name from cloudinary response.
+      savedUser.imageURL = responseCloudinary.secure_url;
 
       //* Save the user with the new image name to the database.
       savedUser.save();
@@ -175,7 +181,7 @@ export const create = async (
         id: savedUser._id,
         name: savedUser.name,
         email: savedUser.email,
-        image: savedUser.image,
+        image: savedUser.imageURL ?? null,
         jobTitle: savedUser.jobTitle,
         course: savedUser.course,
         startDate: savedUser.startDate,
@@ -241,21 +247,38 @@ export const update = async (
       schedule: payload.schedule,
     }, { new: true });
 
-    // TODO: UPLOAD IMAGE TO CLOUDINARY
+    //* UPLOAD IMAGE TO CLOUDINARY
     if (updatedUser && request.files !== null && request.files !== undefined) {
-      //* First we need to remove the old image from the filesystem.
-      const imagePath = path.join(__dirname, `../uploads/users/${updatedUser.image}`);
 
-      //* If the image exists, we remove it.
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+      const temporaryFilePath = (request.files.image as fileUpload.UploadedFile).tempFilePath;
+
+      //* First we need to remove the old image from the cloudinary.
+      if (updatedUser.imageURL) {
+        //* Example URL from cloudinary.
+        //? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
+
+        //* Split the URL by '/' to get in an array all url segments.
+        const imageURLArray = updatedUser.imageURL.split('/');
+
+        //* Then get the last segment of the array to get the image name.
+        //* NOTE: The last segment is the image id with the extension.
+        const imageName = imageURLArray[ imageURLArray.length - 1 ];
+
+        //* Split the image name by '.' to get the public image id.
+        const [ publicImageID ] = imageName.split('.');
+
+        //* Then we need to remove the old image from cloudinary.
+        await cloudinary.uploader.destroy(`users/${publicImageID}`);
       }
 
-      //* Then we need to upload the image to filesystem.
-      const imageName = await loadImage(request.files, 'users');
+      //* Then we need to upload the image to cloudinary.
+      const responseCloudinary = await cloudinary.uploader.upload(temporaryFilePath, {
+        folder: 'users',
+        overwrite: true,
+      });
 
-      //* Then set the image name to the user object.
-      updatedUser.image = imageName;
+      //* Then set the image name from cloudinary response.
+      updatedUser.imageURL = responseCloudinary.secure_url;
 
       //* Then save the user with the new image name to the database.
       updatedUser.save();
@@ -267,7 +290,7 @@ export const update = async (
         id: updatedUser?.id,
         name: updatedUser?.name,
         email: updatedUser?.email,
-        image: updatedUser?.image,
+        imageURL: updatedUser?.imageURL,
         jobTitle: updatedUser?.jobTitle,
         course: updatedUser?.course,
         schedule: updatedUser?.schedule,
@@ -338,12 +361,23 @@ export const remove = async (
       });
     }
 
-    //* First we need to remove the old image from the filesystem.
-    const imagePath = path.join(__dirname, `../uploads/users/${userFound.image}`);
+     //* First we need to remove the old image from the cloudinary.
+     if (userFound.imageURL) {
+      //* Example URL from cloudinary.
+      //? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
 
-    //* If the image exists, we remove it.
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
+      //* Split the URL by '/' to get in an array all url segments.
+      const imageURLArray = userFound.imageURL.split('/');
+
+      //* Then get the last segment of the array to get the image name.
+      //* NOTE: The last segment is the image id with the extension.
+      const imageName = imageURLArray[ imageURLArray.length - 1 ];
+
+      //* Split the image name by '.' to get the public image id.
+      const [ publicImageID ] = imageName.split('.');
+
+      //* Then we need to remove the old image from cloudinary.
+      await cloudinary.uploader.destroy(`users/${publicImageID}`);
     }
 
     await User.findByIdAndDelete(id);

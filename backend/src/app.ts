@@ -10,7 +10,6 @@ import {
 	sectionDividerRoutes,
 	seedRoutes,
 	portfolioRoutes,
-	fileRoutes,
 } from './routes';
 import cors from "cors";
 import fileUpload from 'express-fileupload';
@@ -45,6 +44,5 @@ app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
-app.use('/api/files', fileRoutes);
 
 export default app;
