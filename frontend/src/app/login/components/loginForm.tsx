@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import { fetchLogin } from "@/api/login.fetch";
-import clsx from "clsx";
-import { useFormik } from "formik";
-import Link from "next/link";
-import { useState } from "react";
-import * as yup from "yup";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { fetchLogin } from '@/api/login.fetch';
+import clsx from 'clsx';
+import { useFormik } from 'formik';
+import Link from 'next/link';
+import * as yup from 'yup';
+import styles from '../login.module.css';
 
 const formSchema = yup.object().shape({
   email: yup
@@ -29,27 +31,29 @@ const FORM_DATA: FormData = {
 };
 
 export function LoginForm() {
+  const router = useRouter();
+  const [ toast, setToast ] = useState({
+    message: "",
+    type: "",
+  });
+
   const formik = useFormik<FormData>({
     initialValues: FORM_DATA,
     validationSchema: formSchema,
     onSubmit: async (formData) => {
-      try {
-        const data = await fetchLogin(formData);
-        if (data.error) {
-          setToast({ message: data.error, type: "error" });
-        } else {
-          setToast({ message: data.message, type: "success" });
-        }
-        setTimeout(() => setToast({ message: "", type: "" }), 4000);
-      } catch (error) {
-        console.log(error);
+      const data = await fetchLogin(formData);
+      console.log(data);
+      if (data.error) {
+        setToast({ message: data.error, type: "error" });
+      } else {
+        setToast({ message: data.message, type: "success" });
       }
+      setTimeout(() => setToast({ message: "", type: "" }), 2500);
+      formik.resetForm();
+      setTimeout(() => {
+        router.push(`/admin/users/profile/${data.user.id}`);
+      }, 3000)
     },
-  });
-
-  const [toast, setToast] = useState({
-    message: "",
-    type: "",
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -70,6 +74,15 @@ export function LoginForm() {
         </h1>
       </div>
 
+      {toast.message && (
+        <div className={
+        clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`,
+        {
+          "bg-red-500": toast.type === "error",
+          "bg-green-500": toast.type === "success",
+        }
+      )}>{toast.message}</div>)}
+
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
           <div>
@@ -88,7 +101,6 @@ export function LoginForm() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                required
                 className={clsx(
                   "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                   {
@@ -128,7 +140,6 @@ export function LoginForm() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                required
                 className={clsx(
                   "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                   {
@@ -144,7 +155,7 @@ export function LoginForm() {
               )}
               <div className="flex justify-end">
                 <button
-                  type="submit"
+                  type="button"
                   onClick={togglePasswordVisibility}
                   className="mt-2 font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                 >
