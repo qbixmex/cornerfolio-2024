@@ -1,43 +1,52 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { UserIcon } from '@/components/icons';
-import { createUser } from '../actions/user.actions';
-import styles from '@/users/components/profile.module.css';
+import { UserIcon } from "@/components/icons";
+import styles from "@/users/components/profile.module.css";
+import clsx from "clsx";
+import { useFormik } from "formik";
+import { useState } from "react";
+import * as yup from "yup";
+import { createUser } from "../actions/user.actions";
 
 const formSchema = yup.object().shape({
-  name: yup.string()
-    .min(4, 'Name must be at least 4 characters')
-    .required('Name is required !'),
-  jobTitle: yup.string()
-    .min(4, 'Job Title must be at least 4 characters')
-    .required('Job Title is required !'),
-  email: yup.string()
-    .email('Invalid email format !')
-    .required('Email is required !'),
-  course: yup.string()
-    .required('Course is required !')
-    .min(8, 'Course must be at least 8 characters')
-    .max(50, 'Course must be maximum 100 characters'),
-  startDate: yup.string().required('Start Date is required !'),
-  endDate: yup.string().required('End Date is required !'),
-  password: yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(100, 'Password must be maximum 100 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-      'Password must contain minimum 5 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit.'
+  name: yup
+    .string()
+    .min(4, "Name must be at least 4 characters")
+    .required("Name is required !"),
+  jobTitle: yup
+    .string()
+    .min(4, "Job Title must be at least 4 characters")
+    .required("Job Title is required !"),
+  email: yup
+    .string()
+    .email("Invalid email format !")
+    .required("Email is required !"),
+  course: yup
+    .string()
+    .required("Course is required !")
+    .min(8, "Course must be at least 8 characters")
+    .max(50, "Course must be maximum 100 characters"),
+  startDate: yup.string().required("Start Date is required !"),
+  endDate: yup.string().required("End Date is required !"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password must be maximum 100 characters")
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
+      "Password must contain minimum 5 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit."
     )
-    .required('Password is required !'),
-  passwordConfirmation: yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(100, 'Password must be maximum 100 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-      'Password must contain minimum 5 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit.'
+    .required("Password is required !"),
+  passwordConfirmation: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password must be maximum 100 characters")
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
+      "Password must contain minimum 5 characters, 1 uppercase letter, 1 lowercase letter, 1 numeric digit."
     )
-    .required('Password is required !')
-    .oneOf([yup.ref('password'), ''], 'Passwords must match !'),
+    .required("Password is required !")
+    .oneOf([yup.ref("password"), ""], "Passwords must match !"),
 });
 
 type User = {
@@ -45,57 +54,61 @@ type User = {
   email: string;
   password: string;
   passwordConfirmation: string;
-  type: 'student' | 'client' | 'admin';
+  type: "student" | "client" | "admin";
   jobTitle: string;
   startDate: string;
   endDate: string;
   active: false;
   course: string;
-  schedule: 'morning' | 'afternoon' | 'evening';
+  schedule: "morning" | "afternoon" | "evening";
 };
 
 const CreateUserForm = () => {
-
   const formik = useFormik<User>({
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      type: 'student',
-      jobTitle: '',
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      type: "student",
+      jobTitle: "",
       startDate: new Date().toISOString(),
       endDate: new Date().toISOString(),
       active: false,
-      course: '',
-      schedule: 'morning',
+      course: "",
+      schedule: "morning",
     },
     validationSchema: formSchema,
     onSubmit: async (formData) => {
-
       const data = await createUser(formData);
 
       if (data.error) {
-        setToast({ message: data.error, type: 'error' });
+        setToast({ message: data.error, type: "error" });
       } else {
-        setToast({ message: data.message, type: 'success' });
+        setToast({ message: data.message, type: "success" });
       }
-      setTimeout(() => setToast({ message: '', type: '' }), 4000);
+      setTimeout(() => setToast({ message: "", type: "" }), 4000);
     },
   });
 
   const [toast, setToast] = useState({
-    message: '',
-    type: ''
+    message: "",
+    type: "",
   });
 
   return (
     <>
       {toast.message && (
-				<div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
-					{toast.message}
-				</div>
-			)}
+        <div
+          className={`fixed z-[100] top-5 right-5 w-fit bg-${
+            toast.type === "error" ? "red" : "green"
+          }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${
+            styles.slideLeft
+          }`}
+        >
+          {toast.message}
+        </div>
+      )}
       <form className="w-full mb-10" onSubmit={formik.handleSubmit}>
         <section className="grid grid-cols-2 w-full gap-10">
           <section>
@@ -115,12 +128,16 @@ const CreateUserForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 autoComplete="off"
-                className={`block w-full h-10 rounded-md ${formik.touched.name && formik.errors.name ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+                className={clsx(
+                  "block w-full h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  {
+                    "border-2 border-red-500":
+                      formik.touched.name && formik.errors.name,
+                  }
+                )}
               />
               {formik.errors.name && formik.touched.name && (
-                <p className="text-red-500 ml-1 my-3">
-                  {formik.errors.name}
-                </p>
+                <p className="text-red-500 ml-1 my-3">{formik.errors.name}</p>
               )}
             </section>
             {/* Job Title */}
@@ -139,7 +156,11 @@ const CreateUserForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 autoComplete="off"
-                className={`block w-full h-10 rounded-md ${formik.touched.jobTitle && formik.errors.jobTitle ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+                className={`block w-full h-10 rounded-md ${
+                  formik.touched.jobTitle && formik.errors.jobTitle
+                    ? "border-2 border-red-500"
+                    : "border-0"
+                } px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
               />
               {formik.errors.jobTitle && formik.touched.jobTitle && (
                 <p className="text-red-500 ml-1 my-3">
@@ -163,12 +184,14 @@ const CreateUserForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 autoComplete="off"
-                className={`block w-full h-10 rounded-md ${formik.touched.email && formik.errors.email ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+                className={`block w-full h-10 rounded-md ${
+                  formik.touched.email && formik.errors.email
+                    ? "border-2 border-red-500"
+                    : "border-0"
+                } px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
               />
               {formik.errors.email && formik.touched.email && (
-                <p className="text-red-500 ml-1 my-3">
-                  {formik.errors.email}
-                </p>
+                <p className="text-red-500 ml-1 my-3">{formik.errors.email}</p>
               )}
             </section>
             {/* Course */}
@@ -187,12 +210,14 @@ const CreateUserForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 autoComplete="off"
-                className={`block w-full h-10 rounded-md ${formik.touched.course && formik.errors.course ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+                className={`block w-full h-10 rounded-md ${
+                  formik.touched.course && formik.errors.course
+                    ? "border-2 border-red-500"
+                    : "border-0"
+                } px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
               />
               {formik.errors.course && formik.touched.course && (
-                <p className="text-red-500 ml-1 my-3">
-                  {formik.errors.course}
-                </p>
+                <p className="text-red-500 ml-1 my-3">{formik.errors.course}</p>
               )}
             </section>
             {/* Start Date */}
@@ -207,7 +232,9 @@ const CreateUserForm = () => {
                 id="start-date"
                 name="startDate"
                 type="date"
-                value={new Date(formik.values.startDate).toISOString().split('T')[0]}
+                value={
+                  new Date(formik.values.startDate).toISOString().split("T")[0]
+                }
                 onChange={formik.handleChange}
                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
               />
@@ -224,7 +251,9 @@ const CreateUserForm = () => {
                 id="end-date"
                 name="endDate"
                 type="date"
-                defaultValue={new Date(formik.values.endDate).toISOString().split('T')[0]}
+                defaultValue={
+                  new Date(formik.values.endDate).toISOString().split("T")[0]
+                }
                 onChange={formik.handleChange}
                 className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
               />
@@ -247,8 +276,8 @@ const CreateUserForm = () => {
                 className="mb-5"
               />
             </section>
-             {/* Active */}
-             <section className="flex items-start mb-5">
+            {/* Active */}
+            <section className="flex items-start mb-5">
               <div className="flex items-center h-5 gap-x-2">
                 <input
                   id="active"
@@ -258,10 +287,9 @@ const CreateUserForm = () => {
                   value={String(formik.values.active)}
                   onChange={formik.handleChange}
                 />
-                <label
-                  htmlFor="active"
-                  className="font-medium text-gray-900"
-                >Active</label>
+                <label htmlFor="active" className="font-medium text-gray-900">
+                  Active
+                </label>
               </div>
             </section>
             {/* Schedule */}
@@ -302,12 +330,14 @@ const CreateUserForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               autoComplete="off"
-              className={`block w-full h-10 rounded-md ${formik.touched.password && formik.errors.password ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+              className={`block w-full h-10 rounded-md ${
+                formik.touched.password && formik.errors.password
+                  ? "border-2 border-red-500"
+                  : "border-0"
+              } px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
             />
             {formik.errors.password && formik.touched.password && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.password}
-              </p>
+              <p className="text-red-500 ml-1 my-3">{formik.errors.password}</p>
             )}
           </section>
           {/* Password Confirmation */}
@@ -326,13 +356,19 @@ const CreateUserForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               autoComplete="off"
-              className={`block w-full h-10 rounded-md ${formik.touched.passwordConfirmation && formik.errors.passwordConfirmation ? 'border-2 border-red-500': 'border-0'} px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
+              className={`block w-full h-10 rounded-md ${
+                formik.touched.passwordConfirmation &&
+                formik.errors.passwordConfirmation
+                  ? "border-2 border-red-500"
+                  : "border-0"
+              } px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`}
             />
-            {formik.errors.passwordConfirmation && formik.touched.passwordConfirmation && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.passwordConfirmation}
-              </p>
-            )}
+            {formik.errors.passwordConfirmation &&
+              formik.touched.passwordConfirmation && (
+                <p className="text-red-500 ml-1 my-3">
+                  {formik.errors.passwordConfirmation}
+                </p>
+              )}
           </section>
         </section>
         <section className="w-full flex justify-start md:justify-end">
