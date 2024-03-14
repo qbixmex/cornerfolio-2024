@@ -15,26 +15,27 @@ const formSchema = yup.object().shape({
 	title: yup.string()
 		.min(1, 'Title must be at least 1 character')
 		.required('Title is required !'),
-	titleSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionDivider: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch();
-
-	const formik = useFormik<{ title: string,titleSize: number }>({
+	const [fontSize,setFontSize]= useState<number>(section.item.titleSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+	
+	const formik = useFormik<{ title: string }>({
 		initialValues: {
 			title: section.item.title,
-			titleSize: section.item.titleSize
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
-				const data = await updateSectionDivider(section.item.id, formData);
+				const data = await updateSectionDivider(section.item.id, { ...formData, titleSize: fontSize });
 
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
@@ -69,7 +70,8 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 					value={formik.values.title}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none text-[${formik.values.titleSize}px] ${formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'} `}
+					className={`w-full outline-none ${formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'} `}
+					style={{fontSize: true ? fontSize:''}}
 					type="text"
 				/>
 				{formik.errors.title && formik.touched.title && (
@@ -77,27 +79,14 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 						{formik.errors.title}
 					</p>
 				)}
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="titleSize"
-						name="titleSize"
-						type="number"
-						className={`w-10 ${formik.touched.titleSize && formik.errors.titleSize ? 'border-2 border-red-500' : 'border-0'}`}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.titleSize}
-					/>px
+
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.titleSize && formik.touched.titleSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.titleSize}
-					</p>
-				)}
-				
 				<button
 					type="submit"
-					className={`${formik.errors.title || formik.errors.titleSize ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
+					className={`${formik.errors.title ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
 				>
 					save
 				</button>

@@ -15,26 +15,27 @@ const formSchema = yup.object().shape({
 	imgCaption: yup.string()
 		.min(1, 'imgCaption must be at least 1 character')
 		.required('imgCaption is required !'),
-	imgCaptionSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 	const dispatch = useAppDispatch();
-	const formik = useFormik<{ imgCaption: string , imgCaptionSize: number}>({
+	const [fontSize,setFontSize]= useState<number>(section.item.imgCaptionSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+	const formik = useFormik<{ imgCaption: string }>({
 		initialValues: {
 			imgCaption: section.item.imgCaption,
-			imgCaptionSize: section.item.imgCaptionSize
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 				
-				const data = await updateSectionImageText(section.item.id, formData);
+				const data = await updateSectionImageText(section.item.id, {...formData, imgCaptionSize: fontSize});
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
@@ -68,8 +69,9 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					value={formik.values.imgCaption}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none text-[${formik.values.imgCaptionSize}px] ${formik.touched.imgCaption && formik.errors.imgCaption ? 'border-2 border-red-500' : 'border-0'} `}
+					className={`w-full outline-none ${formik.touched.imgCaption && formik.errors.imgCaption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
+					style={{fontSize: true ? fontSize:''}}
 				/>
 				{formik.errors.imgCaption && formik.touched.imgCaption && (
 					<p className="text-red-500 text-xs">
@@ -77,26 +79,13 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					</p>
 				)}
 
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="imgCaptionSize"
-						name="imgCaptionSize"
-						type="number"
-						className={`w-10 ${formik.touched.imgCaptionSize && formik.errors.imgCaptionSize ? 'border-2 border-red-500' : 'border-0'} `}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.imgCaptionSize}
-					/>px
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.imgCaptionSize && formik.touched.imgCaptionSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.imgCaptionSize}
-					</p>
-				)}
 				<button
 					type="submit"
-					className={`${formik.errors.imgCaption || formik.errors.imgCaptionSize ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
+					className={`${formik.errors.imgCaption  ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
 				>
 					save
 				</button>

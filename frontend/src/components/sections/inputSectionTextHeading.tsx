@@ -15,26 +15,27 @@ const formSchemaHeading = yup.object().shape({
 	heading: yup.string()
 		.min(1, 'Heading must be at least 1 character')
 		.required('Heading is required !'),
-	headingSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch()
-	const formik = useFormik<{ heading: string, headingSize: number }>({
+	const [fontSize,setFontSize]= useState<number>(section.item.headingSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+	const formik = useFormik<{ heading: string}>({
 		initialValues: {
 			heading: section.item.heading,
-			headingSize: section.item.headingSize
 		},
 		validationSchema: formSchemaHeading,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 
-				const data = await updateSectionText(section.item.id, formData);
+				const data = await updateSectionText(section.item.id, {...formData,headingSize:fontSize});
 
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
@@ -72,34 +73,23 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 					value={formik.values.heading}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none text-[${formik.values.headingSize}px] ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'} `}
+					className={`w-full outline-none  ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
+					style={{fontSize: true ? fontSize:''}}
 				/>
 				{formik.errors.heading && formik.touched.heading && (
 					<p className="text-red-500 text-xs">
 						{formik.errors.heading}
 					</p>
 				)}
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="headingSize"
-						name="headingSize"
-						type="number"
-						className={`w-10 ${formik.touched.headingSize && formik.errors.headingSize ? 'border-2 border-red-500' : 'border-0'} `}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.headingSize}
-					/>px
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.headingSize && formik.touched.headingSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.headingSize}
-					</p>
-				)}
+
 				<button
 					type="submit"
-					className={`${formik.errors.heading  || formik.errors.headingSize? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
+					className={`${formik.errors.heading  ?'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
 				>
 					save
 				</button>
