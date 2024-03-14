@@ -1,144 +1,179 @@
 "use client";
 
-import { checkLoginInfo } from "@/app/login/components/server_actions/checkLoginInfo";
-import { ErrorState, getUserData } from "@/app/register/components/server_actions/register.fetch";
-import ErrorMessage from "@/components/errorMessage";
+import { fetchLogin } from "@/api/login.fetch";
+import clsx from "clsx";
+import { useFormik } from "formik";
 import Link from "next/link";
-import { ChangeEvent, useState, useEffect } from "react";
-import { useFormState } from "react-dom";
+import { useState } from "react";
+import * as yup from "yup";
+
+const formSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Invalid email format!")
+    .required("Email is required!"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required !"),
+});
 
 type FormData = {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 };
 
 const FORM_DATA: FormData = {
-	email: "",
-	password: "",
+  email: "",
+  password: "",
 };
 
 export function LoginForm() {
-	const [formData, setFormData] = useState<FormData>(FORM_DATA);
-	const { email, password } = formData;
-	const [state, formAction] = useFormState<ErrorState, globalThis.FormData>(checkLoginInfo, {});
-	const [error, setError] = useState<string | null>();
+  const formik = useFormik<FormData>({
+    initialValues: FORM_DATA,
+    validationSchema: formSchema,
+    onSubmit: async (formData) => {
+      try {
+        const data = await fetchLogin(formData);
+        if (data.error) {
+          setToast({ message: data.error, type: "error" });
+        } else {
+          setToast({ message: data.message, type: "success" });
+        }
+        setTimeout(() => setToast({ message: "", type: "" }), 4000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
-	const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setFormData({
-			...formData,
-			[event.target.name]: event.target.value,
-		});
-	};
+  const [toast, setToast] = useState({
+    message: "",
+    type: "",
+  });
 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-	const [showPassword, setShowPassword] = useState<boolean>(false);
+  const togglePasswordVisibility = () => {
+    if (!showPassword) {
+      setShowPassword(true);
+    } else {
+      setShowPassword(false);
+    }
+  };
 
-	const togglePasswordVisibility = () => {
-		if (!showPassword) {
-			setShowPassword(true);
-		} else {
-			setShowPassword(false);
-		}
-	};
+  return (
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Login
+        </h1>
+      </div>
 
-	useEffect(() => {
-		if (state.error) {
-			setError(state.error);
-			setTimeout(() => {
-				setError(null);
-			}, 3000);
-		}
-	}, [state]);
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={formik.handleSubmit}>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Email address
+            </label>
+            <div className="mt-2">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="off"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className={clsx(
+                  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  {
+                    "border-2 border-red-500 bg-red-100 text-red-800":
+                      formik.touched.email && formik.errors.email,
+                  }
+                )}
+              />
+              {formik.errors.email && formik.touched.email && (
+                <p className="text-red-500 ml-1 my-3">{formik.errors.email}</p>
+              )}
+            </div>
+          </div>
 
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+              <div className="text-sm">
+                <Link
+                  href={"/"}
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                >
+                  Forgot password ?
+                </Link>
+              </div>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className={clsx(
+                  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  {
+                    "border-2 border-red-500 bg-red-100 text-red-800":
+                      formik.touched.password && formik.errors.password,
+                  }
+                )}
+              />
+              {formik.errors.password && formik.touched.password && (
+                <p className="text-red-500 ml-1 my-3">
+                  {formik.errors.password}
+                </p>
+              )}
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  onClick={togglePasswordVisibility}
+                  className="mt-2 font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                >
+                  {showPassword ? "hide" : "show"}
+                </button>
+              </div>
+            </div>
+          </div>
 
-	return (
-		<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
-			{error && <ErrorMessage message={error} />}
-			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-				<h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-					Login
-				</h1>
-			</div>
+          <div>
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              login
+            </button>
+          </div>
+        </form>
 
-			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-				<form className="space-y-6" action={formAction}>
-					<div>
-						<label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-							Email address
-						</label>
-						<div className="mt-2">
-							<input
-								id="email"
-								name="email"
-								type="email"
-								autoComplete="off"
-								value={email}
-								onChange={onInputChange}
-								required
-								className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
-							/>
-						</div>
-					</div>
-
-					<div>
-						<div className="flex items-center justify-between">
-							<label
-								htmlFor="password"
-								className="block text-sm font-medium leading-6 text-gray-900"
-							>
-								Password
-							</label>
-							<div className="text-sm">
-								<Link
-									href={"/"}
-									className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-								>
-									Forgot password ?
-								</Link>
-							</div>
-						</div>
-						<div className="mt-2">
-							<input
-								id="password"
-								name="password"
-								type={showPassword ? "text" : "password"}
-								value={password}
-								onChange={onInputChange}
-								required
-								className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
-							/>
-							<div className="flex justify-end">
-								<button
-									type="submit"
-									onClick={togglePasswordVisibility}
-									className="mt-2 font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-								>
-									{showPassword ? "hide" : "show"}
-								</button>
-							</div>
-						</div>
-					</div>
-
-					<div>
-						<button
-							type="submit"
-							className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-						>
-							login
-						</button>
-					</div>
-				</form>
-
-				<p className="mt-10 text-center text-sm text-gray-500">
-					Not a member?
-					<Link
-						href={"/register"}
-						className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2"
-					>
-						Register
-					</Link>
-				</p>
-			</div>
-		</div>
-	);
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Not a member?
+          <Link
+            href={"/register"}
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2"
+          >
+            Register
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }
