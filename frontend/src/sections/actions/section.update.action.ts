@@ -1,20 +1,21 @@
 type UpdateDivider = {
 	title: string;
+	titleSize: number;
 };
 
 type UpdateImage =
-	| { caption: string; }
+	| { caption: string; captionSize: number }
 	| { position: "left" | "center" | "right" };
 
 type UpdateText =
-	| { heading: string; }
-	| { content: string; }
+	| { heading: string; headingSize:number }
+	| { content: string; contentSize: number}
 	| { position: 'left' | 'center' | 'right' };
 
 type UpdateImageText =
-	| { imgCaption: string; }
-	| { txtHeading: string; }
-	| { txtContent: string; }
+	| { imgCaption: string; imgCaptionSize: number}
+	| { txtHeading: string; txtHeadingSize: number}
+	| { txtContent: string; txtContentSize: number}
 	| { position: 'text_img' | 'img_text' };
 
 export const updateSectionDivider = async (sectionId: string, updateData: UpdateDivider) => {

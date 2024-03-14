@@ -15,13 +15,19 @@ const formSchemaContent = yup.object().shape({
 	content: yup.string()
 		.min(1, 'Content must be at least 1 character')
 		.required('Content is required !'),
+	contentSize: yup.number()
+		.min(10, 'Text size must be at least 10')
+		.max(40, 'Text size cannot exceed 40')
+		.integer('Text size must be an integer')
+		.required('Text size is required')
 });
 
 const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch()
-	const formik = useFormik<{ content: string }>({
+	const formik = useFormik<{ content: string, contentSize: number }>({
 		initialValues: {
-			content: section.item.content
+			content: section.item.content,
+			contentSize: section.item.contentSize
 		},
 		validationSchema: formSchemaContent,
 		onSubmit: async (formData) => {
@@ -66,16 +72,33 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					value={formik.values.content}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none text-[${section.item.contentSize}px] ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'}`}
+					className={`w-full h-40 outline-none text-[${formik.values.contentSize}px] ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'}`}
 				/>
 				{formik.errors.content && formik.touched.content && (
 					<p className="text-red-500 text-xs">
 						{formik.errors.content}
 					</p>
 				)}
+				<div className='text-xs'>
+					fontSize:
+					<input 
+						id="contentSize"
+						name="contentSize"
+						type="number"
+						className={`w-10 ${formik.touched.contentSize && formik.errors.contentSize ? 'border-2 border-red-500' : 'border-0'}`}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.contentSize}
+					/>px
+				</div>
+				{formik.errors.contentSize && formik.touched.contentSize && (
+					<p className="text-red-500 text-xs">
+						{formik.errors.contentSize}
+					</p>
+				)}
 				<button
 					type="submit"
-					className={`${formik.errors.content ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9  justify-center slef-center rounded-md border h-8`}
+					className={`${formik.errors.content || formik.errors.contentSize ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9  justify-center slef-center rounded-md border h-8`}
 				>
 					save
 				</button>
