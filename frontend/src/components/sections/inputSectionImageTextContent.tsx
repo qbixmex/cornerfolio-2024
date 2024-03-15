@@ -15,26 +15,28 @@ const formSchema = yup.object().shape({
 	txtContent: yup.string()
 		.min(1, 'txtContent must be at least 1 character')
 		.required('txtContent is required !'),
-	txtContentSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch()
-	const formik = useFormik<{ txtContent: string, txtContentSize: number }>({
+	const [fontSize,setFontSize]= useState<number>(section.item.txtContentSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+
+	const formik = useFormik<{ txtContent: string }>({
 		initialValues: {
 			txtContent: section.item.txtContent,
-			txtContentSize: section.item.txtContentSize
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 				
-				const data = await updateSectionImageText(section.item.id, formData);
+				const data = await updateSectionImageText(section.item.id, {...formData,txtContentSize:fontSize});
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
@@ -72,34 +74,22 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 					value={formik.values.txtContent}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none text-[${formik.values.txtContentSize}px] ${formik.touched.txtContent && formik.errors.txtContent ? 'border-2 border-red-500' : 'border-0'}`}
+					className={`w-full h-40 outline-none  ${formik.touched.txtContent && formik.errors.txtContent ? 'border-2 border-red-500' : 'border-0'}`}
+					style={{fontSize: true ? fontSize:''}}
 				/>
 				{formik.errors.txtContent && formik.touched.txtContent && (
 					<p className="text-red-500 text-xs">
 						{formik.errors.txtContent}
 					</p>
 				)}
-
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="txtContentSize"
-						name="txtContentSize"
-						type="number"
-						className={`w-10 ${formik.touched.txtContentSize && formik.errors.txtContentSize ? 'border-2 border-red-500' : 'border-0'}`}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.txtContentSize}
-					/>px
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.txtContentSize && formik.touched.txtContentSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.txtContentSize}
-					</p>
-				)}
+				
 				<button
 					type="submit"
-					className={`${formik.errors.txtContent || formik.errors.txtContentSize ? 'hidden' : ''} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
+					className={`${formik.errors.txtContent  ? 'hidden' : ''} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
 				>
 					save
 				</button>

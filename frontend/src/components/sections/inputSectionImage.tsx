@@ -15,36 +15,40 @@ const formSchema = yup.object().shape({
 	caption: yup.string()
 		.min(1, 'Caption must be at least 1 character')
 		.required('Caption is required !'),
-	captionSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionImage: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch()
-	const formik = useFormik<{ caption: string, captionSize:number }>({
+	const [fontSize,setFontSize]= useState<number>(section.item.captionSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+
+	const formik = useFormik<{ caption: string }>({
 		initialValues: {
 			caption: section.item.caption,
-			captionSize: section.item.captionSize
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 				
-				const data = await updateSectionImage(section.item.id, formData);
+				const data = await updateSectionImage(section.item.id, {...formData, captionSize:fontSize});
+
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
 					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating image:', error);
+				console.log(error);
+				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			} finally {
-				  dispatch(setReloading(false)); // reloading false
+				dispatch(setReloading(false)); // reloading false
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});
@@ -68,34 +72,22 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					value={formik.values.caption}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none text-[${formik.values.captionSize}px] ${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
+					className={`w-full outline-none  ${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
+					style={{fontSize: true ? fontSize:''}}
 				/>
 				{formik.errors.caption && formik.touched.caption && (
 					<p className="text-red-500 text-xs">
 						{formik.errors.caption}
 					</p>
 				)}
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="captionSize"
-						name="captionSize"
-						type="number"
-						className={`w-10 ${formik.touched.captionSize && formik.errors.captionSize ? 'border-2 border-red-500' : 'border-0'}`}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.captionSize}
-					/>px
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.captionSize && formik.touched.captionSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.captionSize}
-					</p>
-				)}
 				<button
 					type="submit"
-					className={`${formik.errors.caption || formik.errors.captionSize ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
+					className={`${formik.errors.caption  ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
 				>
 					save
 				</button>

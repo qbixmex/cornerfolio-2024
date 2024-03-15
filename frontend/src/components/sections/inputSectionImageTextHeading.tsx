@@ -15,25 +15,27 @@ const formSchema = yup.object().shape({
 	txtHeading: yup.string()
 		.min(1, 'txtHeading must be at least 1 character')
 		.required('txtHeading is required !'),
-	txtHeadingSize: yup.number()
-		.min(10, 'Text size must be at least 10')
-		.max(40, 'Text size cannot exceed 40')
-		.integer('Text size must be an integer')
-		.required('Text size is required')
 });
 
 const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 	const dispatch=useAppDispatch()
-	const formik = useFormik<{ txtHeading: string , txtHeadingSize: number}>({
+	const [fontSize,setFontSize]= useState<number>(section.item.txtHeadingSize)
+	const incrementFontSize = () => {
+		setFontSize(prevSize => (prevSize < 40 ? prevSize + 1 : prevSize)); 
+	};
+	const decrementFontSize = () => {
+		setFontSize(prevSize => (prevSize > 10 ? prevSize - 1 : prevSize)); 
+	};
+
+	const formik = useFormik<{ txtHeading: string}>({
 		initialValues: {
 			txtHeading: section.item.txtHeading,
-			txtHeadingSize: section.item.txtHeadingSize
 		},
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
-				const data = await updateSectionImageText(section.item.id, formData);
+				const data = await updateSectionImageText(section.item.id, {...formData, txtHeadingSize:fontSize});
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
@@ -70,8 +72,9 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 					value={formik.values.txtHeading}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none text-[${formik.values.txtHeadingSize}px] ${formik.touched.txtHeading && formik.errors.txtHeading ? 'border-2 border-red-500' : 'border-0'} `}
+					className={`w-full outline-none ${formik.touched.txtHeading && formik.errors.txtHeading ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
+					style={{fontSize: true ? fontSize:''}}
 				/>
 				{formik.errors.txtHeading && formik.touched.txtHeading && (
 					<p className="text-red-500 text-xs">
@@ -79,26 +82,14 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 					</p>
 				)}
 
-				<div className='text-xs'>
-					fontSize:
-					<input 
-						id="txtHeadingSize"
-						name="txtHeadingSize"
-						type="number"
-						className={`w-10 ${formik.touched.txtHeadingSize && formik.errors.txtHeadingSize ? 'border-2 border-red-500' : 'border-0'}`}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.txtHeadingSize}
-					/>px
+				<div className='text-sm'>
+					<button onClick={incrementFontSize}>+</button>
+					<button onClick={decrementFontSize}>-</button>
 				</div>
-				{formik.errors.txtHeadingSize && formik.touched.txtHeadingSize && (
-					<p className="text-red-500 text-xs">
-						{formik.errors.txtHeadingSize}
-					</p>
-				)}
+				
 				<button
 					type="submit"
-					className={`${formik.errors.txtHeading || formik.errors.txtHeadingSize? 'hidden' : ''} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
+					className={`${formik.errors.txtHeading ? 'hidden' : ''} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
 				>
 					save
 				</button>
