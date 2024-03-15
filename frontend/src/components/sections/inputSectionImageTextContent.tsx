@@ -83,8 +83,8 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 					</p>
 				)}
 				<div className='text-sm'>
-					<button onClick={incrementFontSize}>+</button>
-					<button onClick={decrementFontSize}>-</button>
+					<button type="button" onClick={incrementFontSize}>+</button>
+					<button type="button" onClick={decrementFontSize}>-</button>
 				</div>
 				
 				<button

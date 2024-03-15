@@ -4,6 +4,7 @@ import { UserIcon } from "@/components/icons";
 import styles from "@/users/components/profile.module.css";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
 import { createUser } from "../actions/user.actions";
@@ -52,6 +53,7 @@ const formSchema = yup.object().shape({
 type User = {
   name: string;
   email: string;
+  image?: File;
   password: string;
   passwordConfirmation: string;
   type: "student" | "client" | "admin";
@@ -64,6 +66,10 @@ type User = {
 };
 
 const CreateUserForm = () => {
+
+  const [imageFieldKey, setImageFieldKey] = useState(Date.now());
+  const router = useRouter();
+
   const formik = useFormik<User>({
     initialValues: {
       name: "",
@@ -79,7 +85,21 @@ const CreateUserForm = () => {
       schedule: "morning",
     },
     validationSchema: formSchema,
-    onSubmit: async (formData) => {
+    onSubmit: async (values) => {
+      const formData = new FormData();
+
+      formData.set("name", values.name!);
+      formData.set("email", values.email!);
+      formData.set("password", values.password!);
+      formData.set("image", values.image!);
+      formData.set("type", values.type!);
+      formData.set("jobTitle", values.jobTitle!);
+      formData.set("startDate", values.startDate!);
+      formData.set("endDate", values.endDate!);
+      formData.set("active", String(values.active)!);
+      formData.set("course", values.course!);
+      formData.set("schedule", values.schedule!);
+
       const data = await createUser(formData);
 
       if (data.error) {
@@ -87,7 +107,16 @@ const CreateUserForm = () => {
       } else {
         setToast({ message: data.message, type: "success" });
       }
-      setTimeout(() => setToast({ message: "", type: "" }), 4000);
+      setTimeout(() => {
+        setToast({ message: "", type: "" });
+        //* This line is to reset the image field after the form is submitted
+        setImageFieldKey(Date.now());
+      }, 4000);
+      //* This line is to reset the form after the form is submitted
+      formik.resetForm();
+      setTimeout(() => {
+        router.push(`/admin/users/profile/${data.user.id}`);
+      }, 3000);
     },
   });
 
@@ -109,7 +138,11 @@ const CreateUserForm = () => {
           {toast.message}
         </div>
       )}
-      <form className="w-full mb-10" onSubmit={formik.handleSubmit}>
+      <form
+        className="w-full mb-10"
+        onSubmit={formik.handleSubmit}
+        encType="multipart/form-data"
+      >
         <section className="grid grid-cols-2 w-full gap-10">
           <section>
             {/* Name */}
@@ -262,18 +295,16 @@ const CreateUserForm = () => {
           <section>
             {/* Profile Image */}
             <section className="mb-5">
-              <UserIcon className="text-slate-200 w-[225px] mb-5" />
-              <label
-                htmlFor="userImage"
-                className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-              >
-                Profile Image
-              </label>
+              <UserIcon className="text-slate-200 w-[225px] mb-10" />
               <input
+                key={imageFieldKey}
+                id="userImage"
                 type="file"
-                name="image" // <= Change this, this is just a placeholder
-                autoComplete="off"
+                name="image"
                 className="mb-5"
+                onChange={(event) => {
+                  return formik.setFieldValue("image", event.target.files![0]);
+                }}
               />
             </section>
             {/* Active */}
