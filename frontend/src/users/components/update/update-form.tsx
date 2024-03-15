@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { formUpdateSchema } from '../validation-schemas';
 import { UserIcon } from '@/components/icons';
 import { updateUser } from '@/users/actions/user.actions';
+import { useState } from 'react';
 
 type Props = {
   user: UserResponse;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
+
+  const [imageFieldKey, setImageFieldKey] = useState(Date.now());
 
   const formik = useFormik<UserUpdate>({
     initialValues: {
@@ -25,7 +28,20 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       schedule: user.schedule,
     },
     validationSchema: formUpdateSchema,
-    onSubmit: async (formData) => {
+    onSubmit: async (values) => {
+
+      const formData = new FormData();
+      
+      formData.set('name', values.name!);
+      formData.set('email', values.email!);
+      formData.set('image', values.image!);
+      formData.set('type', values.type!);
+      formData.set('jobTitle', values.jobTitle!);
+      formData.set('startDate', values.startDate!);
+      formData.set('endDate', values.endDate!);
+      formData.set('active', String(values.active)!);
+      formData.set('course', values.course!);
+      formData.set('schedule', values.schedule!);
 
       const data = await updateUser(user.id, formData);
 
@@ -34,12 +50,19 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       } else {
         setToast({ message: data.message, type: 'success' });
       }
-      setTimeout(() => setToast({ message: '', type: '' }), 4000);
+      setTimeout(() => {
+        setToast({ message: '', type: '' })
+        setImageFieldKey(Date.now());
+      }, 4000);
     },
   });
 
   return (
-    <form className="w-full mb-10" onSubmit={formik.handleSubmit}>
+    <form
+      className="w-full mb-10"
+      onSubmit={formik.handleSubmit}
+      encType="multipart/form-data"
+    >
       <section className="grid grid-cols-2 w-full gap-10">
         <section>
           {/* Name */}
@@ -146,18 +169,26 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
         <section>
           {/* Profile Image */}
           <section className="mb-5">
-            <UserIcon className="text-slate-200 w-[225px] mb-5" />
-            <label
-              htmlFor="userImage"
-              className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-            >
-              Profile Image
-            </label>
+            {
+              user.imageUrl ? (
+                <img
+                  className="object-cover object-top w-[300px] h-[350px] shadow-lg border rounded-lg p-3 mb-5"
+                  src={user.imageUrl}
+                  alt={user.name}
+                />
+              ) : (
+                <UserIcon className="text-slate-200 w-[225px] mb-10" />
+              )
+            }
             <input
+              key={imageFieldKey}
               id="userImage"
               type="file"
-              name="image" // <= Change this, this is just a placeholder
+              name="image"
               className="mb-5"
+              onChange={(event) => {
+                return formik.setFieldValue('image', event.target.files![0]);
+              }}
             />
           </section>
         </section>
@@ -207,7 +238,8 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               type="checkbox"
               name="active"
               className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded"
-              value={String(formik.values.active)}
+              value={1}
+              checked={Boolean(formik.values.active)}
               onChange={formik.handleChange}
             />
             <label

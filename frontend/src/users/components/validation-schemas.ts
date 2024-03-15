@@ -10,6 +10,7 @@ export const formUpdateSchema = yup.object().shape({
   email: yup.string()
     .email('Invalid email format !')
     .required('Email is required !'),
+  image: yup.mixed(),
   course: yup.string()
     .required('Course is required !')
     .min(8, 'Course must be at least 8 characters')
