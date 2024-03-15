@@ -66,6 +66,8 @@ type User = {
 };
 
 const CreateUserForm = () => {
+
+  const [imageFieldKey, setImageFieldKey] = useState(Date.now());
   const router = useRouter();
 
   const formik = useFormik<User>({
@@ -105,7 +107,12 @@ const CreateUserForm = () => {
       } else {
         setToast({ message: data.message, type: "success" });
       }
-      setTimeout(() => setToast({ message: "", type: "" }), 4000);
+      setTimeout(() => {
+        setToast({ message: "", type: "" });
+        //* This line is to reset the image field after the form is submitted
+        setImageFieldKey(Date.now());
+      }, 4000);
+      //* This line is to reset the form after the form is submitted
       formik.resetForm();
       setTimeout(() => {
         router.push(`/admin/users/profile/${data.user.id}`);
@@ -290,6 +297,7 @@ const CreateUserForm = () => {
             <section className="mb-5">
               <UserIcon className="text-slate-200 w-[225px] mb-10" />
               <input
+                key={imageFieldKey}
                 id="userImage"
                 type="file"
                 name="image"
