@@ -4,6 +4,7 @@ import { UserIcon } from "@/components/icons";
 import styles from "@/users/components/profile.module.css";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
 import { createUser } from "../actions/user.actions";
@@ -65,6 +66,8 @@ type User = {
 };
 
 const CreateUserForm = () => {
+  const router = useRouter();
+
   const formik = useFormik<User>({
     initialValues: {
       name: "",
@@ -85,6 +88,7 @@ const CreateUserForm = () => {
 
       formData.set("name", values.name!);
       formData.set("email", values.email!);
+      formData.set("password", values.password!);
       formData.set("image", values.image!);
       formData.set("type", values.type!);
       formData.set("jobTitle", values.jobTitle!);
@@ -102,6 +106,10 @@ const CreateUserForm = () => {
         setToast({ message: data.message, type: "success" });
       }
       setTimeout(() => setToast({ message: "", type: "" }), 4000);
+      formik.resetForm();
+      setTimeout(() => {
+        router.push(`/admin/users/profile/${data.user.id}`);
+      }, 3000);
     },
   });
 
