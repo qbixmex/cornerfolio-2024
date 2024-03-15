@@ -37,16 +37,18 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 				dispatch(setReloading(true)); // reloading true
 				
 				const data = await updateSectionImage(section.item.id, {...formData, captionSize:fontSize});
+
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
 					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating image:', error);
+				console.log(error);
+				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			} finally {
-				  dispatch(setReloading(false)); // reloading false
+				dispatch(setReloading(false)); // reloading false
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});

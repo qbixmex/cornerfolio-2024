@@ -35,6 +35,7 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
+
 				const data = await updateSectionDivider(section.item.id, { ...formData, titleSize: fontSize });
 
 				if (data.error) {
@@ -42,11 +43,12 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 				} else {
 					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating divider:', error);
+				console.log(error);
+				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			} finally {
 				  dispatch(setReloading(false)); // reloading false
+					setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});

@@ -42,11 +42,12 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 				} else {
 					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating text:', error);
+				console.error(error);
+				setToast({ message: 'Error updating text, check logs !', type: 'error' });
 			} finally {
 				dispatch(setReloading(false)); // reloading false
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});

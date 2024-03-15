@@ -41,11 +41,12 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 				} else {
 					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating image-text:', error);
+				console.log(error);
+				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			} finally {
 				dispatch(setReloading(false)); // reloading false
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});
@@ -73,6 +74,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					type="text"
 					style={{fontSize: true ? fontSize:''}}
 				/>
+
 				{formik.errors.imgCaption && formik.touched.imgCaption && (
 					<p className="text-red-500 text-xs">
 						{formik.errors.imgCaption}
@@ -83,6 +85,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					<button onClick={incrementFontSize}>+</button>
 					<button onClick={decrementFontSize}>-</button>
 				</div>
+
 				<button
 					type="submit"
 					className={`${formik.errors.imgCaption  ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
