@@ -32,16 +32,16 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
-				<>
+				<div className='border w-full'>
 					<DeleteDivider sectionId={section.item.id} />
 					<div className='border-transparent border-2 hover:border-gray-300'>
 						<InputSectionDivider section={section as SectionDivider} />
 					</div>
-				</>
+				</div>
 			)
 		case 'SectionText':
 			return (
-				<>
+				<div className='w-full'>
 					<DeleteText sectionId={section.item.id} />
 					<ChangePositionSectionText section={section as SectionText}/>
 					<div
@@ -53,6 +53,8 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 										? 'justify-end'
 										: ''
 							}
+							border
+							w-full
 							`
 						}>
 						<div key={section.item.id} className="w-3/4">
@@ -60,7 +62,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							<InputSectionTextContent section={section as SectionText} />
 						</div>
 					</div>
-				</>
+				</div>
 			);
 		case 'SectionImage':
 			return (
