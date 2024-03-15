@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import { convertDate, getUsersList } from '@/users';
-import Link from 'next/link';
-import { UserIcon } from '@/components/icons';
-import { UsersPagination } from '@/users/components';
+import { UserIcon } from "@/components/icons";
+import { convertDate, getUsersList } from "@/users";
+import { UsersPagination } from "@/users/components";
+import Link from "next/link";
+import { FC } from "react";
 
 export const metadata = {
-  title: 'Users List',
-  description: 'Users List page',
+  title: "Users List",
+  description: "Users List page",
 };
 
 type Props = {
@@ -17,8 +17,9 @@ type Props = {
 };
 
 const UsersPage: FC<Props> = async ({ searchParams }) => {
-
-  const data = await getUsersList({ page: searchParams.page ? +searchParams.page : 1 });
+  const data = await getUsersList({
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <section className="w-[90%] mx-auto py-10">
@@ -31,7 +32,12 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
           <div className="flex items-center justify-between w-full">
             {/* Search */}
             <div className="flex bg-gray-50 items-center p-2 rounded-md">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -106,17 +112,27 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-nowrap">
-                          {user.startDate ? convertDate(new Date(user.startDate)) : 'not set'}
+                          {user.startDate
+                            ? convertDate(new Date(user.startDate))
+                            : "not set"}
                         </p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-nowrap">
-                          {user.endDate ? convertDate(new Date(user.endDate)) : 'not set'}
+                          {user.endDate
+                            ? convertDate(new Date(user.endDate))
+                            : "not set"}
                         </p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <span className={`px-3 py-1 ${user.active ? 'text-green-900 bg-green-300' : 'text-gray-900 bg-gray-200'} rounded-full`}>
-                          {user.active ? 'active' : 'inactive'}
+                        <span
+                          className={`px-3 py-1 ${
+                            user.active
+                              ? "text-green-900 bg-green-300"
+                              : "text-gray-900 bg-gray-200"
+                          } rounded-full`}
+                        >
+                          {user.active ? "active" : "inactive"}
                         </span>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -128,7 +144,9 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
                         <Link
                           href={`/admin/users/profile/${user.id}`}
                           className="bg-sky-500 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
-                        >Show</Link>
+                        >
+                          Show
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -136,7 +154,6 @@ const UsersPage: FC<Props> = async ({ searchParams }) => {
               </table>
 
               <UsersPagination pagination={data.pagination} />
-
             </div>
           </div>
         </div>
