@@ -45,18 +45,16 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteText sectionId={section.item.id} />
 					<ChangePositionSectionText section={section as SectionText}/>
 					<div
-						className={
-							`flex ${
-								((section as SectionText).item.position === 'center')
-									? 'justify-center'
-									: ((section as SectionText).item.position === 'right')
-										? 'justify-end'
-										: ''
+						className={`flex ${
+							((section as SectionText).item.position === 'center')
+								? 'justify-center'
+								: ((section as SectionText).item.position === 'right')
+									? 'justify-end'
+									: ''
 							}
 							border
 							w-full
-							`
-						}>
+						`}>
 						<div key={section.item.id} className="w-3/4">
 							<InputSectionTextHeading section={section as SectionText}/>
 							<InputSectionTextContent section={section as SectionText} />
@@ -70,15 +68,13 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteImage sectionId={section.item.id} />
 					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
-						className={
-							`flex ${
-								((section as SectionImage).item.position === 'center')
-									? 'justify-center'
-									: ((section as SectionImage).item.position === 'right')
-										? 'justify-end'
-										: ''
-							}`
-						}
+						className={`flex ${
+							((section as SectionImage).item.position === 'center')
+								? 'justify-center'
+								: ((section as SectionImage).item.position === 'right')
+									? 'justify-end'
+									: ''
+						}`}
 					>
 						<div className="w-1/2" key={section.item.id}>
 							<img
@@ -97,13 +93,11 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 				<>
 					<DeleteImageText sectionId={section.item.id} />
 					<ChangePositionSectionImageText section={section as SectionImageText} />
-					<div className={
-						`flex justify-evenly ${
-							((section as SectionImageText).item.position === 'text_img')
-								? 'flex-row-reverse'
-								: ''
-						}`
-					}>
+					<div className={`flex justify-evenly ${
+						((section as SectionImageText).item.position === 'text_img')
+							? 'flex-row-reverse'
+							: ''
+					}`}>
 						<div className="w-1/2" key={`img-${section.item.id}`}>
 							<img
 								src={(section as SectionImageText).item.imgUrl}

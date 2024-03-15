@@ -173,42 +173,42 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 
 export const moveSectionUpDown = async (req: Request, res: Response) => {
 	try {
-	const { portfolioId, sectionId } = req.params;
-	const { action } = req.query;
+		const { portfolioId, sectionId } = req.params;
+		const { action } = req.query;
 
-	// Validate action
-	if (typeof action !== 'string' || (action !== 'up' && action !== 'down')) {
-		return res.status(400).json({ message: 'Invalid action specified' });
-	}
-
-	  // Find portfolio by ID
-	const portfolio = await Models.Portfolio.findById(portfolioId);
-	if (!portfolio) {
-		return res.status(404).json({ message: 'Portfolio not found' });
-	}
-
-	// Find index of the section in the sections array
-	const index = portfolio.sections.findIndex(section => section.item.toString() === sectionId.toString());
-	if (index === -1) {
-		return res.status(404).json({ message: 'Section not found in portfolio' });
-	}
-
-	// Move section up or down based on action
-	if (action === 'up') {
-		// Move section up if index is greater than 0
-		if (index > 0) {
-			const temp = portfolio.sections[index];
-			portfolio.sections[index] = portfolio.sections[index - 1];
-			portfolio.sections[index - 1] = temp;
+		// Validate action
+		if (typeof action !== 'string' || (action !== 'up' && action !== 'down')) {
+			return res.status(400).json({ message: 'Invalid action specified' });
 		}
-	} else if (action === 'down') {
-		// Move section down if index is less than sections.length - 1
-		if (index < portfolio.sections.length - 1) {
-			const temp = portfolio.sections[index];
-			portfolio.sections[index] = portfolio.sections[index + 1];
-			portfolio.sections[index + 1] = temp;
+
+		// Find portfolio by ID
+		const portfolio = await Models.Portfolio.findById(portfolioId);
+		if (!portfolio) {
+			return res.status(404).json({ message: 'Portfolio not found' });
 		}
-	}
+
+		// Find index of the section in the sections array
+		const index = portfolio.sections.findIndex(section => section.item.toString() === sectionId.toString());
+		if (index === -1) {
+			return res.status(404).json({ message: 'Section not found in portfolio' });
+		}
+
+		// Move section up or down based on action
+		if (action === 'up') {
+			// Move section up if index is greater than 0
+			if (index > 0) {
+				const temp = portfolio.sections[index];
+				portfolio.sections[index] = portfolio.sections[index - 1];
+				portfolio.sections[index - 1] = temp;
+			}
+		} else if (action === 'down') {
+			// Move section down if index is less than sections.length - 1
+			if (index < portfolio.sections.length - 1) {
+				const temp = portfolio.sections[index];
+				portfolio.sections[index] = portfolio.sections[index + 1];
+				portfolio.sections[index + 1] = temp;
+			}
+		}
 
 		// Save the updated portfolio
 		await portfolio.save();
