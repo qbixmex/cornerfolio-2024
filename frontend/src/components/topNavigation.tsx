@@ -3,7 +3,6 @@
 import { portFoliosFetch } from "@/api/portfolios.fetch";
 import { useState } from "react";
 import { Portfolio } from "./portfolioManagementActions";
-import ThemeSwitcher from "./themeSwitcher";
 
 const TopNavigation = () => {
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
@@ -39,7 +38,6 @@ const TopNavigation = () => {
 
 	return (
 		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between border-b border-gray-200 bg-blue-700 p-2">
-			<ThemeSwitcher />
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl asideOpen">
 					<i className="bx bx-menu"></i>

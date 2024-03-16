@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { FC } from "react";
 import "./globals.css";
-import ProvidersTheme from "./providers";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -21,11 +20,9 @@ const RootLayout: FC<Props> = ({ children }) => {
 	return (
 		<html lang="en">
 			<body className={montserrat.className}>
-				<ProvidersTheme>
 					<Providers>
 						<main>{children}</main>
 					</Providers>
-				</ProvidersTheme>
 			</body>
 		</html>
 	);

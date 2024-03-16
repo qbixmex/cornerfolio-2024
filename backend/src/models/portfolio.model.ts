@@ -43,6 +43,7 @@ export type PortfolioType = {
 	};
 	template: Types.ObjectId;
 	sections: Section[];
+	theme: string;
 };
 
 type timestamps = {
@@ -76,7 +77,7 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 		footer: {
 			links: {
 				type: String,
-				default: 'sample@example.com'
+				default: "sample@example.com",
 			},
 			text: {
 				type: String,
@@ -100,6 +101,7 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 				},
 			},
 		],
+		theme: { type : String, default: "light" },
 	},
 	{ timestamps: true },
 );

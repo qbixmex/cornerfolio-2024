@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { ObjectId } from 'mongodb';
-import { Types } from 'mongoose';
-import { CustomError } from '../helpers';
-import * as Models from '../models';
+import { Request, Response } from "express";
+import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
+import { CustomError } from "../helpers";
+import * as Models from "../models";
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -16,6 +16,7 @@ export const getPortfolios = async (req: Request, res: Response) => {
 				footer: portfolio.footer,
 				template: portfolio.template,
 				sections: portfolio.sections,
+				theme: portfolio.theme,
 			};
 		});
 		return res.status(200).json(portfolios);
@@ -41,6 +42,7 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 			sections: portfolio.sections,
 			footer: portfolio.footer,
 			template: portfolio.template,
+			theme: portfolio.theme,
 		});
 	} catch (error) {
 		throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
@@ -90,6 +92,7 @@ export const createPortfolio = async (req: Request, res: Response) => {
 				sections: newPortfolio.sections,
 				footer: newPortfolio.footer,
 				template: newPortfolio.template,
+				theme: newPortfolio.theme,
 			},
 		});
 	} catch (error) {
@@ -115,6 +118,7 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 			status: payload.status ?? undefined,
 			footer: payload.footer ?? undefined,
 			template: payload.template ?? undefined,
+			theme: payload.theme ?? undefined,
 		}).populate({ path: "sections.item" });
 
 		if (!portfolio) {
@@ -124,7 +128,6 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 		//? Note: if you pass undefined to a field, it will not be updated.
 		portfolio.header = payload.header !== undefined ? payload.header : portfolio.header;
 		portfolio.footer = payload.footer !== undefined ? payload.footer : portfolio.footer;
-		
 
 		await portfolio.save();
 
@@ -138,6 +141,7 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 				status: portfolio.status,
 				footer: portfolio.footer,
 				template: portfolio.template,
+				theme: portfolio.theme,
 			},
 		});
 	} catch (error) {
@@ -164,9 +168,48 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 		await Models.Portfolio.findOneAndDelete({ _id: id });
 
 		// do the same as logic in .post method....
-		
+
 		return res.status(200).json({ message: "Portfolio deleted successfully 👍 !" });
 	} catch (error) {
 		throw CustomError.internalServer("Error while deleting the Portfolio,\n" + error);
+	}
+};
+
+export const setPortfolioTheme = async (req: Request, res: Response) => {
+	try {
+		const id = req.params.id;
+		const theme = req.body.theme;
+
+		if (!Types.ObjectId.isValid(id)) {
+			return res.status(400).json({
+				error: `Invalid ID: ${id} !`,
+			});
+		}
+
+		const portfolio = await Models.Portfolio.findByIdAndUpdate(id, {
+
+			theme: theme ?? undefined,
+
+		}).populate({ path: "sections.item" });
+
+		if (!portfolio) {
+			return res.status(404).json({ error: "Portfolio not found !" });
+		}
+
+		return res.status(200).json({
+			message: "Portfolio theme updated successfully 👍 !",
+			portfolio: {
+				id: portfolio.id,
+				portfolioTitle: portfolio.portfolioTitle,
+				header: portfolio.header,
+				sections: portfolio.sections,
+				status: portfolio.status,
+				footer: portfolio.footer,
+				template: portfolio.template,
+				theme: portfolio.theme,
+			},
+		});
+	} catch (error) {
+		throw CustomError.internalServer("Error while updating the Portfolio theme,\n" + error);
 	}
 };

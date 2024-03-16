@@ -7,6 +7,7 @@ router.get('/', PortfolioController.getPortfolios);
 router.get('/:id', PortfolioController.getPortfolioById);
 router.post('/', PortfolioController.createPortfolio);
 router.patch('/:id',PortfolioController.updatePortfolio);
+router.post('/:id',PortfolioController.setPortfolioTheme);
 router.delete('/:id',PortfolioController.deletePortfolio);
 
 export default router;
