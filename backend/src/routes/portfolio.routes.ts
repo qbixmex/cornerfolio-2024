@@ -9,5 +9,6 @@ router.post('/', PortfolioController.createPortfolio);
 router.patch('/:id',PortfolioController.updatePortfolio);
 router.post('/:id',PortfolioController.setPortfolioTheme);
 router.delete('/:id',PortfolioController.deletePortfolio);
+router.patch('/move/:portfolioId/:sectionId',PortfolioController.moveSectionUpDown);
 
 export default router;
