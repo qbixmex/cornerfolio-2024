@@ -82,10 +82,11 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 					</p>
 				)}
 
-				<div className='text-sm'>
-					<button onClick={incrementFontSize}>+</button>
-					<button onClick={decrementFontSize}>-</button>
+				<div className='text-sm flex gap-1 mr-2'>
+					<button className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors" type="button" onClick={incrementFontSize}>+</button>
+					<button className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors" type="button" onClick={decrementFontSize}>-</button>
 				</div>
+
 				<button
 					type="submit"
 					className={`${formik.errors.title ? 'hidden' : ''} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
