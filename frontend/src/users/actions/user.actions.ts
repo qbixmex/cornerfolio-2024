@@ -2,9 +2,19 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { UsersSearch } from "../interfaces/users";
 
 export const getUser = async (id: string) => {
   const response = await fetch(`http://localhost:4000/api/users/${id}`);
+  return response.json();
+};
+
+export const fetchUsersByQuery = async (term: string): Promise<UsersSearch> => {
+  if (term === "") {
+    const response = await fetch(`http://localhost:4000/api/users`);
+    return response.json();
+  }
+  const response = await fetch(`http://localhost:4000/api/users/search/${term}`);
   return response.json();
 };
 
