@@ -26,14 +26,15 @@ const config: Config = {
 					colors: {},
 				},
 				modern: {
-					extend: "dark",
 					colors: {
-						background: "#4B4453",
+						background: "#676A8B",
+						foreground: "#9BDE7E",
+						focus: "#F0F0F0",
+
 						primary: {
 							50: "#3B096C",
 							100: "#520f83",
 						},
-						focus: "#BEF264",
 					},
 					layout: {
 						radius: {

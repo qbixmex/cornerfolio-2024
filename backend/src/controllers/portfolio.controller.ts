@@ -187,9 +187,7 @@ export const setPortfolioTheme = async (req: Request, res: Response) => {
 		}
 
 		const portfolio = await Models.Portfolio.findByIdAndUpdate(id, {
-
 			theme: theme ?? undefined,
-
 		}).populate({ path: "sections.item" });
 
 		if (!portfolio) {

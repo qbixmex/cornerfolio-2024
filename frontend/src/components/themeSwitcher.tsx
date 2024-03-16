@@ -36,7 +36,7 @@ export default function ThemeSwitcher(props: PropsTheme) {
 
 				<Button
 					size="sm"
-					color="secondary"
+					color="warning"
 					variant="bordered"
 					onClick={() => handleThemeChange("modern")}
 				>
