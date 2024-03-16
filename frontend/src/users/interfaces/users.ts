@@ -44,6 +44,11 @@ export interface Pagination {
   previous: string | null;
 }
 
+export type UsersSearch = {
+  message: string;
+  users: UserResponse[];
+};
+
 export type UsersList = {
   pagination: Pagination;
   users: UserResponse[];

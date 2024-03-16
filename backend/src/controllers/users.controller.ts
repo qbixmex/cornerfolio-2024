@@ -5,7 +5,6 @@ import { CustomError} from '../helpers';
 import { Types } from 'mongoose';
 import fileUpload from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
-
 type UsersQuery = {
   limit: number;
   page: number;
@@ -107,6 +106,38 @@ export const profile = async (
     throw CustomError.internalServer('Error while fetching the account,\n' + error);
   }
 
+};
+
+export const search = async (
+  request: Request<{ term: string }, never, never>,
+  response: Response
+) => {
+  const { term = '' } = request.params;
+
+  const users = await User.find({
+    $or: [
+      { name: { $regex: term, $options: 'i' } },
+      { email: { $regex: term, $options: 'i' } },
+    ],
+  });
+
+  const usersRemapped = users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    type: user.type,
+    jobTitle: user.jobTitle,
+    active: user.active,
+    course: user.course,
+    schedule: user.schedule,
+    startDate: user.startDate,
+    endDate: user.endDate,
+  }));
+
+  return response.status(200).json({
+    message: `Users found with the term: ${term}`,
+    users: usersRemapped,
+  });
 };
 
 type RequestCreateBody = {
