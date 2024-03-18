@@ -5,12 +5,37 @@ import { CustomError} from '../helpers';
 import { Types } from 'mongoose';
 import fileUpload from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
+
 type UsersQuery = {
   limit: number;
   page: number;
   order: string;
   sortBy: string;
 };
+
+export const totalPages = async (
+  request: Request<{ term: string, limit?: number }>,
+  response: Response
+) => {
+  const {
+    term,
+    limit = 10,
+  } = request.params;
+  let totalUsers: number; 
+  
+  if (term) {
+    totalUsers = await User.countDocuments({
+      $or: [
+        { name: { $regex: term, $options: 'i' } },
+        { email: { $regex: term, $options: 'i' } },
+      ],
+    });
+  } else {
+    totalUsers = await User.countDocuments();
+  }
+
+  return response.status(200).json({ total: Math.floor(totalUsers / limit) + 1 });
+}
 
 export const list = async (
   request: Request<never, never, UsersQuery>,

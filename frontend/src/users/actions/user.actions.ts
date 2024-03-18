@@ -9,12 +9,18 @@ export const getUser = async (id: string) => {
   return response.json();
 };
 
-export const fetchUsersByQuery = async (term: string): Promise<UsersSearch> => {
-  if (term === "") {
-    const response = await fetch(`http://localhost:4000/api/users`);
-    return response.json();
+export const fetchUsersByQuery = async (term: string, currentPage: number): Promise<UsersSearch> => {
+  let URL = 'http://localhost:4000/api/users';
+
+  if (term) {
+    URL += `/search/${term}`;
   }
-  const response = await fetch(`http://localhost:4000/api/users/search/${term}`);
+
+  if (currentPage > 1)  {
+    URL += `?page=${currentPage}`;
+  }
+  
+  const response = await fetch(URL);
   return response.json();
 };
 
