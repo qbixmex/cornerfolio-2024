@@ -1,6 +1,7 @@
 export interface User {
   name: string;
   email: string;
+  imageUrl: string;
   type: string;
   jobTitle: string;
   active: boolean;
@@ -13,6 +14,7 @@ export interface User {
 export interface UserUpdate {
   name?: string;
   email?: string;
+  image?: File;
   type?: string;
   jobTitle?: string;
   active?: boolean;
@@ -29,6 +31,7 @@ export interface UserPassword {
 
 export interface UserResponse extends User {
 	id: string;
+  imageUrl: string;
 	createdAt: string;
 	updatedAt: string;
 }
