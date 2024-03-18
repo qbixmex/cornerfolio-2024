@@ -3,8 +3,10 @@
 import { signUpFetch } from "@/api/signUp.fetch";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import * as yup from "yup";
+import styles from "./register.module.css";
 
 const formSchema = yup.object().shape({
   name: yup
@@ -38,10 +40,10 @@ const formSchema = yup.object().shape({
     .string()
     .min(4, "Job Title must be at least 4 characters")
     .required("Job Title is required !"),
-  class: yup
+  course: yup
     .string()
-    .min(4, "Class must be at least 4 characters")
-    .required("Class is required !"),
+    .min(4, "Course must be at least 4 characters")
+    .required("Course is required !"),
   schedule: yup.string().required("Schedule is required !"),
 });
 
@@ -55,19 +57,8 @@ type FormData = {
   schedule: string;
 };
 
-// type FormData = {
-//   name: string;
-//   password: string;
-//   confirmPassword: string;
-// };
-
-// const FORM_DATA: FormData = {
-//   name: "",
-//   password: "",
-//   confirmPassword: "",
-// };
-
 export function SignUpForm() {
+  const router = useRouter();
   const formik = useFormik<FormData>({
     initialValues: {
       name: "",
@@ -79,17 +70,27 @@ export function SignUpForm() {
       schedule: "",
     },
     validationSchema: formSchema,
-    onSubmit: async (formData) => {
-      console.log(formData);
+    onSubmit: async (values) => {
+      const formData = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        jobTitle: values.jobTitle,
+        course: values.course,
+        schedule: values.schedule,
+      };
       const data = await signUpFetch(formData);
 
       if (data.error) {
         setToast({ message: data.error, type: "error" });
       } else {
         setToast({ message: data.message, type: "success" });
-        // redirect("/");
       }
-      setTimeout(() => setToast({ message: "", type: "" }), 4000);
+
+      setTimeout(() => {
+        setToast({ message: "", type: "" });
+      }, 4000);
+      router.push(`/admin/users/profile/${data.user.id}`);
     },
   });
 
@@ -98,56 +99,24 @@ export function SignUpForm() {
     type: "",
   });
 
-  //   const [error, setError] = useState<string | null>(null);
-  //   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  //   const [formData, setFormData] = useState<FormData>(FORM_DATA);
-  //   const [state, formAction] = useFormState<ErrorState, globalThis.FormData>(
-  //     getUserData,
-  //     {}
-  //   );
-
-  //   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //     setFormData({
-  //       ...formData,
-  //       [event.target.name]: event.target.value,
-  //     });
-  //   };
-
-  //   useEffect(() => {
-  //     if (state.error) {
-  //       setErrorMessage(state.error);
-  //       setTimeout(() => {
-  //         setErrorMessage(null);
-  //       }, 3000);
-  //     }
-  //   }, [state]);
-
-  //   const { name, password, confirmPassword } = formData;
-
-  //   const validateConfirmPassword = () => {
-  //     if (password !== confirmPassword) {
-  //       setError("Your passwords are not matching, please check again");
-  //     } else {
-  //       setError(null);
-  //     }
-  //   };
-
   return (
     <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 h-screen">
       <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Register New Account
       </h2>
-      {/* {toast.message && (
+      {toast.message && (
         <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${
-            toast.type === "error" ? "red" : "green"
-          }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${
-            styles.slideLeft
-          }`}
+          className={clsx(
+            `fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`,
+            {
+              "bg-red-500": toast.type === "error",
+              "bg-green-500": toast.type === "success",
+            }
+          )}
         >
           {toast.message}
         </div>
-      )} */}
+      )}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
           <div>
@@ -164,9 +133,18 @@ export function SignUpForm() {
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+              className={clsx(
+                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                {
+                  "border-2 border-red-500 bg-red-100 text-red-800":
+                    formik.touched.name && formik.errors.name,
+                }
+              )}
               autoComplete="off"
             />
+            {formik.errors.name && formik.touched.name && (
+              <p className="text-red-500 ml-1 my-3">{formik.errors.name}</p>
+            )}
           </div>
           <div>
             <label
@@ -183,8 +161,17 @@ export function SignUpForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               autoComplete="off"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+              className={clsx(
+                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                {
+                  "border-2 border-red-500 bg-red-100 text-red-800":
+                    formik.touched.email && formik.errors.email,
+                }
+              )}
             />
+            {formik.errors.email && formik.touched.email && (
+              <p className="text-red-500 ml-1 my-3">{formik.errors.email}</p>
+            )}
           </div>
           <div>
             <label
@@ -209,6 +196,9 @@ export function SignUpForm() {
                 }
               )}
             />
+            {formik.errors.password && formik.touched.password && (
+              <p className="text-red-500 ml-1 my-3">{formik.errors.password}</p>
+            )}
           </div>
 
           <div>
@@ -234,6 +224,12 @@ export function SignUpForm() {
                 }
               )}
             />
+            {formik.errors.confirmPassword &&
+              formik.touched.confirmPassword && (
+                <p className="text-red-500 ml-1 my-3">
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
           </div>
           <div>
             <label
@@ -249,16 +245,25 @@ export function SignUpForm() {
               value={formik.values.jobTitle}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+              className={clsx(
+                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                {
+                  "border-2 border-red-500 bg-red-100 text-red-800":
+                    formik.touched.jobTitle && formik.errors.jobTitle,
+                }
+              )}
               autoComplete="off"
             />
+            {formik.errors.jobTitle && formik.touched.jobTitle && (
+              <p className="text-red-500 ml-1 my-3">{formik.errors.jobTitle}</p>
+            )}
           </div>
           <div>
             <label
               htmlFor="course"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              In which Class are you enrolled?
+              In which course are you enrolled?
             </label>
             <input
               type="text"
@@ -267,9 +272,18 @@ export function SignUpForm() {
               value={formik.values.course}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+              className={clsx(
+                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                {
+                  "border-2 border-red-500 bg-red-100 text-red-800":
+                    formik.touched.course && formik.errors.course,
+                }
+              )}
               autoComplete="off"
             />
+            {formik.errors.course && formik.touched.course && (
+              <p className="text-red-500 ml-1 my-3">{formik.errors.course}</p>
+            )}
           </div>
           <div>
             <label

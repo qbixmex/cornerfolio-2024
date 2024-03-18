@@ -1,7 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 // type UserSignUp = {
 // 	name: FormDataEntryValue | null;
 // 	email: FormDataEntryValue | null;
@@ -13,8 +11,8 @@ import { redirect } from "next/navigation";
 
 type UserSignUp = {
   name: string;
+  email: string;
   password: string;
-  confirmPassword: string;
   jobTitle: string;
   course: string;
   schedule: string;
@@ -28,13 +26,9 @@ export const signUpFetch = async (newUser: UserSignUp) => {
     },
     body: JSON.stringify(newUser),
   });
+
   const data = await response.json();
 
-  console.log(data);
-
-  if (data.user) {
-    redirect("/");
-  }
   //* return the formstate to display the error messages to users
   return data;
 };
