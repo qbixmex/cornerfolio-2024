@@ -5,6 +5,7 @@ import { validateRegisterFields, validateUpdateFields } from './validation';
 const router = Router();
 
 router.get('/', UsersController.list);
+router.get('/count-total/:term?', UsersController.totalPages);
 router.get('/:id', UsersController.profile);
 router.get('/search/:term', UsersController.search);
 router.post('/', validateRegisterFields, UsersController.create);

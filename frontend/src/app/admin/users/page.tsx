@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { getUsersList } from '@/users';
-import { SearchUsers, UsersPagination } from '@/users/components';
+import { getUsersPages } from '@/users';
+import { SearchUsers, Pagination, UsersTableSkeleton } from '@/users/components';
 import UsersTable from '@/users/components/users-table';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: "Users List",
@@ -17,11 +18,9 @@ type Props = {
 };
 
 const UsersPage: React.FC<Props> = async ({ searchParams }) => {
-  const data = await getUsersList({
-    page: searchParams.page ? +searchParams.page : 1,
-  });
 
-  const { query = '' } = searchParams;
+  const { query = '', page: currentPage = '1' } = searchParams;
+  const data = await getUsersPages(query);
 
   return (
     <section className="w-[90%] mx-auto py-10">
@@ -48,9 +47,12 @@ const UsersPage: React.FC<Props> = async ({ searchParams }) => {
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-              <UsersTable query={query} />
-              { (query === '') && (<UsersPagination pagination={data.pagination} />)}
+              <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
+                <UsersTable query={query} currentPage={+currentPage} />
+              </Suspense>
             </div>
+
+           { data.total && <Pagination totalPages={data.total} />}
           </div>
         </div>
       </div>

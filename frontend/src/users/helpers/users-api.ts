@@ -10,6 +10,24 @@ type Options = {
   orderBy?: string;
 };
 
+export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
+  const API_URL = process.env.API_URL;
+
+  const URL = `${API_URL}/api/users/count-total/${query}`
+
+  const response = await fetch(URL, {
+    method: 'GET',
+    headers: {
+      // 'authorization': `Bearer ${process.env.API_TOKEN}`// TODO: Add API Token
+    },
+    cache: 'default',
+  });
+
+  const data = await response.json();
+
+  return data;
+};
+
 export const getUsersList = async (options?: Options): Promise<UsersList> => {
   const API_URL = process.env.API_URL;
 

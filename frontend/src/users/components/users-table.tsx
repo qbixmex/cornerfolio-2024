@@ -6,17 +6,18 @@ import dynamic from 'next/dynamic';
 
 type Props = {
   query: string;
+  currentPage: number;
 };
 
-const UsersTable: React.FC<Props> = async ({ query }) => {
+const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
 
-  const foundUsers = await fetchUsersByQuery(query);
+  const data = await fetchUsersByQuery(query, currentPage);
 
-  if (foundUsers.users.length === 0 ) {
+  if (data.users.length === 0 ) {
     const GoAlertFill = dynamic(() => import('react-icons/go').then(module => module.GoAlertFill));
     return (
       <div className="flex justify-center items-center gap-x-2 bg-amber-500 text-center text-white text-3xl rounded h-[100px]">
-        <GoAlertFill /> No {foundUsers.message}
+        <GoAlertFill /> No {data.message}
       </div>
     );
   }
@@ -49,7 +50,7 @@ const UsersTable: React.FC<Props> = async ({ query }) => {
         </tr>
       </thead>
       <tbody>
-        {foundUsers.users.map((user) => (
+        {data.users.map((user) => (
           <tr key={user.id}>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <div className="flex items-center">
