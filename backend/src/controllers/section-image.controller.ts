@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { Portfolio, SectionImage } from '../models';
 import { CustomError } from '../helpers';
 import { Types } from 'mongoose';
+import { v2 as cloudinary } from 'cloudinary';
+import fileUpload from 'express-fileupload';
 
 export const getSectionImages = async (req: Request, res: Response) => {
 	try {
@@ -119,6 +121,73 @@ export const updateSectionImage = async (req: Request, res: Response) => {
 		});
 	} catch (error) {
 		throw CustomError.internalServer('Error while updating Section Image,\n' + error);
+	}
+};
+
+export const uploadSectionImage = async (req: Request, res: Response) => {
+	const id = req.params.id;
+
+	if (!Types.ObjectId.isValid(id)) {
+		return res.status(400).json({
+			error: `Invalid ID: ${id} !`,
+		});
+	}
+
+	// search sectionImage with designated id.
+	const sectionImage = await SectionImage.findById(id);
+	if (!sectionImage) {
+		return res.status(404).json({ error: 'Section image not found' });
+	}
+
+	if (sectionImage && req.files !== null && req.files !== undefined) {
+		const temporaryFile = (req.files.image as fileUpload.UploadedFile);
+		console.log(temporaryFile.tempFilePath)
+		
+		try {
+			// delete previous image
+			if (sectionImage.url) {
+				//* Example URL from cloudinary.
+				//? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
+		
+				//* Split the URL by '/' to get in an array all url segments.
+				const imageURLArray = sectionImage.url.split('/');
+		
+				//* Then get the last segment of the array to get the image name.
+				//* NOTE: The last segment is the image id with the extension.
+				const imageName = imageURLArray[ imageURLArray.length - 1 ];
+		
+				//* Split the image name by '.' to get the public image id.
+				const [ publicImageID ] = imageName.split('.');
+		
+				//* Then we need to remove the old image from cloudinary.
+				await cloudinary.uploader.destroy(`section_image/${publicImageID}`);
+			}
+			// upload to Cloudinary
+			const responseCloudinary = await cloudinary.uploader.upload(temporaryFile.tempFilePath, {
+				folder: 'section_image',
+				overwrite: true,
+			});
+		
+			const imageUrl = responseCloudinary.secure_url;
+			sectionImage.url = imageUrl;
+		
+			await sectionImage.save();
+		
+			return res.status(200).json({
+				message: 'Section image updated successfully !',
+				section: {
+					id: sectionImage.id,
+					url: sectionImage.url,
+					alt: sectionImage.alt,
+					caption: sectionImage.caption,
+					captionSize: sectionImage.captionSize,
+					position: sectionImage.position
+				}
+			});
+		} catch (error) {
+			console.error('Cloudinary upload error:', error);
+			throw CustomError.internalServer('Error while uploading Section Image,\n' + error);
+		}
 	}
 };
 
