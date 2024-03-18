@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { convertDate } from '../helpers';
 import { UserIcon } from '@/components/icons';
 import { fetchUsersByQuery } from '../actions/user.actions';
+import dynamic from 'next/dynamic';
 
 type Props = {
   query: string;
@@ -10,6 +11,15 @@ type Props = {
 const UsersTable: React.FC<Props> = async ({ query }) => {
 
   const foundUsers = await fetchUsersByQuery(query);
+
+  if (foundUsers.users.length === 0 ) {
+    const GoAlertFill = dynamic(() => import('react-icons/go').then(module => module.GoAlertFill));
+    return (
+      <div className="flex justify-center items-center gap-x-2 bg-amber-500 text-center text-white text-3xl rounded h-[100px]">
+        <GoAlertFill /> No {foundUsers.message}
+      </div>
+    );
+  }
 
   return (
     <table className="min-w-full leading-normal">
