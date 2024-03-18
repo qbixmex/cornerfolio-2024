@@ -1,7 +1,7 @@
 export interface User {
   name: string;
   email: string;
-  imageUrl: string;
+  image: File | string;
   type: string;
   jobTitle: string;
   active: boolean;
@@ -30,10 +30,10 @@ export interface UserPassword {
 }
 
 export interface UserResponse extends User {
-	id: string;
+  id: string;
   imageUrl: string;
-	createdAt: string;
-	updatedAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Pagination {
@@ -43,6 +43,11 @@ export interface Pagination {
   next: string | null;
   previous: string | null;
 }
+
+export type UsersSearch = {
+  message: string;
+  users: UserResponse[];
+};
 
 export type UsersList = {
   pagination: Pagination;
