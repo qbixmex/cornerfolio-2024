@@ -1,0 +1,21 @@
+.headerFieldInput {
+	background: transparent;
+	color: #a9da24;
+}
+.subHeaderInputField {
+	background: transparent;
+	color: #454555;
+}
+
+/* .SubHeaderInputField {
+		inputBg: 'bg-transparent',
+		inputTextColor: 'text-[#7289F4]',
+	}
+	.FooterInputField {
+		inputBg: 'bg-transparent',
+		emailTextColor: 'text-[#9C4CBA]',
+		copyRightColor: 'text-[#C7157C]',
+	}
+	.SelectThemeButton {
+		buttonTextColor: 'text-[#EDEEFF]',
+	} */

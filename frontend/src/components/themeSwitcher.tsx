@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Button } from "@nextui-org/button";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import updatePortfolioTheme from "../api/setTheme.fetch";
+import { Button } from '@nextui-org/button';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import updatePortfolioTheme from '../api/setTheme.fetch';
 
 type PropsTheme = {
 	id: string;
@@ -23,22 +23,22 @@ export default function ThemeSwitcher(props: PropsTheme) {
 	};
 
 	return (
-		<div className="flex pb-5  ml-10">
-			<h4 className="pr-4">Select your Theme</h4>
-			<div className="flex gap-4">
-				<Button size="sm" variant="flat" onClick={() => handleThemeChange("light")}>
+		<div className="flex pb-5 ml-10 ">
+			<h4 className={`pr-4 ${theme === 'modern' ? `text-[#EDEEFF] ` : ''}`}>Select your Theme</h4>
+			<div className="flex gap-4 ">
+				<Button size="sm" variant="flat" onClick={() => handleThemeChange('light')}>
 					Light
 				</Button>
 
-				<Button size="sm" variant="flat" onClick={() => handleThemeChange("dark")}>
+				<Button size="sm" variant="flat" onClick={() => handleThemeChange('dark')}>
 					Dark
 				</Button>
 
 				<Button
 					size="sm"
-					color="warning"
-					variant="bordered"
-					onClick={() => handleThemeChange("modern")}
+					color="default"
+					variant="flat"
+					onClick={() => handleThemeChange('modern')}
 				>
 					Modern
 				</Button>
