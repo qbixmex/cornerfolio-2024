@@ -28,7 +28,7 @@ const config: Config = {
 				modern: {
 					colors: {
 						background: "#676A8B",
-						foreground: "#9BDE7E",
+						foreground: "#FABBDF",
 						focus: "#F0F0F0",
 
 						primary: {
