@@ -38,8 +38,24 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 		},
 		body: JSON.stringify(updateData)
 	});
+	return response.json();
+};
+
+export const uploadSectionImage = async (sectionId: string, imageFile: File) => {
+	try{
+		const formData = new FormData();
+        formData.append('image', imageFile);
+
+        const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
+            method: 'PATCH',
+            body: formData,
+        });
 
 	return response.json();
+	} catch (error) {
+		console.error( "There has been a problem with your fetch operation: ", error );
+		throw error;
+	}
 };
 
 export const updateSectionText = async (sectionId: string, updateData: UpdateText) => {
