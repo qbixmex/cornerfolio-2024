@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import { Types } from 'mongoose';
+import fileUpload from 'express-fileupload';
+import { v2 as cloudinary } from 'cloudinary';
 import { Portfolio, SectionImage } from '../models';
 import { CustomError } from '../helpers';
-import { Types } from 'mongoose';
-import { v2 as cloudinary } from 'cloudinary';
-import fileUpload from 'express-fileupload';
 
 export const getSectionImages = async (req: Request, res: Response) => {
 	try {
@@ -141,8 +141,7 @@ export const uploadSectionImage = async (req: Request, res: Response) => {
 
 	if (sectionImage && req.files !== null && req.files !== undefined) {
 		const temporaryFile = (req.files.image as fileUpload.UploadedFile);
-		console.log(temporaryFile.tempFilePath)
-		
+
 		try {
 			// delete previous image
 			if (sectionImage.url) {
@@ -223,6 +222,7 @@ export const deleteSectionImage = async (req: Request, res: Response) => {
 			//* Then we need to remove the old image from cloudinary.
 			await cloudinary.uploader.destroy(`section_image/${publicImageID}`);
 		}
+
 		await SectionImage.findByIdAndDelete(sectionId);
 
 		// Find the portfolio that contains a section with the given sectionId

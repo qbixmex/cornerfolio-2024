@@ -1,26 +1,20 @@
-import { updateSectionImage } from '@/sections/actions/section.update.action';
-import { SectionImage } from '@/interfaces';
-import { setReloading } from '@/store/slices/reload.slice';
-import { useAppDispatch } from '@/store';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import clsx from 'clsx';
-import { useState } from 'react';
+import { SectionImage } from '@/interfaces';
+import { setReloading } from '@/store/slices/reload.slice';
+import { useAppDispatch } from '@/store';
 import { uploadSectionImage } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
-
 
 type Props = {
     section: SectionImage;
 };
 
-type UploadImage = {
-    image: File;
-};
-
 export const formSchema = yup.object().shape({
-        image: yup.mixed().required('Image is required'), 
-    });
+    image: yup.mixed().required('Image is required'), 
+});
 
 const UploadSectionImage: React.FC<Props> = ({ section }) => {
     const [imageFieldKey, setImageFieldKey] = useState(Date.now());
@@ -35,14 +29,11 @@ const UploadSectionImage: React.FC<Props> = ({ section }) => {
 			try {
                 dispatch(setReloading(true))
                 if (values.image) {
-                    console.log(values.image)
                     await uploadSectionImage(section.item.id, values.image);
-                    console.log('Image uploaded successfully');
                 } else {
                     throw new Error('No image selected');
                 }
 			} catch (error) {
-				console.log(error);
 				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			} finally {
 				dispatch(setReloading(false)); // reloading false
