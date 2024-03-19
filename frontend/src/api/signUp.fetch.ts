@@ -1,13 +1,4 @@
-"use server";
-
-// type UserSignUp = {
-// 	name: FormDataEntryValue | null;
-// 	email: FormDataEntryValue | null;
-// 	password: FormDataEntryValue | null;
-// 	jobTitle: FormDataEntryValue | null;
-// 	course: FormDataEntryValue | null;
-// 	schedule: FormDataEntryValue | null;
-// };
+'use server';
 
 type UserSignUp = {
   name: string;
@@ -29,6 +20,6 @@ export const signUpFetch = async (newUser: UserSignUp) => {
 
   const data = await response.json();
 
-  //* return the formstate to display the error messages to users
+  //* return the form state to display the error messages to users
   return data;
 };

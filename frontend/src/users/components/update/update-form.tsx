@@ -91,10 +91,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                {
-                  "border-2 border-red-500":
-                    formik.touched.name && formik.errors.name,
-                }
+                { "border-2 border-red-500": formik.touched.name && formik.errors.name }
               )}
             />
             {formik.errors.name && formik.touched.name && (
@@ -119,10 +116,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                {
-                  "border-2 border-red-500":
-                    formik.touched.jobTitle && formik.errors.jobTitle,
-                }
+                { "border-2 border-red-500": formik.touched.jobTitle && formik.errors.jobTitle }
               )}
             />
             {formik.errors.jobTitle && formik.touched.jobTitle && (
@@ -147,10 +141,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                {
-                  "border-2 border-red-500":
-                    formik.touched.email && formik.errors.email,
-                }
+                { "border-2 border-red-500": formik.touched.email && formik.errors.email }
               )}
             />
             {formik.errors.email && formik.touched.email && (
@@ -175,10 +166,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                {
-                  "border-2 border-red-500":
-                    formik.touched.course && formik.errors.course,
-                }
+                { "border-2 border-red-500": formik.touched.course && formik.errors.course }
               )}
             />
             {formik.errors.course && formik.touched.course && (
@@ -225,9 +213,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               id="startDate"
               name="startDate"
               type="date"
-              value={
-                new Date(formik.values.startDate!).toISOString().split("T")[0]
-              }
+              value={ new Date(formik.values.startDate!).toISOString().split("T")[0] }
               onChange={formik.handleChange}
               className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
             />
@@ -244,9 +230,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               id="endDate"
               name="endDate"
               type="date"
-              value={
-                new Date(formik.values.endDate!).toISOString().split("T")[0]
-              }
+              value={ new Date(formik.values.endDate!).toISOString().split("T")[0] }
               onChange={formik.handleChange}
               className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
             />
@@ -294,9 +278,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
         <button
           type="submit"
           className="flex w-full md:w-[150px] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          update
-        </button>
+        >update</button>
       </section>
     </form>
   );
