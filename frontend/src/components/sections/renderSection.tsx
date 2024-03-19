@@ -17,6 +17,7 @@ import ChangePositionSectionImageText from './positionSectionImageText';
 import ChangePositionSectionImage from './positionSectionImage';
 import ChangePositionSectionText from './positionSectionText';
 import UploadSectionImage from './uploadSectionImage';
+import UploadSectionImageText from './uploadSectionImageText';
 
 type Section =
 	| SectionText
@@ -106,7 +107,10 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 								alt={(section as SectionImageText).item.imgAlt}
 							/>
 							<div className='border-transparent border-2 hover:border-gray-300'>
-							<InputSectionImageTextCaption section={section as SectionImageText}/>
+								<UploadSectionImageText section={section as SectionImageText} />
+							</div>
+							<div className='border-transparent border-2 hover:border-gray-300'>
+								<InputSectionImageTextCaption section={section as SectionImageText}/>
 							</div>
 						</div>
 
