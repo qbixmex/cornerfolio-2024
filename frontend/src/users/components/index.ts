@@ -5,3 +5,4 @@ export { default as SearchUsers } from './search';
 export { default as PaginationArrow } from './pagination-arrow';
 export { default as PaginationNumber } from './pagination-number';
 export { default as UsersTableSkeleton } from './users-table-skeleton';
+export { default as Thumbnail } from './thumbnail';

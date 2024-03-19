@@ -3,6 +3,7 @@ import { convertDate } from '../helpers';
 import { UserIcon } from '@/components/icons';
 import { fetchUsersByQuery } from '../actions/user.actions';
 import dynamic from 'next/dynamic';
+import Thumbnail from './thumbnail';
 
 type Props = {
   query: string;
@@ -12,7 +13,7 @@ type Props = {
 const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
 
   const data = await fetchUsersByQuery(query, currentPage);
-
+  
   if (data.users.length === 0 ) {
     const GoAlertFill = dynamic(() => import('react-icons/go').then(module => module.GoAlertFill));
     return (
@@ -55,7 +56,13 @@ const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <div className="flex items-center">
                 <div className="flex-shrink-0 w-12 h-12">
-                  <UserIcon className="bg-gray-200 w-full h-full p-2 text-gray-500 rounded-full" />
+                  {
+                    !user.imageUrl ? (
+                      <UserIcon className="bg-gray-200 w-full h-full p-2 text-gray-500 rounded-full" />
+                    ) : (
+                      <Thumbnail name={user.name} imageUrl={user.imageUrl} />
+                    )
+                  }
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-900 whitespace-no-wrap">

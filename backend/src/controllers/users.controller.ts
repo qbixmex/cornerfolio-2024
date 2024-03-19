@@ -150,6 +150,7 @@ export const search = async (
     id: user.id,
     name: user.name,
     email: user.email,
+    imageUrl: user.imageURL ?? null,
     type: user.type,
     jobTitle: user.jobTitle,
     active: user.active,
