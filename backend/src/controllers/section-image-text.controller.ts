@@ -141,8 +141,6 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
 	}
 };
 
-
-
 export const uploadSectionImageText = async (req: Request, res: Response) => {
 	const id = req.params.id;
 
@@ -162,7 +160,7 @@ export const uploadSectionImageText = async (req: Request, res: Response) => {
 		const temporaryFile = (req.files.image as fileUpload.UploadedFile);
 
 		try {
-			// delete previous image
+			//* Delete previous image
 			if (sectionImageText.imgUrl) {
 				//* Example URL from cloudinary.
 				//? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
@@ -180,7 +178,8 @@ export const uploadSectionImageText = async (req: Request, res: Response) => {
 				//* Then we need to remove the old image from cloudinary.
 				await cloudinary.uploader.destroy(`section_image_text/${publicImageID}`);
 			}
-			// upload to Cloudinary
+
+			//* Upload to Cloudinary
 			const responseCloudinary = await cloudinary.uploader.upload(temporaryFile.tempFilePath, {
 				folder: 'section_image_text',
 				overwrite: true,
@@ -222,23 +221,23 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
 	}
 
 	try {
-		// Delete the sectionImageText itself
+		//* Delete the sectionImageText itself
 		await SectionImageText.findByIdAndDelete(sectionId);
 
-		// Find the portfolio that contains a section with the given sectionId
+		//* Find the portfolio that contains a section with the given sectionId
 		const portfolio = await Portfolio.findOne({ 'sections.item': sectionId });
 
 		if (!portfolio) {
 			return res.status(404).json({ error: 'Portfolio not found !' });
 		}
 
-		// Find the index of the section with the given sectionId in the portfolio's sections array
+		//* Find the index of the section with the given sectionId in the portfolio's sections array
 		const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
 		if (sectionIndex === -1) {
 			return res.status(404).json({ error: 'Section not found in portfolio !' });
 		}
 
-		// Remove the section from the portfolio's sections array
+		//* Remove the section from the portfolio's sections array
 		portfolio.sections.splice(sectionIndex, 1);
 
 		await portfolio.save();

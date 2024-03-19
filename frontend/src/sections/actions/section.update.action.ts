@@ -61,14 +61,15 @@ export const uploadSectionImage = async (sectionId: string, imageFile: File) => 
 export const uploadSectionImageText = async (sectionId: string, imageFile: File) => {
 	try{
 		const formData = new FormData();
-        formData.append('image', imageFile);
+	
+		formData.append('image', imageFile);
 
-        const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
-            method: 'PATCH',
-            body: formData,
-        });
+		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
+				method: 'PATCH',
+				body: formData,
+		});
 
-	return response.json();
+		return response.json();
 	} catch (error) {
 		console.error( "There has been a problem with your fetch operation: ", error );
 		throw error;
