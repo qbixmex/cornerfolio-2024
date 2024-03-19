@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import * as yup from "yup";
 import styles from "./register.module.css";
 
@@ -99,8 +100,28 @@ export function SignUpForm() {
     type: "",
   });
 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+
+  const togglePasswordVisibility = () => {
+    if (!showPassword) {
+      setShowPassword(true);
+    } else {
+      setShowPassword(false);
+    }
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    if (!showConfirmPassword) {
+      setShowConfirmPassword(true);
+    } else {
+      setShowConfirmPassword(false);
+    }
+  };
+
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 h-screen">
+    <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
       <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Register New Account
       </h2>
@@ -180,22 +201,44 @@ export function SignUpForm() {
             >
               Password:
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              autoComplete="off"
-              className={clsx(
-                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                {
-                  "border-2 border-red-500 bg-red-100 text-red-800":
-                    formik.touched.password && formik.errors.password,
-                }
-              )}
-            />
+            <section className="flex items-center gap-3 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                autoComplete="off"
+                className={clsx(
+                  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  {
+                    "border-2 border-red-500 bg-red-100 text-red-800":
+                      formik.touched.password && formik.errors.password,
+                  }
+                )}
+              />
+              <div
+                className={clsx(
+                  `text-gray-300 absolute right-2 cursor-pointer`,
+                  {
+                    "text-blue-800": showPassword,
+                  }
+                )}
+              >
+                {showPassword ? (
+                  <FaEye
+                    size={25}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                ) : (
+                  <FaEyeSlash
+                    size={25}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                )}
+              </div>
+            </section>
             {formik.errors.password && formik.touched.password && (
               <p className="text-red-500 ml-1 my-3">{formik.errors.password}</p>
             )}
@@ -208,25 +251,48 @@ export function SignUpForm() {
             >
               Confirm Password:
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              autoComplete="off"
-              className={clsx(
-                "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                {
-                  "border-2 border-red-500 bg-red-100 text-red-800":
-                    formik.touched.password && formik.errors.password,
-                }
-              )}
-            />
+            <section className="flex items-center gap-3 relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                autoComplete="off"
+                className={clsx(
+                  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  {
+                    "border-2 border-red-500 bg-red-100 text-red-800":
+                      formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword,
+                  }
+                )}
+              />
+              <div
+                className={clsx(
+                  `text-gray-300 absolute right-2 cursor-pointer`,
+                  {
+                    "text-blue-800": showPassword,
+                  }
+                )}
+              >
+                {showConfirmPassword ? (
+                  <FaEye
+                    size={25}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  />
+                ) : (
+                  <FaEyeSlash
+                    size={25}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  />
+                )}
+              </div>
+            </section>
             {formik.errors.confirmPassword &&
               formik.touched.confirmPassword && (
-                <p className="text-red-500 ml-1 my-3">
+                <p className="text-red-500 ml-1 my-3 order-first">
                   {formik.errors.confirmPassword}
                 </p>
               )}
@@ -307,7 +373,6 @@ export function SignUpForm() {
           </div>
           <button
             type="submit"
-            // disabled={!!error}
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Create Profile
