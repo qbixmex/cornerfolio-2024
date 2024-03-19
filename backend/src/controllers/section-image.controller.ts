@@ -200,6 +200,29 @@ export const deleteSectionImage = async (req: Request, res: Response) => {
 
 	try {
 		// Delete the sectionImage itself
+		// search sectionImage with designated id.
+		const sectionImage = await SectionImage.findById(sectionId);
+		if (!sectionImage) {
+			return res.status(404).json({ error: 'Section image not found' });
+		}
+		// delete previous image
+		if (sectionImage.url) {
+			//* Example URL from cloudinary.
+			//? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
+	
+			//* Split the URL by '/' to get in an array all url segments.
+			const imageURLArray = sectionImage.url.split('/');
+	
+			//* Then get the last segment of the array to get the image name.
+			//* NOTE: The last segment is the image id with the extension.
+			const imageName = imageURLArray[ imageURLArray.length - 1 ];
+	
+			//* Split the image name by '.' to get the public image id.
+			const [ publicImageID ] = imageName.split('.');
+	
+			//* Then we need to remove the old image from cloudinary.
+			await cloudinary.uploader.destroy(`section_image/${publicImageID}`);
+		}
 		await SectionImage.findByIdAndDelete(sectionId);
 
 		// Find the portfolio that contains a section with the given sectionId
