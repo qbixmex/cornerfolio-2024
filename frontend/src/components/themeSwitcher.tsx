@@ -24,7 +24,9 @@ export default function ThemeSwitcher(props: PropsTheme) {
 
 	return (
 		<div className="flex pb-5 ml-10 ">
-			<h4 className={`pr-4 ${theme === 'modern' ? `text-[#EDEEFF] ` : ''}`}>Select your Theme</h4>
+			<h4 className={`pr-4 pb-1 ${theme === 'modern' ? `text-[#EDEEFF] ` : ''}`}>
+				Select your Theme
+			</h4>
 			<div className="flex gap-4 ">
 				<Button size="sm" variant="flat" onClick={() => handleThemeChange('light')}>
 					Light
