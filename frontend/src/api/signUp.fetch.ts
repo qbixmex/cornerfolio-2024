@@ -1,6 +1,6 @@
 'use server';
 
-type UserSignUp = {
+export type UserSignUp = {
   name: string;
   email: string;
   password: string;

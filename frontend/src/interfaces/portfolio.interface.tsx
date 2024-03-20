@@ -20,4 +20,5 @@ export interface IPortfolio {
 		text: string;
 	},
 	template: string;
+	theme: string;
 }

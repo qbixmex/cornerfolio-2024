@@ -1,0 +1,94 @@
+.headerFieldInput {
+	background: transparent;
+	color: #a9da24;
+}
+
+.subHeaderInputField {
+	background: transparent;
+	color: #454555;
+}
+
+.headerBackGroundColor {
+	background-image: linear-gradient(
+		to right top,
+		#13141a,
+		#13151f,
+		#111625,
+		#0f172a,
+		#0c1830,
+		#0f2746,
+		#0e385d,
+		#004975,
+		#0072a0,
+		#009cb3,
+		#00c6a8,
+		#12eb84
+	);
+}
+
+.footerBackgroundColor {
+	background-image: linear-gradient(
+		to right bottom,
+		#13141a,
+		#13151f,
+		#111625,
+		#0f172a,
+		#0c1830,
+		#0f2746,
+		#0e385d,
+		#004975,
+		#0072a0,
+		#009cb3,
+		#00c6a8,
+		#12eb84
+	);
+	color: #a9da24;
+}
+
+.footerTextColor {
+	background: transparent;
+	color: #a9da24;
+}
+
+.generalInputBackground {
+	background: transparent;
+	color: #a9da24;
+}
+
+.dividerInputBackground {
+	background: transparent;
+	color: #89966a;
+}
+
+.textInputBackground {
+	color: #befcff;
+	background: transparent;
+}
+
+.imageInputBackground {
+	color: #00a2c5;
+	background: transparent;
+}
+
+.embeddedBackground {
+	color: #00a2c5;
+	background: #13141a;
+}
+
+.embeddedBackground {
+	color: #befcff;
+	background: #13141a;
+}
+
+.embeddedInputField {
+	border-radius: 5px;
+	padding: 8px;
+	background: #95b0b4;
+}
+
+.embeddedButtonBackground {
+	border-radius: 5px;
+	padding: 8px;
+	background: #95b0b4;
+	color: #befcff;
+}
