@@ -75,7 +75,11 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 				</div>
 			)}
 
-			<div className="py-[30px] px-[80px] border-b-gray-300 border-2">
+			<div
+				className={`py-[30px] px-[80px] border-b-gray-300 border-2 ${
+					theme === 'modern' ? modern.headerBackGroundColor : ''
+				}`}
+			>
 				<form
 					className="gap-10 border-transparent border-2 w-full h-[150px] mt-[20px] p-[20px] hover:border-gray-300"
 					onSubmit={formik.handleSubmit}
@@ -105,7 +109,7 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 							value={formik.values.subHeading}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							className={`w-full outline-none bg-transparent text-modern-primary-50 ${
+							className={`w-full outline-none bg-transparent ${
 								theme === 'modern' ? `${modern.subHeaderInputField} ` : ''
 							} ${
 								formik.touched.subHeading && formik.errors.subHeading

@@ -1,11 +1,13 @@
-import { SectionText } from "@/interfaces";
-import { updateSectionText } from "@/sections/actions/section.update.action";
-import { useAppDispatch } from "@/store";
-import { setReloading } from "@/store/slices/reload.slice";
-import styles from "@/users/components/profile.module.css";
-import { useFormik } from "formik";
-import { useState } from "react";
-import * as yup from "yup";
+import { SectionText } from '@/interfaces';
+import { updateSectionText } from '@/sections/actions/section.update.action';
+import { useAppDispatch } from '@/store';
+import { setReloading } from '@/store/slices/reload.slice';
+import styles from '@/users/components/profile.module.css';
+import { useFormik } from 'formik';
+import { useTheme } from 'next-themes';
+import { useState } from 'react';
+import * as yup from 'yup';
+import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	section: SectionText;
@@ -14,11 +16,12 @@ type Props = {
 const formSchemaContent = yup.object().shape({
 	content: yup
 		.string()
-		.min(1, "Content must be at least 1 character")
-		.required("Content is required !"),
+		.min(1, 'Content must be at least 1 character')
+		.required('Content is required !'),
 });
 
 const InputSectionTextContent: React.FC<Props> = ({ section }) => {
+	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.contentSize);
 	const incrementFontSize = () => {
@@ -42,13 +45,13 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: "error" });
+					setToast({ message: data.error, type: 'error' });
 				} else {
-					setToast({ message: data.message, type: "success" });
+					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: "", type: "" }), 4000);
+				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error("Error updating text:", error);
+				console.error('Error updating text:', error);
 			} finally {
 				dispatch(setReloading(false)); // reloading false
 			}
@@ -56,8 +59,8 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 	});
 
 	const [toast, setToast] = useState({
-		message: "",
-		type: "",
+		message: '',
+		type: '',
 	});
 
 	return (
@@ -65,7 +68,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 			{toast.message && (
 				<div
 					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === "error" ? "red" : "green"
+						toast.type === 'error' ? 'red' : 'green'
 					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 				>
 					{toast.message}
@@ -81,10 +84,11 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					value={formik.values.content}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none  ${
-						formik.touched.content && formik.errors.content ? "border-2 border-red-500" : "border-0"
+					className={`w-full h-40 outline-none  
+					${theme === 'modern' ? modern.textInputBackground : ''} ${
+						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}
-					style={{ fontSize: true ? fontSize : "" }}
+					style={{ fontSize: true ? fontSize : '' }}
 				/>
 				{formik.errors.content && formik.touched.content && (
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
@@ -102,7 +106,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 				<button
 					type="submit"
 					className={`${
-						formik.errors.content ? "hidden" : ""
+						formik.errors.content ? 'hidden' : ''
 					} hover:bg-gray-200 flex text-xs w-9  justify-center slef-center rounded-md border h-8`}
 				>
 					save

@@ -1,7 +1,6 @@
 'use client';
 
 import { updatePortfolioFooter } from '@/api/updatePortfolioFooter';
-import { modernTheme } from '@/helpers/themesOptions';
 import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
@@ -10,6 +9,7 @@ import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
+import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -72,7 +72,11 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 				</div>
 			)}
 
-			<div className="py-[30px] px-[80px] border-b-gray-300 border-2">
+			<div
+				className={`py-[30px] px-[80px] border-b-gray-300 border-2 ${
+					theme === 'modern' ? modern.footerBackgroundColor : ''
+				}`}
+			>
 				<form
 					className="gap-10 border-transparent border-2 w-full h-[150px] mt-[20px] p-[20px] hover:border-gray-300"
 					onSubmit={formik.handleSubmit}
@@ -85,11 +89,7 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							className={`w-full outline-none text-sm 
-							${
-								theme === 'modern'
-									? `${modernTheme.SubHeaderInputField.inputBg} ${modernTheme.FooterInputField.emailTextColor}`
-									: ''
-							} 
+							${theme === 'modern' ? modern.footerTextColor : ''}
 							${formik.touched.links && formik.errors.links ? 'border-2 border-red-500' : 'border-0'} `}
 							type="text"
 						/>
@@ -105,11 +105,7 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							className={`w-full outline-none  text-sm
-							${
-								theme === 'modern'
-									? `${modernTheme.FooterInputField.inputBg} ${modernTheme.FooterInputField.copyRightColor}`
-									: ''
-							}
+							${theme === 'modern' ? modern.subHeaderInputField : ''}
 
 							${formik.touched.text && formik.errors.text ? 'border-2 border-red-500' : 'border-0'} `}
 							type="text"
