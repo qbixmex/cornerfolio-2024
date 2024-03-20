@@ -81,7 +81,7 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 					value={formik.values.title}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none
+					className={`w-full outline-none bg-transparent
 					${theme === 'modern' ? modern.dividerInputBackground : ''} 
 					${formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'} `}
 					style={{ fontSize: true ? fontSize : '' }}

@@ -85,7 +85,7 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 					value={formik.values.heading}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none 
+					className={`w-full outline-none bg-transparent
 					${theme === 'modern' ? modern.headerFieldInput : ''} ${
 						formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'
 					}`}

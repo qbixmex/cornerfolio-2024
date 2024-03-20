@@ -4,10 +4,10 @@ import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
+import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import { useTheme } from 'next-themes';
 
 type Props = {
 	section: SectionImageText;
@@ -82,7 +82,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					value={formik.values.imgCaption}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none 
+					className={`w-full outline-none bg-transparent
 					${theme === 'modern' ? modern.imageInputBackground : ''}
 					${formik.touched.imgCaption && formik.errors.imgCaption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"

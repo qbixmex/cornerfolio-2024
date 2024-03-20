@@ -84,7 +84,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					value={formik.values.content}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none  
+					className={`w-full h-40 outline-none bg-transparent
 					${theme === 'modern' ? modern.textInputBackground : ''} ${
 						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}

@@ -88,7 +88,7 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 							value={formik.values.links}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							className={`w-full outline-none text-sm 
+							className={`w-full outline-none text-sm bg-transparent
 							${theme === 'modern' ? modern.footerTextColor : ''}
 							${formik.touched.links && formik.errors.links ? 'border-2 border-red-500' : 'border-0'} `}
 							type="text"
@@ -104,7 +104,7 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 							value={formik.values.text}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							className={`w-full outline-none  text-sm
+							className={`w-full outline-none  text-sm bg-transparent
 							${theme === 'modern' ? modern.subHeaderInputField : ''}
 
 							${formik.touched.text && formik.errors.text ? 'border-2 border-red-500' : 'border-0'} `}

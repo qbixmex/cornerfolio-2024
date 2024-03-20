@@ -83,7 +83,7 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 					value={formik.values.txtHeading}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none 
+					className={`w-full outline-none bg-transparent
 					${theme === 'modern' ? modern.headerFieldInput : ''}
 					${formik.touched.txtHeading && formik.errors.txtHeading ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"

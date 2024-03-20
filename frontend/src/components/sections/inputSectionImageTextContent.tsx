@@ -85,7 +85,7 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 					value={formik.values.txtContent}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none  
+					className={`w-full h-40 outline-none bg-transparent
 					${theme === 'modern' ? modern.textInputBackground : ''}
 					${formik.touched.txtContent && formik.errors.txtContent ? 'border-2 border-red-500' : 'border-0'}`}
 					style={{ fontSize: true ? fontSize : '' }}

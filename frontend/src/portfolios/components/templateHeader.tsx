@@ -91,7 +91,7 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 							value={formik.values.title}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							className={`w-full outline-none text-5xl ${
+							className={`w-full outline-none text-5xl bg-transparent ${
 								theme === 'modern' ? `${modern.headerFieldInput}` : ''
 							}  ${
 								formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'

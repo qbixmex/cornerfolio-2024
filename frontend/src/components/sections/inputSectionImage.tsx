@@ -84,7 +84,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					value={formik.values.caption}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none  
+					className={`w-full outline-none bg-transparent
 					${theme === 'modern' ? modern.imageInputBackground : ''}
 					${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
