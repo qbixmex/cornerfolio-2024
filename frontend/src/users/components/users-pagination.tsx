@@ -1,53 +1,64 @@
 'use client';
 
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import { Pagination } from '../interfaces/users';
-import { getUsersList } from '../helpers';
+import { generatePagination, getUsersList } from '../helpers';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { PaginationArrow, PaginationNumber } from '.';
 
 type Props = {
-  pagination: Pagination;
+  totalPages: number;
 };
 
-const UsersPagination: React.FC<Props> = ({ pagination }) => {
+const Pagination: React.FC<Props> = ({ totalPages }) => {
+
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const pathname = usePathname();
+
+  const allPages = generatePagination(currentPage, totalPages);
+
+  const createPageURL = (pageNumber: string | number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
+
   return (
-    <section className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-      <span className="text-xs xs:text-sm text-gray-900">
-        {pagination.page} - {Math.floor(pagination.total / pagination.limit) + 1} of {pagination.total} Entries
-      </span>
-      <section className="flex gap-x-2 mt-2 xs:mt-0">
-        <section>
-          {pagination.previous ? (
-              <Link
-                href={`?page=${pagination.page - 1}`}
-                type="button"
-                className="text-xl transition duration-150 text-indigo-50 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-md"
-                onClick={async () => await getUsersList({ page: pagination.page - 1 })}
-              ><FaAngleLeft /></Link>
-            ): (
-              <div className="text-xl transition duration-150 text-gray-400 bg-gray-200 hover:bg-none cursor-not-allowed font-semibold py-2 px-4 rounded-md"
-              ><FaAngleLeft /></div>
-            )
-          }
-        </section>
-        <section>
-          {pagination.next ? (
-              <Link
-                href={`?page=${pagination.page + 1}`}
-                type="button"
-                // disabled={!pagination.next}
-                className="text-xl transition duration-150 text-indigo-50 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-md"
-                onClick={async () => await getUsersList({ page: pagination.page + 1 })}
-              ><FaAngleRight /></Link>
-            ) : (
-              <div className="text-xl transition duration-150 text-gray-400 bg-gray-200 hover:bg-none cursor-not-allowed font-semibold py-2 px-4 rounded-md"
-              ><FaAngleRight /></div>
-            )
-          }
-        </section>
+    <section className="flex justify-center items-center mt-10">
+      <PaginationArrow
+        direction="left"
+        href={createPageURL(currentPage - 1)}
+        isDisabled={currentPage <= 1}
+      />
+
+      <section className="flex -space-x-px">
+        {allPages.map((page, index) => {
+          let position: 'first' | 'last' | 'single' | 'middle' | undefined;
+
+          if (index === 0) position = 'first';
+          if (index === allPages.length - 1) position = 'last';
+          if (allPages.length === 1) position = 'single';
+          if (page === '...') position = 'middle';
+
+          return (
+            <PaginationNumber
+              key={page}
+              href={createPageURL(page)}
+              page={page}
+              position={position}
+              isActive={currentPage === page}
+            />
+          );
+        })}
       </section>
+
+      <PaginationArrow
+        direction="right"
+        href={createPageURL(currentPage + 1)}
+        isDisabled={currentPage >= totalPages}
+      />
     </section>
   );
 };
 
-export default UsersPagination;
+export default Pagination;

@@ -1,0 +1,17 @@
+.apply-thumbnail-animation {
+  opacity: 0.75;
+  transform: scale(0.5);
+  animation: show-thumbnail 0.25s ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes show-thumbnail {
+  0% {
+    opacity: 0.75;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

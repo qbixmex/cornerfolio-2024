@@ -16,6 +16,8 @@ import InputSectionImageTextCaption from './inputSectionImageTextCaption';
 import ChangePositionSectionImageText from './positionSectionImageText';
 import ChangePositionSectionImage from './positionSectionImage';
 import ChangePositionSectionText from './positionSectionText';
+import UploadSectionImage from './uploadSectionImage';
+import UploadSectionImageText from './uploadSectionImageText';
 
 type Section =
 	| SectionText
@@ -45,15 +47,13 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteText sectionId={section.item.id} />
 					<ChangePositionSectionText section={section as SectionText}/>
 					<div
-						className={`flex ${
-							((section as SectionText).item.position === 'center')
+						className={`flex border w-full
+							${ ((section as SectionText).item.position === 'center')
 								? 'justify-center'
 								: ((section as SectionText).item.position === 'right')
 									? 'justify-end'
 									: ''
 							}
-							border
-							w-full
 						`}>
 						<div key={section.item.id} className="w-3/4">
 							<InputSectionTextHeading section={section as SectionText}/>
@@ -82,7 +82,10 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 								alt={(section as SectionImage).item.alt}
 							/>
 							<div className='border-transparent border-2 hover:border-gray-300'>
-							<InputSectionImage section={section as SectionImage}/>
+							<UploadSectionImage section={section as SectionImage} />
+							</div>
+							<div className='border-transparent border-2 hover:border-gray-300'>
+							<InputSectionImage section={section as SectionImage} />
 							</div>
 						</div>
 					</div>
@@ -104,7 +107,10 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 								alt={(section as SectionImageText).item.imgAlt}
 							/>
 							<div className='border-transparent border-2 hover:border-gray-300'>
-							<InputSectionImageTextCaption section={section as SectionImageText}/>
+								<UploadSectionImageText section={section as SectionImageText} />
+							</div>
+							<div className='border-transparent border-2 hover:border-gray-300'>
+								<InputSectionImageTextCaption section={section as SectionImageText}/>
 							</div>
 						</div>
 

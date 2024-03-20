@@ -1,19 +1,22 @@
-import { UserResponse, UserUpdate } from '@/users/interfaces/users';
-import { useFormik } from 'formik';
-import clsx from 'clsx';
-import { formUpdateSchema } from '../validation-schemas';
-import { UserIcon } from '@/components/icons';
-import { updateUser } from '@/users/actions/user.actions';
-import { useState } from 'react';
+import { UserIcon } from "@/components/icons";
+import { updateUser } from "@/users/actions/user.actions";
+import { UserResponse, UserUpdate } from "@/users/interfaces/users";
+import clsx from "clsx";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { formUpdateSchema } from "../validation-schemas";
 
 type Props = {
   user: UserResponse;
-  setToast: React.Dispatch<React.SetStateAction<{ message: string, type: string; }>>;
+  setToast: React.Dispatch<
+    React.SetStateAction<{ message: string; type: string }>
+  >;
 };
 
 const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
-
   const [imageFieldKey, setImageFieldKey] = useState(Date.now());
+
+  console.log(user);
 
   const formik = useFormik<UserUpdate>({
     initialValues: {
@@ -21,37 +24,42 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       email: user.email,
       type: user.type,
       jobTitle: user.jobTitle,
-      startDate: new Date(user.startDate).toISOString(),
-      endDate: new Date(user.endDate).toISOString(),
+      startDate:
+        user.startDate === "not set"
+          ? new Date().toISOString()
+          : new Date(user.startDate).toISOString(),
+      endDate:
+        user.endDate === "not set"
+          ? new Date().toISOString()
+          : new Date(user.endDate).toISOString(),
       active: user.active,
       course: user.course,
       schedule: user.schedule,
     },
     validationSchema: formUpdateSchema,
     onSubmit: async (values) => {
-
       const formData = new FormData();
-      
-      formData.set('name', values.name!);
-      formData.set('email', values.email!);
-      formData.set('image', values.image!);
-      formData.set('type', values.type!);
-      formData.set('jobTitle', values.jobTitle!);
-      formData.set('startDate', values.startDate!);
-      formData.set('endDate', values.endDate!);
-      formData.set('active', String(values.active)!);
-      formData.set('course', values.course!);
-      formData.set('schedule', values.schedule!);
+
+      formData.set("name", values.name!);
+      formData.set("email", values.email!);
+      formData.set("image", values.image!);
+      formData.set("type", values.type!);
+      formData.set("jobTitle", values.jobTitle!);
+      formData.set("startDate", values.startDate!);
+      formData.set("endDate", values.endDate!);
+      formData.set("active", String(values.active)!);
+      formData.set("course", values.course!);
+      formData.set("schedule", values.schedule!);
 
       const data = await updateUser(user.id, formData);
 
       if (data.error) {
-        setToast({ message: data.error, type: 'error' });
+        setToast({ message: data.error, type: "error" });
       } else {
-        setToast({ message: data.message, type: 'success' });
+        setToast({ message: data.message, type: "success" });
       }
       setTimeout(() => {
-        setToast({ message: '', type: '' })
+        setToast({ message: "", type: "" });
         setImageFieldKey(Date.now());
       }, 4000);
     },
@@ -70,7 +78,9 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
             <label
               htmlFor="name"
               className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-            >Full Name</label>
+            >
+              Full Name
+            </label>
             <input
               id="name"
               name="name"
@@ -81,13 +91,11 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                { 'border-2 border-red-500': formik.touched.name && formik.errors.name }
+                { "border-2 border-red-500": formik.touched.name && formik.errors.name }
               )}
             />
             {formik.errors.name && formik.touched.name && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.name}
-              </p>
+              <p className="text-red-500 ml-1 my-3">{formik.errors.name}</p>
             )}
           </section>
           {/* Job Title */}
@@ -95,7 +103,9 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
             <label
               htmlFor="jobTitle"
               className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-            >Job title</label>
+            >
+              Job title
+            </label>
             <input
               id="jobTitle"
               name="jobTitle"
@@ -106,13 +116,11 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                { 'border-2 border-red-500': formik.touched.jobTitle && formik.errors.jobTitle }
+                { "border-2 border-red-500": formik.touched.jobTitle && formik.errors.jobTitle }
               )}
             />
             {formik.errors.jobTitle && formik.touched.jobTitle && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.jobTitle}
-              </p>
+              <p className="text-red-500 ml-1 my-3">{formik.errors.jobTitle}</p>
             )}
           </section>
           {/* Email */}
@@ -120,7 +128,9 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-            >Email address</label>
+            >
+              Email address
+            </label>
             <input
               id="email"
               name="email"
@@ -131,13 +141,11 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                { 'border-2 border-red-500': formik.touched.email && formik.errors.email }
+                { "border-2 border-red-500": formik.touched.email && formik.errors.email }
               )}
             />
             {formik.errors.email && formik.touched.email && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.email}
-              </p>
+              <p className="text-red-500 ml-1 my-3">{formik.errors.email}</p>
             )}
           </section>
           {/* Course */}
@@ -145,7 +153,9 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
             <label
               htmlFor="course"
               className="block text-sm font-medium leading-6 text-gray-900 mb-2"
-            >Course</label>
+            >
+              Course
+            </label>
             <input
               id="course"
               name="course"
@@ -156,30 +166,26 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               autoComplete="off"
               className={clsx(
                 `block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-                { 'border-2 border-red-500': formik.touched.course && formik.errors.course }
+                { "border-2 border-red-500": formik.touched.course && formik.errors.course }
               )}
             />
             {formik.errors.course && formik.touched.course && (
-              <p className="text-red-500 ml-1 my-3">
-                {formik.errors.course}
-              </p>
+              <p className="text-red-500 ml-1 my-3">{formik.errors.course}</p>
             )}
           </section>
         </section>
         <section>
           {/* Profile Image */}
           <section className="mb-5">
-            {
-              user.imageUrl ? (
-                <img
-                  className="object-cover object-top w-[300px] h-[350px] shadow-lg border rounded-lg p-3 mb-5"
-                  src={user.imageUrl}
-                  alt={user.name}
-                />
-              ) : (
-                <UserIcon className="text-slate-200 w-[225px] mb-10" />
-              )
-            }
+            {user.imageUrl ? (
+              <img
+                className="object-cover object-top w-[300px] h-[350px] shadow-lg border rounded-lg p-3 mb-5"
+                src={user.imageUrl}
+                alt={user.name}
+              />
+            ) : (
+              <UserIcon className="text-slate-200 w-[225px] mb-10" />
+            )}
             <input
               key={imageFieldKey}
               id="userImage"
@@ -187,7 +193,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               name="image"
               className="mb-5"
               onChange={(event) => {
-                return formik.setFieldValue('image', event.target.files![0]);
+                return formik.setFieldValue("image", event.target.files![0]);
               }}
             />
           </section>
@@ -207,7 +213,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               id="startDate"
               name="startDate"
               type="date"
-              value={new Date(formik.values.startDate!).toISOString().split('T')[0]}
+              value={ new Date(formik.values.startDate!).toISOString().split("T")[0] }
               onChange={formik.handleChange}
               className="block w-full h-10 rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
             />
@@ -224,7 +230,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               id="endDate"
               name="endDate"
               type="date"
-              value={new Date(formik.values.endDate!).toISOString().split('T')[0]}
+              value={ new Date(formik.values.endDate!).toISOString().split("T")[0] }
               onChange={formik.handleChange}
               className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
             />
@@ -242,17 +248,18 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               checked={Boolean(formik.values.active)}
               onChange={formik.handleChange}
             />
-            <label
-              htmlFor="active"
-              className="font-medium text-gray-900"
-            >Active</label>
+            <label htmlFor="active" className="font-medium text-gray-900">
+              Active
+            </label>
           </section>
           {/* Schedule*/}
           <section className="mb-5">
             <label
               htmlFor="schedule"
               className="block mb-2 text-sm font-medium text-gray-900"
-            >Schedule</label>
+            >
+              Schedule
+            </label>
             <select
               id="schedule"
               name="schedule"
@@ -275,7 +282,6 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       </section>
     </form>
   );
-
 };
 
 export default UpdateUserForm;

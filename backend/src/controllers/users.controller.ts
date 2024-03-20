@@ -13,6 +13,30 @@ type UsersQuery = {
   sortBy: string;
 };
 
+export const totalPages = async (
+  request: Request<{ term: string, limit?: number }>,
+  response: Response
+) => {
+  const {
+    term,
+    limit = 10,
+  } = request.params;
+  let totalUsers: number; 
+  
+  if (term) {
+    totalUsers = await User.countDocuments({
+      $or: [
+        { name: { $regex: term, $options: 'i' } },
+        { email: { $regex: term, $options: 'i' } },
+      ],
+    });
+  } else {
+    totalUsers = await User.countDocuments();
+  }
+
+  return response.status(200).json({ total: Math.floor(totalUsers / limit) + 1 });
+}
+
 export const list = async (
   request: Request<never, never, UsersQuery>,
   response: Response
@@ -107,6 +131,39 @@ export const profile = async (
     throw CustomError.internalServer('Error while fetching the account,\n' + error);
   }
 
+};
+
+export const search = async (
+  request: Request<{ term: string }, never, never>,
+  response: Response
+) => {
+  const { term = '' } = request.params;
+
+  const users = await User.find({
+    $or: [
+      { name: { $regex: term, $options: 'i' } },
+      { email: { $regex: term, $options: 'i' } },
+    ],
+  });
+
+  const usersRemapped = users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    imageUrl: user.imageURL ?? null,
+    type: user.type,
+    jobTitle: user.jobTitle,
+    active: user.active,
+    course: user.course,
+    schedule: user.schedule,
+    startDate: user.startDate,
+    endDate: user.endDate,
+  }));
+
+  return response.status(200).json({
+    message: `Users found with the term: ${term}`,
+    users: usersRemapped,
+  });
 };
 
 type RequestCreateBody = {

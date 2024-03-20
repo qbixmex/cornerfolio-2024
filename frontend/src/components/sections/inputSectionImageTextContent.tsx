@@ -93,11 +93,20 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 				{formik.errors.txtContent && formik.touched.txtContent && (
 					<p className="text-red-500 text-xs">{formik.errors.txtContent}</p>
 				)}
-				<div className="text-sm">
-					<button type="button" onClick={incrementFontSize}>
+
+				<div className="text-sm flex gap-1 mr-2">
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={incrementFontSize}
+					>
 						+
 					</button>
-					<button type="button" onClick={decrementFontSize}>
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={decrementFontSize}
+					>
 						-
 					</button>
 				</div>

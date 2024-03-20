@@ -93,9 +93,21 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.imgCaption}</p>
 				)}
 
-				<div className="text-sm">
-					<button onClick={incrementFontSize}>+</button>
-					<button onClick={decrementFontSize}>-</button>
+				<div className="text-sm flex gap-1 mr-2">
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={incrementFontSize}
+					>
+						+
+					</button>
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={decrementFontSize}
+					>
+						-
+					</button>
 				</div>
 
 				<button
