@@ -29,22 +29,21 @@ const PORTFOLIO_DATA: IPortfolio = {
   },
   template: '',
   theme: '',
-
 };
 
 const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
   const [ loading, setLoading ] = useState(true);
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
-        setPortfolio(fetchData)
-        setLoading(false)
-        setTheme(fetchData.theme);   
+        setPortfolio(fetchData);
+        setLoading(false);
+        setTheme(fetchData.theme);
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }

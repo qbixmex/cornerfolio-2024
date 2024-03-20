@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useTheme } from 'next-themes';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolioId: string;

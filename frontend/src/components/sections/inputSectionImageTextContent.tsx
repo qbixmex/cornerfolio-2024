@@ -8,6 +8,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionImageText;
@@ -67,9 +68,7 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 bg-${ toast.type === 'error' ? 'red' : 'green' }-500 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
@@ -99,26 +98,21 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
 						type="button"
 						onClick={incrementFontSize}
-					>
-						+
-					</button>
+					>+</button>
 					<button
 						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
 						type="button"
 						onClick={decrementFontSize}
-					>
-						-
-					</button>
+					>-</button>
 				</div>
 
 				<button
 					type="submit"
-					className={`${
-						formik.errors.txtContent ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
-				>
-					save
-				</button>
+					className={clsx(
+						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
+						{ 'hidden': formik.errors.txtContent }
+					)}
+				>save</button>
 			</form>
 		</div>
 	);

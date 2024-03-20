@@ -1,7 +1,5 @@
-import Sidebar from "@/components/sidebar";
-import TopNavigation from "@/components/topNavigation";
-import { ThemeProvider } from "next-themes";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode } from 'react';
+import { ThemeProvider } from 'next-themes';
 
 const PortfolioLayout: FC<{ children: ReactNode }> = ({ children }) => {
 	return (

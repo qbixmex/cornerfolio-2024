@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	section: SectionDivider;

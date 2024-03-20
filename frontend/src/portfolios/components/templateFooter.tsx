@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { updatePortfolioFooter } from '@/api/updatePortfolioFooter';
 import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
@@ -7,9 +8,9 @@ import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -116,12 +117,11 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 					</div>
 					<button
 						type="submit"
-						className={`${
-							formik.errors.links || formik.errors.text ? 'hidden' : ''
-						} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
-					>
-						save
-					</button>
+						className={clsx(
+							`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
+							{ 'hidden': formik.errors.links || formik.errors.text }
+						)}
+					>save</button>
 				</form>
 			</div>
 		</>

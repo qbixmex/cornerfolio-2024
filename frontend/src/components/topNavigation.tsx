@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { portFoliosFetch } from "@/api/portfolios.fetch";
-import { useState } from "react";
-import { Portfolio } from "./portfolioManagementActions";
+import { portFoliosFetch } from '@/api/portfolios.fetch';
+import { useState } from 'react';
+import { Portfolio } from './portfolioManagementActions';
 
 const TopNavigation = () => {
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);

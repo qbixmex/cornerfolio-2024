@@ -168,7 +168,6 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 		await Models.Portfolio.findOneAndDelete({ _id: id });
 
 		// do the same as logic in .post method....
-
 		return res.status(200).json({ message: "Portfolio deleted successfully 👍 !" });
 	} catch (error) {
 		throw CustomError.internalServer("Error while deleting the Portfolio,\n" + error);
@@ -211,6 +210,7 @@ export const setPortfolioTheme = async (req: Request, res: Response) => {
 		throw CustomError.internalServer("Error while updating the Portfolio theme,\n" + error);
 	}
 };
+
 export const moveSectionUpDown = async (req: Request, res: Response) => {
 	try {
 		const { portfolioId, sectionId } = req.params;

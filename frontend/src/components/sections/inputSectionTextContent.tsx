@@ -8,6 +8,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionText;
@@ -113,12 +114,11 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 
 				<button
 					type="submit"
-					className={`${
-						formik.errors.content ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs w-9  justify-center slef-center rounded-md border h-8`}
-				>
-					save
-				</button>
+					className={clsx(
+						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
+						{ 'hidden': formik.errors.content }
+					)}
+				>save</button>
 			</form>
 		</div>
 	);

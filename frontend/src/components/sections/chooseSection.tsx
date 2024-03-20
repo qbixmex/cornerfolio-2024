@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppSelector } from '@/store';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import CreateDivider from './createDivider';
 import CreateEmbeddedMedia from './createEmbeddedMedia';
@@ -14,7 +14,7 @@ type Props = {
 	order: number;
 };
 
-const ChooseSection: FC<Props> = ({ portfolioId, order }) => {
+const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 	const reloading = useAppSelector((state) => state.reloading.reloading);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -34,9 +34,11 @@ const ChooseSection: FC<Props> = ({ portfolioId, order }) => {
 		<>
 			{/* Open modal button */}
 			<div className="flex justify-center z-10">
-				<button className="bg-slate-600 p-2 rounded text-white" type="button" onClick={openModal}>
-					<MdAdd size={20} />
-				</button>
+				<button
+					className="bg-slate-600 p-2 rounded text-white"
+					type="button"
+					onClick={openModal}
+				><MdAdd size={20} /></button>
 			</div>
 
 			{/* Modal */}

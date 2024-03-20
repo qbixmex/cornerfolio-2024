@@ -7,7 +7,8 @@ import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionImage;
@@ -77,6 +78,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					{toast.message}
 				</div>
 			)}
+
 			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="caption"
@@ -90,6 +92,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
+
 				{formik.errors.caption && formik.touched.caption && (
 					<p className="text-red-500 text-xs">{formik.errors.caption}</p>
 				)}
@@ -99,26 +102,22 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
 						type="button"
 						onClick={incrementFontSize}
-					>
-						+
-					</button>
+					>+</button>
+
 					<button
 						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
 						type="button"
 						onClick={decrementFontSize}
-					>
-						-
-					</button>
+					>-</button>
 				</div>
 
 				<button
 					type="submit"
-					className={`${
-						formik.errors.caption ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
-				>
-					save
-				</button>
+					className={clsx(
+						`hover:bg-gray-200 flex text-xs w-9 h-8 justify-center self-center rounded-md border`,
+						{ 'hidden': formik.errors.caption }
+					)}
+				>save</button>
 			</form>
 		</div>
 	);

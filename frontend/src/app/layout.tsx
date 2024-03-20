@@ -1,7 +1,6 @@
 import { Providers } from "@/store";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { FC } from "react";
 import "./globals.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -16,7 +15,7 @@ type Props = {
 	children: React.ReactNode;
 };
 
-const RootLayout: FC<Props> = ({ children }) => {
+const RootLayout: React.FC<Props> = ({ children }) => {
 	return (
 		<html lang="en">
 			<body className={montserrat.className}>

@@ -2,6 +2,7 @@
 	background: transparent;
 	color: #a9da24;
 }
+
 .subHeaderInputField {
 	background: transparent;
 	color: #454555;
@@ -91,12 +92,3 @@
 	background: #95b0b4;
 	color: #befcff;
 }
-
-/* .SubHeaderInputField {
-		inputBg: 'bg-transparent',
-		inputTextColor: 'text-[#7289F4]',
-	}
-	
-	.SelectThemeButton {
-		buttonTextColor: 'text-[#EDEEFF]',
-	} */
