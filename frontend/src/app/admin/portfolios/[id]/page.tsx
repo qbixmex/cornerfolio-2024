@@ -7,6 +7,8 @@ import SectionsList from '@/components/sections/sectionsList';
 import ChooseSection from '@/components/sections/chooseSection';
 import { useAppSelector } from '@/store';
 import { IPortfolio } from '@/interfaces';
+import ThemeSwitcher from '@/components/themeSwitcher';
+import { useTheme } from 'next-themes';
 
 type Props = {
   params: { id: string };
@@ -25,20 +27,23 @@ const PORTFOLIO_DATA: IPortfolio = {
     links: '',
     text: ''
   },
-  template: ''
+  template: '',
+  theme: '',
 };
 
 const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
   const [ loading, setLoading ] = useState(true);
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
+  const { setTheme } = useTheme();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
-        setPortfolio(fetchData)
-        setLoading(false)
+        setPortfolio(fetchData);
+        setLoading(false);
+        setTheme(fetchData.theme);
       } catch (error) {
         console.error('Error fetching portfolio:', error);
       }
@@ -47,14 +52,15 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
       fetchPortfolio();
     }
   }, [ id, reloading ]);
-
-
+  
+  
   return (
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
           <TemplateHeader portfolio={portfolio} />
           <ChooseSection portfolioId={id} order={0} />
+          <ThemeSwitcher id={portfolio.id} />
 
           <hr />
           {portfolio && portfolio.sections.length === 0 && (

@@ -1,8 +1,8 @@
 'use client';
 
-import { portFoliosFetch } from "@/api/portfolios.fetch";
-import { useState } from "react";
-import { Portfolio } from "./portfolioManagementActions";
+import { portFoliosFetch } from '@/api/portfolios.fetch';
+import { useState } from 'react';
+import { Portfolio } from './portfolioManagementActions';
 
 const TopNavigation = () => {
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
@@ -45,7 +45,10 @@ const TopNavigation = () => {
 				<div className="font-bold text-white">Cornerfolio</div>
 			</div>
 
-			<div className="h-[300px] flex items-center justify-center" onMouseLeave={() => setCenterMenuOpen(false)}>
+			<div
+				className="h-[300px] flex items-center justify-center"
+				onMouseLeave={() => setCenterMenuOpen(false)}
+			>
 				<div className="relative group">
 					<button
 						id="dropdown-button"
@@ -69,8 +72,9 @@ const TopNavigation = () => {
 
 					<div
 						id="dropdown-menu"
-						className={`${centerMenuOpen ? "" : "hidden"
-							} absolute right-0 mt-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1`}
+						className={`${
+							centerMenuOpen ? "" : "hidden"
+						} absolute right-0 mt-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1`}
 					>
 						<a
 							href="/admin/portfolio-management"
@@ -102,25 +106,30 @@ const TopNavigation = () => {
 				</button>
 
 				<div
-					className={`${rightMenuOpen ? "" : "hidden"
-						} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
+					className={`${
+						rightMenuOpen ? "" : "hidden"
+					} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
 					x-show="profileOpen"
 					x-transition="true"
 				>
 					<div className="flex items-center space-x-2 p-2">
-						<img
-							src={loginUser.img}
-							alt={loginUser.name}
-							className="h-9 w-9 rounded-full"
-						/>
+						<img src={loginUser.img} alt={loginUser.name} className="h-9 w-9 rounded-full" />
 						<div className="font-medium">{loginUser.name}</div>
 					</div>
 
 					<div className="flex flex-col space-y-3 p-2">
-						<a href="#" className="text-sm transition hover:text-blue-600">My Profile</a>
-						<a href="#" className="text-sm transition hover:text-blue-600">Settings</a>
-						<a href="../login" className="text-sm transition hover:text-blue-600">Login</a>
-						<a href="../register" className="text-sm transition hover:text-blue-600">Register</a>
+						<a href="#" className="text-sm transition hover:text-blue-600">
+							My Profile
+						</a>
+						<a href="#" className="text-sm transition hover:text-blue-600">
+							Settings
+						</a>
+						<a href="../login" className="text-sm transition hover:text-blue-600">
+							Login
+						</a>
+						<a href="../register" className="text-sm transition hover:text-blue-600">
+							Register
+						</a>
 					</div>
 
 					<div className="p-2">
