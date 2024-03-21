@@ -3,9 +3,11 @@ import { updateSectionImageText } from '@/sections/actions/section.update.action
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
+import { Button } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
@@ -75,7 +77,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					{toast.message}
 				</div>
 			)}
-			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
+			<form className="flex justify-center items-center m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="imgCaption"
 					name="imgCaption"
@@ -93,31 +95,45 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.imgCaption}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+				<div className="text-sm flex gap-1 ">
+					<Button
+						color="primary"
+						variant="faded"
+						size="sm"
+						isIconOnly
+						fullWidth={true}
+						className="border bg-gradient-to-tr from-blue-900 to-cyan-600 "
 						type="button"
 						onClick={incrementFontSize}
 					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						<FiPlus className="text-white" />
+					</Button>
+					<Button
+						color="primary"
+						variant="faded"
+						size="sm"
+						isIconOnly
+						fullWidth={true}
+						className=" border bg-gradient-to-tl from-pink-500 to-orange-400"
 						type="button"
 						onClick={decrementFontSize}
 					>
-						-
-					</button>
-				</div>
-
-				<button
-					type="submit"
-					className={`${
+						<FiMinus className="text-white" />
+					</Button>
+					<Button
+						type="submit"
+						color="primary"
+						variant="shadow"
+						size="sm"
+						className={`
+						border bg-gradient-to-tl from-purple-700 to-sky-500
+					${
 						formik.errors.imgCaption ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
-				>
-					save
-				</button>
+					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}
+					>
+						<span className="text-white">save</span>
+					</Button>
+				</div>
 			</form>
 		</div>
 	);

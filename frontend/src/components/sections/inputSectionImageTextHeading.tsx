@@ -3,9 +3,11 @@ import { updateSectionImageText } from '@/sections/actions/section.update.action
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
+import { Button } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
@@ -94,30 +96,44 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 				)}
 
 				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+					<Button
+						color="primary"
+						variant="faded"
+						size="sm"
+						isIconOnly
+						fullWidth={true}
+						className="border bg-gradient-to-tr from-blue-900 to-cyan-600 "
 						type="button"
 						onClick={incrementFontSize}
 					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						<FiPlus className="text-white" />
+					</Button>
+					<Button
+						color="primary"
+						variant="faded"
+						size="sm"
+						isIconOnly
+						fullWidth={true}
+						className=" border bg-gradient-to-tl from-pink-500 to-orange-400"
 						type="button"
 						onClick={decrementFontSize}
 					>
-						-
-					</button>
+						<FiMinus className="text-white" />
+					</Button>
 				</div>
-
-				<button
+				<Button
 					type="submit"
-					className={`${
+					color="primary"
+					variant="shadow"
+					size="sm"
+					className={`
+						border bg-gradient-to-tl from-purple-700 to-sky-500
+					${
 						formik.errors.txtHeading ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
+					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}
 				>
-					save
-				</button>
+					<span className="text-white">save</span>
+				</Button>
 			</form>
 		</div>
 	);

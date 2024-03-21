@@ -5,6 +5,7 @@ import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
+import { Button } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
@@ -114,14 +115,15 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 							<p className="text-red-500 text-xs">{formik.errors.text}</p>
 						)}
 					</div>
-					<button
+					<Button
 						type="submit"
-						className={`${
-							formik.errors.links || formik.errors.text ? 'hidden' : ''
-						} hover:bg-gray-200 flex text-xs justify-center slef-center rounded-md border h-8 w-9`}
+						className={`
+						bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 
+    ${formik.errors.links || formik.errors.text ? 'hidden' : ''} 
+    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`}
 					>
-						save
-					</button>
+						Save
+					</Button>
 				</form>
 			</div>
 		</>
