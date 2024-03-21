@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import { getPortfolio } from '@/portfolios/actions/portfolio.action';
+import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
 import { useAppSelector } from '@/store';
 import { IPortfolio } from '@/interfaces';
 import { PreviewHeader } from '@/components/preview-portfolio/PreviewHeader';
@@ -10,7 +10,7 @@ import PreviewSectionsList from '@/components/preview-portfolio/PreviewSectionLi
 import { useTheme } from 'next-themes';
 
 type Props = {
-    params: { id: string };
+    params: { tinyUrl: string };
     searchParams: {};
 };
 
@@ -28,9 +28,10 @@ const PORTFOLIO_DATA: IPortfolio = {
     },
     template: '',
     theme:'',
+    tinyUrlId:'',
 };
 
-const PortfolioPreviewPage: FC<Props> = ({ params: { id } }) => {
+const PortfolioPreviewPage: FC<Props> = ({ params: { tinyUrl } }) => {
     const [ loading, setLoading ] = useState(true);
     const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
     const reloading = useAppSelector(state => state.reloading.reloading); 
@@ -39,7 +40,7 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { id } }) => {
     useEffect(() => {
         const fetchPortfolio = async () => {
         try {
-            const fetchData = await getPortfolio(id);
+            const fetchData = await getPortfolioByTinyUrlId(tinyUrl);
             setPortfolio(fetchData)
             setLoading(false)
             
@@ -49,13 +50,13 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { id } }) => {
             console.error('Error fetching portfolio:', error);
         }
         };
-        if (id) {
+        if (tinyUrl) {
         fetchPortfolio();
         }
-    }, [ id, reloading ]);
+    }, [ tinyUrl, reloading ]);
 
     return (
-        <main className="ml-[52px] mt-[55px] text-2xl font-bold">
+        <main className=" text-2xl font-bold">
         {!loading &&(
             <>
             <PreviewHeader portfolio={portfolio}/>
@@ -69,7 +70,7 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { id } }) => {
             )}
 
             {portfolio && portfolio.sections.length > 0 && (
-                <PreviewSectionsList sections={portfolio.sections} portfolioId={id} />
+                <PreviewSectionsList sections={portfolio.sections} portfolioId={tinyUrl} />
             )} 
             <PreviewFooter portfolio={portfolio}/>
             </>

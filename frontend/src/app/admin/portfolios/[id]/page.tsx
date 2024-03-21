@@ -29,6 +29,7 @@ const PORTFOLIO_DATA: IPortfolio = {
   },
   template: '',
   theme: '',
+  tinyUrlId: '',
 };
 
 const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
