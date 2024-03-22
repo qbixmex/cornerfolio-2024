@@ -35,7 +35,9 @@ const LicenseSchema = new Schema<LicenseType, LicenseModel>(
   }
 );
 
-// need explain here
+//* This line is for removing underscore from _id.
+//? It's not necessary to remove _id from the response,
+//? but it's good to know how to do it.
 LicenseSchema.set("toJSON", {
   virtuals: true, //? convert _id to id
   versionKey: false,

@@ -13,7 +13,6 @@ export type UserType = {
   course: string;
   schedule: "morning" | "afternoon" | "evening";
   portfolios?: Schema.Types.ObjectId[];
-  // todo Should be checked by Daniel
   license: Schema.Types.ObjectId;
 };
 
@@ -70,7 +69,6 @@ const UserSchema = new Schema<UserType, UserModel>(
     //   ref: 'Portfolio',
     //   required: [ true, 'Portfolio is required' ],
     // }],
-    // todo Should be checked by Daniel
     license: {
       type: Schema.Types.ObjectId,
       ref: "License",
@@ -87,7 +85,7 @@ UserSchema.set("toJSON", {
   versionKey: false,
   transform: function (doc, ret, options) {
     delete ret._id;
-    delete ret.password;
+    delete ret.password; //? hide password from the response
   },
 });
 
