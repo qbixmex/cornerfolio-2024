@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { Types } from "mongoose";
-import { CustomError } from "../helpers";
-import * as Models from "../models";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
+import { CustomError } from '../helpers';
+import * as Models from '../models';
+import { generateUniqueTinyUrlId } from '../helpers';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -17,6 +18,7 @@ export const getPortfolios = async (req: Request, res: Response) => {
 				template: portfolio.template,
 				sections: portfolio.sections,
 				theme: portfolio.theme,
+				tinyUrlId: portfolio.tinyUrlId,
 			};
 		});
 		return res.status(200).json(portfolios);
@@ -43,6 +45,32 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 			footer: portfolio.footer,
 			template: portfolio.template,
 			theme: portfolio.theme,
+			tinyUrlId: portfolio.tinyUrlId,
+		});
+	} catch (error) {
+		throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
+	}
+};
+
+export const getPortfolioByTinyUrlId = async (req: Request, res: Response) => {
+	try {
+		const { tinyUrlId } = req.params;
+
+		const portfolio = await Models.Portfolio.findOne({ tinyUrlId }).populate({ path: "sections.item" });
+
+		if (!portfolio) {
+			return res.status(404).json({ error: "Portfolio not found !" });
+		}
+
+		return res.status(200).json({
+			id: portfolio.id,
+			header: portfolio.header,
+			status: portfolio.status,
+			sections: portfolio.sections,
+			footer: portfolio.footer,
+			template: portfolio.template,
+			theme: portfolio.theme,
+			tinyUrlId: portfolio.tinyUrlId,
 		});
 	} catch (error) {
 		throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
@@ -74,12 +102,16 @@ export const createPortfolio = async (req: Request, res: Response) => {
 			text: `© 2024 ${loginUser.name}. All rights reserved.`,
 		};
 
+		const tinyUrlId = await generateUniqueTinyUrlId();
+
 		const newPortfolio = new Models.Portfolio({
 			portfolioTitle,
 			header,
 			footer,
 			template: templateId,
+			tinyUrlId,
 		});
+
 		await newPortfolio.save();
 
 		return res.status(201).json({
@@ -93,6 +125,7 @@ export const createPortfolio = async (req: Request, res: Response) => {
 				footer: newPortfolio.footer,
 				template: newPortfolio.template,
 				theme: newPortfolio.theme,
+				tinyUrlId: newPortfolio.tinyUrlId, 
 			},
 		});
 	} catch (error) {
@@ -142,6 +175,7 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 				footer: portfolio.footer,
 				template: portfolio.template,
 				theme: portfolio.theme,
+				tinyUrlId: portfolio.tinyUrlId,
 			},
 		});
 	} catch (error) {
@@ -204,6 +238,7 @@ export const setPortfolioTheme = async (req: Request, res: Response) => {
 				footer: portfolio.footer,
 				template: portfolio.template,
 				theme: portfolio.theme,
+				tinyUrlId: portfolio.tinyUrlId,
 			},
 		});
 	} catch (error) {
