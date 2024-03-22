@@ -5,9 +5,9 @@ import styles from "./home.module.css";
 
 export default function Home() {
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
-      <div className="w-[90%] mx-auto">
-        <div className="block md:flex md:justify-end md:gap-5 border-b-black font-sans text-lg">
+    <div className="bg-gray-900 text-white py-4 md:min-h-screen">
+      <div className="w-[95%] mx-auto">
+        <div className="flex flex-col items-center gap-3 mb-5 md:flex-row md:mb-8 md:justify-end md:gap-5 border-b-black font-sans text-lg">
           <Link href="/login" className={styles.link}>
             Log in
           </Link>
@@ -15,46 +15,32 @@ export default function Home() {
             Sign up
           </Link>
         </div>
-        <div className="block md:flex md:justify-between">
-          <h1 className="lg:text-5xl sm:text-xl font-semibold flex lg:justify-center sm:justify-start lg:pt-32 leading-relaxed mb-5">
-            Cornerfolio <br className="hidden sm:inline" /> the best & easy way
-            <br />
-            to make your portfolio
-          </h1>
-          <div className="sm:w-[100%] flex flex-col lg:pt-28 h-full">
-            <div className="block mb-8 md:flex md:justify-start md:mb-3 md:gap-5">
+        <div className="block w-full md:flex min-h-screen md:justify-between md:gap-4">
+          <section className="w-full mb-10 md:w-max-8/12 md:flex md:justify-center md:items-center">
+            <h1 className="text-lg text-center font-semibold leading-relaxed md:text-3xl md:mb-0">
+              Welcome to <span className="inline text-blue-400 opacity-90 text-2xl md:text-4xl font-bold">Cornerfolio</span><br />
+              the best and easy way<br />
+              to make your portfolio.
+            </h1>
+          </section>
+          <section className="w-full flex flex-col">
+            <div className="block mb-0 md:flex md:flex-col md:max-w-4/12 md:justify-center md:items-center md:gap-y-4 md:min-h-screen">
               <Image
                 src={samplePic}
                 alt="sample picture"
-                width={300}
-                height={150}
-                className="pb-5 max-w-[300px] h-auto lg:pb-0"
+                width={600}
+                height={350}
+                className="max-w-[300px] mx-auto md:max-w-full h-auto mb-4 md:mb-0 lg:pb-0"
               />
               <Image
                 src={samplePic}
                 alt="sample picture"
-                width={300}
-                height={150}
-                className="pb-5 max-w-[300px] h-auto lg:pb-0"
-              />
-            </div>
-            <div className="block mb-8 md:flex md:justify-start md:mb-3 md:gap-5">
-              <Image
-                src={samplePic}
-                alt="sample picture"
-                width={300}
-                height={150}
-                className="pb-5 max-w-[300px] h-auto lg:pb-0"
-              />
-              <Image
-                src={samplePic}
-                alt="sample picture"
-                width={300}
-                height={150}
-                className="pb-5 max-w-[300px] h-auto lg:pb-0"
+                width={600}
+                height={300}
+                className="max-w-[300px] mx-auto h-auto md:max-w-full lg:pb-0"
               />
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
