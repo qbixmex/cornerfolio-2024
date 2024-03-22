@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { Types } from "mongoose";
-import { CustomError } from "../helpers";
-import * as Models from "../models";
-import { generateUniqueTinyUrlId } from "../helpers";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
+import { CustomError } from '../helpers';
+import * as Models from '../models';
+import { generateUniqueTinyUrlId } from '../helpers';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -111,6 +111,7 @@ export const createPortfolio = async (req: Request, res: Response) => {
 			template: templateId,
 			tinyUrlId,
 		});
+
 		await newPortfolio.save();
 
 		return res.status(201).json({

@@ -1,13 +1,10 @@
-import { FC, ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
 
-const PortfolioLayout: FC<{ children: ReactNode }> = ({ children }) => {
+const PortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	return (
-		<>
-			<ThemeProvider>
-				<main className="my-10">{children}</main>
-			</ThemeProvider>
-		</>
+		<ThemeProvider>
+			<main className="my-10">{children}</main>
+		</ThemeProvider>
 	);
 };
 
