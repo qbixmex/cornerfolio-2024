@@ -9,6 +9,7 @@ import { useAppSelector } from '@/store';
 import { IPortfolio } from '@/interfaces';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { useTheme } from 'next-themes';
+import modern from '../templates/modern-template.module.css';
 
 type Props = {
   params: { id: string };
@@ -36,7 +37,7 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
   const [ loading, setLoading ] = useState(true);
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -59,6 +60,15 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
+          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end z-10'>
+            <button className='btn rounded-md bg-gray-300 border m-2 mr-20 '>
+              <a 
+              href={`http://localhost:3000/${portfolio.tinyUrlId}`}
+              target='blank'
+              className="justify-between text-black text-base"
+              >Preview</a>
+            </button> 
+          </div>
           <TemplateHeader portfolio={portfolio} />
           <ChooseSection portfolioId={id} order={0} />
           <ThemeSwitcher id={portfolio.id} />
