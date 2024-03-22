@@ -3,13 +3,12 @@ import { updateSectionImage } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
-import { Button } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { FiMinus, FiPlus } from 'react-icons/fi';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
 	section: SectionImage;
@@ -96,45 +95,11 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.caption}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<Button
-						color="primary"
-						variant="faded"
-						size="sm"
-						isIconOnly
-						fullWidth={true}
-						className="border bg-gradient-to-tr from-blue-900 to-cyan-600 "
-						type="button"
-						onClick={incrementFontSize}
-					>
-						<FiPlus className="text-white" />
-					</Button>
-					<Button
-						color="primary"
-						variant="faded"
-						size="sm"
-						isIconOnly
-						fullWidth={true}
-						className=" border bg-gradient-to-tl from-pink-500 to-orange-400"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						<FiMinus className="text-white" />
-					</Button>
-				</div>
-				<Button
-					type="submit"
-					color="primary"
-					variant="shadow"
-					size="sm"
-					className={`
-						border bg-gradient-to-tl from-purple-700 to-sky-500
-					${
-						formik.errors.caption ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}
-				>
-					<span className="text-white">save</span>
-				</Button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);

@@ -3,13 +3,12 @@ import { updateSectionText } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
-import { Button } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { FiMinus, FiPlus } from 'react-icons/fi';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
 	section: SectionText;
@@ -87,7 +86,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${
+                    ${theme === 'modern' ? modern.textInputBackground : ''} ${
 						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}
 					style={{ fontSize: true ? fontSize : '' }}
@@ -96,46 +95,11 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
 				)}
 
-				<div className="flex flex-col justify-center items-center gap-1 mr-2">
-					<Button
-						color="primary"
-						variant="faded"
-						size="sm"
-						isIconOnly
-						fullWidth={true}
-						className="border bg-gradient-to-tr from-blue-900 to-cyan-600 "
-						type="button"
-						onClick={incrementFontSize}
-					>
-						<FiPlus className="text-white" />
-					</Button>
-
-					<Button
-						color="primary"
-						variant="faded"
-						size="sm"
-						isIconOnly
-						fullWidth={true}
-						className=" border bg-gradient-to-tl from-pink-500 to-orange-400"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						<FiMinus className="text-white" />
-					</Button>
-					<Button
-						type="submit"
-						color="primary"
-						variant="shadow"
-						size="sm"
-						className={`
-					border bg-gradient-to-tl from-purple-700 to-sky-500
-					${
-						formik.errors.content ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}
-					>
-						<span className="text-white">save</span>
-					</Button>
-				</div>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);

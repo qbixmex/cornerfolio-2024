@@ -1,34 +1,33 @@
-import { updateSectionImage } from '@/sections/actions/section.update.action';
 import { SectionImage } from '@/interfaces';
-import { setReloading } from '@/store/slices/reload.slice';
+import { updateSectionImage } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
+import { setReloading } from '@/store/slices/reload.slice';
+import ButtonsPosition from '../buttonsPosition';
 
 type Props = {
-  section: SectionImage;
+	section: SectionImage;
 };
 
 const ChangePositionSectionImage: React.FC<Props> = ({ section }) => {
-  const dispatch = useAppDispatch();
-  const handleUpdate = async (newPosition: 'left' | 'center' | 'right') => {
-    const formData = { position: newPosition };
-    
-    try {
+	const dispatch = useAppDispatch();
+	const handleUpdate = async (newPosition: 'left' | 'center' | 'right') => {
+		const formData = { position: newPosition };
+
+		try {
 			dispatch(setReloading(true)); // reloading true
 			await updateSectionImage(section.item.id, formData);
 		} catch (error) {
 			console.error('Error updating image:', error);
 		} finally {
-			  dispatch(setReloading(false)); // reloading false
+			dispatch(setReloading(false)); // reloading false
 		}
-  };
+	};
 
-  return (
-    <div className='flex justify-around w-full'>
-      <button className='h-15 w-15 text-xs border hover:bg-gray-100' onClick={() => handleUpdate('left')}>Left</button>
-      <button className='h-15 w-15 text-xs border hover:bg-gray-100' onClick={() => handleUpdate('center')}>Center</button>
-      <button className='h-15 w-15 text-xs border hover:bg-gray-100' onClick={() => handleUpdate('right')}>Right</button>
-    </div>
-  );
+	return (
+		<>
+			<ButtonsPosition handleUpdate={handleUpdate} />
+		</>
+	);
 };
 
 export default ChangePositionSectionImage;
