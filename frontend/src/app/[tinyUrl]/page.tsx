@@ -62,7 +62,7 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { tinyUrl } }) => {
           <PreviewHeader portfolio={portfolio} />
 
           {portfolio && portfolio.sections.length === 0 && (
-            <section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
+            <section className="mx-[80px] max-sm:px-[30px] mt-10 flex flex-col items-center gap-3">
               <section className="bg-orange-500 rounded text-white w-fit p-5">
                 No section created yet !
               </section>

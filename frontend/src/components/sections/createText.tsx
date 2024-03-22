@@ -1,6 +1,7 @@
 import { createSectionText } from '@/sections/actions/section.action';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
+import { CiTextAlignCenter } from 'react-icons/ci';
 
 type Props = {
 	portfolioId: string;
@@ -22,9 +23,12 @@ const CreateText: React.FC<Props> = ({ portfolioId, order }) => {
 
 	return (
 		<button
-			className="m-4 bg-gray-200 hover:bg-gray-300"
+			className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
 			onClick={handleCreateText}
-		>Text</button>
+		>
+		<CiTextAlignCenter size={40}/>
+		<>Text</>
+		</button>
 	);
 };
 

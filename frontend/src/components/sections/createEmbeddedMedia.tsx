@@ -6,6 +6,7 @@ import { setReloading } from '@/store/slices/reload.slice';
 import { useTheme } from 'next-themes';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import { PiVideo } from 'react-icons/pi';
 
 type Props = {
 	portfolioId: string;
@@ -60,20 +61,17 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 			<button
 				type="button"
 				onClick={openModal}
-				className="m-4 rounded-xl bg-gray-200 hover:bg-gray-300"
+				className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
 			>
-				Video
+				<PiVideo size={40}/>
+				<>Video</>
 			</button>
 
 			{/* Modal */}
 			{isOpen && (
 				<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300 ">
 					{/* Modal content */}
-					<div
-						className={`bg-white w-1/2 h-1/2 p-12  ${
-							theme === 'modern' ? modern.embeddedBackground : ''
-						}`}
-					>
+					<div className="bg-white w-5/6 h-1/2 p-12 rounded">
 						{/* Close modal button */}
 						<button className="focus:outline-none" type="button" onClick={closeModal}>
 							{/* Hero icon - close button */}
@@ -93,19 +91,15 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 							</svg>
 						</button>
 						{/* Modal content */}
-						<section>
+						<section className='flex flex-col items-center'>
 							<h2 className="text-xl">Add Link</h2>
 							<textarea
 								onChange={handleCodeChange}
 								value={code}
-								className={`border w-full h-[150px] text-sm ${
-									theme === 'modern' ? modern.embeddedInputField : ''
-								}`}
+								className="border w-full h-[150px] text-sm bg-white"
 							></textarea>
 							<button
-								className={`m-4 bg-gray-200 hover:bg-gray-300 ${
-									theme === 'modern' ? modern.embeddedInputField : ''
-								}`}
+								className="m-4 p-1 rounded bg-gray-200 hover:bg-gray-300 text-base"
 								onClick={handleCreateEmbeddedMedia}
 							>
 								Insert Media

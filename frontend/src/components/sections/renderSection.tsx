@@ -68,7 +68,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteImage sectionId={section.item.id} />
 					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
-						className={`flex ${
+						className={`flex  ${
 							((section as SectionImage).item.position === 'center')
 								? 'justify-center'
 								: ((section as SectionImage).item.position === 'right')
@@ -76,7 +76,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 									: ''
 						}`}
 					>
-						<div className="w-1/2" key={section.item.id}>
+						<div className="w-1/2 max-sm:w-full" key={section.item.id}>
 							<img
 								src={(section as SectionImage).item.url}
 								alt={(section as SectionImage).item.alt}
@@ -96,12 +96,12 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 				<>
 					<DeleteImageText sectionId={section.item.id} />
 					<ChangePositionSectionImageText section={section as SectionImageText} />
-					<div className={`flex justify-evenly ${
+					<div className={`flex justify-evenly items-center  max-sm:flex-col ${
 						((section as SectionImageText).item.position === 'text_img')
-							? 'flex-row-reverse'
+							? 'flex-row-reverse max-sm:flex-col-reverse'
 							: ''
 					}`}>
-						<div className="w-1/2" key={`img-${section.item.id}`}>
+						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`img-${section.item.id}`}>
 							<img
 								src={(section as SectionImageText).item.imgUrl}
 								alt={(section as SectionImageText).item.imgAlt}
@@ -114,7 +114,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							</div>
 						</div>
 
-						<div className="w-1/2 " key={`text-${section.item.id}`}>
+						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`text-${section.item.id}`}>
 							<InputSectionImageTextHeading section={section as SectionImageText} />
 							<InputSectionImageTextContent section={section as SectionImageText}/>
 						</div>
@@ -125,7 +125,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 			return (
 				<>
 					<DeleteEmbeddedMedia sectionId={section.item.id} />
-					<div
+					<div className='flex justify-center'
 						key={section.item.id}
 						dangerouslySetInnerHTML={{
 							__html: (section as SectionEmbeddedMedia).item.code

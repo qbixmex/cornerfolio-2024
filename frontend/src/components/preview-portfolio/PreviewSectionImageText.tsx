@@ -10,13 +10,13 @@ type Props = {
 const PreviewSectionImageText: React.FC<Props> = ({ section }) => {
     const { theme } = useTheme();
 	return (
-        <div className={`flex justify-evenly ${
+        <div className={`flex justify-evenly max-sm:flex-col items-center ${
             ((section as SectionImageText).item.position === 'text_img')
-                ? 'flex-row-reverse'
+                ? 'flex-row-reverse max-sm:flex-col-reverse'
                 : ''
         }`}>
             {/* image */}
-            <div className="w-1/2" key={`img-${section.item.id}`}>
+            <div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`img-${section.item.id}`}>
 			    <img
 					src={(section as SectionImageText).item.imgUrl}
 					alt={(section as SectionImageText).item.imgAlt}
@@ -31,7 +31,7 @@ const PreviewSectionImageText: React.FC<Props> = ({ section }) => {
                 </div>
 			</div>
             {/* text */}
-            <div className="w-1/2 " key={`text-${section.item.id}`}>
+            <div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`text-${section.item.id}`}>
                 {/* txtHeading */}
                 <div className="flex items-between m-4">
                     <div style={{ fontSize: section.item.txtHeadingSize }} 

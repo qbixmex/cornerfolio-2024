@@ -17,7 +17,7 @@ export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
     },[theme])
 
     return (
-        <div className={`py-[30px] px-[80px] border-b-gray-300 border-2 
+        <div className={`py-[30px] px-[80px] max-sm:px-[30px] border-b-gray-300 border-2 
         ${
             theme === 'modern' ? modern.headerBackGroundColor : ''
         }`}>

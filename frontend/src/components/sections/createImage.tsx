@@ -1,6 +1,7 @@
 import { createSectionImage } from '@/sections/actions/section.action';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
+import { FaRegImages } from 'react-icons/fa6';
 
 type Props = {
 	portfolioId: string;
@@ -21,9 +22,12 @@ const CreateImage: React.FC<Props> = ({ portfolioId, order }) => {
 
 	return (
 		<button
-			className="m-4 bg-gray-200 hover:bg-gray-300"
+			className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
 			onClick={handleCreateImage}
-		>Image</button>
+		>
+			<FaRegImages size={40}/>
+			<>Image</>
+		</button>
 	);
 };
 
