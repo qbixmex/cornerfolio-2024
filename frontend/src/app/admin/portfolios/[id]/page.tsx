@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPortfolio } from '@/portfolios/actions/portfolio.action';
 import { TemplateHeader, TemplateFooter} from '@/portfolios/components';
 import SectionsList from '@/components/sections/sectionsList';
@@ -9,7 +9,6 @@ import { useAppSelector } from '@/store';
 import { IPortfolio } from '@/interfaces';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { useTheme } from 'next-themes';
-import modern from '../templates/modern-template.module.css';
 
 type Props = {
   params: { id: string };
@@ -33,11 +32,11 @@ const PORTFOLIO_DATA: IPortfolio = {
   tinyUrlId: '',
 };
 
-const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
+const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
   const [ loading, setLoading ] = useState(true);
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -61,14 +60,14 @@ const EditPortfolioPage: FC<Props> = ({ params: { id } }) => {
       {!loading &&(
         <>
           <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end z-10'>
-            <button className='btn rounded-md bg-gray-300 border m-2 mr-20 '>
-              <a 
+            <a 
               href={`http://localhost:3000/${portfolio.tinyUrlId}`}
               target='blank'
-              className="justify-between text-black text-base"
-              >Preview</a>
-            </button> 
+              className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
+              title="Live Portfolio Preview"
+            >preview</a>
           </div>
+
           <TemplateHeader portfolio={portfolio} />
           <ChooseSection portfolioId={id} order={0} />
           <ThemeSwitcher id={portfolio.id} />
