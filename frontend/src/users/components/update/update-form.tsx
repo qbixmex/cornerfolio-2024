@@ -16,8 +16,6 @@ type Props = {
 const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
   const [imageFieldKey, setImageFieldKey] = useState(Date.now());
 
-  console.log(user);
-
   const formik = useFormik<UserUpdate>({
     initialValues: {
       name: user.name,

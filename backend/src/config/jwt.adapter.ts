@@ -5,6 +5,7 @@ export type JWTAdapterType = {
   id: string;
   name: string;
   email: string;
+  imageUrl?: string;
 };
 
 const JWT_SEED = envs.JWT_SECRET
