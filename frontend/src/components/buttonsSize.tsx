@@ -1,4 +1,5 @@
 import { Button } from '@nextui-org/react';
+import clsx from 'clsx';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 
 type Props = {
@@ -40,11 +41,11 @@ const ButtonsSize: React.FC<Props> = ({ decrementFontSize, incrementFontSize, fo
 				color="primary"
 				variant="shadow"
 				size="sm"
-				className={`
+				className={clsx(`
 					border-none bg-gradient-to-tl from-purple-700 to-sky-500
 					${
 						formik.errors.content ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}
+					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`)}
 			>
 				<span className="text-white">save</span>
 			</Button>
