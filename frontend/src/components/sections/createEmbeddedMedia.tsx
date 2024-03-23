@@ -3,8 +3,10 @@
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
+import { Button } from '@nextui-org/react';
 import { useTheme } from 'next-themes';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FaVideo } from 'react-icons/fa';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
@@ -57,21 +59,28 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 	return (
 		<>
 			{/*  Open Modal */}
-			<button
-				type="button"
-				onClick={openModal}
-				className="m-4 rounded-xl bg-gray-200 hover:bg-gray-300"
-			>
-				Video
-			</button>
+			<div className="flex flex-col items-center">
+				<Button
+					color="primary"
+					variant="shadow"
+					size="md"
+					fullWidth={true}
+					className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
+					onClick={openModal}
+					type="button"
+				>
+					<FaVideo className="text-lg text-white" />
+				</Button>
+				<span className="text-sm">Video</span>
+			</div>
 
 			{/* Modal */}
 			{isOpen && (
-				<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300 ">
+				<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300 z-40 ">
 					{/* Modal content */}
 					<div
-						className={`bg-white w-1/2 h-1/2 p-12  ${
-							theme === 'modern' ? modern.embeddedBackground : ''
+						className={`bg-white w-1/2 h-1/2 p-12 rounded-md ${
+							theme === 'modern' || theme === 'dark' ? modern.embeddedBackground : ''
 						}`}
 					>
 						{/* Close modal button */}
@@ -99,12 +108,12 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 								onChange={handleCodeChange}
 								value={code}
 								className={`border w-full h-[150px] text-sm ${
-									theme === 'modern' ? modern.embeddedInputField : ''
+									theme === 'modern' || theme === 'dark' ? modern.embeddedInputField : ''
 								}`}
 							></textarea>
 							<button
-								className={`m-4 bg-gray-200 hover:bg-gray-300 ${
-									theme === 'modern' ? modern.embeddedInputField : ''
+								className={`m-4 ${
+									theme === 'modern' || theme === 'dark' ? modern.embeddedButtonBackground : ''
 								}`}
 								onClick={handleCreateEmbeddedMedia}
 							>

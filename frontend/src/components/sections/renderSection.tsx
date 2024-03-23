@@ -1,24 +1,28 @@
+import {
+	SectionDivider,
+	SectionEmbeddedMedia,
+	SectionImage,
+	SectionImageText,
+	SectionText,
+} from '@/interfaces';
 import DeleteDivider from './deleteDivider';
-import DeleteText from './deleteText';
+import DeleteEmbeddedMedia from './deleteEmbeddedMedia';
 import DeleteImage from './deleteImage';
 import DeleteImageText from './deleteImageText';
-import DeleteEmbeddedMedia from './deleteEmbeddedMedia';
-import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider
-} from '@/interfaces';
+import DeleteText from './deleteText';
 import InputSectionDivider from './inputSectionDivider';
 import InputSectionImage from './inputSectionImage';
-import InputSectionTextHeading from './inputSectionTextHeading';
-import InputSectionTextContent from './inputSectionTextContent';
-import InputSectionImageTextHeading from './inputSectionImageTextHeading';
-import InputSectionImageTextContent from './inputSectionImageTextContent';
 import InputSectionImageTextCaption from './inputSectionImageTextCaption';
-import ChangePositionSectionImageText from './positionSectionImageText';
+import InputSectionImageTextContent from './inputSectionImageTextContent';
+import InputSectionImageTextHeading from './inputSectionImageTextHeading';
+import InputSectionTextContent from './inputSectionTextContent';
+import InputSectionTextHeading from './inputSectionTextHeading';
 import ChangePositionSectionImage from './positionSectionImage';
+import ChangePositionSectionImageText from './positionSectionImageText';
 import ChangePositionSectionText from './positionSectionText';
+import './renderSection.css';
 import UploadSectionImage from './uploadSectionImage';
 import UploadSectionImageText from './uploadSectionImageText';
-
 type Section =
 	| SectionText
 	| SectionImage
@@ -34,29 +38,31 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
-				<div className='border w-full'>
+				<div className="border w-full">
 					<DeleteDivider sectionId={section.item.id} />
-					<div className='border-transparent border-2 hover:border-gray-300'>
+					<div className="border-transparent border-2 hover:border-gray-300">
 						<InputSectionDivider section={section as SectionDivider} />
 					</div>
 				</div>
-			)
+			);
 		case 'SectionText':
 			return (
-				<div className='w-full'>
+				<div className="w-full">
 					<DeleteText sectionId={section.item.id} />
-					<ChangePositionSectionText section={section as SectionText}/>
+					<ChangePositionSectionText section={section as SectionText} />
 					<div
 						className={`flex border w-full
-							${ ((section as SectionText).item.position === 'center')
-								? 'justify-center'
-								: ((section as SectionText).item.position === 'right')
+							${
+								(section as SectionText).item.position === 'center'
+									? 'justify-center'
+									: (section as SectionText).item.position === 'right'
 									? 'justify-end'
 									: ''
 							}
-						`}>
+						`}
+					>
 						<div key={section.item.id} className="w-3/4">
-							<InputSectionTextHeading section={section as SectionText}/>
+							<InputSectionTextHeading section={section as SectionText} />
 							<InputSectionTextContent section={section as SectionText} />
 						</div>
 					</div>
@@ -69,11 +75,11 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
 						className={`flex ${
-							((section as SectionImage).item.position === 'center')
+							(section as SectionImage).item.position === 'center'
 								? 'justify-center'
-								: ((section as SectionImage).item.position === 'right')
-									? 'justify-end'
-									: ''
+								: (section as SectionImage).item.position === 'right'
+								? 'justify-end'
+								: ''
 						}`}
 					>
 						<div className="w-1/2" key={section.item.id}>
@@ -81,11 +87,11 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 								src={(section as SectionImage).item.url}
 								alt={(section as SectionImage).item.alt}
 							/>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-							<UploadSectionImage section={section as SectionImage} />
+							<div className="border-transparent border-2 hover:border-gray-300">
+								<UploadSectionImage section={section as SectionImage} />
 							</div>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-							<InputSectionImage section={section as SectionImage} />
+							<div className="border-transparent border-2 hover:border-gray-300">
+								<InputSectionImage section={section as SectionImage} />
 							</div>
 						</div>
 					</div>
@@ -96,27 +102,27 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 				<>
 					<DeleteImageText sectionId={section.item.id} />
 					<ChangePositionSectionImageText section={section as SectionImageText} />
-					<div className={`flex justify-evenly ${
-						((section as SectionImageText).item.position === 'text_img')
-							? 'flex-row-reverse'
-							: ''
-					}`}>
+					<div
+						className={`flex justify-evenly ${
+							(section as SectionImageText).item.position === 'text_img' ? 'flex-row-reverse' : ''
+						}`}
+					>
 						<div className="w-1/2" key={`img-${section.item.id}`}>
 							<img
 								src={(section as SectionImageText).item.imgUrl}
 								alt={(section as SectionImageText).item.imgAlt}
 							/>
-							<div className='border-transparent border-2 hover:border-gray-300'>
+							<div className="border-transparent border-2 hover:border-gray-300">
 								<UploadSectionImageText section={section as SectionImageText} />
 							</div>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<InputSectionImageTextCaption section={section as SectionImageText}/>
+							<div className="border-transparent border-2 hover:border-gray-300">
+								<InputSectionImageTextCaption section={section as SectionImageText} />
 							</div>
 						</div>
 
 						<div className="w-1/2 " key={`text-${section.item.id}`}>
 							<InputSectionImageTextHeading section={section as SectionImageText} />
-							<InputSectionImageTextContent section={section as SectionImageText}/>
+							<InputSectionImageTextContent section={section as SectionImageText} />
 						</div>
 					</div>
 				</>
@@ -126,9 +132,10 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 				<>
 					<DeleteEmbeddedMedia sectionId={section.item.id} />
 					<div
+						className="video-container"
 						key={section.item.id}
 						dangerouslySetInnerHTML={{
-							__html: (section as SectionEmbeddedMedia).item.code
+							__html: (section as SectionEmbeddedMedia).item.code,
 						}}
 					/>
 				</>

@@ -16,7 +16,7 @@ const ButtonsSize: React.FC<Props> = ({ decrementFontSize, incrementFontSize, fo
 				size="sm"
 				isIconOnly
 				fullWidth={true}
-				className="border bg-gradient-to-tr from-blue-900 to-cyan-600 "
+				className="border-none bg-gradient-to-tr from-blue-900 to-cyan-600 "
 				type="button"
 				onClick={incrementFontSize}
 			>
@@ -29,7 +29,7 @@ const ButtonsSize: React.FC<Props> = ({ decrementFontSize, incrementFontSize, fo
 				size="sm"
 				isIconOnly
 				fullWidth={true}
-				className=" border bg-gradient-to-tl from-pink-500 to-orange-400"
+				className=" border-none bg-gradient-to-tl from-pink-500 to-orange-400"
 				type="button"
 				onClick={decrementFontSize}
 			>
@@ -41,7 +41,7 @@ const ButtonsSize: React.FC<Props> = ({ decrementFontSize, incrementFontSize, fo
 				variant="shadow"
 				size="sm"
 				className={`
-					border bg-gradient-to-tl from-purple-700 to-sky-500
+					border-none bg-gradient-to-tl from-purple-700 to-sky-500
 					${
 						formik.errors.content ? 'hidden' : ''
 					} hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`}

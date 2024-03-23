@@ -89,14 +89,9 @@
 	border-radius: 5px;
 	padding: 8px;
 	background: #95b0b4;
-	color: #befcff;
+	color: #13141A;
 }
 
-/* .SubHeaderInputField {
-		inputBg: 'bg-transparent',
-		inputTextColor: 'text-[#7289F4]',
-	}
-	
-	.SelectThemeButton {
-		buttonTextColor: 'text-[#EDEEFF]',
-	} */
+.addSectionButtonsBackground {
+	background-image: linear-gradient(to right bottom, #0f3573fd 3%, #13141A 52%)
+}

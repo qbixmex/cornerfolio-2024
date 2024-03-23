@@ -34,7 +34,7 @@ const ChangePositionSectionImageText: React.FC<Props> = ({ section }) => {
 				size="sm"
 				isIconOnly
 				fullWidth={true}
-				className=" border bg-gradient-to-tr from-black via-maroon-900 to-lime-400 mb-5"
+				className=" border-none bg-gradient-to-tr from-black via-maroon-900 to-lime-400 mb-5"
 				onClick={handleUpdate}
 			>
 				<HiSwitchHorizontal className="text-white text-medium" />
