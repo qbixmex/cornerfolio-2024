@@ -1,16 +1,17 @@
 'use client';
 
 import { updatePortfolioFooter } from '@/api/updatePortfolioFooter';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { Button } from '@nextui-org/react';
+import clsx from 'clsx';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -117,10 +118,10 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 					</div>
 					<Button
 						type="submit"
-						className={`
+						className={clsx(`
 						bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 
     ${formik.errors.links || formik.errors.text ? 'hidden' : ''} 
-    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`}
+    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`)}
 					>
 						Save
 					</Button>

@@ -11,6 +11,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -125,10 +126,10 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 					</div>
 					<Button
 						type="submit"
-						className={`
+						className={clsx(`
 						bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 
     ${formik.errors.title || formik.errors.subHeading ? 'hidden' : ''} 
-    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`}
+    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`)}
 					>
 						Save
 					</Button>

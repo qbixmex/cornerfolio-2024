@@ -17,6 +17,7 @@ type Portfolio = {
 	sections: any[];
 	footer: PortfolioFooter;
 	template: string;
+	tinyUrlId: string;
 };
 
 type Props = {

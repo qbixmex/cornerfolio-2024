@@ -21,4 +21,5 @@ export interface IPortfolio {
 	},
 	template: string;
 	theme: string;
+	tinyUrlId: string;
 }

@@ -44,6 +44,7 @@ export type PortfolioType = {
 	template: Types.ObjectId;
 	sections: Section[];
 	theme: string;
+	tinyUrlId: string;
 };
 
 type timestamps = {
@@ -102,6 +103,11 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 			},
 		],
 		theme: { type : String, default: "light" },
+		tinyUrlId: {
+            type: String,
+            unique: true,
+            required: true,
+        },
 	},
 	{ timestamps: true },
 );

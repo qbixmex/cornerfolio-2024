@@ -9,6 +9,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionImageText;
@@ -68,9 +69,7 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 bg-${ toast.type === 'error' ? 'red' : 'green' }-500 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>

@@ -7,8 +7,9 @@ import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionImage;
@@ -78,6 +79,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					{toast.message}
 				</div>
 			)}
+
 			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="caption"
@@ -91,6 +93,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
+
 				{formik.errors.caption && formik.touched.caption && (
 					<p className="text-red-500 text-xs">{formik.errors.caption}</p>
 				)}

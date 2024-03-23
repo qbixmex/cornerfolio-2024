@@ -1,10 +1,23 @@
-"use client";
+'use client';
 
-import { portFoliosFetch } from "@/api/portfolios.fetch";
-import { useState } from "react";
-import { Portfolio } from "./portfolioManagementActions";
+import { useState } from 'react';
+import { portFoliosFetch } from '@/api/portfolios.fetch';
+import { Portfolio } from './portfolioManagementActions';
+import { AuthenticatedUser } from '@/interfaces';
+import { UserIcon } from './icons';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { logout } from '@/app/login/actions/logout.action';
+import { useRouter } from 'next/navigation';
+import { MdLogout } from 'react-icons/md';
 
-const TopNavigation = () => {
+type Props = {
+	authenticatedUser?: AuthenticatedUser;
+};
+
+const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
+	const pathname = usePathname();
+	const router = useRouter();
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
 	const [centerMenuOpen, setCenterMenuOpen] = useState(false);
 	const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
@@ -14,19 +27,6 @@ const TopNavigation = () => {
 		setPortfolios(data);
 	}
 
-	//* Get login User from redux?
-	const [loginUser, setLoginUser] = useState({
-		id: "65e7c54129def4d96ff27aba",
-		name: "Taisei Yamaguchi",
-		email: "aries0326taisei@gmail.com",
-		type: "student",
-		course: "Web development",
-		schedule: "afternoon",
-		portfolios: [],
-		jobTitle: "Web Engineer",
-		img: "https://avatars.githubusercontent.com/u/119865966?v=4",
-	});
-
 	const toggleCenterMenu = () => {
 		fetchDataForPortfolio();
 		setCenterMenuOpen(!centerMenuOpen);
@@ -34,6 +34,12 @@ const TopNavigation = () => {
 
 	const toggleRightMenu = () => {
 		setRightMenuOpen(!rightMenuOpen);
+	};
+
+	const handleLogout = () => {
+		logout();
+		router.refresh();
+		router.push('/login');
 	};
 
 	return (
@@ -99,10 +105,21 @@ const TopNavigation = () => {
 			<div>
 				<button
 					type="button"
-					className="h-8 w-8 overflow-hidden rounded-full"
+					className="overflow-hidden flex justify-center items-center gap-x-2"
 					onClick={toggleRightMenu}
 				>
-					<img src={loginUser.img} alt={loginUser.name} />
+					<span className="text-white font-medium">{authenticatedUser?.name}</span>
+					{
+						(!authenticatedUser?.imageUrl)
+							? <UserIcon className="w-10 h-10 text-gray-300 rounded-full border border-white p-2" />
+							: (
+								<img
+									className="w-10 h-10 rounded-full border border-white p-1 object-cover object-top"
+									src={authenticatedUser.imageUrl}
+									alt={authenticatedUser.name}
+								/>
+							)
+					}
 				</button>
 
 				<div
@@ -112,44 +129,26 @@ const TopNavigation = () => {
 					x-show="profileOpen"
 					x-transition="true"
 				>
-					<div className="flex items-center space-x-2 p-2">
-						<img src={loginUser.img} alt={loginUser.name} className="h-9 w-9 rounded-full" />
-						<div className="font-medium">{loginUser.name}</div>
+					<div className="flex flex-col space-y-3 p-2 text-md">
+						{
+							pathname !== `/admin/users/profile/${authenticatedUser?.id}` ? (
+								<Link
+									href={`/admin/users/profile/${authenticatedUser?.id}`}
+									className="transition text-slate-700 hover:text-blue-400"
+									onClick={toggleRightMenu}
+								>show profile</Link>
+							) : (
+								<span className="text-gray-300 cursor-not-allowed">show profile</span>
+							)
+						}
 					</div>
 
-					<div className="flex flex-col space-y-3 p-2">
-						<a href="#" className="text-sm transition hover:text-blue-600">
-							My Profile
-						</a>
-						<a href="#" className="text-sm transition hover:text-blue-600">
-							Settings
-						</a>
-						<a href="../login" className="text-sm transition hover:text-blue-600">
-							Login
-						</a>
-						<a href="../register" className="text-sm transition hover:text-blue-600">
-							Register
-						</a>
-					</div>
-
-					<div className="p-2">
-						<button className="flex items-center space-x-2 transition hover:text-blue-600">
-							<svg
-								className="h-4 w-4"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-								/>
-							</svg>
-							<div>Log Out</div>
-						</button>
+					<div className="flex items-center gap-x-2 p-2 ">
+						<MdLogout size={20} />
+						<button
+							onClick={handleLogout}
+							className="hover:text-blue-600 transition"
+						>logout</button>
 					</div>
 				</div>
 			</div>

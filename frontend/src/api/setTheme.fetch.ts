@@ -17,11 +17,11 @@ const updatePortfolioTheme = async ({ id, theme }: UpdateThemeProps) => {
 			throw new Error("Network response was not ok");
 		}
 
-		await response.json();
+		return await response.json();
 	} catch (error) {
-		console.error("Error:", error);
+		console.error(error);
+		throw new Error("Unknown error occurred while updating the portfolio theme, check logs !");
 	}
-	return;
 };
 
 export default updatePortfolioTheme;
