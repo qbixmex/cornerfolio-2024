@@ -1,8 +1,6 @@
 'use client';
 
-import { ChangeEvent, FC, SetStateAction, useState } from 'react';
-import Swal from 'sweetalert2';
-import { deleteUser, updatePassword, updateUser } from '../actions/user.actions';
+import { useState } from 'react';
 import styles from './profile.module.css'
 import { UserResponse } from '../interfaces/users';
 import UpdateUserForm from './update/update-form';
@@ -13,7 +11,7 @@ type Props = {
 	user: UserResponse;
 };
 
-const ProfileBody: FC<Props> = ({ user }) => {
+const ProfileBody: React.FC<Props> = ({ user }) => {
 
 	const [toast, setToast] = useState({
 		message: '',
