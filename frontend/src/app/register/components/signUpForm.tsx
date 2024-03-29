@@ -1,5 +1,6 @@
 "use client";
 
+import { setCookie } from 'cookies-next';
 import { signUpFetch } from "@/api/signUp.fetch";
 import clsx from "clsx";
 import { useFormik } from "formik";
@@ -8,6 +9,8 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import * as yup from "yup";
 import styles from "./register.module.css";
+import jwt from 'jsonwebtoken';
+import { Token } from '@/interfaces';
 
 const formSchema = yup.object().shape({
   name: yup
@@ -80,18 +83,20 @@ export function SignUpForm() {
         course: values.course,
         schedule: values.schedule,
       };
+
       const data = await signUpFetch(formData);
 
       if (data.error) {
         setToast({ message: data.error, type: "error" });
+        setTimeout(() => setToast({ message: "", type: "" }), 4000);
       } else {
+        const token = jwt.decode(data.token) as Token;
+        setCookie('token', data.token);
         setToast({ message: data.message, type: "success" });
+        setTimeout(() => setToast({ message: "", type: "" }), 4000);
+        router.push(`/admin/users/profile/${token.id}`);
       }
 
-      setTimeout(() => {
-        setToast({ message: "", type: "" });
-      }, 4000);
-      router.push(`/admin/users/profile/${data.user.id}`);
     },
   });
 
@@ -103,22 +108,6 @@ export function SignUpForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-
-  const togglePasswordVisibility = () => {
-    if (!showPassword) {
-      setShowPassword(true);
-    } else {
-      setShowPassword(false);
-    }
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    if (!showConfirmPassword) {
-      setShowConfirmPassword(true);
-    } else {
-      setShowConfirmPassword(false);
-    }
-  };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">

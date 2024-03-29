@@ -52,20 +52,11 @@ export const register = async (
       id: savedUser.id,
       name: savedUser.name,
       email: savedUser.email,
+      imageUrl: savedUser.imageURL ?? '',
     });
 
     return response.status(200).json({
       message: 'Account registered successfully !',
-      user: {
-        id: savedUser._id,
-        name: savedUser.name,
-        email: savedUser.email,
-        jobTitle: savedUser.jobTitle,
-        course: savedUser.course,
-        schedule: savedUser.schedule,
-        createdAt: savedUser.createdAt,
-        updatedAt: savedUser.updatedAt,
-      },
       token: newToken,
     });
 
@@ -103,6 +94,7 @@ export const login = async (
       id: foundUser.id,
       name: foundUser.name,
       email: foundUser.email,
+      imageUrl: foundUser.imageURL ?? '',
     },
     '1h' //* token expires in 1 hour
   );
@@ -110,16 +102,6 @@ export const login = async (
   //* return authenticated user and token.
   return response.status(200).json({
     message: 'User logged in successfully !',
-    user: {
-      id: foundUser.id,
-      name: foundUser.name,
-      email: foundUser.email,
-      jobTitle: foundUser.jobTitle,
-      course: foundUser.course,
-      schedule: foundUser.schedule,
-      createdAt: foundUser.createdAt,
-      updatedAt: foundUser.updatedAt,
-    },
     token: newToken,
   });
 };

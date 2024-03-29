@@ -5,6 +5,7 @@ export type TokenType = {
   id: string;
   name: string;
   email: string;
+  imageUrl?: string;
 };
 
 export const generateToken = async (options: TokenType, duration = '1h') => {
@@ -13,7 +14,8 @@ export const generateToken = async (options: TokenType, duration = '1h') => {
     {
       id: options.id,
       name: options.name,
-      email: options.email
+      email: options.email,
+      imageUrl: options.imageUrl,
     },
     duration
   );

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
 import { fetchLogin } from '@/api/login.fetch';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
@@ -32,6 +33,7 @@ const FORM_DATA: FormData = {
 
 export function LoginForm() {
   const router = useRouter();
+
   const [ toast, setToast ] = useState({
     message: "",
     type: "",
@@ -42,17 +44,20 @@ export function LoginForm() {
     validationSchema: formSchema,
     onSubmit: async (formData) => {
       const data = await fetchLogin(formData);
-      console.log(data);
+
       if (data.error) {
         setToast({ message: data.error, type: "error" });
+        setTimeout(() => setToast({ message: "", type: "" }), 2500);
+        formik.resetForm();
       } else {
-        setToast({ message: data.message, type: "success" });
+        setCookie('token', data.token);
+        setToast({ message: data.message!, type: "success" });
+        formik.resetForm();
+        setTimeout(() => setToast({ message: "", type: "" }), 2500);
+        setTimeout(() => {
+          router.push('/admin/portfolio-management');
+        }, 2000);
       }
-      setTimeout(() => setToast({ message: "", type: "" }), 2500);
-      formik.resetForm();
-      setTimeout(() => {
-        router.push(`/admin/users/profile/${data.user.id}`);
-      }, 3000)
     },
   });
 
