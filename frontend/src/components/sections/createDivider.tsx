@@ -1,6 +1,7 @@
 import { createSectionDivider } from '@/sections/actions/section.action';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
+import { RxDividerHorizontal } from 'react-icons/rx';
 
 type Props = {
 	portfolioId: string;
@@ -22,10 +23,11 @@ const CreateDivider: React.FC<Props> = ({ portfolioId, order }) => {
 
 	return (
 		<button
-			className="m-4 bg-gray-200 hover:bg-gray-300"
+			className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
 			onClick={handleCreateDivider}
 		>
-			Divider
+			<RxDividerHorizontal size={40}/>
+			<>Divider</>
 		</button>
 	);
 };

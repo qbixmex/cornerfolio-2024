@@ -20,7 +20,7 @@ const PreviewSectionImage: React.FC<Props> = ({ section }) => {
 						: ''
 				}`}
 			>
-            <div className="flex flex-col items-between m-2 w-1/2"key={section.item.id} >
+            <div className="flex flex-col items-between m-2 w-1/2 max-sm:w-full" key={section.item.id} >
                 <img
                     src={(section as SectionImage).item.url}
                     alt={(section as SectionImage).item.alt}
