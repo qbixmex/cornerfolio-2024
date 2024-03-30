@@ -43,7 +43,7 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 
 			{/* Modal */}
 			{isOpen && (
-				<div className="fixed z-10 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
+				<div className=" text-black fixed z-10 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
 					{/* Modal content */}
 					<div className="bg-[#13141A] text-white w-1/2 h-1/2 p-12 rounded-md">
 						{/* Close modal button */}
@@ -65,7 +65,7 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 							</svg>
 						</button>
 						{/* Modal content */}
-						<div>
+						<div className='flex flex-col items-center'>
 							<h2 className="text-xl">Add section</h2>
 							<div className="border rounded-md flex flex-wrap justify-center gap-3">
 								<CreateText portfolioId={portfolioId} order={order} />

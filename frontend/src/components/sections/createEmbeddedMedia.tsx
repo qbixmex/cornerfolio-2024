@@ -102,7 +102,7 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 							</svg>
 						</button>
 						{/* Modal content */}
-						<section>
+						<section className='flex flex-col items-center'>
 							<h2 className="text-xl">Add Link</h2>
 							<textarea
 								onChange={handleCodeChange}

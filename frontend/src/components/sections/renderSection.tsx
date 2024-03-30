@@ -82,7 +82,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 								: ''
 						}`}
 					>
-						<div className="w-1/2" key={section.item.id}>
+						<div className="w-1/2 max-sm:w-full" key={section.item.id}>
 							<img
 								src={(section as SectionImage).item.url}
 								alt={(section as SectionImage).item.alt}
@@ -120,7 +120,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							</div>
 						</div>
 
-						<div className="w-1/2 " key={`text-${section.item.id}`}>
+						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`text-${section.item.id}`}>
 							<InputSectionImageTextHeading section={section as SectionImageText} />
 							<InputSectionImageTextContent section={section as SectionImageText} />
 						</div>
