@@ -59,7 +59,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
-          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end z-10'>
+          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
             <a 
               href={`http://localhost:3000/${portfolio.tinyUrlId}`}
               target='blank'

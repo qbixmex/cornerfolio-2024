@@ -6,5 +6,6 @@ export * as SectionEmbeddedMediaController from './section-embedded-media.contro
 export * as SectionDividerController from './section-divider.controller';
 export * as SectionImageTextController from './section-image-text.controller';
 export * as SectionImageText from './section-image-text.controller';
+export * as SectionColumn from './section-column.controller';
 export * as SeedController from './seed.controller';
 export * as PortfolioController from './portfolio.controller';

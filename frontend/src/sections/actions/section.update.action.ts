@@ -18,6 +18,10 @@ type UpdateImageText =
 	| { txtContent: string; txtContentSize: number}
 	| { position: 'text_img' | 'img_text' };
 
+type UpdateColumn =
+	| { heading: string; headingSize: number }
+	| { content: string; contentSize: number}
+
 export const updateSectionDivider = async (sectionId: string, updateData: UpdateDivider) => {
 	const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
 		method: 'PATCH',
@@ -95,6 +99,63 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 			'content-type': 'application/json',
 		},
 		body: JSON.stringify(updateData)
+	});
+
+	return response.json();
+};
+
+
+export const updateSectionColumn = async (position: 1|2|3, sectionId: string, updateData: UpdateColumn) => {
+	let body: any = {};
+
+    // depending on position, set key
+    if ('heading' in updateData && 'headingSize' in updateData) {
+        if (position === 1) {
+            body = {
+                ...updateData,
+                heading1: updateData.heading,
+                headingSize1: updateData.headingSize
+            };
+        } else if (position === 2) {
+            body = {
+                ...updateData,
+                heading2: updateData.heading,
+                headingSize2: updateData.headingSize
+            };
+        } else {
+            body = {
+                ...updateData,
+                heading3: updateData.heading,
+                headingSize3: updateData.headingSize
+            };
+        }
+    } else if ('content' in updateData && 'contentSize' in updateData) {
+        if (position === 1) {
+            body = {
+                ...updateData,
+                content1: updateData.content,
+                contentSize1: updateData.contentSize
+            };
+        } else if (position === 2) {
+            body = {
+                ...updateData,
+                content2: updateData.content,
+                contentSize2: updateData.contentSize
+            };
+        } else {
+            body = {
+                ...updateData,
+                content3: updateData.content,
+                contentSize3: updateData.contentSize
+            };
+        }
+    }
+	const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
+		method: 'PATCH',
+		headers: {
+			'content-type': 'application/json',
+		},
+		body: JSON.stringify(body)
 	});
 
 	return response.json();

@@ -69,3 +69,25 @@ export interface SectionDivider {
 		updatedAt: string;
 	}
 }
+
+export interface SectionColumn {
+	id: string;
+	kind: string;
+	item: {
+		id: string;
+		heading1: string;
+		content1: string;
+		headingSize1: number;
+		contentSize1: number;
+		heading2: string;
+		content2: string;
+		headingSize2: number;
+		contentSize2: number;
+		heading3: string;
+		content3: string;
+		headingSize3: number;
+		contentSize3: number;
+		createdAt: string;
+		updatedAt: string;
+	}
+}
