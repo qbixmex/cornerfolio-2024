@@ -1,20 +1,19 @@
 import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider
+	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn
 } from '@/interfaces';
 import PreviewSectionDivider from './PreviewSectionDivider';
 import PreviewSectionImage from './PreviewSectionImage';
 import PreviewSectionText from './PreviewSectionText';
 import PreviewSectionImageText from './PreviewSectionImageText';
-// import InputSectionImageTextHeading from './inputSectionImageTextHeading';
-// import InputSectionImageTextContent from './inputSectionImageTextContent';
-// import InputSectionImageTextCaption from './inputSectionImageTextCaption';
+import PreviewSectionColumn from './PreviewSectionColumn';
 
 type Section =
 	| SectionText
 	| SectionImage
 	| SectionEmbeddedMedia
 	| SectionImageText
-	| SectionDivider;
+	| SectionDivider
+	| SectionColumn
 
 type Props = {
 	section: Section;
@@ -50,6 +49,10 @@ const PreviewRenderSection: React.FC<Props> = ({ section }) => {
 						}}
 					/>
 				</div>
+			);
+		case 'SectionColumn':
+			return (	
+				<PreviewSectionColumn section={section as SectionColumn}/>
 			);
 		default:
 			return null;

@@ -8,6 +8,7 @@ import {
 	sectionImageTextRoutes,
 	sectionEmbeddedMediaRoutes,
 	sectionDividerRoutes,
+	sectionColumnRoutes,
 	seedRoutes,
 	portfolioRoutes,
 } from './routes';
@@ -42,6 +43,7 @@ app.use('/api/section-image', sectionImageRoutes);
 app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
+app.use('/api/section-column', sectionColumnRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 

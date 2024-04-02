@@ -8,6 +8,7 @@ import CreateEmbeddedMedia from './createEmbeddedMedia';
 import CreateImage from './createImage';
 import CreateImageText from './createImageText';
 import CreateText from './createText';
+import CreateColumn from './createColumn';
 
 type Props = {
 	portfolioId: string;
@@ -73,6 +74,7 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 								<CreateImageText portfolioId={portfolioId} order={order} />
 								<CreateEmbeddedMedia portfolioId={portfolioId} order={order} />
 								<CreateDivider portfolioId={portfolioId} order={order} />
+								<CreateColumn portfolioId={portfolioId} order={order} />
 							</div>
 						</div>
 					</div>

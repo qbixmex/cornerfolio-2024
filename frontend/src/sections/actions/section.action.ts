@@ -61,6 +61,18 @@ export const createSectionImageText = async (portfolioId: string, order: number)
     return response.json();
 };
 
+export const createSectionColumn = async (portfolioId: string, order: number) => {
+    const response = await fetch(`http://localhost:4000/api/section-column/${portfolioId}/?order=${order}`, {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({})
+    });
+
+    return response.json();
+};
+
 export const deleteSectionImage = async (sectionId: string) => {
     const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
         method: 'DELETE',
@@ -107,6 +119,17 @@ export const deleteSectionDivider = async (sectionId:string) => {
 
 export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
     const response = await fetch(`http://localhost:4000/api/section-embedded-media/${sectionId}`, {
+        method: 'DELETE',
+        headers: {
+            "content-type": "application/json",
+        }
+    });
+
+    return response.json();
+};
+
+export const deleteSectionColumn = async (sectionId:string) => {
+    const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
