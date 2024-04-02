@@ -1,7 +1,7 @@
 'use client';
 
-import { useAppSelector } from '@/store';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from '@/store';
 import { MdAdd } from 'react-icons/md';
 import CreateDivider from './createDivider';
 import CreateEmbeddedMedia from './createEmbeddedMedia';
@@ -43,9 +43,9 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 
 			{/* Modal */}
 			{isOpen && (
-				<div className=" text-black fixed z-10 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
+				<div className="text-black fixed z-10 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
 					{/* Modal content */}
-					<div className="rounded bg-white w-5/6 h-1/2 p-6 ">
+					<div className="bg-[#13141A] text-white w-1/2 h-1/2 p-12 rounded-md">
 						{/* Close modal button */}
 						<button className="focus:outline-none" type="button" onClick={closeModal}>
 							{/* Hero icon - close button */}
@@ -67,7 +67,7 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order }) => {
 						{/* Modal content */}
 						<div className='flex flex-col items-center'>
 							<h2 className="text-xl">Add section</h2>
-							<div className="flex flex-wrap">
+							<div className="border rounded-md flex flex-wrap justify-center gap-3">
 								<CreateText portfolioId={portfolioId} order={order} />
 								<CreateImage portfolioId={portfolioId} order={order} />
 								<CreateImageText portfolioId={portfolioId} order={order} />

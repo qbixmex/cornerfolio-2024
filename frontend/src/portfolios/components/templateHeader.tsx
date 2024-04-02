@@ -5,12 +5,13 @@ import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
+import { Button } from '@nextui-org/react';
+import clsx from 'clsx';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import clsx from 'clsx';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -123,13 +124,15 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 							<p className="text-red-500 text-xs">{formik.errors.subHeading}</p>
 						)}
 					</div>
-					<button
+					<Button
 						type="submit"
 						className={clsx(
-							`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
-							{ 'hidden': formik.errors.title || formik.errors.subHeading }
+							"bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent",
+							{ "hidden": formik.errors.title || formik.errors.subHeading }
 						)}
-					>save</button>
+					>
+						Save
+					</Button>
 				</form>
 			</div>
 		</>

@@ -1,8 +1,9 @@
 import { createSectionImageText } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
-import { FaRegFileImage } from 'react-icons/fa6';
-import { CiTextAlignRight } from 'react-icons/ci';
+import { setReloading } from '@/store/slices/reload.slice';
+import { Button } from '@nextui-org/react';
+import { GrTextWrap } from 'react-icons/gr';
+import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolioId: string;
@@ -10,11 +11,11 @@ type Props = {
 };
 
 const CreateImageText: React.FC<Props> = ({ portfolioId, order }) => {
-	const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch();
 	const handleCreateImageText = async () => {
 		try {
 			dispatch(setReloading(true)); // reloading true
-			await createSectionImageText(portfolioId, order)
+			await createSectionImageText(portfolioId, order);
 		} catch (error) {
 			console.error('Error creating image-text:', error);
 		} finally {
@@ -23,16 +24,20 @@ const CreateImageText: React.FC<Props> = ({ portfolioId, order }) => {
 	};
 
 	return (
-		<button
-			className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
-			onClick={handleCreateImageText}
-		>
-			<div className='flex justify-between'>
-				<FaRegFileImage size={30}/>
-				<CiTextAlignRight size={30}/>
-			</div>
-			Image & Text
-		</button>
+		<div className="flex flex-col items-center">
+			<Button
+				color="primary"
+				variant="shadow"
+				size="md"
+				fullWidth={true}
+				className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
+				onClick={handleCreateImageText}
+				type="button"
+			>
+				<GrTextWrap className="text-lg text-white" />
+			</Button>
+			<span className="text-sm mb-2.5">Image-Text</span>
+		</div>
 	);
 };
 

@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import clsx from 'clsx';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
 	section: SectionImageText;
@@ -76,7 +76,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					{toast.message}
 				</div>
 			)}
-			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
+			<form className="flex justify-center items-center m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="imgCaption"
 					name="imgCaption"
@@ -94,26 +94,11 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.imgCaption}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={incrementFontSize}
-					>+</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={decrementFontSize}
-					>-</button>
-				</div>
-
-				<button
-					type="submit"
-					className={clsx(
-						`hover:bg-gray-200 flex text-xs w-9 h-8 justify-center self-center rounded-md border`,
-						{ 'hidden': formik.errors.imgCaption }
-					)}
-				>save</button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);

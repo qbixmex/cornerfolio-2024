@@ -3,10 +3,11 @@
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
+import { Button } from '@nextui-org/react';
 import { useTheme } from 'next-themes';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
-import { PiVideo } from 'react-icons/pi';
+import { FaVideo } from 'react-icons/fa';
+import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolioId: string;
@@ -58,20 +59,30 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 	return (
 		<>
 			{/*  Open Modal */}
-			<button
-				type="button"
-				onClick={openModal}
-				className="w-[70px] h-[90px] flex flex-col justify-between items-center p-[5px] m-4 bg-white hover:bg-gray-200 text-black text-sm rounded"
-			>
-				<PiVideo size={40}/>
-				<>Video</>
-			</button>
+			<div className="flex flex-col items-center">
+				<Button
+					color="primary"
+					variant="shadow"
+					size="md"
+					fullWidth={true}
+					className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
+					onClick={openModal}
+					type="button"
+				>
+					<FaVideo className="text-lg text-white" />
+				</Button>
+				<span className="text-sm">Video</span>
+			</div>
 
 			{/* Modal */}
 			{isOpen && (
-				<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300 ">
+				<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300 z-40 ">
 					{/* Modal content */}
-					<div className="bg-white w-5/6 h-1/2 p-12 rounded">
+					<div
+						className={`bg-white w-1/2 h-1/2 p-12 rounded-md ${
+							theme === 'modern' || theme === 'dark' ? modern.embeddedBackground : ''
+						}`}
+					>
 						{/* Close modal button */}
 						<button className="focus:outline-none" type="button" onClick={closeModal}>
 							{/* Hero icon - close button */}
@@ -96,10 +107,14 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 							<textarea
 								onChange={handleCodeChange}
 								value={code}
-								className="border w-full h-[150px] text-sm bg-white"
+								className={`border w-full h-[150px] text-sm ${
+									theme === 'modern' || theme === 'dark' ? modern.embeddedInputField : ''
+								}`}
 							></textarea>
 							<button
-								className="m-4 p-1 rounded bg-gray-200 hover:bg-gray-300 text-base"
+								className={`m-4 ${
+									theme === 'modern' || theme === 'dark' ? modern.embeddedButtonBackground : ''
+								}`}
 								onClick={handleCreateEmbeddedMedia}
 							>
 								Insert Media

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
@@ -5,10 +6,9 @@ import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import clsx from 'clsx';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
 	section: SectionText;
@@ -86,7 +86,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${
+                    ${theme === 'modern' ? modern.textInputBackground : ''} ${
 						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}
 					style={{ fontSize: true ? fontSize : '' }}
@@ -95,30 +95,11 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={incrementFontSize}
-					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						-
-					</button>
-				</div>
-
-				<button
-					type="submit"
-					className={clsx(
-						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
-						{ 'hidden': formik.errors.content }
-					)}
-				>save</button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);

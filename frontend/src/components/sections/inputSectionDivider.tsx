@@ -7,7 +7,8 @@ import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
-import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
 	section: SectionDivider;
@@ -91,31 +92,11 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.title}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={incrementFontSize}
-					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						-
-					</button>
-				</div>
-
-				<button
-					type="submit"
-					className={`${
-						formik.errors.title ? 'hidden' : ''
-					} hover:bg-gray-200 flex text-xs w-9 h-8 justify-center slef-center rounded-md border`}
-				>
-					save
-				</button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);
