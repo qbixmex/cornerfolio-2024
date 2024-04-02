@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { Types } from 'mongoose';
-import { CustomError } from '../helpers';
+import { CustomError, verifyToken } from '../helpers';
 import * as Models from '../models';
 import { generateUniqueTinyUrlId } from '../helpers';
 
@@ -31,7 +31,10 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
 
-		const portfolio = await Models.Portfolio.findById(id).populate({ path: "sections.item" });
+		const portfolio = await Models.Portfolio
+			.findById(id)
+			.populate({ path: "user", select: "id name email license"})
+			.populate({ path: "sections.item" });
 
 		if (!portfolio) {
 			return res.status(404).json({ error: "Portfolio not found !" });
@@ -41,6 +44,7 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 			id: portfolio.id,
 			header: portfolio.header,
 			status: portfolio.status,
+			user: portfolio.user,
 			sections: portfolio.sections,
 			footer: portfolio.footer,
 			template: portfolio.template,
@@ -77,29 +81,48 @@ export const getPortfolioByTinyUrlId = async (req: Request, res: Response) => {
 	}
 };
 
-export const createPortfolio = async (req: Request, res: Response) => {
+export const createPortfolio = async (
+	request: Request,
+	response: Response
+) => {
+	const token = request.headers.token;
+
+	if (!token) {
+		return response.status(401).json({
+			error: "Unauthorized access !",
+		});
+	}
+
+	const decodedToken = await verifyToken(token as string);
+
+	if (!decodedToken) {
+		return response.status(401).json({
+			error: "Token not valid !",
+		});
+	}
+
+	const userDB = await Models.User.findById(decodedToken.id);
+
+	if (!userDB) {
+		return response.status(400).json({
+			error: `User with id: ${decodedToken.id}, not found !`,
+		});
+	}
+
 	try {
 		// Temporary Template Id
 		const templateId = new ObjectId();
 
-		// Temporary Login User
-		const loginUser = {
-			id: "12345",
-			name: "Taisei Yamaguchi",
-			email: "aries0326taisei@gmail.com",
-			jobTitle: "Software Developer",
-		};
-
-		const portfolioTitle = `${loginUser.jobTitle} portfolio`;
+		const portfolioTitle = `${userDB.jobTitle} portfolio`;
 
 		const header = {
-			title: `Hi, I'm ${loginUser.name} software engineer`,
+			title: `Hi, I'm ${userDB.name} software engineer`,
 			subHeading: "Currently at Cornerstone, based in Vancouver",
 		};
 
 		const footer = {
-			links: `${loginUser.email}`,
-			text: `© 2024 ${loginUser.name}. All rights reserved.`,
+			links: `${userDB.email}`,
+			text: `© 2024 ${userDB?.name}. All rights reserved.`,
 		};
 
 		const tinyUrlId = await generateUniqueTinyUrlId();
@@ -108,13 +131,14 @@ export const createPortfolio = async (req: Request, res: Response) => {
 			portfolioTitle,
 			header,
 			footer,
+			user: userDB.id,
 			template: templateId,
 			tinyUrlId,
 		});
 
 		await newPortfolio.save();
 
-		return res.status(201).json({
+		return response.status(201).json({
 			message: "Portfolio created successfully 👍 !",
 			portfolio: {
 				id: newPortfolio.id,
@@ -133,16 +157,19 @@ export const createPortfolio = async (req: Request, res: Response) => {
 	}
 };
 
-export const updatePortfolio = async (req: Request, res: Response) => {
+export const updatePortfolio = async (
+	request: Request<{ id: string }>,
+	response: Response
+) => {
 	try {
-		const id = req.params.id;
+		const id = request.params.id;
 
 		if (!Types.ObjectId.isValid(id)) {
-			return res.status(400).json({
+			return response.status(400).json({
 				error: `Invalid ID: ${id} !`,
 			});
 		}
-		const payload = req.body;
+		const payload = request.body;
 
 		const portfolio = await Models.Portfolio.findByIdAndUpdate(id, {
 			portfolioTitle: payload.portfolioTitle ?? undefined,
@@ -155,7 +182,7 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 		}).populate({ path: "sections.item" });
 
 		if (!portfolio) {
-			return res.status(404).json({ error: "Portfolio not found" });
+			return response.status(404).json({ error: "Portfolio not found" });
 		}
 
 		//? Note: if you pass undefined to a field, it will not be updated.
@@ -164,7 +191,7 @@ export const updatePortfolio = async (req: Request, res: Response) => {
 
 		await portfolio.save();
 
-		return res.status(200).json({
+		return response.status(200).json({
 			message: "Portfolio updated successfully 👍 !",
 			portfolio: {
 				id: portfolio.id,
