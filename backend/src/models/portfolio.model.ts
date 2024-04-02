@@ -44,6 +44,7 @@ export type PortfolioType = {
 		text: string;
 	};
 	template: Types.ObjectId;
+	user: Types.ObjectId;
 	sections: Section[];
 	theme: string;
 	tinyUrlId: string;
@@ -104,12 +105,17 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 				},
 			},
 		],
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: [true, "User is required"],
+		},
 		theme: { type : String, default: "light" },
 		tinyUrlId: {
-            type: String,
-            unique: true,
-            required: true,
-        },
+			type: String,
+			unique: true,
+			required: true,
+		},
 	},
 	{ timestamps: true },
 );
