@@ -25,7 +25,7 @@ export const getSectionColumns = async (req: Request, res: Response) => {
 		});
 		return res.status(200).json(sections);
 	} catch (error) {
-		throw CustomError.internalServer('Error while fetching Section Cloumns,\n' + error);
+		throw CustomError.internalServer('Error while fetching Section Columns,\n' + error);
 	}
 };
 
@@ -87,7 +87,7 @@ export const createSectionCloumn = async (
 			}
 		});
 	} catch (error) {
-		throw CustomError.internalServer('Error while creating Section Cloumn,\n' + error);
+		throw CustomError.internalServer('Error while creating Section Column,\n' + error);
 	}
 };
 
