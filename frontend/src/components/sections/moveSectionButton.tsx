@@ -11,6 +11,7 @@ type Props = {
 	isFirst: boolean;
 	isLast: boolean;
 };
+
 const MoveSectionsUpDownButton: React.FC<Props & { isFirst: boolean; isLast: boolean }> = ({
 	portfolioId,
 	sectionId,

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
@@ -5,11 +6,9 @@ import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
-import clsx from 'clsx';
 
 type Props = {
 	section: SectionText;

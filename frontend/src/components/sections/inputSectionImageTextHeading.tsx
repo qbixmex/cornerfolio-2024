@@ -9,7 +9,6 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
-import clsx from 'clsx';
 
 type Props = {
 	section: SectionImageText;

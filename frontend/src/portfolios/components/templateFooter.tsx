@@ -118,13 +118,11 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 					</div>
 					<Button
 						type="submit"
-						className={clsx(`
-						bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 
-    ${formik.errors.links || formik.errors.text ? 'hidden' : ''} 
-    flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent`)}
-					>
-						Save
-					</Button>
+						className={clsx(
+							"bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent",
+							{ 'hidden': formik.errors.links || formik.errors.text }
+						)}
+					>Save</Button>
 				</form>
 			</div>
 		</>
