@@ -118,7 +118,7 @@ export const createPortfolio = async (
 		const portfolioTitle = `${userDB.jobTitle} portfolio`;
 
 		const header = {
-			title: `Hi, I'm ${userDB.name} software engineer`,
+			title: `Hi, I'm ${userDB.name}, I am ${userDB.jobTitle}`,
 			subHeading: "Currently at Cornerstone, based in Vancouver",
 		};
 
