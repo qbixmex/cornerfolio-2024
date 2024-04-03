@@ -1,11 +1,11 @@
-
-export const createPortfolio = async () => {
+export const createPortfolio = async (token: string) => {
 	try {
 		const response = await fetch("http://localhost:4000/api/portfolio", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				"Cache-Control": "no-store",
+				"token": token,
 			},
 		});
 
@@ -13,8 +13,7 @@ export const createPortfolio = async () => {
 			throw new Error("Failed to create portfolio");
 		}
 
-		const responseData = await response.json();
-		return responseData;
+		return await response.json();
 	} catch (error) {
 		console.error("Error creating portfolio:", error);
 		throw error;

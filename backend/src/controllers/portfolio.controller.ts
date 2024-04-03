@@ -101,7 +101,9 @@ export const createPortfolio = async (
 		});
 	}
 
-	const userDB = await Models.User.findById(decodedToken.id);
+	const userDB = await Models.User
+		.findById(decodedToken.id)
+		.select('id name jobTitle email');
 
 	if (!userDB) {
 		return response.status(400).json({
@@ -116,7 +118,7 @@ export const createPortfolio = async (
 		const portfolioTitle = `${userDB.jobTitle} portfolio`;
 
 		const header = {
-			title: `Hi, I'm ${userDB.name} software engineer`,
+			title: `Hi, I'm ${userDB.name}, I am ${userDB.jobTitle}`,
 			subHeading: "Currently at Cornerstone, based in Vancouver",
 		};
 
@@ -145,6 +147,12 @@ export const createPortfolio = async (
 				portfolioTitle: newPortfolio.portfolioTitle,
 				header: newPortfolio.header,
 				status: newPortfolio.status,
+				user: {
+					id: userDB.id,
+					name: userDB.name,
+					jobTitle: userDB.jobTitle,
+					email: userDB.email,
+				},
 				sections: newPortfolio.sections,
 				footer: newPortfolio.footer,
 				template: newPortfolio.template,
