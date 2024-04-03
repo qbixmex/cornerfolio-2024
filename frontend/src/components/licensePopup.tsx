@@ -19,7 +19,7 @@ const LicensePopup = () => {
         <div>
           <h1 className="text-2xl text-center mb-5">Free</h1>
           <p>$0/month</p>
-          <p className="my-5">3 portfolios</p>
+          <p className="my-5">1 portfolio</p>
         </div>
         <div className="w-full">
           <button

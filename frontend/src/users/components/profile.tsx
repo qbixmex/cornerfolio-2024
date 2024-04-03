@@ -1,7 +1,7 @@
 "use client";
 
-import LicensePopup from "@/components/licensePopup";
 import { useState } from "react";
+import LicensePopup from "@/components/licensePopup";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
