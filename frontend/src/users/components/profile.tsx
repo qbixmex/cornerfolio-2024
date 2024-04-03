@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './profile.module.css'
 import { UserResponse } from '../interfaces/users';
 import UpdateUserForm from './update/update-form';
@@ -12,6 +12,12 @@ type Props = {
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
+	useEffect(() => {
+		// Remove the data-theme attribute
+		document.documentElement.removeAttribute('data-theme');
+		// Remove the style attribute
+		document.documentElement.removeAttribute('style');
+	}, []);
 
 	const [toast, setToast] = useState({
 		message: '',
