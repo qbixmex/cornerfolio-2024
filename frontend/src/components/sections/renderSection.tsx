@@ -4,8 +4,9 @@ import DeleteImage from './deleteImage';
 import DeleteImageText from './deleteImageText';
 import DeleteEmbeddedMedia from './deleteEmbeddedMedia';
 import DeleteColumn from './deleteColumn';
+import DeleteGallery from './deleteGallery';
 import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn
+	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn,SectionGallery
 } from '@/interfaces';
 import InputSectionDivider from './inputSectionDivider';
 import InputSectionImage from './inputSectionImage';
@@ -21,6 +22,8 @@ import UploadSectionImage from './uploadSectionImage';
 import UploadSectionImageText from './uploadSectionImageText';
 import InputSectionColumnHeading from './inputSectionColumnHeading';
 import InputSectionColumnContent from './inputSectionColumnContent';
+import InputSectionGallery from './inputSectionGallery';
+import UploadSectionGallery from './uploadSectionGallery';
 
 type Section =
 	| SectionText
@@ -29,6 +32,7 @@ type Section =
 	| SectionImageText
 	| SectionDivider
 	| SectionColumn
+	| SectionGallery
 
 type Props = {
 	section: Section;
@@ -69,7 +73,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 		case 'SectionImage':
 			return (
 				<>
-					<DeleteImage sectionId={section.item.id} />
+					<DeleteGallery sectionId={section.item.id} />
 					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
 						className={`flex  ${
@@ -159,6 +163,57 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 						</div>
 					</div>
 				);
+
+		case 'SectionGallery':
+					return (
+						<>
+							<DeleteGallery sectionId={section.item.id} />
+							
+							<div className="w-full flex items-center max-sm:flex-col">
+								{/* image1 */}
+								<div className="w-1/3 max-sm:w-full m-1" key={`1-${section.item.id}`}>
+									<img
+										src={(section as SectionGallery).item.url1}
+										alt={(section as SectionGallery).item.alt1}
+									/>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<UploadSectionGallery position={1} section={section as SectionGallery} />
+									</div>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<InputSectionGallery  position={1} section={section as SectionGallery} />
+									</div>
+								</div>
+							
+								{/* image2 */}
+								<div className="w-1/3 max-sm:w-full m-1" key={`2-${section.item.id}`}>
+									<img
+										src={(section as SectionGallery).item.url2}
+										alt={(section as SectionGallery).item.alt2}
+									/>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<UploadSectionGallery position={2} section={section as SectionGallery} />
+									</div>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<InputSectionGallery  position={2} section={section as SectionGallery} />
+									</div>
+								</div>
+							
+								{/* image3 */}
+								<div className="w-1/3 max-sm:w-full m-1" key={`3-${section.item.id}`}>
+									<img
+										src={(section as SectionGallery).item.url3}
+										alt={(section as SectionGallery).item.alt3}
+									/>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<UploadSectionGallery position={3} section={section as SectionGallery} />
+									</div>
+									<div className='border-transparent border-2 hover:border-gray-300'>
+									<InputSectionGallery  position={3} section={section as SectionGallery} />
+									</div>
+								</div>
+							</div>
+						</>
+					);
 		default:
 			return null;
 	}

@@ -1,6 +1,6 @@
 import console from "console";
 import mongoose, { Model, Schema, Types } from "mongoose";
-import { SectionColumn, SectionText } from ".";
+import { SectionColumn, SectionGallery, SectionText } from ".";
 import SectionEmbeddedMediaModel from "../models/section-embedded-media.model";
 import SectionDivider from "./section-divider.model";
 import SectionImageText from "./section-image-text.model";
@@ -13,6 +13,7 @@ const sectionKinds = [
 	"SectionImageText",
 	"SectionDivider",
 	"SectionColumn",
+	"SectionGallery",
 ] as const;
 
 enum SectionType {
@@ -22,6 +23,7 @@ enum SectionType {
 	IMAGE_TEXT = "SectionImageText",
 	IMAGE = "SectionImage",
 	COLUMN = "SectionColumn",
+	GALLERY = "SectionGallery",
 }
 
 type SectionKind = (typeof sectionKinds)[number];
@@ -154,6 +156,10 @@ PortfolioSchema.post("findOneAndDelete", async (doc) => {
 				
 				case SectionType.COLUMN:
 					await SectionColumn.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.GALLERY:
+					await SectionGallery.findByIdAndDelete(section.item);
 					break;
 
 				default:

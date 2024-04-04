@@ -1,11 +1,12 @@
 import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn
+	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn, SectionGallery
 } from '@/interfaces';
 import PreviewSectionDivider from './PreviewSectionDivider';
 import PreviewSectionImage from './PreviewSectionImage';
 import PreviewSectionText from './PreviewSectionText';
 import PreviewSectionImageText from './PreviewSectionImageText';
 import PreviewSectionColumn from './PreviewSectionColumn';
+import PreviewSectionGallery from './PreviewSectionGallery';
 
 type Section =
 	| SectionText
@@ -14,6 +15,7 @@ type Section =
 	| SectionImageText
 	| SectionDivider
 	| SectionColumn
+	| SectionGallery
 
 type Props = {
 	section: Section;
@@ -53,6 +55,10 @@ const PreviewRenderSection: React.FC<Props> = ({ section }) => {
 		case 'SectionColumn':
 			return (	
 				<PreviewSectionColumn section={section as SectionColumn}/>
+			);
+		case 'SectionGallery':
+			return (	
+				<PreviewSectionGallery section={section as SectionGallery}/>
 			);
 		default:
 			return null;

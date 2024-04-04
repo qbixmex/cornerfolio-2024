@@ -209,7 +209,9 @@ export const uploadSectionImageText = async (req: Request, res: Response) => {
 			console.error('Cloudinary upload error:', error);
 			throw CustomError.internalServer('Error while uploading Section Image Text,\n' + error);
 		}
-	}
+	}else{
+        return res.status(400).json({ error: 'Uploading Image must be contained' });
+    }
 };
 
 

@@ -91,3 +91,25 @@ export interface SectionColumn {
 		updatedAt: string;
 	}
 }
+
+export interface SectionGallery {
+	id: string;
+	kind: string;
+	item: {
+		id: string;
+		url1: string;
+		alt1: string;
+		caption1: string;
+		captionSize1: number;
+		url2: string;
+		alt2: string;
+		caption2: string;
+		captionSize2: number;
+		url3: string;
+		alt3: string;
+		caption3: string;
+		captionSize3: number;
+		createdAt: string;
+		updatedAt: string;
+	}
+}

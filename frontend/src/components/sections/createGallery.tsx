@@ -1,23 +1,23 @@
-import { createSectionColumn } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
+import { createSectionGallery } from '@/sections/actions/section.action';
 import { useAppDispatch } from '@/store';
-import { PiTextColumns } from 'react-icons/pi';
+import { setReloading } from '@/store/slices/reload.slice';
 import { Button } from '@nextui-org/react';
+import { BsFileImage } from 'react-icons/bs';
+import { BsFileImageFill } from 'react-icons/bs';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolioId: string;
 	order: number;
 };
-
-const CreateColumn: React.FC<Props> = ({ portfolioId, order }) => {
-	const dispatch = useAppDispatch()
-	const handleCreateColumn = async () => {
+const CreateGallery: React.FC<Props> = ({ portfolioId, order }) => {
+	const dispatch = useAppDispatch();
+	const handleCreateGallery = async () => {
 		try {
 			dispatch(setReloading(true)); // reloading true
-			await createSectionColumn(portfolioId, order)
+			await createSectionGallery(portfolioId, order);
 		} catch (error) {
-			console.error('Error creating column', error);
+			console.error('Error creating gallery:', error);
 		} finally {
 			dispatch(setReloading(false)); // reloading false
 		}
@@ -31,15 +31,15 @@ const CreateColumn: React.FC<Props> = ({ portfolioId, order }) => {
 				size="md"
 				fullWidth={true}
 				className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
-				onClick={handleCreateColumn}
+				onClick={handleCreateGallery}
 				type="button"
 			>
-				<PiTextColumns className="text-lg text-white" />
-                
+				<BsFileImage className="text-lg text-white" />
+                <BsFileImageFill className="text-lg text-white" />
 			</Button>
-			<span className="text-sm">Column</span>
+			<span className="text-sm">Gallery</span>
 		</div>
 	);
 };
 
-export default CreateColumn;
+export default CreateGallery;
