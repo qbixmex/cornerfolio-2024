@@ -14,15 +14,12 @@ type UsersQuery = {
 };
 
 export const totalPages = async (
-  request: Request<{ term: string, limit?: number }>,
+  request: Request<{ term: string, limit?: string }>,
   response: Response
 ) => {
-  const {
-    term,
-    limit = 10,
-  } = request.params;
+  const { term, limit = 10 } = request.params;
   let totalUsers: number; 
-  
+
   if (term) {
     totalUsers = await User.countDocuments({
       $or: [
@@ -34,7 +31,7 @@ export const totalPages = async (
     totalUsers = await User.countDocuments();
   }
 
-  return response.status(200).json({ total: Math.floor(totalUsers / limit) + 1 });
+  return response.status(200).json({ total: Math.floor(totalUsers / +limit) + 1 });
 }
 
 export const list = async (

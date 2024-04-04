@@ -1,6 +1,6 @@
 import console from "console";
 import mongoose, { Model, Schema, Types } from "mongoose";
-import { SectionText } from ".";
+import { SectionColumn, SectionText } from ".";
 import SectionEmbeddedMediaModel from "../models/section-embedded-media.model";
 import SectionDivider from "./section-divider.model";
 import SectionImageText from "./section-image-text.model";
@@ -12,6 +12,7 @@ const sectionKinds = [
 	"SectionEmbeddedMedia",
 	"SectionImageText",
 	"SectionDivider",
+	"SectionColumn",
 ] as const;
 
 enum SectionType {
@@ -20,6 +21,7 @@ enum SectionType {
 	EMBEDDED_MEDIA = "SectionEmbeddedMedia",
 	IMAGE_TEXT = "SectionImageText",
 	IMAGE = "SectionImage",
+	COLUMN = "SectionColumn",
 }
 
 type SectionKind = (typeof sectionKinds)[number];
@@ -42,6 +44,7 @@ export type PortfolioType = {
 		text: string;
 	};
 	template: Types.ObjectId;
+	user: Types.ObjectId;
 	sections: Section[];
 	theme: string;
 	tinyUrlId: string;
@@ -102,12 +105,17 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 				},
 			},
 		],
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: [true, "User is required"],
+		},
 		theme: { type : String, default: "light" },
 		tinyUrlId: {
-            type: String,
-            unique: true,
-            required: true,
-        },
+			type: String,
+			unique: true,
+			required: true,
+		},
 	},
 	{ timestamps: true },
 );
@@ -142,6 +150,10 @@ PortfolioSchema.post("findOneAndDelete", async (doc) => {
 
 				case SectionType.IMAGE:
 					await SectionImage.findByIdAndDelete(section.item);
+					break;
+				
+				case SectionType.COLUMN:
+					await SectionColumn.findByIdAndDelete(section.item);
 					break;
 
 				default:

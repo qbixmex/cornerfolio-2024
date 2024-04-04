@@ -30,7 +30,7 @@ const CreateImageText: React.FC<Props> = ({ portfolioId, order }) => {
 				variant="shadow"
 				size="md"
 				fullWidth={true}
-				className={`w-fit  border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
+				className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
 				onClick={handleCreateImageText}
 				type="button"
 			>

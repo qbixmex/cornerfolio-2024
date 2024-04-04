@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 import { UsersList } from "../interfaces/users";
 
 type Options = {
@@ -11,6 +12,8 @@ type Options = {
 };
 
 export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
   const API_URL = process.env.API_URL;
 
   const URL = `${API_URL}/api/users/count-total/${query}`
@@ -18,9 +21,8 @@ export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
   const response = await fetch(URL, {
     method: 'GET',
     headers: {
-      // 'authorization': `Bearer ${process.env.API_TOKEN}`// TODO: Add API Token
+      'token': token?.value!,
     },
-    cache: 'default',
   });
 
   const data = await response.json();
@@ -29,6 +31,8 @@ export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
 };
 
 export const getUsersList = async (options?: Options): Promise<UsersList> => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
   const API_URL = process.env.API_URL;
 
   const URL =
@@ -41,7 +45,7 @@ export const getUsersList = async (options?: Options): Promise<UsersList> => {
   const response = await fetch(URL, {
     method: "GET",
     headers: {
-      // 'authorization': `Bearer ${process.env.API_TOKEN}`// TODO: Add API Token
+      'token': token?.value!,
     },
     cache: "force-cache",
     next: { tags: ["users-table"] },

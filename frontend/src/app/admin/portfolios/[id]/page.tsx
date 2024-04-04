@@ -9,6 +9,7 @@ import { useAppSelector } from '@/store';
 import { IPortfolio } from '@/interfaces';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 type Props = {
   params: { id: string };
@@ -37,11 +38,12 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
   const { setTheme } = useTheme();
-
+  
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
+        console.log(fetchData);
         setPortfolio(fetchData);
         setLoading(false);
         setTheme(fetchData.theme);
@@ -54,18 +56,17 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     }
   }, [ id, reloading ]);
   
-  
   return (
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
-          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end z-10'>
-            <a 
+          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
+            <Link
               href={`http://localhost:3000/${portfolio.tinyUrlId}`}
               target='blank'
               className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
               title="Live Portfolio Preview"
-            >preview</a>
+            >preview</Link>
           </div>
 
           <TemplateHeader portfolio={portfolio} />

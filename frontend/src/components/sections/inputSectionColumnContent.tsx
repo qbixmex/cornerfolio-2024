@@ -1,17 +1,18 @@
-import { useState } from 'react';
-import { SectionText } from '@/interfaces';
-import { updateSectionText } from '@/sections/actions/section.update.action';
+import { SectionColumn } from '@/interfaces';
+import { updateSectionColumn } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
+import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import ButtonsSize from '../buttonsSize';
+import clsx from 'clsx';
 
 type Props = {
-	section: SectionText;
+    position: 1 | 2 | 3;
+	section: SectionColumn;
 };
 
 const formSchemaContent = yup.object().shape({
@@ -21,10 +22,38 @@ const formSchemaContent = yup.object().shape({
 		.required('Content is required !'),
 });
 
-const InputSectionTextContent: React.FC<Props> = ({ section }) => {
+const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
+    const [content, setContent] = useState(() => {
+        if (section) {
+            if (position === 1) {
+                return section.item.content1;
+            } else if (position === 2) {
+                return section.item.content2;
+            } else {
+                return section.item.content3;
+            }
+        } else {
+            return 'This is content';
+        }
+    });
+    
+    const [contentSize, setContentSize] = useState(() => {
+        if (section) {
+            if (position === 1) {
+                return section.item.contentSize1;
+            } else if (position === 2) {
+                return section.item.contentSize2;
+            } else {
+                return section.item.contentSize3;
+            }
+        } else {
+            return 10; // default size
+        }
+    });
+
 	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
-	const [fontSize, setFontSize] = useState<number>(section.item.contentSize);
+	const [fontSize, setFontSize] = useState<number>(contentSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
 	};
@@ -33,14 +62,14 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 	};
 	const formik = useFormik<{ content: string }>({
 		initialValues: {
-			content: section.item.content,
+			content: content,
 		},
 		validationSchema: formSchemaContent,
 		onSubmit: async (formData) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 
-				const data = await updateSectionText(section.item.id, {
+				const data = await updateSectionColumn(position,section.item.id, {
 					...formData,
 					contentSize: fontSize,
 				});
@@ -52,7 +81,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 				}
 				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
-				console.error('Error updating text:', error);
+				console.error('Error updating column:', error);
 			} finally {
 				dispatch(setReloading(false)); // reloading false
 			}
@@ -86,7 +115,7 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-                    ${theme === 'modern' ? modern.textInputBackground : ''} ${
+					${theme === 'modern' ? modern.textInputBackground : ''} ${
 						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}
 					style={{ fontSize: true ? fontSize : '' }}
@@ -95,13 +124,32 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
 				)}
 
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
+				<div className="text-sm flex gap-1 mr-2">
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={incrementFontSize}
+					>
+						+
+					</button>
+					<button
+						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
+						type="button"
+						onClick={decrementFontSize}
+					>
+						-
+					</button>
+				</div>
+
+				<button
+					type="submit"
+					className={clsx(
+						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
+						{ 'hidden': formik.errors.content }
+					)}
+				>save</button>
 			</form>
 		</div>
 	);
 };
-export default InputSectionTextContent;
+export default InputSectionColumnContent;

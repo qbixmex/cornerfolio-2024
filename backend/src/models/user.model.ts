@@ -63,12 +63,10 @@ const UserSchema = new Schema<UserType, UserModel>(
       enum: ["morning", "afternoon", "evening"],
       required: [true, "Schedule Hour is required"],
     },
-    // TODO: Portfolio
-    // portfolios: [{
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Portfolio',
-    //   required: [ true, 'Portfolio is required' ],
-    // }],
+    portfolios: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Portfolio',
+    }],
     license: {
       type: Schema.Types.ObjectId,
       ref: "License",

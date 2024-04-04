@@ -1,12 +1,17 @@
-'use server';
+"use server";
+
+import { cookies } from "next/headers";
 
 import { revalidateTag } from 'next/cache';
 
 export const deletePortfolio = async (id: string) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	{
 		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
 			headers: {
-				// TODO: "authorization": "Bearer " + localStorage.getItem("token"), // Implement token
+				"token": token?.value!,
 			},
 			method: "DELETE",
 		});
