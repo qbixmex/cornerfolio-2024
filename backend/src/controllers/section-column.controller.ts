@@ -29,7 +29,7 @@ export const getSectionColumns = async (req: Request, res: Response) => {
 	}
 };
 
-export const createSectionCloumn = async (
+export const createSectionColumn = async (
 	req: Request<never, never, never, { order?: string }>,
 	res: Response,
 ) => {
