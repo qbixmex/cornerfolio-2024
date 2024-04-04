@@ -1,24 +1,24 @@
-import console from "console";
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import License from "../models/license.model";
+import CustomError from '../helpers/errors';
 
 type RequestCreateBody = {
   type: "free" | "premium";
-}
+};
 
 export const create = async (
   request: Request<never, never, RequestCreateBody>,
   response: Response
 ) => {
-  const payload = request.body
+  const payload = request.body;
   const currentDate = new Date();
 
   const allowedTypes = ["free", "premium"];
 
   if (!allowedTypes.includes(payload.type)) {
     return response.status(400).json({
-      error: "License must be premium or free",
+      error: 'License must be "premium" or "free"',
     });
   }
 
@@ -33,11 +33,11 @@ export const create = async (
     })
 
     return response.status(200).json({
-      message: "License created successfully",
+      message: "License created successfully 👍",
       license
     });
   } catch (error) {
-    console.log(error);
+    throw CustomError.internalServer('Error while creating the license,\n' + error);
   }
 };
 
@@ -59,14 +59,14 @@ export const update = async (
       error: `Invalid license ID: ${id} !`,
     });
   }
-  const payload = request.body
+  const payload = request.body;
 
-  const license = await License.findById(id)
+  const license = await License.findById(id);
 
   if (!license) {
     return response.status(404).json({
-      error: "License does not exist"
-    })
+      error: `License: ${id}, does not exist !`
+    });
   }
 
   try {
@@ -79,10 +79,10 @@ export const update = async (
       }, { new: true })
 
     return response.status(200).json({
-      message: "License updated successfully",
+      message: "License updated successfully 👍",
       license: updatedLicense
     });
   } catch (error) {
-    console.log(error);
+    throw CustomError.internalServer('Error while updating the license,\n' + error);
   }
 };
