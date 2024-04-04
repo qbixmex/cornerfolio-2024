@@ -18,7 +18,6 @@ type Props = {
 };
 
 const UsersPage: React.FC<Props> = async ({ searchParams }) => {
-
   const { query = '', page: currentPage = '1' } = searchParams;
   const data = await getUsersPages(query);
 
