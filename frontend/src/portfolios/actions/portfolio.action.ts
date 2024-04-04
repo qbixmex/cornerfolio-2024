@@ -21,16 +21,27 @@ export const getPortfolio = async (id: string) => {
 };
 
 export const moveSectionUpDown = async (portfolioId: string, sectionId: string, action: 'up' | 'down') => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
   const response = await fetch(`http://localhost:4000/api/portfolio/move/${portfolioId}/${sectionId}/?action=${action}`, {
     method: 'PATCH',
     headers: {
       "content-type": "application/json",
+      "token": token?.value!,
     }
   });
   return response.json()
 };
 
 export const getPortfolioByTinyUrlId = async (tinyUrlId: string) => {
-  const response = await fetch(`http://localhost:4000/api/portfolio/live/${tinyUrlId}`);
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
+  const response = await fetch(`http://localhost:4000/api/portfolio/live/${tinyUrlId}`, {
+    headers: {
+      "token": token?.value!,
+    }
+  });
   return response.json();
 };

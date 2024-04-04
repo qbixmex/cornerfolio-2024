@@ -45,7 +45,6 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 				dispatch(setReloading(true)); // reloading true
 
 				const data = await updatePortfolioHeader(portfolio.id, formData);
-				console.log(formData);
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
 				} else {
