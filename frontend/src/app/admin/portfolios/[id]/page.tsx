@@ -37,7 +37,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
   const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
   const { setTheme } = useTheme();
-
+  
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
@@ -53,7 +53,6 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
       fetchPortfolio();
     }
   }, [ id, reloading ]);
-  
   
   return (
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">

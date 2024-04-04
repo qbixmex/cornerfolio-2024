@@ -11,7 +11,7 @@ const validateToken = async (
 
 	if (!token) {
 		return response.status(401).json({
-			error: "Unauthorized access !",
+			error: "Token not provided !",
 		});
 	}
 
