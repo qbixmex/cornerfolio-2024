@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 export const getPortfolio = async (id: string) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-
   try {
     const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
       headers: {

@@ -8,9 +8,10 @@ type Props = {
 };
 
 const DeleteText: React.FC<Props> = ({ sectionId }) => {
-	const dispatch=useAppDispatch()
+	const dispatch = useAppDispatch();
+
 	const handleDeleteText = async () => {
-		deleteSectionText(sectionId)
+		deleteSectionText(sectionId);
 		try {
 			dispatch(setReloading(true)); // reloading true
 			await deleteSectionText(sectionId)

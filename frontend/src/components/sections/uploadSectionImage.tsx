@@ -20,7 +20,7 @@ const UploadSectionImage: React.FC<Props> = ({ section }) => {
     const [imageFieldKey, setImageFieldKey] = useState(Date.now());
     const dispatch = useAppDispatch();
     
-    const formik = useFormik<{ image:File | null}>({
+    const formik = useFormik<{ image: File | null}>({
 		initialValues: {
             image: null,
 		},

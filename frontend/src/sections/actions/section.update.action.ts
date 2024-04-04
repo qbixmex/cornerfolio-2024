@@ -1,3 +1,7 @@
+"use server";
+
+import { cookies } from "next/headers";
+
 type UpdateDivider = {
 	title: string;
 	titleSize: number;
@@ -23,10 +27,14 @@ type UpdateColumn =
 	| { content: string; contentSize: number}
 
 export const updateSectionDivider = async (sectionId: string, updateData: UpdateDivider) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");		
+
 	const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -35,10 +43,14 @@ export const updateSectionDivider = async (sectionId: string, updateData: Update
 };
 
 export const updateSectionImage = async (sectionId: string, updateData: UpdateImage) => {
-	const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
+		const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -46,12 +58,19 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 };
 
 export const uploadSectionImage = async (sectionId: string, imageFile: File) => {
-	try{
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
+	try {
 		const formData = new FormData();
         formData.append('image', imageFile);
 
         const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
             method: 'PATCH',
+						headers: {
+							'content-type': 'application/json',
+							'token': token?.value!
+						},
             body: formData,
         });
 
@@ -63,13 +82,20 @@ export const uploadSectionImage = async (sectionId: string, imageFile: File) => 
 };
 
 export const uploadSectionImageText = async (sectionId: string, imageFile: File) => {
-	try{
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
+	try {
 		const formData = new FormData();
 	
 		formData.append('image', imageFile);
 
 		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
 				method: 'PATCH',
+				headers: {
+					'content-type': 'application/json',
+					'token': token?.value!
+				},
 				body: formData,
 		});
 
@@ -81,10 +107,14 @@ export const uploadSectionImageText = async (sectionId: string, imageFile: File)
 };
 
 export const updateSectionText = async (sectionId: string, updateData: UpdateText) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	const response = await fetch(`http://localhost:4000/api/section-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -93,10 +123,14 @@ export const updateSectionText = async (sectionId: string, updateData: UpdateTex
 };
 
 export const updateSectionImageText = async (sectionId: string, updateData: UpdateImageText) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	const response = await fetch(`http://localhost:4000/api/section-image-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -106,6 +140,8 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 
 
 export const updateSectionColumn = async (position: 1|2|3, sectionId: string, updateData: UpdateColumn) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
 	let body: any = {};
 
     // depending on position, set key
@@ -150,10 +186,12 @@ export const updateSectionColumn = async (position: 1|2|3, sectionId: string, up
             };
         }
     }
+
 	const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(body)
 	});
