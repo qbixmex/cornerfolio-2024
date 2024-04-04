@@ -1,15 +1,25 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { UsersSearch } from "../interfaces/users";
 
 export const getUser = async (id: string) => {
-  const response = await fetch(`http://localhost:4000/api/users/${id}`);
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
+  const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+    headers: {
+      "token": token?.value!,
+    }
+  });
   return response.json();
 };
 
 export const fetchUsersByQuery = async (term: string, currentPage: number): Promise<UsersSearch> => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
   let URL = 'http://localhost:4000/api/users';
 
   if (term) {
@@ -20,14 +30,19 @@ export const fetchUsersByQuery = async (term: string, currentPage: number): Prom
     URL += `?page=${currentPage}`;
   }
   
-  const response = await fetch(URL);
+  const response = await fetch(URL, { headers: { "token": token?.value! } });
   return response.json();
 };
 
 export const createUser = async (formData: FormData) => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
   const response = await fetch(`http://localhost:4000/api/users`, {
     method: "POST",
     body: formData,
+    headers: {
+      "token": token?.value!
+    }
   });
 
   revalidateTag("users-table");
@@ -36,9 +51,15 @@ export const createUser = async (formData: FormData) => {
 };
 
 export const updateUser = async (id: string, formData: FormData) => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
   try {
     const response = await fetch(`http://localhost:4000/api/users/${id}`, {
       method: "PATCH",
+      headers: {
+        "token": token?.value!
+      },
       body: formData,
     });
 
@@ -56,12 +77,16 @@ export const updateUser = async (id: string, formData: FormData) => {
 };
 
 export const updatePassword = async (id: string, password: string) => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
   const response = await fetch(
     `http://localhost:4000/api/users/${id}/update-password`,
     {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "token": token?.value!,
       },
       body: JSON.stringify({ password }),
     }
@@ -71,8 +96,14 @@ export const updatePassword = async (id: string, password: string) => {
 };
 
 export const deleteUser = async (id: string) => {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get('token');
+
   const response = await fetch(`http://localhost:4000/api/users/${id}`, {
     method: "DELETE",
+    headers: {
+      "token": token?.value!,
+    }
   });
 
   revalidateTag("users-table");
