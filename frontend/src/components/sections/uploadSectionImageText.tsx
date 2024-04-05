@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
 
 import styles from '@/users/components/profile.module.css';
+import { dataFocusVisibleClasses } from '@nextui-org/react';
 
 type Props = {
   section: SectionImageText;
@@ -27,20 +28,23 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
-      try {
-        dispatch(setReloading(true))
-        if (values.image) {
-          await uploadSectionImageText(section.item.id, values.image);
-        } else {
-          throw new Error('No image selected');
-        }
-      } catch (error) {
-        setToast({ message: `Error updating divider, check logs !`, type: 'error' });
-      } finally {
+      dispatch(setReloading(true))
+      const formData = new FormData();
+
+      formData.set("image", values.image!);
+
+      const data = await uploadSectionImageText(section.item.id, formData);
+
+      if (data.error) {
+        setToast({ message: data.error, type: 'error' });
+      } else {
         dispatch(setReloading(false)); // reloading false
-        setTimeout(() => setToast({ message: '', type: '' }), 4000);
-        setImageFieldKey(Date.now());
       }
+
+      setTimeout(() => {
+        setToast({ message: '', type: '' })
+        setImageFieldKey(Date.now());
+      }, 4000);
     },
   });
 
@@ -56,23 +60,24 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
           {toast.message}
         </div>
       )}
+
       <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-        <input
-          key={imageFieldKey}
-          id="image"
-          type="file"
-          name="image"
-          onChange={(event) => {
-            return formik.setFieldValue('image', event.target.files![0]);
-          }}
-
-          className={clsx(
-            `block w-full h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
-            { 'border-2 border-red-500': formik.touched.image && formik.errors.image }
-          )}
-        />
-
-        <button type="submit">Upload Image</button>
+        <section className="my-5 flex gap-x-3 justify-center items-center">
+          <input
+            key={imageFieldKey}
+            id="image"
+            type="file"
+            name="image"
+            onChange={(event) => {
+              return formik.setFieldValue('image', event.target.files![0]);
+            }}
+            className={clsx(
+              `block w-[300px] h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
+              { 'border-2 border-red-500': formik.touched.image && formik.errors.image }
+            )}
+          />
+          <button type="submit" className="my-2 px-5 py-3 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-700 transition-colors">upload</button>
+        </section>
       </form>
       {toast.message && (
         <div className={clsx('toast', toast.type)}>

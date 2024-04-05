@@ -8,7 +8,7 @@ type Props = {
 };
 
 const DeleteGallery: React.FC<Props> = ({ sectionId }) => {
-	const dispatch=useAppDispatch()
+	const dispatch = useAppDispatch()
 	const handleDeleteGallery = async () => {
 		try {
 			dispatch(setReloading(true)); // reloading true
