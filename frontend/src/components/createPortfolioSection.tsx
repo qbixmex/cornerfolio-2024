@@ -42,7 +42,7 @@ export default function CreatePortfolioSection({ portfolioCount }: Props) {
 			</h2>
 			<div className="bg-gray-200 mt-10 rounded-md p-10 gap-7">
 				<div className="mb-10">
-					<h3>You have published {portfolioCount} Portfolios</h3>
+					<h3>You have {portfolioCount} Portfolios</h3>
 				</div>
 
 				<form action={createNewPortfolio}>

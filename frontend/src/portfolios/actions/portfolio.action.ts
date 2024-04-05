@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export const getPortfolio = async (id: string) => {
@@ -79,5 +80,6 @@ export const UnPublishPortfolio = async (portfolioId: string) => {
 		},
 		body: JSON.stringify({ status: 'draft' }),
 	});
+	revalidatePath('/admin/portfolio-management');
 	return response.json();
 };
