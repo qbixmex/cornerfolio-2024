@@ -126,7 +126,7 @@ export const deleteSectionText = async (sectionId:string) => {
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionImageText = async (sectionId: string) => {
@@ -156,7 +156,7 @@ export const deleteSectionDivider = async (sectionId:string) => {
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
@@ -171,7 +171,7 @@ export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionColumn = async (sectionId:string) => {
@@ -186,5 +186,5 @@ export const deleteSectionColumn = async (sectionId:string) => {
         }
     });
 
-    return response.json();
+  return response.json();
 };
