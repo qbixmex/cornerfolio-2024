@@ -53,7 +53,7 @@ export const register = async (
       name: savedUser.name,
       email: savedUser.email,
       imageUrl: savedUser.imageURL ?? '',
-    });
+    }, '365d');
 
     return response.status(200).json({
       message: 'Account registered successfully !',
