@@ -59,7 +59,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
-          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
+          <div className='fixed top-[55px] w-full bg-gray-300 flex justify-end z-10'>
             <Link
               href={`http://localhost:3000/${portfolio.tinyUrlId}`}
               target='blank'
@@ -69,8 +69,8 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
           </div>
 
           <TemplateHeader portfolio={portfolio} />
-          <ChooseSection portfolioId={id} order={0} />
           <ThemeSwitcher id={portfolio.id} />
+          <ChooseSection portfolioId={id} order={0} />
 
           <hr />
 

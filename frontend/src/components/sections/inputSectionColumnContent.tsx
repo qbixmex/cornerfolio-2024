@@ -9,6 +9,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import clsx from 'clsx';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
     position: 1 | 2 | 3;
@@ -124,30 +125,11 @@ const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
 				)}
 
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={incrementFontSize}
-					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						-
-					</button>
-				</div>
-
-				<button
-					type="submit"
-					className={clsx(
-						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
-						{ 'hidden': formik.errors.content }
-					)}
-				>save</button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);

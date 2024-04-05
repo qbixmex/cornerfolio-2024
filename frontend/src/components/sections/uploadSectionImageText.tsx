@@ -62,7 +62,7 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
       )}
 
       <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-        <section className="my-5 flex gap-x-3 justify-center items-center">
+        <section className="my-5 flex gap-x-3 justify-center items-center max-lg:flex-col max-sm:flex-row">
           <input
             key={imageFieldKey}
             id="image"
@@ -72,11 +72,11 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
               return formik.setFieldValue('image', event.target.files![0]);
             }}
             className={clsx(
-              `block w-[300px] h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
+              `block w-[300px] max-lg:w-full h-10 rounded-md px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2`,
               { 'border-2 border-red-500': formik.touched.image && formik.errors.image }
             )}
           />
-          <button type="submit" className="my-2 px-5 py-3 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-700 transition-colors">upload</button>
+          <button type="submit" className="my-2 px-2 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-700 transition-colors">upload</button>
         </section>
       </form>
       {toast.message && (
