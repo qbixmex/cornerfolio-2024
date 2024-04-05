@@ -43,6 +43,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
+        console.log(fetchData);
         setPortfolio(fetchData);
         setLoading(false);
         setTheme(fetchData.theme);
@@ -73,8 +74,9 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
           <ThemeSwitcher id={portfolio.id} />
 
           <hr />
+
           {portfolio && portfolio.sections.length === 0 && (
-            <section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
+            <section className="mx-[80px] my-10 flex flex-col items-center gap-3">
               <section className="bg-orange-500 rounded text-white w-fit p-5">
                 No section created yet !
               </section>

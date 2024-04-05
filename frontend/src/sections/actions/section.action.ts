@@ -1,10 +1,16 @@
-'use server'
+"use server";
 
-export const createSectionImage = async (portfolioId: string, order: number) =>{
+import { cookies } from "next/headers";
+
+export const createSectionImage = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-image/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body:JSON.stringify({})
     });
@@ -13,10 +19,14 @@ export const createSectionImage = async (portfolioId: string, order: number) =>{
 };
 
 export const createSectionText = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-text/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body: JSON.stringify({})
     });
@@ -25,10 +35,14 @@ export const createSectionText = async (portfolioId: string, order: number) => {
 };
 
 export const createSectionDivider = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-divider/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body:JSON.stringify({})
     });
@@ -38,10 +52,14 @@ export const createSectionDivider = async (portfolioId: string, order: number) =
 
 
 export const createSectionEmbeddedMedia = async (portfolioId: string, order: number, code: string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-embedded-media/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body:JSON.stringify({code:code})
     });
@@ -50,10 +68,14 @@ export const createSectionEmbeddedMedia = async (portfolioId: string, order: num
 };
 
 export const createSectionImageText = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-image-text/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body:JSON.stringify({})
     });
@@ -62,10 +84,14 @@ export const createSectionImageText = async (portfolioId: string, order: number)
 };
 
 export const createSectionColumn = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-column/${portfolioId}/?order=${order}`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         },
         body: JSON.stringify({})
     });
@@ -74,10 +100,14 @@ export const createSectionColumn = async (portfolioId: string, order: number) =>
 };
 
 export const deleteSectionImage = async (sectionId: string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
@@ -85,21 +115,29 @@ export const deleteSectionImage = async (sectionId: string) => {
 };
 
 export const deleteSectionText = async (sectionId:string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-text/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionImageText = async (sectionId: string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-image-text/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
@@ -107,34 +145,46 @@ export const deleteSectionImageText = async (sectionId: string) => {
 };
 
 export const deleteSectionDivider = async (sectionId:string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-embedded-media/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
-    return response.json();
+  return response.json();
 };
 
 export const deleteSectionColumn = async (sectionId:string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
     const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
         method: 'DELETE',
         headers: {
             "content-type": "application/json",
+            "token": token?.value!,
         }
     });
 
-    return response.json();
+  return response.json();
 };

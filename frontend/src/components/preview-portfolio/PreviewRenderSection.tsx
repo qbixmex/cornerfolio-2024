@@ -1,11 +1,12 @@
 import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn
+	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn, SectionGallery
 } from '@/interfaces';
 import PreviewSectionDivider from './PreviewSectionDivider';
 import PreviewSectionImage from './PreviewSectionImage';
 import PreviewSectionText from './PreviewSectionText';
 import PreviewSectionImageText from './PreviewSectionImageText';
 import PreviewSectionColumn from './PreviewSectionColumn';
+import PreviewSectionGallery from './PreviewSectionGallery';
 
 type Section =
 	| SectionText
@@ -14,6 +15,7 @@ type Section =
 	| SectionImageText
 	| SectionDivider
 	| SectionColumn
+	| SectionGallery
 
 type Props = {
 	section: Section;
@@ -24,36 +26,30 @@ const PreviewRenderSection: React.FC<Props> = ({ section }) => {
 		case 'SectionDivider':
 			return (
 				<div className='  w-full'>		
-				    <PreviewSectionDivider section={section as SectionDivider}/>
+				    <PreviewSectionDivider section={section as SectionDivider} />
 				</div>
 			)
 		case 'SectionText':
 			return (	
-				<PreviewSectionText section={section as SectionText}/>
+				<PreviewSectionText section={section as SectionText} />
 			);
 		case 'SectionImage':
-			return (
-				<PreviewSectionImage section={section as SectionImage} />
-			);
+			return <PreviewSectionImage section={section as SectionImage} />;
 		case 'SectionImageText':
-			return (
-                <PreviewSectionImageText section={section as SectionImageText}/>
-			);
+			return <PreviewSectionImageText section={section as SectionImageText} />;
 		case 'SectionEmbeddedMedia':
 			return (
 				<div className='flex justify-center'>
 					<div
 						key={section.item.id}
-						dangerouslySetInnerHTML={{
-							__html: (section as SectionEmbeddedMedia).item.code
-						}}
+						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
 					/>
 				</div>
 			);
 		case 'SectionColumn':
-			return (	
-				<PreviewSectionColumn section={section as SectionColumn}/>
-			);
+			return <PreviewSectionColumn section={section as SectionColumn} />;
+		case 'SectionGallery':
+			return <PreviewSectionGallery section={section as SectionGallery} />;
 		default:
 			return null;
 	}
