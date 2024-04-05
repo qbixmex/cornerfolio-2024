@@ -1,11 +1,12 @@
 import express from 'express';
 import { SectionEmbeddedMediaController } from '../controllers';
+import { validateToken } from './validation';
 
 const router = express.Router();
 
-router.get('/', SectionEmbeddedMediaController.getSectionEmbeddedMedias);
-router.post('/:portfolioId', SectionEmbeddedMediaController.createSectionEmbeddedMedia);
-router.patch('/:id', SectionEmbeddedMediaController.updateSectionEmbeddedMedia);
-router.delete('/:id', SectionEmbeddedMediaController.deleteSectionEmbeddedMedia);
+router.get('/', validateToken, SectionEmbeddedMediaController.getSectionEmbeddedMedias);
+router.post('/:portfolioId', validateToken, SectionEmbeddedMediaController.createSectionEmbeddedMedia);
+router.patch('/:id', validateToken, SectionEmbeddedMediaController.updateSectionEmbeddedMedia);
+router.delete('/:id', validateToken, SectionEmbeddedMediaController.deleteSectionEmbeddedMedia);
 
 export default router;

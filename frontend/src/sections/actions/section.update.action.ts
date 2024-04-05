@@ -1,3 +1,7 @@
+"use server";
+
+import { cookies } from "next/headers";
+
 type UpdateDivider = {
 	title: string;
 	titleSize: number;
@@ -25,10 +29,14 @@ type UpdateColumn =
 type UpdateGallery = { caption: string; captionSize: number }
 
 export const updateSectionDivider = async (sectionId: string, updateData: UpdateDivider) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");		
+
 	const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -37,10 +45,14 @@ export const updateSectionDivider = async (sectionId: string, updateData: Update
 };
 
 export const updateSectionImage = async (sectionId: string, updateData: UpdateImage) => {
-	const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
+		const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -48,14 +60,21 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 };
 
 export const uploadSectionImage = async (sectionId: string, imageFile: File) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	try {
 		const formData = new FormData();
 		formData.append('image', imageFile);
 
-		const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
-			method: 'PATCH',
-			body: formData,
-		});
+        const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
+            method: 'PATCH',
+						headers: {
+							'content-type': 'application/json',
+							'token': token?.value!
+						},
+            body: formData,
+        });
 
 		return response.json();
 	} catch (error) {
@@ -65,14 +84,21 @@ export const uploadSectionImage = async (sectionId: string, imageFile: File) => 
 };
 
 export const uploadSectionImageText = async (sectionId: string, imageFile: File) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	try {
 		const formData = new FormData();
 
 		formData.append('image', imageFile);
 
 		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
-			method: 'PATCH',
-			body: formData,
+				method: 'PATCH',
+				headers: {
+					'content-type': 'application/json',
+					'token': token?.value!
+				},
+				body: formData,
 		});
 
 		return response.json();
@@ -83,10 +109,14 @@ export const uploadSectionImageText = async (sectionId: string, imageFile: File)
 };
 
 export const updateSectionText = async (sectionId: string, updateData: UpdateText) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	const response = await fetch(`http://localhost:4000/api/section-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -95,10 +125,14 @@ export const updateSectionText = async (sectionId: string, updateData: UpdateTex
 };
 
 export const updateSectionImageText = async (sectionId: string, updateData: UpdateImageText) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
 	const response = await fetch(`http://localhost:4000/api/section-image-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(updateData)
 	});
@@ -107,55 +141,59 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 };
 
 
-export const updateSectionColumn = async (position: 1 | 2 | 3, sectionId: string, updateData: UpdateColumn) => {
+export const updateSectionColumn = async (position: 1|2|3, sectionId: string, updateData: UpdateColumn) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
 	let body: any = {};
 
-	// depending on position, set key
-	if ('heading' in updateData && 'headingSize' in updateData) {
-		if (position === 1) {
-			body = {
-				...updateData,
-				heading1: updateData.heading,
-				headingSize1: updateData.headingSize
-			};
-		} else if (position === 2) {
-			body = {
-				...updateData,
-				heading2: updateData.heading,
-				headingSize2: updateData.headingSize
-			};
-		} else {
-			body = {
-				...updateData,
-				heading3: updateData.heading,
-				headingSize3: updateData.headingSize
-			};
-		}
-	} else if ('content' in updateData && 'contentSize' in updateData) {
-		if (position === 1) {
-			body = {
-				...updateData,
-				content1: updateData.content,
-				contentSize1: updateData.contentSize
-			};
-		} else if (position === 2) {
-			body = {
-				...updateData,
-				content2: updateData.content,
-				contentSize2: updateData.contentSize
-			};
-		} else {
-			body = {
-				...updateData,
-				content3: updateData.content,
-				contentSize3: updateData.contentSize
-			};
-		}
-	}
+    // depending on position, set key
+    if ('heading' in updateData && 'headingSize' in updateData) {
+        if (position === 1) {
+            body = {
+                ...updateData,
+                heading1: updateData.heading,
+                headingSize1: updateData.headingSize
+            };
+        } else if (position === 2) {
+            body = {
+                ...updateData,
+                heading2: updateData.heading,
+                headingSize2: updateData.headingSize
+            };
+        } else {
+            body = {
+                ...updateData,
+                heading3: updateData.heading,
+                headingSize3: updateData.headingSize
+            };
+        }
+    } else if ('content' in updateData && 'contentSize' in updateData) {
+        if (position === 1) {
+            body = {
+                ...updateData,
+                content1: updateData.content,
+                contentSize1: updateData.contentSize
+            };
+        } else if (position === 2) {
+            body = {
+                ...updateData,
+                content2: updateData.content,
+                contentSize2: updateData.contentSize
+            };
+        } else {
+            body = {
+                ...updateData,
+                content3: updateData.content,
+                contentSize3: updateData.contentSize
+            };
+        }
+    }
+
 	const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!
 		},
 		body: JSON.stringify(body)
 	});
