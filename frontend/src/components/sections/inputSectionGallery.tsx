@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SectionGallery } from '@/interfaces';
 import { updateSectionGallery } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
@@ -5,13 +6,12 @@ import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
-    position:1|2|3;
+	position: 1 | 2 | 3;
 	section: SectionGallery;
 };
 
@@ -22,41 +22,44 @@ const formSchema = yup.object().shape({
 		.required('Caption is required !'),
 });
 
-const InputSectionGallery: React.FC<Props> = ({position, section }) => {
-    const [caption, setCaption] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.caption1;
-            } else if (position === 2) {
-                return section.item.caption2;
-            } else {
-                return section.item.caption3;
-            }
-        } else {
-            return 'This is caption';
-        }
-    });
-    
-    const [captionSize, setCaptionSize] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.captionSize1;
-            } else if (position === 2) {
-                return section.item.captionSize2;
-            } else {
-                return section.item.captionSize3;
-            }
-        } else {
-            return 10; // default size
-        }
-    });
+const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
+	const [caption, setCaption] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.caption1;
+			} else if (position === 2) {
+				return section.item.caption2;
+			} else {
+				return section.item.caption3;
+			}
+		} else {
+			return 'This is caption';
+		}
+	});
+
+	const [captionSize, setCaptionSize] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.captionSize1;
+			} else if (position === 2) {
+				return section.item.captionSize2;
+			} else {
+				return section.item.captionSize3;
+			}
+		} else {
+			return 10; // default size
+		}
+	});
+
 	const { theme } = useTheme();
 
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(captionSize);
+
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
 	};
+
 	const decrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
 	};
@@ -70,7 +73,7 @@ const InputSectionGallery: React.FC<Props> = ({position, section }) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 
-				const data = await updateSectionGallery(position,section.item.id, {
+				const data = await updateSectionGallery(position, section.item.id, {
 					...formData,
 					captionSize: fontSize,
 				});
@@ -99,12 +102,9 @@ const InputSectionGallery: React.FC<Props> = ({position, section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
+					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
+						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+				>{toast.message}</div>
 			)}
 
 			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>

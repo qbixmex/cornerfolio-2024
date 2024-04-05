@@ -11,5 +11,3 @@ export * as SectionTextController from './section-text.controller';
 export * as SeedController from './seed.controller';
 export * as UsersController from './users.controller';
 export * as SectionImageText from './section-image-text.controller';
-
-

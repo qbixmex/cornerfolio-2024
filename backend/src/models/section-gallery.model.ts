@@ -9,7 +9,7 @@ interface ISectionGallery extends Document {
 	alt2: string;
 	caption2: string;
 	captionSize2: number;
-    url3: string;
+	url3: string;
 	alt3: string;
 	caption3: string;
 	captionSize3: number;

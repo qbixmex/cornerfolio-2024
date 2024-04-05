@@ -35,7 +35,7 @@ const CreateGallery: React.FC<Props> = ({ portfolioId, order }) => {
 				type="button"
 			>
 				<BsFileImage className="text-lg text-white" />
-                <BsFileImageFill className="text-lg text-white" />
+				<BsFileImageFill className="text-lg text-white" />
 			</Button>
 			<span className="text-sm">Gallery</span>
 		</div>

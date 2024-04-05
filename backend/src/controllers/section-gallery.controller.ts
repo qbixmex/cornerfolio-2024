@@ -1,14 +1,14 @@
-import e, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import fileUpload from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 import { Portfolio, SectionGallery } from '../models';
 import { CustomError } from '../helpers';
 
-export const getSectionGallerys = async (req: Request, res: Response) => {
+export const getSectionGalleries = async (req: Request, res: Response) => {
 	try {
-		const SectionGallerys = await SectionGallery.find();
-		const sections = SectionGallerys.map(sectionGallery => {
+		const SectionGalleries = await SectionGallery.find();
+		const sections = SectionGalleries.map(sectionGallery => {
 			return {
 				id: sectionGallery.id,
 				url1: sectionGallery.url1,
@@ -23,12 +23,11 @@ export const getSectionGallerys = async (req: Request, res: Response) => {
 				alt3: sectionGallery.alt3,
 				caption3: sectionGallery.caption3,
 				captionSize3: sectionGallery.captionSize3,
-				
 			};
 		});
 		return res.status(200).json(sections);
 	} catch (error) {
-		throw CustomError.internalServer('Error while fetching Section Gallerys,\n' + error);
+		throw CustomError.internalServer('Error while fetching Section Galleries,\n' + error);
 	}
 };
 
@@ -123,7 +122,7 @@ export const updateSectionGallery = async (req: Request, res: Response) => {
 		sectionGallery.alt2 = payload.alt2 !== undefined ? payload.alt2 : sectionGallery.alt2;
 		sectionGallery.caption2 = payload.caption2 !== undefined ? payload.caption2 : sectionGallery.caption2;
 		sectionGallery.captionSize2 = payload.captionSize2 !== undefined ? payload.captionSize2 : sectionGallery.captionSize2;
-        sectionGallery.url3 = payload.url3 !== undefined ? payload.url3 : sectionGallery.url3;
+		sectionGallery.url3 = payload.url3 !== undefined ? payload.url3 : sectionGallery.url3;
 		sectionGallery.alt3 = payload.alt3 !== undefined ? payload.alt3 : sectionGallery.alt3;
 		sectionGallery.caption3 = payload.caption3 !== undefined ? payload.caption3 : sectionGallery.caption3;
 		sectionGallery.captionSize3 = payload.captionSize3 !== undefined ? payload.captionSize3 : sectionGallery.captionSize3;
@@ -146,7 +145,6 @@ export const updateSectionGallery = async (req: Request, res: Response) => {
 				alt3: sectionGallery.alt3,
 				caption3: sectionGallery.caption3,
 				captionSize3: sectionGallery.captionSize3,
-				
 			}
 		});
 	} catch (error) {
@@ -159,28 +157,29 @@ export const uploadSectionGallery = async (req: Request, res: Response) => {
     const position: string = req.params.position;
 
     enum UrlKey {
-        Url1 = "url1",
-        Url2 = "url2",
-        Url3 = "url3"
+			Url1 = "url1",
+			Url2 = "url2",
+			Url3 = "url3"
     }
-    let urlKey: UrlKey = UrlKey.Url1; 
+
+		let urlKey: UrlKey = UrlKey.Url1; 
 
     if (!['1', '2', '3'].includes(position)) {
-        return res.status(400).json({ error: 'Position must be 1, 2, or 3' });
-    }else{
-        switch (position) {
-            case '1':
-                urlKey = UrlKey.Url1;
-                break;
-            case '2':
-                urlKey = UrlKey.Url2;
-                break;
-            case '3':
-                urlKey = UrlKey.Url3;
-                break;
-            default:
-                break;
-        }    
+			return res.status(400).json({ error: 'Position must be 1, 2, or 3' });
+    } else {
+			switch (position) {
+				case '1':
+					urlKey = UrlKey.Url1;
+					break;
+				case '2':
+					urlKey = UrlKey.Url2;
+					break;
+				case '3':
+					urlKey = UrlKey.Url3;
+					break;
+				default:
+					break;
+			}    
     }
 
 	if (!Types.ObjectId.isValid(id)) {
@@ -199,24 +198,24 @@ export const uploadSectionGallery = async (req: Request, res: Response) => {
 		const temporaryFile = (req.files.image as fileUpload.UploadedFile);
 
 		try {
-            let imageUrl;
-            // If 'url' parameter is provided, update the corresponding property
-            
-            if (sectionGallery[urlKey]) {
-                const imageURLArray = sectionGallery[urlKey].split('/');
-                const imageName = imageURLArray[imageURLArray.length - 1];
-                const [publicImageID] = imageName.split('.');
-                await cloudinary.uploader.destroy(`section_gallery/${publicImageID}`);
-            }
+			let imageUrl;
+			// If 'url' parameter is provided, update the corresponding property
+		
+			if (sectionGallery[urlKey]) {
+				const imageURLArray = sectionGallery[urlKey].split('/');
+				const imageName = imageURLArray[imageURLArray.length - 1];
+				const [publicImageID] = imageName.split('.');
+				await cloudinary.uploader.destroy(`section_gallery/${publicImageID}`);
+			}
 
-            // Upload to Cloudinary
-            const responseCloudinary = await cloudinary.uploader.upload(temporaryFile.tempFilePath, {
-                folder: 'section_gallery',
-                overwrite: true,
-            });
+			// Upload to Cloudinary
+			const responseCloudinary = await cloudinary.uploader.upload(temporaryFile.tempFilePath, {
+					folder: 'section_gallery',
+					overwrite: true,
+			});
 
-            imageUrl = responseCloudinary.secure_url;
-            sectionGallery[urlKey] = imageUrl;
+			imageUrl = responseCloudinary.secure_url;
+			sectionGallery[urlKey] = imageUrl;
 
 			await sectionGallery.save();
 		
@@ -242,9 +241,9 @@ export const uploadSectionGallery = async (req: Request, res: Response) => {
 			console.error('Cloudinary upload error:', error);
 			throw CustomError.internalServer('Error while uploading Section Gallery,\n' + error);
 		}
-	}else{
-        return res.status(400).json({ error: 'Uploading Image must be contained' });
-    }
+	} else {
+		return res.status(400).json({ error: 'Uploading Image must be included' });
+	}
 };
 
 export const deleteSectionGallery = async (req: Request, res: Response) => {
@@ -258,19 +257,22 @@ export const deleteSectionGallery = async (req: Request, res: Response) => {
 		// Delete the sectionGallery itself
 		// search sectionImage with designated id.
 		const sectionGallery = await SectionGallery.findById(sectionId);
+
 		if (!sectionGallery) {
 			return res.status(404).json({ error: 'Section gallery not found' });
 		}
+
 		// delete previous image
-        const urls= [sectionGallery.url1, sectionGallery.url2, sectionGallery.url3]
+		const urls= [sectionGallery.url1, sectionGallery.url2, sectionGallery.url3]
+
 		for (const url of urls) {
-            if (url) {
-                const imageURLArray = url.split('/');
-                const imageName = imageURLArray[imageURLArray.length - 1];
-                const [publicImageID] = imageName.split('.');
-                await cloudinary.uploader.destroy(`section_gallery/${publicImageID}`);
-            }
-        }
+			if (url) {
+				const imageURLArray = url.split('/');
+				const imageName = imageURLArray[imageURLArray.length - 1];
+				const [publicImageID] = imageName.split('.');
+				await cloudinary.uploader.destroy(`section_gallery/${publicImageID}`);
+			}
+		}
 
 		await SectionGallery.findByIdAndDelete(sectionId);
 

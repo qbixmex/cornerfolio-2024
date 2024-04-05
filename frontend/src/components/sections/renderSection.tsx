@@ -1,6 +1,5 @@
 import DeleteDivider from './deleteDivider';
 import DeleteText from './deleteText';
-import DeleteImage from './deleteImage';
 import DeleteImageText from './deleteImageText';
 import DeleteEmbeddedMedia from './deleteEmbeddedMedia';
 import DeleteColumn from './deleteColumn';

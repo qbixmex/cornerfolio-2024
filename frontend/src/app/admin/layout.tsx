@@ -25,6 +25,11 @@ const AdminLayout: FC<{children: ReactNode}> = ({ children }) => {
 
   const tokenDecoded = jwt.decode(token!.value) as Token | null;
 
+  //* Check if the token is expired
+  if (tokenDecoded?.exp && (tokenDecoded.exp < Date.now() / 1000)) {
+    return redirect('/login');
+  }
+
   const authenticatedUser: AuthenticatedUser = {
     id: tokenDecoded?.id ?? '',
     name: tokenDecoded?.name ?? '',

@@ -3,7 +3,7 @@ import { SectionGalleryController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', SectionGalleryController.getSectionGallerys);
+router.get('/', SectionGalleryController.getSectionGalleries);
 router.post('/:portfolioId', SectionGalleryController.createSectionGallery);
 router.patch('/:id', SectionGalleryController.updateSectionGallery);
 router.patch('/upload/:id/:position', SectionGalleryController.uploadSectionGallery);

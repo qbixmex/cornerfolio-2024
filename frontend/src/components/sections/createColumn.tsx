@@ -35,7 +35,6 @@ const CreateColumn: React.FC<Props> = ({ portfolioId, order }) => {
 				type="button"
 			>
 				<PiTextColumns className="text-lg text-white" />
-                
 			</Button>
 			<span className="text-sm">Column</span>
 		</div>

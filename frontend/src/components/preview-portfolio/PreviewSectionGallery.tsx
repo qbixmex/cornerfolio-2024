@@ -1,11 +1,11 @@
 import { SectionGallery } from '@/interfaces';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import { useTheme } from 'next-themes';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionGallery;
 };
-
 
 const PreviewSectionGallery: React.FC<Props> = ({ section }) => {
 	const { theme } = useTheme();
@@ -44,10 +44,12 @@ const PreviewSectionGallery: React.FC<Props> = ({ section }) => {
 						src={(section as SectionGallery).item.url3}
 						alt={(section as SectionGallery).item.alt3}
 					/>
-					<div style={{ fontSize: section.item.captionSize3 }} 
-					className={`w-full outline-none 
-					${theme === 'modern' ? modern.imageInputBackground : ''}
-					`}>
+					<div
+						className={clsx("w-full outline-none",
+							{ "modern": modern.imageInputBackground }
+						)}
+						style={{ fontSize: section.item.captionSize3 }}
+					>
 						{section.item.caption3}
 					</div>
 				</div>
