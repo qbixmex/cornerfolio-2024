@@ -99,6 +99,22 @@ export const createSectionColumn = async (portfolioId: string, order: number) =>
     return response.json();
 };
 
+export const createSectionGallery = async (portfolioId: string, order: number) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
+    const response = await fetch(`http://localhost:4000/api/section-gallery/${portfolioId}/?order=${order}`, {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            "token": token?.value!,
+        },
+        body:JSON.stringify({})
+    });
+
+    return response.json();
+};
+
 export const deleteSectionImage = async (sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
@@ -187,4 +203,19 @@ export const deleteSectionColumn = async (sectionId:string) => {
     });
 
   return response.json();
+};
+
+export const deleteSectionGallery = async (sectionId:string) => {
+    const cookiesStore = cookies();
+    const token = cookiesStore.get("token");
+
+    const response = await fetch(`http://localhost:4000/api/section-gallery/${sectionId}`, {
+        method: 'DELETE',
+        headers: {
+            "content-type": "application/json",
+            "token": token?.value!,
+        }
+    });
+
+    return response.json();
 };

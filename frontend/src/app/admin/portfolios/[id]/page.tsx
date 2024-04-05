@@ -43,7 +43,6 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     const fetchPortfolio = async () => {
       try {
         const fetchData = await getPortfolio(id);
-        console.log(fetchData);
         setPortfolio(fetchData);
         setLoading(false);
         setTheme(fetchData.theme);

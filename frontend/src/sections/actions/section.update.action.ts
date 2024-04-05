@@ -59,22 +59,18 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 	return response.json();
 };
 
-export const uploadSectionImage = async (sectionId: string, imageFile: File) => {
+export const uploadSectionImage = async (sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
 	try {
-		const formData = new FormData();
-		formData.append('image', imageFile);
-
-        const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
-            method: 'PATCH',
-						headers: {
-							'content-type': 'application/json',
-							'token': token?.value!
-						},
-            body: formData,
-        });
+		const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
+			method: 'PATCH',
+			headers: {
+				'token': token?.value!
+			},
+			body: formData,
+		});
 
 		return response.json();
 	} catch (error) {
@@ -83,19 +79,14 @@ export const uploadSectionImage = async (sectionId: string, imageFile: File) => 
 	}
 };
 
-export const uploadSectionImageText = async (sectionId: string, imageFile: File) => {
+export const uploadSectionImageText = async (sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
 	try {
-		const formData = new FormData();
-
-		formData.append('image', imageFile);
-
 		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
 				method: 'PATCH',
 				headers: {
-					'content-type': 'application/json',
 					'token': token?.value!
 				},
 				body: formData,
@@ -202,6 +193,8 @@ export const updateSectionColumn = async (position: 1|2|3, sectionId: string, up
 };
 
 export const updateSectionGallery = async (position: 1 | 2 | 3, sectionId: string, updateData: UpdateGallery) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
 	let body: any = {};
 
 	// depending on position, set key
@@ -230,20 +223,24 @@ export const updateSectionGallery = async (position: 1 | 2 | 3, sectionId: strin
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
+			'token': token?.value!,
 		},
-		body: JSON.stringify(body)
+		body: JSON.stringify(body),
 	});
 
 	return response.json();
 };
 
-export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: string, imageFile: File) => {
-	try {
-		const formData = new FormData();
-		formData.append('image', imageFile);
+export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: string, formData: FormData) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
 
+	try {
 		const response = await fetch(`http://localhost:4000/api/section-gallery/upload/${sectionId}/${position}`, {
 			method: 'PATCH',
+			headers: {
+				'token': token?.value!
+			},
 			body: formData,
 		});
 

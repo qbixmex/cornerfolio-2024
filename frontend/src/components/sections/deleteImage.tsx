@@ -8,15 +8,15 @@ type Props = {
 };
 
 const DeleteImage: React.FC<Props> = ({ sectionId }) => {
-	const dispatch=useAppDispatch()
+	const dispatch = useAppDispatch()
 	const handleDeleteImage = async () => {
 		try {
 			dispatch(setReloading(true)); // reloading true
-			await deleteSectionImage(sectionId)
+			await deleteSectionImage(sectionId);
 		} catch (error) {
 			console.error('Error deleting image:', error);
 		} finally {
-			  dispatch(setReloading(false)); // reloading false
+			dispatch(setReloading(false)); // reloading false
 		}
 	};
 
