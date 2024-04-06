@@ -1,7 +1,7 @@
 'use client';
 import { IPortfolio } from '@/interfaces';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
-import { useTheme } from 'next-themes';
+
 
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
-	const { theme } = useTheme();
+	const theme = portfolio.theme;
 	return (
 		<div className={`py-[30px] px-[80px] border-b-gray-300 border-2 
 		${

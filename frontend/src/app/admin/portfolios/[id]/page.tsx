@@ -91,7 +91,6 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 
 		try {
 			const data = await UnPublishPortfolio(id);
-			console.log(data);
 
 			if (data.error) {
 				setToast({ message: data.error, type: 'error' });

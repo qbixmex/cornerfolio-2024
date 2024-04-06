@@ -4,10 +4,10 @@ import { useTheme } from 'next-themes';
 
 type Props = {
 	section: SectionDivider;
+	theme: string;
 };
 
-const PreviewSectionDivider: React.FC<Props> = ({ section }) => {
-	const { theme } = useTheme();
+const PreviewSectionDivider: React.FC<Props> = ({ section, theme }) => {
 	return (
 		<div className="flex items-between m-4" >
             <div style={{ fontSize: section.item.titleSize }} 

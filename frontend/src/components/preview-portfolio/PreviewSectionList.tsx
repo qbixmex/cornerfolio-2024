@@ -13,16 +13,17 @@ type Section =
 type Props = {
     sections: Section[];
     portfolioId: string;
+    theme: string;
 };
 
-const PreviewSectionsList: React.FC<Props> = ({ sections, portfolioId }) => {
+const PreviewSectionsList: React.FC<Props> = ({ sections, portfolioId, theme }) => {
     return (
         <div>
         {sections.map((section, index) => (
             <div key={section.item.id} className=''>
                 <div className='flex justify-between'>
                     <div className='mb-5 ml-5 mr-5 w-full'>
-                    <PreviewRenderSection section={section} />
+                    <PreviewRenderSection theme={theme} section={section} />
                     </div>
                 </div>
             </div>

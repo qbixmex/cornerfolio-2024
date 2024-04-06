@@ -4,11 +4,12 @@ import { useTheme } from 'next-themes';
 
 type Props = {
 	section: SectionImage;
+	theme: string;
 };
 
 
-const PreviewSectionImage: React.FC<Props> = ({ section }) => {
-	const { theme } = useTheme();
+const PreviewSectionImage: React.FC<Props> = ({ section, theme }) => {
+
 	return (
 		<div className='w-full'>
 		<div

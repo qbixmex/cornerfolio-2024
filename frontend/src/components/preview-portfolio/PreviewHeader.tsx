@@ -10,7 +10,7 @@ type Props = {
 
 
 export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
-    const { theme } = useTheme();
+    const theme = portfolio.theme;
 
     useEffect(()=>{
         console.log('useTheme in Header',theme)

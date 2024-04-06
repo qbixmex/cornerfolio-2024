@@ -4,11 +4,12 @@ import { useTheme } from 'next-themes';
 
 type Props = {
 	section: SectionImageText;
+    theme: string;
 };
 
 
-const PreviewSectionImageText: React.FC<Props> = ({ section }) => {
-    const { theme } = useTheme();
+const PreviewSectionImageText: React.FC<Props> = ({ section, theme }) => {
+
 	return (
         <div className={`flex justify-evenly max-sm:flex-col items-center ${
             ((section as SectionImageText).item.position === 'text_img')

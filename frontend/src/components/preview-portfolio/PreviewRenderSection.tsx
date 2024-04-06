@@ -1,11 +1,16 @@
 import {
-	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn
+	SectionColumn,
+	SectionDivider,
+	SectionEmbeddedMedia,
+	SectionImage,
+	SectionImageText,
+	SectionText,
 } from '@/interfaces';
+import PreviewSectionColumn from './PreviewSectionColumn';
 import PreviewSectionDivider from './PreviewSectionDivider';
 import PreviewSectionImage from './PreviewSectionImage';
-import PreviewSectionText from './PreviewSectionText';
 import PreviewSectionImageText from './PreviewSectionImageText';
-import PreviewSectionColumn from './PreviewSectionColumn';
+import PreviewSectionText from './PreviewSectionText';
 
 type Section =
 	| SectionText
@@ -13,47 +18,40 @@ type Section =
 	| SectionEmbeddedMedia
 	| SectionImageText
 	| SectionDivider
-	| SectionColumn
+	| SectionColumn;
 
 type Props = {
 	section: Section;
+	theme: string;
 };
 
-const PreviewRenderSection: React.FC<Props> = ({ section }) => {
+const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
-				<div className='  w-full'>		
-				    <PreviewSectionDivider section={section as SectionDivider}/>
+				<div className="  w-full">
+					<PreviewSectionDivider theme={theme} section={section as SectionDivider} />
 				</div>
-			)
+			);
 		case 'SectionText':
-			return (	
-				<PreviewSectionText section={section as SectionText}/>
-			);
+			return <PreviewSectionText theme={theme} section={section as SectionText} />;
 		case 'SectionImage':
-			return (
-				<PreviewSectionImage section={section as SectionImage} />
-			);
+			return <PreviewSectionImage theme={theme} section={section as SectionImage} />;
 		case 'SectionImageText':
-			return (
-                <PreviewSectionImageText section={section as SectionImageText}/>
-			);
+			return <PreviewSectionImageText theme={theme} section={section as SectionImageText} />;
 		case 'SectionEmbeddedMedia':
 			return (
-				<div className='flex justify-center'>
+				<div className="flex justify-center">
 					<div
 						key={section.item.id}
 						dangerouslySetInnerHTML={{
-							__html: (section as SectionEmbeddedMedia).item.code
+							__html: (section as SectionEmbeddedMedia).item.code,
 						}}
 					/>
 				</div>
 			);
 		case 'SectionColumn':
-			return (	
-				<PreviewSectionColumn section={section as SectionColumn}/>
-			);
+			return <PreviewSectionColumn theme={theme} section={section as SectionColumn} />;
 		default:
 			return null;
 	}

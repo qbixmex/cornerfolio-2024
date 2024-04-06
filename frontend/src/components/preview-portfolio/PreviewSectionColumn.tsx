@@ -4,10 +4,11 @@ import { useTheme } from 'next-themes';
 
 type Props = {
 	section: SectionColumn;
+    theme: string;
 };
 
-const PreviewSectionColumn: React.FC<Props> = ({ section }) => {
-    const { theme } = useTheme();
+const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
+
 	return (
         <div className="flex w-full max-sm:flex-col">
                 {/* text1 */}
