@@ -1,13 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { License } from "@/interfaces";
+import { updateLicense } from "@/users/actions/license.actions";
 
-const LicensePopup = () => {
+import { FormEvent, useState } from "react";
+
+type Props = {
+  license: License;
+};
+
+const LicensePopup: React.FC<Props> = ({ license }) => {
   //* This is for button to be disabled, implement this after being able to get login-user membership info
   const [isFree, setIsFree] = useState(true);
 
-  const handleUpgrade = () => {
-    console.log("Now upgraded to premium 🎉");
+
+
+
+  const handleUpgrade = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      const data = await updateLicense(license);
+      console.log(data);
+
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const handleDowngrade = () => {
@@ -23,9 +40,8 @@ const LicensePopup = () => {
         </div>
         <div className="w-full">
           <button
-            className={`mx-auto block w-full p-1 rounded-md text-white ${
-              isFree ? "bg-gray-400" : "bg-indigo-600"
-            }`}
+            className={`mx-auto block w-full p-1 rounded-md text-white ${isFree ? "bg-gray-400" : "bg-indigo-600"
+              }`}
             onClick={handleDowngrade}
             disabled={isFree}
           >
@@ -41,15 +57,17 @@ const LicensePopup = () => {
         </div>
 
         <div className="w-full">
-          <button
-            className={`mx-auto block w-full p-1 rounded-md text-white ${
-              isFree ? "bg-indigo-600" : "bg-gray-400"
-            }`}
-            onClick={handleUpgrade}
-            disabled={!isFree}
-          >
-            Upgrade
-          </button>
+          <form onSubmit={handleUpgrade}>
+
+            <button
+              type="submit"
+              className={`mx-auto block w-full p-1 rounded-md text-white ${isFree ? "bg-indigo-600" : "bg-gray-400"
+                }`}
+              disabled={!isFree}
+            >
+              Upgrade
+            </button>
+          </form>
         </div>
       </div>
     </div>

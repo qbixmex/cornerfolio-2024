@@ -108,7 +108,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                 <div className="flex justify-end">
                   <button onClick={handleCloseModal}>✖️</button>
                 </div>
-                <LicensePopup logoinUser={user} />
+                <LicensePopup license={user.license} />
               </Modal>
             </section>
           </section>
