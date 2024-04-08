@@ -10,6 +10,7 @@ import { IPortfolio } from '@/interfaces';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import NotFoundPage from '@/app/not-found';
 
 type Props = {
   params: { id: string };
@@ -59,7 +60,9 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading &&(
         <>
-          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
+        {portfolio ? (
+          <>
+            <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
             <Link
               href={`http://localhost:3000/${portfolio.tinyUrlId}`}
               target='blank'
@@ -87,6 +90,11 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
           )} 
 
           <TemplateFooter portfolio={portfolio} />
+          </>
+        ):<>
+
+        </>}
+          <div className='flex items-center justify-center'>Not Found</div>
         </>
       )}
     </main>

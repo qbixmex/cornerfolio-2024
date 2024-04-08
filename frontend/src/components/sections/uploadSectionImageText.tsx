@@ -6,9 +6,8 @@ import { SectionImageText } from '@/interfaces';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
-
 import styles from '@/users/components/profile.module.css';
-import { dataFocusVisibleClasses } from '@nextui-org/react';
+import { setUplodingImageKey } from '@/store/slices/imageUpload.slice';
 
 type Props = {
   section: SectionImageText;
@@ -28,23 +27,33 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
-      dispatch(setReloading(true))
-      const formData = new FormData();
+      try{
+        dispatch(setReloading(true))
+        dispatch(setUplodingImageKey(section.item.id))
+        const formData = new FormData();
 
-      formData.set("image", values.image!);
+        formData.set("image", values.image!);
 
-      const data = await uploadSectionImageText(section.item.id, formData);
+        const data = await uploadSectionImageText(section.item.id, formData);
 
-      if (data.error) {
-        setToast({ message: data.error, type: 'error' });
-      } else {
-        dispatch(setReloading(false)); // reloading false
+        if (data.error) {
+          setToast({ message: data.error, type: 'error' });
+        } else {
+          dispatch(setReloading(false)); // reloading false
+        }
+
+        setTimeout(() => {
+          setToast({ message: '', type: '' })
+          setImageFieldKey(Date.now());
+        }, 4000);
+      }catch (error) {
+        console.error("There has been a problem with your fetch operation: ", error);
+        throw error;
+      }finally{
+        dispatch(setReloading(false))
+        dispatch(setUplodingImageKey(''))
       }
-
-      setTimeout(() => {
-        setToast({ message: '', type: '' })
-        setImageFieldKey(Date.now());
-      }, 4000);
+      
     },
   });
 
