@@ -1,18 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { License } from "@/interfaces";
+import { updateLicense } from "@/users/actions/license.actions";
 
-const LicensePopup = () => {
+import { FormEvent, useState } from "react";
+
+type Props = {
+  license: License;
+  closeModal: () => void;
+  setToast: (toast: { message: string; type: string }) => void;
+};
+
+const LicensePopup: React.FC<Props> = ({ license, closeModal, setToast }) => {
   //* This is for button to be disabled, implement this after being able to get login-user membership info
   const [isFree, setIsFree] = useState(true);
 
-  const handleUpgrade = () => {
-    console.log("Now upgraded to premium 🎉");
+  const handleUpgrade = async (event: FormEvent) => {
+    event.preventDefault();
+
+    const data = await updateLicense(license);
+
+    if (data.error) {
+      setToast({ message: data.error, type: "error" });
+      closeModal();
+    }
+
+    if (data.message) {
+      setToast({ message: data.message, type: "success" });
+      closeModal();
+    }
   };
 
   const handleDowngrade = () => {
     console.log("Now downgraded to free 😢");
   };
+
   return (
     <div className="h-[90%] flex justify-between p-5">
       <div className="flex flex-col justify-between mx-auto border-2 w-[40%] px-10 py-5">
@@ -23,9 +45,8 @@ const LicensePopup = () => {
         </div>
         <div className="w-full">
           <button
-            className={`mx-auto block w-full p-1 rounded-md text-white ${
-              isFree ? "bg-gray-400" : "bg-indigo-600"
-            }`}
+            className={`mx-auto block w-full p-1 rounded-md text-white ${isFree ? "bg-gray-400" : "bg-indigo-600"
+              }`}
             onClick={handleDowngrade}
             disabled={isFree}
           >
@@ -41,15 +62,17 @@ const LicensePopup = () => {
         </div>
 
         <div className="w-full">
-          <button
-            className={`mx-auto block w-full p-1 rounded-md text-white ${
-              isFree ? "bg-indigo-600" : "bg-gray-400"
-            }`}
-            onClick={handleUpgrade}
-            disabled={!isFree}
-          >
-            Upgrade
-          </button>
+          <form onSubmit={handleUpgrade}>
+
+            <button
+              type="submit"
+              className={`mx-auto block w-full p-1 rounded-md text-white ${isFree ? "bg-indigo-600" : "bg-gray-400"
+                }`}
+              disabled={!isFree}
+            >
+              Upgrade
+            </button>
+          </form>
         </div>
       </div>
     </div>
