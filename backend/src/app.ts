@@ -14,6 +14,7 @@ import {
   sectionGalleryRoutes,
 	seedRoutes,
 	portfolioRoutes,
+	licenseRoutes,
 } from './routes';
 
 //* Start Express
@@ -48,5 +49,6 @@ app.use('/api/section-column', sectionColumnRoutes);
 app.use('/api/section-gallery',sectionGalleryRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/license', licenseRoutes);
 
 export default app;

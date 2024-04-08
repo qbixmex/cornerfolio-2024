@@ -7,29 +7,34 @@ import { FormEvent, useState } from "react";
 
 type Props = {
   license: License;
+  closeModal: () => void;
+  setToast: (toast: { message: string; type: string }) => void;
 };
 
-const LicensePopup: React.FC<Props> = ({ license }) => {
+const LicensePopup: React.FC<Props> = ({ license, closeModal, setToast }) => {
   //* This is for button to be disabled, implement this after being able to get login-user membership info
   const [isFree, setIsFree] = useState(true);
 
-
-
-
   const handleUpgrade = async (event: FormEvent) => {
     event.preventDefault();
-    try {
-      const data = await updateLicense(license);
-      console.log(data);
 
-    } catch (error) {
-      console.log(error)
+    const data = await updateLicense(license);
+
+    if (data.error) {
+      setToast({ message: data.error, type: "error" });
+      closeModal();
+    }
+
+    if (data.message) {
+      setToast({ message: data.message, type: "success" });
+      closeModal();
     }
   };
 
   const handleDowngrade = () => {
     console.log("Now downgraded to free 😢");
   };
+
   return (
     <div className="h-[90%] flex justify-between p-5">
       <div className="flex flex-col justify-between mx-auto border-2 w-[40%] px-10 py-5">
