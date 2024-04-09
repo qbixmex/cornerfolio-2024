@@ -4,6 +4,7 @@ import { get } from "env-var";
 export default {
   PORT: get("PORT").default(3000).asPortNumber(),
   HOST: get("HOST").default("http://localhost").asString(),
+  NODE_ENV: get("NODE_ENV").default("development").asString(),
   // TODO: PUBLIC_PATH: get('PUBLIC_PATH').default('public').asString(),
   JWT_SECRET: get("JWT_SECRET").required().asString(),
   // TODO: WEB_SERVICE_URL: get('WEB_SERVICE_URL').required().asString(),
