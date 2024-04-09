@@ -1,13 +1,13 @@
 {
 	"name": "cornerfolio_backend",
-	"version": "0.19.14",
+	"version": "0.20.0",
 	"description": "Final Program Project",
 	"main": "server.js",
 	"scripts": {
-		"dev": "NODE_ENV=development && tsnd --respawn --clear --inspect -- src/server.ts",
+		"dev": "NODE_ENV=production && tsnd --respawn --clear --inspect -- src/server.ts",
 		"build": "rimraf ./dist && tsc",
 		"docker:up": "docker compose up -d",
-		"start": "node dist/server.js"
+		"start": "NODE_ENV=production node dist/server.js"
 	},
 	"keywords": [
 		"typescript",

@@ -12,9 +12,11 @@ const main = async () => {
 
   const PORT = envs.PORT;
   const HOST = envs.HOST;
+  const ENVIRONMENT = envs.NODE_ENV;
 
   app.listen(PORT, () => {
     console.log(`Server is running at: ${HOST}:${PORT}`);
+    console.log(`Environment: ${ENVIRONMENT}`);
   });
 
 };
