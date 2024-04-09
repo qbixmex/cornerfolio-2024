@@ -4,7 +4,7 @@
 	"description": "Final Program Project",
 	"main": "server.js",
 	"scripts": {
-		"dev": "tsnd --respawn --clear --inspect -- src/server.ts",
+		"dev": "NODE_ENV=development && tsnd --respawn --clear --inspect -- src/server.ts",
 		"build": "rimraf ./dist && tsc",
 		"docker:up": "docker compose up -d",
 		"start": "node dist/server.js"
