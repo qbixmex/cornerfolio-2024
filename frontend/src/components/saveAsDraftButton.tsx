@@ -41,7 +41,7 @@ function DraftButton({ statusPortfolio, id }: Props) {
 						<div
 							className={`absolute z-[1000] left-2 right-2 w-11/12 bg-${
 								toast.type === 'error' ? 'red' : 'green'
-							}-500 text-white text-sx text-center px-1 py-1 rounded-md ${styles.shadow}`}
+							}-500 text-white text-sx text-center px-1 py-1 rounded-md mb-2 ${styles.shadow}`}
 						>
 							{toast.message}
 						</div>

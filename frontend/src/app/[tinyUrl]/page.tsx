@@ -1,8 +1,11 @@
 import { PreviewFooter } from '@/components/preview-portfolio/PreviewFooter';
 import { PreviewHeader } from '@/components/preview-portfolio/PreviewHeader';
 import PreviewSectionsList from '@/components/preview-portfolio/PreviewSectionList';
-import { IPortfolio } from '@/interfaces';
+import { IPortfolio, Token } from '@/interfaces';
 import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
+import jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 import { FC } from 'react';
 
 type Props = {
@@ -28,7 +31,15 @@ const PORTFOLIO_DATA: IPortfolio = {
 };
 
 const PortfolioPreviewPage: FC<Props> = async ({ params: { tinyUrl } }) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get('token');
+	const tokenDecoded = jwt.decode(token?.value!) as Token;
+
 	const data = await getPortfolioByTinyUrlId(tinyUrl);
+
+	if (!token && data.status === 'draft' && data.user.id !== tokenDecoded?.id) {
+		return notFound();
+	}
 
 	return (
 		<main className=" text-2xl font-bold">

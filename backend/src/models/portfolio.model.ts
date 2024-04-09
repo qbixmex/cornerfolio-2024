@@ -1,27 +1,27 @@
-import console from "console";
-import mongoose, { Model, Schema, Types } from "mongoose";
-import { SectionColumn, SectionText } from ".";
-import SectionEmbeddedMediaModel from "../models/section-embedded-media.model";
-import SectionDivider from "./section-divider.model";
-import SectionImageText from "./section-image-text.model";
-import SectionImage from "./section-image.model";
+import console from 'console';
+import mongoose, { Model, Schema, Types } from 'mongoose';
+import { SectionColumn, SectionText } from '.';
+import SectionEmbeddedMediaModel from '../models/section-embedded-media.model';
+import SectionDivider from './section-divider.model';
+import SectionImageText from './section-image-text.model';
+import SectionImage from './section-image.model';
 
 const sectionKinds = [
-	"SectionText",
-	"SectionImage",
-	"SectionEmbeddedMedia",
-	"SectionImageText",
-	"SectionDivider",
-	"SectionColumn",
+	'SectionText',
+	'SectionImage',
+	'SectionEmbeddedMedia',
+	'SectionImageText',
+	'SectionDivider',
+	'SectionColumn',
 ] as const;
 
 enum SectionType {
-	TEXT = "SectionText",
-	DIVIDER = "SectionDivider",
-	EMBEDDED_MEDIA = "SectionEmbeddedMedia",
-	IMAGE_TEXT = "SectionImageText",
-	IMAGE = "SectionImage",
-	COLUMN = "SectionColumn",
+	TEXT = 'SectionText',
+	DIVIDER = 'SectionDivider',
+	EMBEDDED_MEDIA = 'SectionEmbeddedMedia',
+	IMAGE_TEXT = 'SectionImageText',
+	IMAGE = 'SectionImage',
+	COLUMN = 'SectionColumn',
 }
 
 type SectionKind = (typeof sectionKinds)[number];
@@ -70,28 +70,28 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 			},
 			subHeading: {
 				type: String,
-				default: "Currently at Cornerstone, based in Vancouver",
+				default: 'Currently at Cornerstone, based in Vancouver',
 			},
 		},
 		status: {
 			type: String,
-			enum: ["draft", "published"],
-			default: "draft",
+			enum: ['draft', 'published'],
+			default: 'draft',
 		},
 		footer: {
 			links: {
 				type: String,
-				default: "sample@example.com",
+				default: 'sample@example.com',
 			},
 			text: {
 				type: String,
-				default: "© 2024 John Doe. All rights reserved.",
+				default: '© 2024 John Doe. All rights reserved.',
 			},
 		},
 		template: {
 			type: Schema.Types.ObjectId,
-			ref: "Template",
-			required: [true, "Portfolio is required"],
+			ref: 'Template',
+			required: [true, 'Portfolio is required'],
 		},
 		sections: [
 			{
@@ -101,16 +101,16 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 				},
 				item: {
 					type: Schema.Types.ObjectId,
-					refPath: "sections.kind",
+					refPath: 'sections.kind',
 				},
 			},
 		],
 		user: {
 			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: [true, "User is required"],
+			ref: 'User',
+			required: [true, 'User is required'],
 		},
-		theme: { type : String, default: "light" },
+		theme: { type: String, default: 'light' },
 		tinyUrlId: {
 			type: String,
 			unique: true,
@@ -120,7 +120,7 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 	{ timestamps: true },
 );
 
-PortfolioSchema.set("toJSON", {
+PortfolioSchema.set('toJSON', {
 	virtuals: true, //? convert _id to id
 	versionKey: false,
 	transform: function (doc, ret, options) {
@@ -128,7 +128,7 @@ PortfolioSchema.set("toJSON", {
 	},
 });
 
-PortfolioSchema.post("findOneAndDelete", async (doc) => {
+PortfolioSchema.post('findOneAndDelete', async (doc) => {
 	doc.sections.forEach(async (section: Section) => {
 		try {
 			switch (section.kind) {
@@ -151,13 +151,13 @@ PortfolioSchema.post("findOneAndDelete", async (doc) => {
 				case SectionType.IMAGE:
 					await SectionImage.findByIdAndDelete(section.item);
 					break;
-				
+
 				case SectionType.COLUMN:
 					await SectionColumn.findByIdAndDelete(section.item);
 					break;
 
 				default:
-					throw new Error("Invalid Section Kind");
+					throw new Error('Invalid Section Kind');
 			}
 		} catch (error) {
 			if (error instanceof mongoose.Error) {
@@ -166,11 +166,11 @@ PortfolioSchema.post("findOneAndDelete", async (doc) => {
 
 			console.log(error);
 
-			throw new Error("Unexpected Error, check logs !");
+			throw new Error('Unexpected Error, check logs !');
 		}
 	});
 });
 
-const Portfolio = mongoose.model<PortfolioType, PortfolioModel>("Portfolio", PortfolioSchema);
+const Portfolio = mongoose.model<PortfolioType, PortfolioModel>('Portfolio', PortfolioSchema);
 
 export default Portfolio;
