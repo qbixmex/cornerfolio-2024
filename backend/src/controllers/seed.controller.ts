@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
-import { bcryptAdapter } from "../config";
+import { bcryptAdapter, envs } from "../config";
 import { users } from '../data/users';
 import { License, User } from '../models';
 
 export const seed = async (_request: Request, response: Response) => {
+  if (envs.NODE_ENV === 'production') {
+    return response.status(403).json({
+      error: `❌ You are not authorized to seed data in production environment ❗️`
+    });
+  }
+
   //* Delete all data
   await Promise.all([
     License.deleteMany(),
