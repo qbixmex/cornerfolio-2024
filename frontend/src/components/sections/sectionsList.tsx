@@ -36,6 +36,7 @@ const SectionsList: React.FC<Props> = ({ sections, portfolioId }) => {
           {index !== sections.length - 1 && <ChooseSection portfolioId={portfolioId} order={index + 1} />}
         </div>
       ))}
+      <ChooseSection portfolioId={portfolioId} order={sections.length}/>
     </div>
   );
 };

@@ -1,6 +1,10 @@
 {
   "name": "cornerfolio",
+<<<<<<< HEAD
+  "version": "0.30.3",
+=======
   "version": "0.30.2",
+>>>>>>> dev
   "private": true,
   "scripts": {
     "dev": "next dev",

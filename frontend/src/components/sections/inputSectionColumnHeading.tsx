@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SectionColumn } from '@/interfaces';
 import { updateSectionColumn } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
@@ -5,13 +6,12 @@ import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from 'next-themes';
-import { useState ,useEffect} from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import clsx from 'clsx';
+import ButtonsSize from '../buttonsSize';
 
 type Props = {
-    position: 1 | 2 | 3;
+	position: 1 | 2 | 3;
 	section: SectionColumn;
 };
 
@@ -23,34 +23,34 @@ const formSchemaHeading = yup.object().shape({
 });
 
 const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
-    
-    const [heading, setHeading] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.heading1;
-            } else if (position === 2) {
-                return section.item.heading2;
-            } else {
-                return section.item.heading3;
-            }
-        } else {
-            return 'This is header';
-        }
-    });
-    
-    const [headingSize, setHeadingSize] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.headingSize1;
-            } else if (position === 2) {
-                return section.item.headingSize2;
-            } else {
-                return section.item.headingSize3;
-            }
-        } else {
-            return 30; // default size
-        }
-    });
+
+	const [heading] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.heading1;
+			} else if (position === 2) {
+				return section.item.heading2;
+			} else {
+				return section.item.heading3;
+			}
+		} else {
+			return 'This is header';
+		}
+	});
+
+	const [headingSize, setHeadingSize] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.headingSize1;
+			} else if (position === 2) {
+				return section.item.headingSize2;
+			} else {
+				return section.item.headingSize3;
+			}
+		} else {
+			return 30; // default size
+		}
+	});
 
 	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
@@ -70,7 +70,7 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 
-				const data = await updateSectionColumn(position,section.item.id, {
+				const data = await updateSectionColumn(position, section.item.id, {
 					...formData,
 					headingSize: fontSize,
 				});
@@ -99,9 +99,8 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
+						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
@@ -117,39 +116,19 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.headerFieldInput : ''} ${
-						formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'
-					}`}
+					${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'
+						}`}
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
 				{formik.errors.heading && formik.touched.heading && (
 					<p className="text-red-500 text-xs">{formik.errors.heading}</p>
 				)}
-				<div className="text-sm flex gap-1 mr-2">
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={incrementFontSize}
-					>
-						+
-					</button>
-					<button
-						className="border w-[30px] h-[30px] rounded hover:bg-gray-200 transition-colors"
-						type="button"
-						onClick={decrementFontSize}
-					>
-						-
-					</button>
-				</div>
-
-				<button
-					type="submit"
-					className={clsx(
-						`hover:bg-gray-200 flex text-xs justify-center self-center rounded-md border h-8 w-9`,
-						{ 'hidden': formik.errors.heading }
-					)}
-				>save</button>
+				<ButtonsSize
+					decrementFontSize={decrementFontSize}
+					incrementFontSize={incrementFontSize}
+					formik={formik}
+				/>
 			</form>
 		</div>
 	);
