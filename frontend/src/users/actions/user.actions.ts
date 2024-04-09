@@ -22,7 +22,7 @@ export const getUser = async (id: string) => {
 export const fetchUsersByQuery = async (term: string, currentPage: number): Promise<UsersSearch> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  let URL = '${API_URL}/api/users';
+  let URL = `${API_URL}/api/users`;
 
   if (term) {
     URL += `/search/${term}`;
