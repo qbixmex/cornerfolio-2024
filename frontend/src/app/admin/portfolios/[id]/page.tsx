@@ -59,7 +59,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
       {!loading && (
         <>
-          {portfolio && (
+          {(portfolio) ? (
             <>
               <section className='fixed top-[55px] w-full bg-gray-200 flex justify-end'>
                 <Link
@@ -90,8 +90,9 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 
               <TemplateFooter portfolio={portfolio} />
             </>
+          ): (
+            <div className='flex items-center justify-center'>Not Found</div>
           )}
-          <div className='flex items-center justify-center'>Not Found</div>
         </>
       )}
     </main>
