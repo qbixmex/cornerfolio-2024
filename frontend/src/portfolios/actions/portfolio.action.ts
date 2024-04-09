@@ -71,7 +71,8 @@ export const publishPortfolio = async (portfolioId: string) => {
 	return response.json();
 };
 
-export const UnPublishPortfolio = async (portfolioId: string) => {
+
+export const unPublishPortfolio = async (portfolioId: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
