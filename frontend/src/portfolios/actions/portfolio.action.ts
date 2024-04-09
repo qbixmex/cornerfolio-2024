@@ -11,6 +11,7 @@ export const getPortfolio = async (id: string) => {
 			headers: {
 				token: token?.value!,
 			},
+			cache: 'no-cache',
 		});
 		return response.json();
 	} catch (error) {
@@ -49,6 +50,7 @@ export const getPortfolioByTinyUrlId = async (tinyUrlId: string) => {
 		headers: {
 			token: token?.value!,
 		},
+		cache: 'no-cache',
 	});
 	return response.json();
 };
@@ -63,6 +65,7 @@ export const publishPortfolio = async (portfolioId: string) => {
 			'content-type': 'application/json',
 			token: token?.value!,
 		},
+		cache: 'no-cache',
 		body: JSON.stringify({ status: 'published' }),
 	});
 	return response.json();
@@ -77,6 +80,7 @@ export const UnPublishPortfolio = async (portfolioId: string) => {
 		headers: {
 			'content-type': 'application/json',
 			token: token?.value!,
+			cache: 'no-cache',
 		},
 		body: JSON.stringify({ status: 'draft' }),
 	});

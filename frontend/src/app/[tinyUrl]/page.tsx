@@ -36,7 +36,7 @@ const PortfolioPreviewPage: FC<Props> = async ({ params: { tinyUrl } }) => {
 	const tokenDecoded = jwt.decode(token?.value!) as Token;
 
 	const data = await getPortfolioByTinyUrlId(tinyUrl);
-
+	
 	if (!token && data.status === 'draft' && data.user.id !== tokenDecoded?.id) {
 		return notFound();
 	}
