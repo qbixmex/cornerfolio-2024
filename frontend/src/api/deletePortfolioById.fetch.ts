@@ -1,15 +1,16 @@
 "use server";
 
 import { cookies } from "next/headers";
-
 import { revalidateTag } from 'next/cache';
+
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
 export const deletePortfolio = async (id: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
 	{
-		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
+		const response = await fetch(`${API_URL}/api/portfolio/${id}`, {
 			headers: {
 				"token": token?.value!,
 			},

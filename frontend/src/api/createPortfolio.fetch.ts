@@ -1,6 +1,8 @@
+const API_URL = process.env.API_URL ?? 'http://localhost:4000';
+
 export const createPortfolio = async (token: string) => {
 	try {
-		const response = await fetch("http://localhost:4000/api/portfolio", {
+		const response = await fetch(`${API_URL}/api/portfolio`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

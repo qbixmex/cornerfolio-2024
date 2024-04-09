@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 type UpdateDivider = {
 	title: string;
 	titleSize: number;
@@ -32,7 +34,7 @@ export const updateSectionDivider = async (sectionId: string, updateData: Update
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");		
 
-	const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-divider/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -48,7 +50,7 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-		const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
+		const response = await fetch(`${API_URL}/api/section-image/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -64,7 +66,7 @@ export const uploadSectionImage = async (sectionId: string, formData: FormData) 
 	const token = cookiesStore.get("token");
 
 	try {
-		const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
+		const response = await fetch(`${API_URL}/api/section-image/upload/${sectionId}`, {
 			method: 'PATCH',
 			headers: {
 				'token': token?.value!
@@ -84,7 +86,7 @@ export const uploadSectionImageText = async (sectionId: string, formData: FormDa
 	const token = cookiesStore.get("token");
 
 	try {
-		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
+		const response = await fetch(`${API_URL}/api/section-image-text/upload/${sectionId}`, {
 				method: 'PATCH',
 				headers: {
 					'token': token?.value!
@@ -103,7 +105,7 @@ export const updateSectionText = async (sectionId: string, updateData: UpdateTex
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-	const response = await fetch(`http://localhost:4000/api/section-text/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -119,7 +121,7 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-	const response = await fetch(`http://localhost:4000/api/section-image-text/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-image-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -180,7 +182,7 @@ export const updateSectionColumn = async (position: 1|2|3, sectionId: string, up
         }
     }
 
-	const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-column/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -219,7 +221,7 @@ export const updateSectionGallery = async (position: 1 | 2 | 3, sectionId: strin
 			};
 		}
 	}
-	const response = await fetch(`http://localhost:4000/api/section-gallery/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-gallery/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -236,7 +238,7 @@ export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: strin
 	const token = cookiesStore.get("token");
 
 	try {
-		const response = await fetch(`http://localhost:4000/api/section-gallery/upload/${sectionId}/${position}`, {
+		const response = await fetch(`${API_URL}/api/section-gallery/upload/${sectionId}/${position}`, {
 			method: 'PATCH',
 			headers: {
 				'token': token?.value!
