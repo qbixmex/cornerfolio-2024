@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { Types } from 'mongoose';
-import { CustomError, verifyToken } from '../helpers';
+import { CustomError, generateUniqueTinyUrlId, verifyToken } from '../helpers';
 import * as Models from '../models';
-import { generateUniqueTinyUrlId } from '../helpers';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -23,7 +22,7 @@ export const getPortfolios = async (req: Request, res: Response) => {
 		});
 		return res.status(200).json(portfolios);
 	} catch (error) {
-		throw CustomError.internalServer("Error while fetching the Portfolios,\n" + error);
+		throw CustomError.internalServer('Error while fetching the Portfolios,\n' + error);
 	}
 };
 
@@ -31,13 +30,12 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
 
-		const portfolio = await Models.Portfolio
-			.findById(id)
-			.populate({ path: "user", select: "id name email license"})
-			.populate({ path: "sections.item" });
+		const portfolio = await Models.Portfolio.findById(id)
+			.populate({ path: 'user', select: 'id name email license' })
+			.populate({ path: 'sections.item' });
 
 		if (!portfolio) {
-			return res.status(404).json({ error: "Portfolio not found !" });
+			return res.status(404).json({ error: 'Portfolio not found !' });
 		}
 
 		return res.status(200).json({
@@ -52,7 +50,7 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 			tinyUrlId: portfolio.tinyUrlId,
 		});
 	} catch (error) {
-		throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
+		throw CustomError.internalServer('Error while fetching the Portfolio,\n' + error);
 	}
 };
 
@@ -60,16 +58,19 @@ export const getPortfolioByTinyUrlId = async (req: Request, res: Response) => {
 	try {
 		const { tinyUrlId } = req.params;
 
-		const portfolio = await Models.Portfolio.findOne({ tinyUrlId }).populate({ path: "sections.item" });
+		const portfolio = await Models.Portfolio.findOne({ tinyUrlId })
+			.populate({ path: 'user', select: 'id name email license' })
+			.populate({ path: 'sections.item' });
 
 		if (!portfolio) {
-			return res.status(404).json({ error: "Portfolio not found !" });
+			return res.status(404).json({ error: 'Portfolio not found !' });
 		}
 
 		return res.status(200).json({
 			id: portfolio.id,
 			header: portfolio.header,
 			status: portfolio.status,
+			user: portfolio.user,
 			sections: portfolio.sections,
 			footer: portfolio.footer,
 			template: portfolio.template,
@@ -77,19 +78,16 @@ export const getPortfolioByTinyUrlId = async (req: Request, res: Response) => {
 			tinyUrlId: portfolio.tinyUrlId,
 		});
 	} catch (error) {
-		throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
+		throw CustomError.internalServer('Error while fetching the Portfolio,\n' + error);
 	}
 };
 
-export const createPortfolio = async (
-	request: Request,
-	response: Response
-) => {
+export const createPortfolio = async (request: Request, response: Response) => {
 	const token = request.headers.token;
 
 	if (!token) {
 		return response.status(401).json({
-			error: "Unauthorized access !",
+			error: 'Unauthorized access !',
 		});
 	}
 
@@ -97,13 +95,11 @@ export const createPortfolio = async (
 
 	if (!decodedToken) {
 		return response.status(401).json({
-			error: "Token not valid !",
+			error: 'Token not valid !',
 		});
 	}
 
-	const userDB = await Models.User
-		.findById(decodedToken.id)
-		.select('id name jobTitle email');
+	const userDB = await Models.User.findById(decodedToken.id).select('id name jobTitle email');
 
 	if (!userDB) {
 		return response.status(400).json({
@@ -119,7 +115,7 @@ export const createPortfolio = async (
 
 		const header = {
 			title: `Hi, I'm ${userDB.name}, I am ${userDB.jobTitle}`,
-			subHeading: "Currently at Cornerstone, based in Vancouver",
+			subHeading: 'Currently at Cornerstone, based in Vancouver',
 		};
 
 		const footer = {
@@ -141,7 +137,7 @@ export const createPortfolio = async (
 		await newPortfolio.save();
 
 		return response.status(201).json({
-			message: "Portfolio created successfully 👍 !",
+			message: 'Portfolio created successfully 👍 !',
 			portfolio: {
 				id: newPortfolio.id,
 				portfolioTitle: newPortfolio.portfolioTitle,
@@ -157,18 +153,15 @@ export const createPortfolio = async (
 				footer: newPortfolio.footer,
 				template: newPortfolio.template,
 				theme: newPortfolio.theme,
-				tinyUrlId: newPortfolio.tinyUrlId, 
+				tinyUrlId: newPortfolio.tinyUrlId,
 			},
 		});
 	} catch (error) {
-		throw CustomError.internalServer("Error while creating the Portfolio,\n" + error);
+		throw CustomError.internalServer('Error while creating the Portfolio,\n' + error);
 	}
 };
 
-export const updatePortfolio = async (
-	request: Request<{ id: string }>,
-	response: Response
-) => {
+export const updatePortfolio = async (request: Request<{ id: string }>, response: Response) => {
 	try {
 		const id = request.params.id;
 
@@ -187,10 +180,10 @@ export const updatePortfolio = async (
 			footer: payload.footer ?? undefined,
 			template: payload.template ?? undefined,
 			theme: payload.theme ?? undefined,
-		}).populate({ path: "sections.item" });
+		}).populate({ path: 'sections.item' });
 
 		if (!portfolio) {
-			return response.status(404).json({ error: "Portfolio not found" });
+			return response.status(404).json({ error: 'Portfolio not found' });
 		}
 
 		//? Note: if you pass undefined to a field, it will not be updated.
@@ -200,7 +193,7 @@ export const updatePortfolio = async (
 		await portfolio.save();
 
 		return response.status(200).json({
-			message: "Portfolio updated successfully 👍 !",
+			message: 'Portfolio updated successfully 👍 !',
 			portfolio: {
 				id: portfolio.id,
 				portfolioTitle: portfolio.portfolioTitle,
@@ -214,7 +207,7 @@ export const updatePortfolio = async (
 			},
 		});
 	} catch (error) {
-		throw CustomError.internalServer("Error while updating the Portfolio,\n" + error);
+		throw CustomError.internalServer('Error while updating the Portfolio,\n' + error);
 	}
 };
 
@@ -230,16 +223,16 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 	const portfolio = await Models.Portfolio.countDocuments({ _id: id });
 
 	if (!portfolio) {
-		return res.status(404).json({ error: "Portfolio not found !" });
+		return res.status(404).json({ error: 'Portfolio not found !' });
 	}
 
 	try {
 		await Models.Portfolio.findOneAndDelete({ _id: id });
 
 		// do the same as logic in .post method....
-		return res.status(200).json({ message: "Portfolio deleted successfully 👍 !" });
+		return res.status(200).json({ message: 'Portfolio deleted successfully 👍 !' });
 	} catch (error) {
-		throw CustomError.internalServer("Error while deleting the Portfolio,\n" + error);
+		throw CustomError.internalServer('Error while deleting the Portfolio,\n' + error);
 	}
 };
 
@@ -256,14 +249,13 @@ export const setPortfolioTheme = async (req: Request, res: Response) => {
 
 		const portfolio = await Models.Portfolio.findByIdAndUpdate(id, {
 			theme: theme ?? undefined,
-		}).populate({ path: "sections.item" });
+		}).populate({ path: 'sections.item' });
 
 		if (!portfolio) {
-			return res.status(404).json({ error: "Portfolio not found !" });
+			return res.status(404).json({ error: 'Portfolio not found !' });
 		}
-
 		return res.status(200).json({
-			message: "Portfolio theme updated successfully 👍 !",
+			message: 'Portfolio theme updated successfully 👍 !',
 			portfolio: {
 				id: portfolio.id,
 				portfolioTitle: portfolio.portfolioTitle,
@@ -277,7 +269,7 @@ export const setPortfolioTheme = async (req: Request, res: Response) => {
 			},
 		});
 	} catch (error) {
-		throw CustomError.internalServer("Error while updating the Portfolio theme,\n" + error);
+		throw CustomError.internalServer('Error while updating the Portfolio theme,\n' + error);
 	}
 };
 
@@ -287,14 +279,14 @@ export const moveSectionUpDown = async (req: Request, res: Response) => {
 		const { action } = req.query;
 
 		// Validate action
-		if (typeof action !== "string" || (action !== "up" && action !== "down")) {
-			return res.status(400).json({ message: "Invalid action specified" });
+		if (typeof action !== 'string' || (action !== 'up' && action !== 'down')) {
+			return res.status(400).json({ message: 'Invalid action specified' });
 		}
 
 		// Find portfolio by ID
 		const portfolio = await Models.Portfolio.findById(portfolioId);
 		if (!portfolio) {
-			return res.status(404).json({ message: "Portfolio not found" });
+			return res.status(404).json({ message: 'Portfolio not found' });
 		}
 
 		// Find index of the section in the sections array
@@ -302,18 +294,18 @@ export const moveSectionUpDown = async (req: Request, res: Response) => {
 			(section) => section.item.toString() === sectionId.toString(),
 		);
 		if (index === -1) {
-			return res.status(404).json({ message: "Section not found in portfolio" });
+			return res.status(404).json({ message: 'Section not found in portfolio' });
 		}
 
 		// Move section up or down based on action
-		if (action === "up") {
+		if (action === 'up') {
 			// Move section up if index is greater than 0
 			if (index > 0) {
 				const temp = portfolio.sections[index];
 				portfolio.sections[index] = portfolio.sections[index - 1];
 				portfolio.sections[index - 1] = temp;
 			}
-		} else if (action === "down") {
+		} else if (action === 'down') {
 			// Move section down if index is less than sections.length - 1
 			if (index < portfolio.sections.length - 1) {
 				const temp = portfolio.sections[index];
@@ -325,9 +317,9 @@ export const moveSectionUpDown = async (req: Request, res: Response) => {
 		// Save the updated portfolio
 		await portfolio.save();
 
-		res.status(200).json({ message: "Section moved successfully" });
+		res.status(200).json({ message: 'Section moved successfully' });
 	} catch (error) {
-		console.error("Error moving section:", error);
-		res.status(500).json({ message: "Internal server error" });
+		console.error('Error moving section:', error);
+		res.status(500).json({ message: 'Internal server error' });
 	}
 };
