@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { cookies } from "next/headers";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 export const updateLicense = async (license: License) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
@@ -17,7 +19,7 @@ export const updateLicense = async (license: License) => {
   const endDate = currentDate.toLocaleDateString('en-CA');
 
   try {
-    const response = await fetch(`http://localhost:4000/api/license/${license.id}`, {
+    const response = await fetch(`${API_URL}/api/license/${license.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

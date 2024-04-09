@@ -5,11 +5,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { UsersSearch } from "../interfaces/users";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 export const getUser = async (id: string) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
 
-  const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+  const response = await fetch(`${API_URL}/api/users/${id}`, {
     headers: {
       "token": token?.value!,
     }
@@ -20,7 +22,7 @@ export const getUser = async (id: string) => {
 export const fetchUsersByQuery = async (term: string, currentPage: number): Promise<UsersSearch> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  let URL = 'http://localhost:4000/api/users';
+  let URL = '${API_URL}/api/users';
 
   if (term) {
     URL += `/search/${term}`;
@@ -37,7 +39,7 @@ export const fetchUsersByQuery = async (term: string, currentPage: number): Prom
 export const createUser = async (formData: FormData) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  const response = await fetch(`http://localhost:4000/api/users`, {
+  const response = await fetch(`${API_URL}/api/users`, {
     method: "POST",
     body: formData,
     headers: {
@@ -55,7 +57,7 @@ export const updateUser = async (id: string, formData: FormData) => {
   const token = cookiesStore.get('token');
 
   try {
-    const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+    const response = await fetch(`${API_URL}/api/users/${id}`, {
       method: "PATCH",
       headers: {
         "token": token?.value!
@@ -81,7 +83,7 @@ export const updatePassword = async (id: string, password: string) => {
   const token = cookiesStore.get('token');
 
   const response = await fetch(
-    `http://localhost:4000/api/users/${id}/update-password`,
+    `${API_URL}/api/users/${id}/update-password`,
     {
       method: "PATCH",
       headers: {
@@ -99,7 +101,7 @@ export const deleteUser = async (id: string) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
 
-  const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+  const response = await fetch(`${API_URL}/api/users/${id}`, {
     method: "DELETE",
     headers: {
       "token": token?.value!,

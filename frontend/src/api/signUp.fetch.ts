@@ -1,5 +1,7 @@
 'use server';
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 export type UserSignUp = {
   name: string;
   email: string;
@@ -10,7 +12,7 @@ export type UserSignUp = {
 };
 
 export const signUpFetch = async (newUser: UserSignUp) => {
-  const response = await fetch(`http://localhost:4000/api/auth/register`, {
+  const response = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "content-type": "application/json",

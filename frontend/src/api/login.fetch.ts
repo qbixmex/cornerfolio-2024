@@ -2,6 +2,8 @@
 
 import { User } from "@/interfaces";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 type UserCredentials = {
   email: string;
   password: string;
@@ -15,7 +17,7 @@ type LoginResponse = {
 }
 
 export const fetchLogin = async (credentials: UserCredentials): Promise<LoginResponse> => {
-  const response = await fetch(`http://localhost:4000/api/auth/login`, {
+  const response = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
