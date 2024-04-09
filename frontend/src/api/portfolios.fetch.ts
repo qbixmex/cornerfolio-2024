@@ -3,13 +3,15 @@
 import { revalidatePath } from 'next/cache';
 import { cookies } from "next/headers";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 export const portFoliosFetch = async () => {
 
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
 	try {
-		const response = await fetch(`http://localhost:4000/api/portfolio`, {
+		const response = await fetch(`${API_URL}/api/portfolio`, {
 			headers: {
 				"token": token?.value!,
 			},

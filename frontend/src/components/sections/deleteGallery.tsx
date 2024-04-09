@@ -1,5 +1,5 @@
 import { FaTrash } from 'react-icons/fa';
-import { deleteSectionImage } from '@/sections/actions/section.action';
+import { deleteSectionGallery } from '@/sections/actions/section.action';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
@@ -7,27 +7,27 @@ type Props = {
 	sectionId: string;
 };
 
-const DeleteImage: React.FC<Props> = ({ sectionId }) => {
+const DeleteGallery: React.FC<Props> = ({ sectionId }) => {
 	const dispatch = useAppDispatch()
-	const handleDeleteImage = async () => {
+	const handleDeleteGallery = async () => {
 		try {
 			dispatch(setReloading(true)); // reloading true
-			await deleteSectionImage(sectionId);
+			await deleteSectionGallery(sectionId)
 		} catch (error) {
-			console.error('Error deleting image:', error);
+			console.error('Error deleting gallery:', error);
 		} finally {
-			dispatch(setReloading(false)); // reloading false
+			  dispatch(setReloading(false)); // reloading false
 		}
 	};
 
 	return (
 		<button
 			className="m-4 bg-red-500 hover:bg-red-600 text-white p-2 rounded"
-			onClick={handleDeleteImage}
+			onClick={handleDeleteGallery}
 		>
 			<FaTrash />
 		</button>
 	);
 };
 
-export default DeleteImage;
+export default DeleteGallery;

@@ -2,6 +2,7 @@ export { default as authRoutes } from "./auth.routes";
 export { default as licenseRoutes } from "./license.routes";
 export { default as portfolioRoutes } from "./portfolio.routes";
 export { default as sectionColumnRoutes } from "./section-column.routes";
+export { default as sectionGalleryRoutes } from './section-gallery.routes';
 export { default as sectionDividerRoutes } from "./section-divider.routes";
 export { default as sectionEmbeddedMediaRoutes } from "./section-embedded-media.routes";
 export { default as sectionImageTextRoutes } from "./section-image-text.routes";

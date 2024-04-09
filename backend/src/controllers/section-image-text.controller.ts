@@ -117,7 +117,6 @@ export const updateSectionImageText = async (req: Request, res: Response) => {
 		sectionImageText.txtContentSize = payload.txtContentSize !== undefined ? payload.txtContentSize : sectionImageText.txtContentSize;
 		sectionImageText.position = payload.position !== undefined ? payload.position : sectionImageText.position;
 
-
 		await sectionImageText.save();
 
 		return res.status(200).json({
@@ -209,6 +208,8 @@ export const uploadSectionImageText = async (req: Request, res: Response) => {
 			console.error('Cloudinary upload error:', error);
 			throw CustomError.internalServer('Error while uploading Section Image Text,\n' + error);
 		}
+	} else {
+		return res.status(400).json({ error: 'Uploading Image must be contained' });
 	}
 };
 
@@ -233,6 +234,7 @@ export const deleteSectionImageText = async (req: Request, res: Response) => {
 
 		//* Find the index of the section with the given sectionId in the portfolio's sections array
 		const sectionIndex = portfolio.sections.findIndex(section => section.item.toString() === sectionId);
+
 		if (sectionIndex === -1) {
 			return res.status(404).json({ error: 'Section not found in portfolio !' });
 		}

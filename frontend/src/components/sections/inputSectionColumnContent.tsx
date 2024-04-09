@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
-    position: 1 | 2 | 3;
+	position: 1 | 2 | 3;
 	section: SectionColumn;
 };
 
@@ -23,34 +23,34 @@ const formSchemaContent = yup.object().shape({
 		.required('Content is required !'),
 });
 
-const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
-    const [content, setContent] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.content1;
-            } else if (position === 2) {
-                return section.item.content2;
-            } else {
-                return section.item.content3;
-            }
-        } else {
-            return 'This is content';
-        }
-    });
-    
-    const [contentSize, setContentSize] = useState(() => {
-        if (section) {
-            if (position === 1) {
-                return section.item.contentSize1;
-            } else if (position === 2) {
-                return section.item.contentSize2;
-            } else {
-                return section.item.contentSize3;
-            }
-        } else {
-            return 10; // default size
-        }
-    });
+const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
+	const [content, setContent] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.content1;
+			} else if (position === 2) {
+				return section.item.content2;
+			} else {
+				return section.item.content3;
+			}
+		} else {
+			return 'This is content';
+		}
+	});
+
+	const [contentSize] = useState(() => {
+		if (section) {
+			if (position === 1) {
+				return section.item.contentSize1;
+			} else if (position === 2) {
+				return section.item.contentSize2;
+			} else {
+				return section.item.contentSize3;
+			}
+		} else {
+			return 10; // default size
+		}
+	});
 
 	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
@@ -70,7 +70,7 @@ const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
 			try {
 				dispatch(setReloading(true)); // reloading true
 
-				const data = await updateSectionColumn(position,section.item.id, {
+				const data = await updateSectionColumn(position, section.item.id, {
 					...formData,
 					contentSize: fontSize,
 				});
@@ -98,9 +98,8 @@ const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
+						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
@@ -116,9 +115,8 @@ const InputSectionColumnContent: React.FC<Props> = ({position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${
-						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
-					}`}
+					${theme === 'modern' ? modern.textInputBackground : ''} ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
+						}`}
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
 				{formik.errors.content && formik.touched.content && (

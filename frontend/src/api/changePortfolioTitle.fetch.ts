@@ -1,6 +1,8 @@
+const API_URL = process.env.API_URL ?? 'http://localhost:4000';
+
 export const updatePortfolio = async (id: string, newTitle: string) => {
 	try {
-		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
+		const response = await fetch(`${API_URL}/api/portfolio/${id}`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",

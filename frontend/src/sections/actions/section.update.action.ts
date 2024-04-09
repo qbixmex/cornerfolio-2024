@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 type UpdateDivider = {
 	title: string;
 	titleSize: number;
@@ -12,25 +14,27 @@ type UpdateImage =
 	| { position: "left" | "center" | "right" };
 
 type UpdateText =
-	| { heading: string; headingSize:number }
-	| { content: string; contentSize: number}
+	| { heading: string; headingSize: number }
+	| { content: string; contentSize: number }
 	| { position: 'left' | 'center' | 'right' };
 
 type UpdateImageText =
-	| { imgCaption: string; imgCaptionSize: number}
-	| { txtHeading: string; txtHeadingSize: number}
-	| { txtContent: string; txtContentSize: number}
+	| { imgCaption: string; imgCaptionSize: number }
+	| { txtHeading: string; txtHeadingSize: number }
+	| { txtContent: string; txtContentSize: number }
 	| { position: 'text_img' | 'img_text' };
 
 type UpdateColumn =
 	| { heading: string; headingSize: number }
-	| { content: string; contentSize: number}
+	| { content: string; contentSize: number }
+
+type UpdateGallery = { caption: string; captionSize: number }
 
 export const updateSectionDivider = async (sectionId: string, updateData: UpdateDivider) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");		
 
-	const response = await fetch(`http://localhost:4000/api/section-divider/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-divider/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -46,7 +50,7 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-		const response = await fetch(`http://localhost:4000/api/section-image/${sectionId}`, {
+		const response = await fetch(`${API_URL}/api/section-image/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -57,43 +61,34 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 	return response.json();
 };
 
-export const uploadSectionImage = async (sectionId: string, imageFile: File) => {
+export const uploadSectionImage = async (sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
 	try {
-		const formData = new FormData();
-        formData.append('image', imageFile);
+		const response = await fetch(`${API_URL}/api/section-image/upload/${sectionId}`, {
+			method: 'PATCH',
+			headers: {
+				'token': token?.value!
+			},
+			body: formData,
+		});
 
-        const response = await fetch(`http://localhost:4000/api/section-image/upload/${sectionId}`, {
-            method: 'PATCH',
-						headers: {
-							'content-type': 'application/json',
-							'token': token?.value!
-						},
-            body: formData,
-        });
-
-	return response.json();
+		return response.json();
 	} catch (error) {
-		console.error( "There has been a problem with your fetch operation: ", error );
+		console.error("There has been a problem with your fetch operation: ", error);
 		throw error;
 	}
 };
 
-export const uploadSectionImageText = async (sectionId: string, imageFile: File) => {
+export const uploadSectionImageText = async (sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
 	try {
-		const formData = new FormData();
-	
-		formData.append('image', imageFile);
-
-		const response = await fetch(`http://localhost:4000/api/section-image-text/upload/${sectionId}`, {
+		const response = await fetch(`${API_URL}/api/section-image-text/upload/${sectionId}`, {
 				method: 'PATCH',
 				headers: {
-					'content-type': 'application/json',
 					'token': token?.value!
 				},
 				body: formData,
@@ -101,7 +96,7 @@ export const uploadSectionImageText = async (sectionId: string, imageFile: File)
 
 		return response.json();
 	} catch (error) {
-		console.error( "There has been a problem with your fetch operation: ", error );
+		console.error("There has been a problem with your fetch operation: ", error);
 		throw error;
 	}
 };
@@ -110,7 +105,7 @@ export const updateSectionText = async (sectionId: string, updateData: UpdateTex
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-	const response = await fetch(`http://localhost:4000/api/section-text/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -126,7 +121,7 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
-	const response = await fetch(`http://localhost:4000/api/section-image-text/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-image-text/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -187,7 +182,7 @@ export const updateSectionColumn = async (position: 1|2|3, sectionId: string, up
         }
     }
 
-	const response = await fetch(`http://localhost:4000/api/section-column/${sectionId}`, {
+	const response = await fetch(`${API_URL}/api/section-column/${sectionId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -197,4 +192,63 @@ export const updateSectionColumn = async (position: 1|2|3, sectionId: string, up
 	});
 
 	return response.json();
+};
+
+export const updateSectionGallery = async (position: 1 | 2 | 3, sectionId: string, updateData: UpdateGallery) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+	let body: any = {};
+
+	// depending on position, set key
+	if ('caption' in updateData && 'captionSize' in updateData) {
+		if (position === 1) {
+			body = {
+				...updateData,
+				caption1: updateData.caption,
+				captionSize1: updateData.captionSize
+			};
+		} else if (position === 2) {
+			body = {
+				...updateData,
+				caption2: updateData.caption,
+				captionSize2: updateData.captionSize
+			};
+		} else {
+			body = {
+				...updateData,
+				caption3: updateData.caption,
+				captionSize3: updateData.captionSize
+			};
+		}
+	}
+	const response = await fetch(`${API_URL}/api/section-gallery/${sectionId}`, {
+		method: 'PATCH',
+		headers: {
+			'content-type': 'application/json',
+			'token': token?.value!,
+		},
+		body: JSON.stringify(body),
+	});
+
+	return response.json();
+};
+
+export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: string, formData: FormData) => {
+	const cookiesStore = cookies();
+	const token = cookiesStore.get("token");
+
+	try {
+		const response = await fetch(`${API_URL}/api/section-gallery/upload/${sectionId}/${position}`, {
+			method: 'PATCH',
+			headers: {
+				'token': token?.value!
+			},
+			body: formData,
+		});
+
+		return response.json();
+	} catch (error) {
+		console.error("There has been a problem with your fetch operation: ", error);
+		throw error;
+	}
 };

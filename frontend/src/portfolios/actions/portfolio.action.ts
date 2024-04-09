@@ -3,15 +3,16 @@
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
+const API_URL = process.env.API_URL ?? 'http://localhost:4000';
+
 export const getPortfolio = async (id: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 	try {
-		const response = await fetch(`http://localhost:4000/api/portfolio/${id}`, {
+		const response = await fetch(`${API_URL}/api/portfolio/${id}`, {
 			headers: {
 				token: token?.value!,
 			},
-			cache: 'no-cache',
 		});
 		return response.json();
 	} catch (error) {
@@ -30,7 +31,7 @@ export const moveSectionUpDown = async (
 	const token = cookiesStore.get('token');
 
 	const response = await fetch(
-		`http://localhost:4000/api/portfolio/move/${portfolioId}/${sectionId}/?action=${action}`,
+		`${API_URL}/api/portfolio/move/${portfolioId}/${sectionId}/?action=${action}`,
 		{
 			method: 'PATCH',
 			headers: {
@@ -46,11 +47,10 @@ export const getPortfolioByTinyUrlId = async (tinyUrlId: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
-	const response = await fetch(`http://localhost:4000/api/portfolio/live/${tinyUrlId}`, {
+	const response = await fetch(`${API_URL}/api/portfolio/live/${tinyUrlId}`, {
 		headers: {
 			token: token?.value!,
 		},
-		cache: 'no-cache',
 	});
 	return response.json();
 };

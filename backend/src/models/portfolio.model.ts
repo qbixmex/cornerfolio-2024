@@ -1,27 +1,29 @@
-import console from 'console';
-import mongoose, { Model, Schema, Types } from 'mongoose';
-import { SectionColumn, SectionText } from '.';
-import SectionEmbeddedMediaModel from '../models/section-embedded-media.model';
-import SectionDivider from './section-divider.model';
-import SectionImageText from './section-image-text.model';
-import SectionImage from './section-image.model';
+import console from "console";
+import mongoose, { Model, Schema, Types } from "mongoose";
+import { SectionColumn, SectionGallery, SectionText } from ".";
+import SectionEmbeddedMediaModel from "../models/section-embedded-media.model";
+import SectionDivider from "./section-divider.model";
+import SectionImageText from "./section-image-text.model";
+import SectionImage from "./section-image.model";
 
 const sectionKinds = [
-	'SectionText',
-	'SectionImage',
-	'SectionEmbeddedMedia',
-	'SectionImageText',
-	'SectionDivider',
-	'SectionColumn',
+	"SectionText",
+	"SectionImage",
+	"SectionEmbeddedMedia",
+	"SectionImageText",
+	"SectionDivider",
+	"SectionColumn",
+	"SectionGallery",
 ] as const;
 
 enum SectionType {
-	TEXT = 'SectionText',
-	DIVIDER = 'SectionDivider',
-	EMBEDDED_MEDIA = 'SectionEmbeddedMedia',
-	IMAGE_TEXT = 'SectionImageText',
-	IMAGE = 'SectionImage',
-	COLUMN = 'SectionColumn',
+	TEXT = "SectionText",
+	DIVIDER = "SectionDivider",
+	EMBEDDED_MEDIA = "SectionEmbeddedMedia",
+	IMAGE_TEXT = "SectionImageText",
+	IMAGE = "SectionImage",
+	COLUMN = "SectionColumn",
+	GALLERY = "SectionGallery",
 }
 
 type SectionKind = (typeof sectionKinds)[number];
@@ -154,6 +156,10 @@ PortfolioSchema.post('findOneAndDelete', async (doc) => {
 
 				case SectionType.COLUMN:
 					await SectionColumn.findByIdAndDelete(section.item);
+					break;
+
+				case SectionType.GALLERY:
+					await SectionGallery.findByIdAndDelete(section.item);
 					break;
 
 				default:

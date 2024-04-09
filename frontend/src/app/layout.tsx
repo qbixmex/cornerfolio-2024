@@ -19,9 +19,9 @@ const RootLayout: React.FC<Props> = ({ children }) => {
 	return (
 		<html lang="en">
 			<body className={montserrat.className}>
-					<Providers>
-						<main>{children}</main>
-					</Providers>
+				<Providers>
+					<main>{children}</main>
+				</Providers>
 			</body>
 		</html>
 	);
