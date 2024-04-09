@@ -1,10 +1,6 @@
 {
 	"name": "cornerfolio_backend",
-<<<<<<< HEAD
-	"version": "0.19.13",
-=======
-	"version": "0.19.12",
->>>>>>> dev
+	"version": "0.19.14",
 	"description": "Final Program Project",
 	"main": "server.js",
 	"scripts": {
