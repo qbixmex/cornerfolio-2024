@@ -1,6 +1,10 @@
 {
   "name": "cornerfolio",
+<<<<<<< HEAD
   "version": "0.30.3",
+=======
+  "version": "0.30.2",
+>>>>>>> dev
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,6 +27,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^11.0.13",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "next": "^14.1.0",
     "next-themes": "^0.3.0",
     "react": "^18",
