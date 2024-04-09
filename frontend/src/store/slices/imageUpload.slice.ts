@@ -1,24 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export type ImgaeUploadState = {
+export type ImageUploadState = {
 	uploading_image_key: string;
 };
 
-const defaultState: ImgaeUploadState = {
+const defaultState: ImageUploadState = {
 	uploading_image_key:''
 };
 
-export const imgaeUploadSlice = createSlice({
-	name: 'imgaeUpload',
+export const imageUploadSlice = createSlice({
+	name: 'imageUpload',
 	initialState: defaultState,
 	reducers: {
-		setUplodingImageKey: (state, action: PayloadAction<string>) => {
+		setUploadingImageKey: (state, action: PayloadAction<string>) => {
 			state.uploading_image_key = action.payload;
 		},
 	}
 });
 
-export const { setUplodingImageKey } = imgaeUploadSlice.actions;
+export const { setUploadingImageKey } = imageUploadSlice.actions;
 
-export default imgaeUploadSlice.reducer;
+export default imageUploadSlice.reducer;

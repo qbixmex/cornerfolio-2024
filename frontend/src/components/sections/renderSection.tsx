@@ -33,7 +33,6 @@ import UploadSectionGallery from './uploadSectionGallery';
 
 import ImageSkeleton from './imageSkeleton';
 import { useAppSelector } from '@/store';
-import { use } from 'react';
 
 type Section =
 	| SectionText
@@ -49,7 +48,7 @@ type Props = {
 };
 
 const RenderSection: React.FC<Props> = ({ section }) => {
-	const uploading_image_key= useAppSelector(state=>state.imgaeUpload.uploading_image_key)
+	const uploading_image_key= useAppSelector(state=>state.imageUpload.uploading_image_key)
 
 	switch (section.kind) {
 		case 'SectionDivider':
@@ -88,7 +87,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteImage sectionId={section.item.id} />
 					<ChangePositionSectionImage section={section as SectionImage} />
 					<div
-						className={`flex  ${((section as SectionImage).item.position === 'center')
+						className={`flex ${((section as SectionImage).item.position === 'center')
 								? 'justify-center'
 								: ((section as SectionImage).item.position === 'right')
 									? 'justify-end'
@@ -96,15 +95,14 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							}`}
 					>
 						<div className="w-1/2 max-sm:w-full" key={section.item.id}>
-							
-							
 							{uploading_image_key===section.item.id
 							? <ImageSkeleton />
-							: <img
-								src={(section as SectionImage).item.url}
-								alt={(section as SectionImage).item.alt}
-								
-							/>
+							: (
+									<img
+										src={(section as SectionImage).item.url}
+										alt={(section as SectionImage).item.alt}
+									/>
+								)
 							}
 							
 							<div className='border-transparent border-2 hover:border-gray-300'>
@@ -127,13 +125,14 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 							: ''
 						}`}>
 						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`img-${section.item.id}`}>
-							
-							{uploading_image_key===section.item.id
-							?<ImageSkeleton />:
-							<img
-								src={(section as SectionImageText).item.imgUrl}
-								alt={(section as SectionImageText).item.imgAlt}
-							/>
+							{(uploading_image_key === section.item.id)
+								? <ImageSkeleton />
+								: (
+									<img
+										src={(section as SectionImageText).item.imgUrl}
+										alt={(section as SectionImageText).item.imgAlt}
+									/>
+								)
 							}
 							<div className='border-transparent border-2 hover:border-gray-300'>
 								<UploadSectionImageText section={section as SectionImageText} />
@@ -156,9 +155,7 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 					<DeleteEmbeddedMedia sectionId={section.item.id} />
 					<div className='flex justify-center'
 						key={section.item.id}
-						dangerouslySetInnerHTML={{
-							__html: (section as SectionEmbeddedMedia).item.code
-						}}
+						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
 					/>
 				</>
 			);
@@ -194,12 +191,14 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 						{/* image1 */}
 						<div className="w-1/3 max-sm:w-full m-1" key={`1-${section.item.id}`}>
 							
-							{uploading_image_key===`${section.item.id}-1`
-								?<ImageSkeleton />:
-								<img
-									src={(section as SectionGallery).item.url1}
-									alt={(section as SectionGallery).item.alt1}
-								/>
+							{(uploading_image_key === `${section.item.id}-1`)
+								? <ImageSkeleton />
+								: (
+									<img
+										src={(section as SectionGallery).item.url1}
+										alt={(section as SectionGallery).item.alt1}
+									/>
+								)
 							}
 							<div className='border-transparent border-2 hover:border-gray-300'>
 								<UploadSectionGallery position={1} section={section as SectionGallery} />
@@ -211,12 +210,14 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 
 						{/* image2 */}
 						<div className="w-1/3 max-sm:w-full m-1" key={`2-${section.item.id}`}>
-							{uploading_image_key===`${section.item.id}-2`
-								?<ImageSkeleton />:
-								<img
-									src={(section as SectionGallery).item.url2}
-									alt={(section as SectionGallery).item.alt2}
-								/>
+							{(uploading_image_key === `${section.item.id}-2`)
+								? <ImageSkeleton />
+								: (
+									<img
+										src={(section as SectionGallery).item.url2}
+										alt={(section as SectionGallery).item.alt2}
+									/>
+								)
 							}
 							<div className='border-transparent border-2 hover:border-gray-300'>
 								<UploadSectionGallery position={2} section={section as SectionGallery} />
@@ -229,11 +230,13 @@ const RenderSection: React.FC<Props> = ({ section }) => {
 						{/* image3 */}
 						<div className="w-1/3 max-sm:w-full m-1" key={`3-${section.item.id}`}>
 							{uploading_image_key===`${section.item.id}-3`
-								?<ImageSkeleton />:
-								<img
-									src={(section as SectionGallery).item.url3}
-									alt={(section as SectionGallery).item.alt3}
-								/>
+								? <ImageSkeleton />
+								: (
+									<img
+										src={(section as SectionGallery).item.url3}
+										alt={(section as SectionGallery).item.alt3}
+									/>
+								)
 							}
 							<div className='border-transparent border-2 hover:border-gray-300'>
 								<UploadSectionGallery position={3} section={section as SectionGallery} />

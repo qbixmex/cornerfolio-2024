@@ -7,7 +7,7 @@ import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
-import { setUplodingImageKey } from '@/store/slices/imageUpload.slice';
+import { setUploadingImageKey } from '@/store/slices/imageUpload.slice';
 
 type Props = {
   section: SectionImageText;
@@ -29,7 +29,7 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
     onSubmit: async (values) => {
       try{
         dispatch(setReloading(true))
-        dispatch(setUplodingImageKey(section.item.id))
+        dispatch(setUploadingImageKey(section.item.id))
         const formData = new FormData();
 
         formData.set("image", values.image!);
@@ -51,9 +51,8 @@ const UploadSectionImageText: React.FC<Props> = ({ section }) => {
         throw error;
       }finally{
         dispatch(setReloading(false))
-        dispatch(setUplodingImageKey(''))
+        dispatch(setUploadingImageKey(''))
       }
-      
     },
   });
 
