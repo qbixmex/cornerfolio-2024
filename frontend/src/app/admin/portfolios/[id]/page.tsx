@@ -57,36 +57,41 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
   
   return (
     <main className="ml-[52px] mt-[55px] text-2xl font-bold">
-      {!loading &&(
+      {!loading && (
         <>
-          <div className='fixed top-[55px] w-full bg-gray-200 flex justify-end '>
-            <Link
-              href={`http://localhost:3000/${portfolio.tinyUrlId}`}
-              target='blank'
-              className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
-              title="Live Portfolio Preview"
-            >preview</Link>
-          </div>
-
-          <TemplateHeader portfolio={portfolio} />
-          <ChooseSection portfolioId={id} order={0} />
-          <ThemeSwitcher id={portfolio.id} />
-
-          <hr />
-
-          {portfolio && portfolio.sections.length === 0 && (
-            <section className="mx-[80px] my-10 flex flex-col items-center gap-3">
-              <section className="bg-orange-500 rounded text-white w-fit p-5">
-                No section created yet !
+          {portfolio && (
+            <>
+              <section className='fixed top-[55px] w-full bg-gray-200 flex justify-end'>
+                <Link
+                  href={`http://localhost:3000/${portfolio.tinyUrlId}`}
+                  target='blank'
+                  className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
+                  title="Live Portfolio Preview"
+                >preview</Link>
               </section>
-            </section>
+
+              <TemplateHeader portfolio={portfolio} />
+              <ChooseSection portfolioId={id} order={0} />
+              <ThemeSwitcher id={portfolio.id} />
+
+              <hr />
+
+              {portfolio && portfolio.sections.length === 0 && (
+                <section className="mx-[80px] my-10 flex flex-col items-center gap-3">
+                  <section className="bg-orange-500 rounded text-white w-fit p-5">
+                    No section created yet !
+                  </section>
+                </section>
+              )}
+
+              {portfolio && portfolio.sections.length > 0 && (
+                <SectionsList sections={portfolio.sections} portfolioId={id} />
+              )} 
+
+              <TemplateFooter portfolio={portfolio} />
+            </>
           )}
-
-          {portfolio && portfolio.sections.length > 0 && (
-            <SectionsList sections={portfolio.sections} portfolioId={id} />
-          )} 
-
-          <TemplateFooter portfolio={portfolio} />
+          <div className='flex items-center justify-center'>Not Found</div>
         </>
       )}
     </main>

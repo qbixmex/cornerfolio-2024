@@ -7,6 +7,7 @@ import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 import { uploadSectionGallery } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
+import { setUploadingImageKey } from '@/store/slices/imageUpload.slice';
 
 type Props = {
   position: 1 | 2 | 3;
@@ -27,23 +28,33 @@ const UploadSectionGallery: React.FC<Props> = ({ position, section }) => {
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
-      dispatch(setReloading(true))
-      const formData = new FormData();
+      try{
+        dispatch(setReloading(true))
+        dispatch(setUploadingImageKey(`${section.item.id}-${position}`))
+        const formData = new FormData();
 
-      formData.append('image', values.image!);
+        formData.append('image', values.image!);
 
-      const data = await uploadSectionGallery(position, section.item.id, formData);
+        const data = await uploadSectionGallery(position, section.item.id, formData);
 
-      if (data.error) {
-        setToast({ message: data.error, type: 'error' });
-      } else {
-        dispatch(setReloading(false)); // reloading false
+        if (data.error) {
+          setToast({ message: data.error, type: 'error' });
+        } else {
+          dispatch(setReloading(false)); // reloading false
+        }
+        
+        setTimeout(() => {
+          setToast({ message: '', type: '' });
+          setImageFieldKey(Date.now());
+        }, 4000);
+      }catch(error){
+        console.error("There has been a problem with your fetch operation: ", error);
+        throw error;
+      }finally{
+        dispatch(setReloading(false))
+        dispatch(setUploadingImageKey(''))
       }
       
-      setTimeout(() => {
-        setToast({ message: '', type: '' });
-        setImageFieldKey(Date.now());
-      }, 4000);
     },
   });
 
