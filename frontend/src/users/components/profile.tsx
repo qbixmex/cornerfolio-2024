@@ -8,6 +8,7 @@ import DeleteAccount from "./delete/delete-account";
 import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
+import moment from "moment";
 
 type Props = {
   user: UserResponse;
@@ -27,6 +28,9 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
   const handleCloseModal = () => {
     setModalIsOpen(false);
+    setTimeout(() => {
+      setToast({ message: "", type: "" });
+    }, 3000);
   };
 
   return (
@@ -70,49 +74,78 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
           Membership
         </h2>
 
-        <form action={() => { }}>
+        <section>
           <section className="grid grid-cols-2">
             <section className="flex gap-3 items-center">
               <h3 className="text-3xl text-slate-500 font-semibold tracking-tight">
                 Current Plan
               </h3>
-              <div className=" bg-gray-200 text-lg text-slate-900 w-fit px-5 py-2 rounded">
-                free plan
+              <div className={`${user.license.type === "free" ? "bg-gray-200 text-gray-700" : "bg-orange-500 text-white"} font-bold text-lg text-slate-900 w-fit px-5 py-2 rounded`}>
+                { (user.license.type === "free" ) ? "Free" : "Premium" }
               </div>
             </section>
-            <section>
-              <button
-                type="submit"
-                className="flex w-fit justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleOpenModal}
-              >
-                upgrade to premium
-              </button>
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={handleCloseModal}
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  },
-                  content: {
-                    width: "50%",
-                    height: "50%",
-                    margin: "auto",
-                    padding: "5px",
-                    border: "none",
-                    borderRadius: "0.75rem",
-                  },
-                }}
-              >
-                <div className="flex justify-end">
-                  <button onClick={handleCloseModal}>✖️</button>
-                </div>
-                <LicensePopup logoinUser={user} />
-              </Modal>
-            </section>
+            {
+              (user.license.type !== "premium") && (
+                <section>
+                  <button
+                    type="submit"
+                    className="flex w-fit justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleOpenModal}
+                  >
+                    upgrade to premium
+                  </button>
+                  <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={handleCloseModal}
+                    ariaHideApp={false}
+                    style={{
+                      overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      },
+                      content: {
+                        width: "50%",
+                        height: "50%",
+                        margin: "auto",
+                        padding: "5px",
+                        border: "none",
+                        borderRadius: "0.75rem",
+                      },
+                    }}
+                  >
+                    <div className="flex justify-end">
+                      <button onClick={handleCloseModal}>✖️</button>
+                    </div>
+                    <LicensePopup
+                      license={user.license}
+                      closeModal={handleCloseModal}
+                      setToast={setToast}
+                    />
+                  </Modal>
+                </section>
+              )
+            }
           </section>
-        </form>
+          {(user.license.type === "premium") && (
+            <section className="mt-5">
+              <table>
+                <tr className="border-b">
+                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">Start Date:</th>
+                  <td className="font-semibold text-blue-700 p-2">
+                    { moment(user.license?.startDate).utc().format('MMMM D, YYYY') }
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr className="border-b">
+                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">End Date:</th>
+                  <td className="font-semibold text-blue-700 p-2">
+                    { moment(user.license?.endDate).utc().format('MMMM D, YYYY') }
+                  </td>
+                </tr>
+              </table>
+            </section>
+          )}
+        </section>
 
         <hr className="border-b-1 w-full my-10" />
 
