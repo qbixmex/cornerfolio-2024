@@ -8,6 +8,7 @@ import DeleteAccount from "./delete/delete-account";
 import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
+import moment from "moment";
 
 type Props = {
   user: UserResponse;
@@ -83,9 +84,9 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                 { (user.license.type === "free" ) ? "Free" : "Premium" }
               </div>
             </section>
-            <section>
-              {
-                (user.license.type !== "premium") && (
+            {
+              (user.license.type !== "premium") && (
+                <section>
                   <button
                     type="submit"
                     className="flex w-fit justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -93,37 +94,57 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                   >
                     upgrade to premium
                   </button>
-                )
-              }
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={handleCloseModal}
-                ariaHideApp={false}
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  },
-                  content: {
-                    width: "50%",
-                    height: "50%",
-                    margin: "auto",
-                    padding: "5px",
-                    border: "none",
-                    borderRadius: "0.75rem",
-                  },
-                }}
-              >
-                <div className="flex justify-end">
-                  <button onClick={handleCloseModal}>✖️</button>
-                </div>
-                <LicensePopup
-                  license={user.license}
-                  closeModal={handleCloseModal}
-                  setToast={setToast}
-                />
-              </Modal>
-            </section>
+                  <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={handleCloseModal}
+                    ariaHideApp={false}
+                    style={{
+                      overlay: {
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      },
+                      content: {
+                        width: "50%",
+                        height: "50%",
+                        margin: "auto",
+                        padding: "5px",
+                        border: "none",
+                        borderRadius: "0.75rem",
+                      },
+                    }}
+                  >
+                    <div className="flex justify-end">
+                      <button onClick={handleCloseModal}>✖️</button>
+                    </div>
+                    <LicensePopup
+                      license={user.license}
+                      closeModal={handleCloseModal}
+                      setToast={setToast}
+                    />
+                  </Modal>
+                </section>
+              )
+            }
           </section>
+          {(user.license.type === "premium") && (
+            <section className="mt-5">
+              <table>
+                <tr className="border-b">
+                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">Start Date:</th>
+                  <td className="font-semibold text-blue-700 p-2">
+                    { moment(user.license?.startDate).utc().format('MMMM D, YYYY') }
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr className="border-b">
+                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">End Date:</th>
+                  <td className="font-semibold text-blue-700 p-2">
+                    { moment(user.license?.endDate).utc().format('MMMM D, YYYY') }
+                  </td>
+                </tr>
+              </table>
+            </section>
+          )}
         </section>
 
         <hr className="border-b-1 w-full my-10" />

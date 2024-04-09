@@ -1,6 +1,6 @@
 {
   "name": "cornerfolio",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,6 +23,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^11.0.13",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "next": "^14.1.0",
     "next-themes": "^0.3.0",
     "react": "^18",

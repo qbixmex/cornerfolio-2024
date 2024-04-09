@@ -1,6 +1,6 @@
 export interface License {
     id: string;
     type: 'free' | 'premium';
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string | null;
+    endDate: string | null;
 }
