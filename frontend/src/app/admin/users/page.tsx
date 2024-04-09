@@ -1,8 +1,8 @@
+import { Suspense } from 'react';
 import { getUsersPages } from '@/users';
 import { Pagination, SearchUsers, UsersTableSkeleton } from '@/users/components';
 import UsersTable from '@/users/components/users-table';
 import Link from 'next/link';
-import { Suspense, useEffect } from 'react';
 
 export const metadata = {
 	title: 'Users List',

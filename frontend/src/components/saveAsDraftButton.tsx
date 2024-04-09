@@ -4,7 +4,6 @@ import { UnPublishPortfolio } from '@/portfolios/actions/portfolio.action';
 import { FormEvent, useState } from 'react';
 import styles from '@/users/components/profile.module.css';
 
-
 type Props = {
 	statusPortfolio: string;
 	id: string;
@@ -15,18 +14,19 @@ function DraftButton({ statusPortfolio, id }: Props) {
 		message: '',
 		type: '',
 	});
+
 	const handleUnPublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
 		try {
 			const data = await UnPublishPortfolio(id);
-			console.log(data);
 
 			if (data.error) {
 				setToast({ message: data.error, type: 'error' });
 			} else {
 				setToast({ message: data.message, type: 'success' });
 			}
+
 			setTimeout(() => setToast({ message: '', type: '' }), 3000);
 		} catch (error) {
 			console.error('Error publishing portfolio:', error);
@@ -35,17 +35,15 @@ function DraftButton({ statusPortfolio, id }: Props) {
 
 	return (
 		<>
-		
 			<form onSubmit={handleUnPublishPortfolio}>
-			{toast.message && (
-						<div
-							className={`absolute z-[1000] left-2 right-2 w-11/12 bg-${
-								toast.type === 'error' ? 'red' : 'green'
+				{toast.message && (
+					<div
+						className={`absolute z-[1000] left-2 right-2 w-11/12 bg-${toast.type === 'error' ? 'red' : 'green'
 							}-500 text-white text-sx text-center px-1 py-1 rounded-md mb-2 ${styles.shadow}`}
-						>
-							{toast.message}
-						</div>
-					)}
+					>
+						{toast.message}
+					</div>
+				)}
 				{statusPortfolio !== 'draft' && (
 					<button
 						type="submit"

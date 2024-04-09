@@ -8,7 +8,6 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import clsx from 'clsx';
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
@@ -24,7 +23,7 @@ const formSchemaContent = yup.object().shape({
 });
 
 const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
-	const [content, setContent] = useState(() => {
+	const [content] = useState(() => {
 		if (section) {
 			if (position === 1) {
 				return section.item.content1;
@@ -98,8 +97,7 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
-						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
@@ -115,20 +113,20 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
-						}`}
+					${theme === 'modern' ? modern.textInputBackground : ''} ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0' }`}
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
+
 				{formik.errors.content && formik.touched.content && (
 					<p className="text-red-500 text-xs">{formik.errors.content}</p>
 				)}
 
 				<div className="text-sm flex gap-1 mr-2">
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
 				</div>
 			</form>
 		</div>

@@ -6,7 +6,6 @@ import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { FC } from 'react';
 
 type Props = {
 	params: { tinyUrl: string };
@@ -30,7 +29,7 @@ const PORTFOLIO_DATA: IPortfolio = {
 	tinyUrlId: '',
 };
 
-const PortfolioPreviewPage: FC<Props> = async ({ params: { tinyUrl } }) => {
+const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 	const tokenDecoded = jwt.decode(token?.value!) as Token;
