@@ -147,7 +147,11 @@ export const search = async (
       { name: { $regex: term, $options: 'i' } },
       { email: { $regex: term, $options: 'i' } },
     ],
-  });
+  })
+    .populate({
+      path: "license",
+      select: "type startDate endDate"
+    });
 
   const usersRemapped = users.map((user) => ({
     id: user.id,
@@ -161,6 +165,7 @@ export const search = async (
     schedule: user.schedule,
     startDate: user.startDate,
     endDate: user.endDate,
+    license: user.license,
   }));
 
   return response.status(200).json({
