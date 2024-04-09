@@ -10,6 +10,7 @@ import { IPortfolio } from '@/interfaces';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import NotFoundPortfolio from '../components/not-found-portfolio';
 
 type Props = {
   params: { id: string };
@@ -35,19 +36,26 @@ const PORTFOLIO_DATA: IPortfolio = {
 
 const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
   const [ loading, setLoading ] = useState(true);
-  const [ portfolio, setPortfolio ] = useState<IPortfolio>(PORTFOLIO_DATA);
+  const [ portfolio, setPortfolio ] = useState<IPortfolio|null>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading); 
   const { setTheme } = useTheme();
   
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
+        setLoading(true)
         const fetchData = await getPortfolio(id);
+        if (fetchData.error) { 
+          throw new Error(fetchData.error); 
+        }
         setPortfolio(fetchData);
-        setLoading(false);
         setTheme(fetchData.theme);
+        console.log(fetchData)
       } catch (error) {
         console.error('Error fetching portfolio:', error);
+        setPortfolio(null); 
+      } finally{
+        setLoading(false)
       }
     };
     if (id) {
@@ -91,7 +99,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
               <TemplateFooter portfolio={portfolio} />
             </>
           ): (
-            <div className='flex items-center justify-center'>Not Found</div>
+            <NotFoundPortfolio/>
           )}
         </>
       )}

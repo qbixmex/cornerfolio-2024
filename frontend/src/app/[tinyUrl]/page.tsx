@@ -8,6 +8,7 @@ import { PreviewHeader } from '@/components/preview-portfolio/PreviewHeader';
 import { PreviewFooter } from '@/components/preview-portfolio/PreviewFooter';
 import PreviewSectionsList from '@/components/preview-portfolio/PreviewSectionList';
 import { useTheme } from 'next-themes';
+import NotFoundPage from '../not-found';
 
 type Props = {
   params: { tinyUrl: string };
@@ -33,21 +34,26 @@ const PORTFOLIO_DATA: IPortfolio = {
 
 const PortfolioPreviewPage: FC<Props> = ({ params: { tinyUrl } }) => {
   const [loading, setLoading] = useState(true);
-  const [portfolio, setPortfolio] = useState<IPortfolio>(PORTFOLIO_DATA);
+  const [portfolio, setPortfolio] = useState<IPortfolio|null>(PORTFOLIO_DATA);
   const reloading = useAppSelector(state => state.reloading.reloading);
   const { setTheme } = useTheme();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
+        setLoading(true)
         const fetchData = await getPortfolioByTinyUrlId(tinyUrl);
+        if (fetchData.error) { 
+          throw new Error(fetchData.error); 
+        }
         setPortfolio(fetchData)
-        setLoading(false)
-
         setTheme(fetchData.theme);
         console.log("fetchData", fetchData.theme)
       } catch (error) {
         console.error('Error fetching portfolio:', error);
+        setPortfolio(null); 
+      }finally{
+        setLoading(false)
       }
     };
     if (tinyUrl) {
@@ -57,8 +63,9 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { tinyUrl } }) => {
 
   return (
     <main className=" text-2xl font-bold">
-      {!loading && (
+      {!loading && portfolio? (
         <>
+        
           <PreviewHeader portfolio={portfolio} />
 
           {portfolio && portfolio.sections.length === 0 && (
@@ -73,6 +80,10 @@ const PortfolioPreviewPage: FC<Props> = ({ params: { tinyUrl } }) => {
             <PreviewSectionsList sections={portfolio.sections} portfolioId={tinyUrl} />
           )}
           <PreviewFooter portfolio={portfolio} />
+        </>
+      ):(
+        <>
+        <NotFoundPage/>
         </>
       )}
     </main>

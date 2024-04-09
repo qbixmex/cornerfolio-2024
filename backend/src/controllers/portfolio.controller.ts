@@ -31,6 +31,10 @@ export const getPortfolioById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
 
+		if (!Types.ObjectId.isValid(id)) {
+			return res.status(404).json({ error: "Invalid Portfolio ID" });
+		}
+		
 		const portfolio = await Models.Portfolio
 			.findById(id)
 			.populate({ path: "user", select: "id name email license"})
