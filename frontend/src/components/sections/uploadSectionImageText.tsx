@@ -6,9 +6,7 @@ import { SectionImageText } from '@/interfaces';
 import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
-
 import styles from '@/users/components/profile.module.css';
-import { dataFocusVisibleClasses } from '@nextui-org/react';
 
 type Props = {
   section: SectionImageText;
