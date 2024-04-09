@@ -1,16 +1,33 @@
 import { Request, Response } from 'express';
-import { User } from '../models';
+import { bcryptAdapter } from "../config";
 import { users } from '../data/users';
+import { License, User } from '../models';
 
 export const seed = async (_request: Request, response: Response) => {
   //* Delete all data
   await Promise.all([
-    User.deleteMany(),
+    License.deleteMany(),
+    User.deleteMany()
   ]);
 
+  const usersForSeeding = users.map((user) => {
+    return {
+      ...user,
+      password: bcryptAdapter.hash(user.password),
+    }
+  });
+
   try {
-    //* Insert data to database
-    await User.insertMany(users);
+    //* Insert users to database
+    const usersDB = await User.insertMany(usersForSeeding);
+
+    //* Attach license for every user
+    usersDB.forEach(async (user) => {
+      const license = await License.create({});
+      user.license = license.id;
+      await user.save();
+    });
+
     return response.status(201).json({
       message: `Records saved to database successfully 🎉 !`
     });

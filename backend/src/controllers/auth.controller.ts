@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { User } from '../models';
 import { bcryptAdapter } from '../config';
 import { CustomError, generateToken } from '../helpers';
+import { License, User } from '../models';
 
 type RegisterRequestBody = {
   name: string;
@@ -34,6 +34,8 @@ export const register = async (
   //* Hash the password
   const hashedPassword = bcryptAdapter.hash(payload.password);
 
+  const license = await License.create({});
+
   const newUser = new User({
     name: payload.name,
     email: payload.email,
@@ -41,6 +43,7 @@ export const register = async (
     jobTitle: payload.jobTitle,
     course: payload.course,
     schedule: payload.schedule,
+    license: license.id
   });
 
   try {
@@ -74,13 +77,13 @@ export const login = async (
 
   //* Find user by email and check if exists.
   const foundUser = await User.findOne({ email: payload.email });
-    
+
   if (!foundUser) {
     return response.status(400).json({
       error: `User with "${payload.email}" not found !`
     });
   }
-  
+
   //* If email matches compare passwords.
   const passwordMatches = bcryptAdapter.compare(payload.password, foundUser.password);
 

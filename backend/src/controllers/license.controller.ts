@@ -30,6 +30,7 @@ export const show = async (request: Request<{ id: string }>, response: Response)
   }
 }
 
+
 type RequestCreateBody = {
   type: "free" | "premium";
 };
@@ -67,6 +68,7 @@ export const create = async (
     throw CustomError.internalServer('Error while creating the license,\n' + error);
   }
 };
+
 
 type RequestUpdateBody = {
   type: "free" | "premium",
@@ -114,6 +116,7 @@ export const update = async (
   }
 };
 
+
 export const remove = async (request: Request<{ id: string }>, response: Response) => {
   const id = request.params.id;
 
@@ -132,7 +135,6 @@ export const remove = async (request: Request<{ id: string }>, response: Respons
   }
 
   try {
-
     await License.findByIdAndDelete(id)
 
     return response.status(200).json({
@@ -142,3 +144,4 @@ export const remove = async (request: Request<{ id: string }>, response: Respons
     throw CustomError.internalServer('Error while updating the license,\n' + error);
   }
 }
+

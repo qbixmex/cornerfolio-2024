@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import LicensePopup from "@/components/licensePopup";
+import { useState } from "react";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
@@ -33,11 +33,9 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
     <section className="relative">
       {toast.message && (
         <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${
-            toast.type === "error" ? "red" : "green"
-          }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${
-            styles.slideLeft
-          }`}
+          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green"
+            }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft
+            }`}
         >
           {toast.message}
         </div>
@@ -72,7 +70,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
           Membership
         </h2>
 
-        <form action={() => {}}>
+        <form action={() => { }}>
           <section className="grid grid-cols-2">
             <section className="flex gap-3 items-center">
               <h3 className="text-3xl text-slate-500 font-semibold tracking-tight">
@@ -110,7 +108,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                 <div className="flex justify-end">
                   <button onClick={handleCloseModal}>✖️</button>
                 </div>
-                <LicensePopup />
+                <LicensePopup logoinUser={user} />
               </Modal>
             </section>
           </section>

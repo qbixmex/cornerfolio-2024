@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { User } from '../models';
-import { bcryptAdapter } from '../config';
-import { CustomError} from '../helpers';
-import { Types } from 'mongoose';
-import fileUpload from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
+import { Request, Response } from 'express';
+import fileUpload from 'express-fileupload';
+import { Types } from 'mongoose';
+import { bcryptAdapter } from '../config';
+import { CustomError } from '../helpers';
+import { License, User } from '../models';
 
 type UsersQuery = {
   limit: number;
@@ -18,7 +18,7 @@ export const totalPages = async (
   response: Response
 ) => {
   const { term, limit = 10 } = request.params;
-  let totalUsers: number; 
+  let totalUsers: number;
 
   if (term) {
     totalUsers = await User.countDocuments({
@@ -46,14 +46,15 @@ export const list = async (
   } = request.query;
 
   try {
-    const [ usersTotal, users ] = await Promise.all([
+    const [usersTotal, users] = await Promise.all([
       User.countDocuments(),
       User.find()
+        .populate({ path: "license", select: "type startDate endDate" })
         .sort({ [sortBy as string]: order === 'desc' ? -1 : 1 })
         .limit(+limit)
         .skip((+page - 1) * +limit),
     ]);
-  
+
     const usersRemap = users.map((user) => ({
       id: user.id,
       name: user.name,
@@ -66,10 +67,11 @@ export const list = async (
       schedule: user.schedule,
       startDate: user.startDate ?? 'not set',
       endDate: user.endDate ?? 'not set',
+      license: user.license,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }));
-  
+
     return response.status(200).json({
       pagination: {
         total: usersTotal,
@@ -84,7 +86,7 @@ export const list = async (
     throw CustomError.internalServer('Error while fetching the users list,\n' + error);
   }
 }
-;
+  ;
 
 export const profile = async (
   request: Request<{ id: string }>,
@@ -99,13 +101,16 @@ export const profile = async (
   }
 
   try {
-    const foundUser = await User.findById(id);
+    const foundUser = await User.findById(id)
+      .populate({ path: "license", select: "type startDate endDate" })
+
 
     if (!foundUser) {
       return response.status(404).json({
         error: `User not found with ID: ${id} !`,
       });
     }
+
 
     return response.status(200).json({
       user: {
@@ -120,10 +125,11 @@ export const profile = async (
         schedule: foundUser.schedule,
         startDate: foundUser.startDate ?? 'not set',
         endDate: foundUser.endDate ?? 'not set',
+        license: foundUser.license,
         createdAt: foundUser.createdAt,
         updatedAt: foundUser.updatedAt,
       },
-    });  
+    });
   } catch (error) {
     throw CustomError.internalServer('Error while fetching the account,\n' + error);
   }
@@ -194,6 +200,8 @@ export const create = async (
   //* Hash the password
   const hashedPassword = bcryptAdapter.hash(payload.password);
 
+  const license = await License.create({});
+
   const newUser = new User({
     name: payload.name,
     email: payload.email,
@@ -205,6 +213,7 @@ export const create = async (
     active: payload.active,
     course: payload.course,
     schedule: payload.schedule,
+    license: license.id
   });
 
   try {
@@ -229,6 +238,8 @@ export const create = async (
       savedUser.save();
     }
 
+    const license = await License.findById(savedUser.license);
+
     return response.status(200).json({
       message: 'User created successfully 👍',
       user: {
@@ -242,6 +253,7 @@ export const create = async (
         endDate: savedUser.endDate,
         schedule: savedUser.schedule,
         active: savedUser.active,
+        license: license?.type,
         createdAt: savedUser.createdAt,
         updatedAt: savedUser.updatedAt,
       },
@@ -299,7 +311,9 @@ export const update = async (
       active: payload.active,
       course: payload.course,
       schedule: payload.schedule,
-    }, { new: true });
+    }, { new: true })
+      .populate({ path: "license", select: "type startDate endDate" });
+
 
     //* UPLOAD IMAGE TO CLOUDINARY
     if (updatedUser && request.files !== null && request.files !== undefined) {
@@ -316,10 +330,10 @@ export const update = async (
 
         //* Then get the last segment of the array to get the image name.
         //* NOTE: The last segment is the image id with the extension.
-        const imageName = imageURLArray[ imageURLArray.length - 1 ];
+        const imageName = imageURLArray[imageURLArray.length - 1];
 
         //* Split the image name by '.' to get the public image id.
-        const [ publicImageID ] = imageName.split('.');
+        const [publicImageID] = imageName.split('.');
 
         //* Then we need to remove the old image from cloudinary.
         await cloudinary.uploader.destroy(`users/${publicImageID}`);
@@ -348,10 +362,11 @@ export const update = async (
         jobTitle: updatedUser?.jobTitle,
         course: updatedUser?.course,
         schedule: updatedUser?.schedule,
+        license: updatedUser?.license,
         createdAt: updatedUser?.createdAt,
         updatedAt: updatedUser?.updatedAt,
       }
-    });  
+    });
   } catch (error) {
     throw CustomError.internalServer('Error while deleting the account,\n' + error);
   }
@@ -407,7 +422,7 @@ export const remove = async (
   }
 
   try {
-    const userFound = await User.findById(id );
+    const userFound = await User.findById(id);
 
     if (!userFound) {
       return response.status(404).json({
@@ -415,8 +430,8 @@ export const remove = async (
       });
     }
 
-     //* First we need to remove the old image from the cloudinary.
-     if (userFound.imageURL) {
+    //* First we need to remove the old image from the cloudinary.
+    if (userFound.imageURL) {
       //* Example URL from cloudinary.
       //? "https://res.cloudinary.com/qbixmex/image/upload/v1710393039/users/mwvwm92ivurc6gaovkfl.jpg",
 
@@ -425,10 +440,10 @@ export const remove = async (
 
       //* Then get the last segment of the array to get the image name.
       //* NOTE: The last segment is the image id with the extension.
-      const imageName = imageURLArray[ imageURLArray.length - 1 ];
+      const imageName = imageURLArray[imageURLArray.length - 1];
 
       //* Split the image name by '.' to get the public image id.
-      const [ publicImageID ] = imageName.split('.');
+      const [publicImageID] = imageName.split('.');
 
       //* Then we need to remove the old image from cloudinary.
       await cloudinary.uploader.destroy(`users/${publicImageID}`);
@@ -438,7 +453,7 @@ export const remove = async (
 
     return response.status(200).json({
       message: `User with ID: ${id} has been removed successfully 👍`,
-    });  
+    });
   } catch (error) {
     throw CustomError.internalServer('Error while deleting the account,\n' + error);
   }
