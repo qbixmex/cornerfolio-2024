@@ -1,4 +1,7 @@
+"use client"
+
 import { createNewPortfolio } from '@/app/admin/portfolio-management/actions/portfolioActions';
+import { useEffect } from 'react';
 
 type PortfolioHeader = {
 	title: string;
@@ -26,6 +29,12 @@ type Props = {
 };
 
 export default function CreatePortfolioSection({ portfolioCount }: Props) {
+	useEffect(() => {
+		// Remove the data-theme attribute
+		document.documentElement.removeAttribute('data-theme');
+		// Remove the style attribute
+		document.documentElement.removeAttribute('style');
+	}, []);
 	return (
 		<>
 			<h2 className="mt-24 text-2xl lg:text-5xl text-slate-700 font-semibold  tracking-tight">
@@ -33,7 +42,7 @@ export default function CreatePortfolioSection({ portfolioCount }: Props) {
 			</h2>
 			<div className="bg-gray-200 mt-10 rounded-md p-10 gap-7">
 				<div className="mb-10">
-					<h3>You have published {portfolioCount} Portfolios</h3>
+					<h3>You have {portfolioCount} Portfolios</h3>
 				</div>
 
 				<form action={createNewPortfolio}>

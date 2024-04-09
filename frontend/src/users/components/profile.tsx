@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import LicensePopup from "@/components/licensePopup";
-import { useState } from "react";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
@@ -15,6 +15,13 @@ type Props = {
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
+	useEffect(() => {
+		// Remove the data-theme attribute
+		document.documentElement.removeAttribute('data-theme');
+		// Remove the style attribute
+		document.documentElement.removeAttribute('style');
+	}, []);
+  
   const [toast, setToast] = useState({
     message: "",
     type: "",
@@ -37,9 +44,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
     <section className="relative">
       {toast.message && (
         <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green"
-            }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft
-            }`}
+          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green" }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft }`}
         >
           {toast.message}
         </div>

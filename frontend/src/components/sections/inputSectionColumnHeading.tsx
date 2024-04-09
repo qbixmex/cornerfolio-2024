@@ -38,7 +38,7 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 		}
 	});
 
-	const [headingSize, setHeadingSize] = useState(() => {
+	const [headingSize] = useState(() => {
 		if (section) {
 			if (position === 1) {
 				return section.item.headingSize1;
@@ -115,20 +115,20 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 					value={formik.values.heading}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'
-						}`}
+					className={`w-full outline-none bg-transparent ${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0' }`}
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
 				{formik.errors.heading && formik.touched.heading && (
 					<p className="text-red-500 text-xs">{formik.errors.heading}</p>
 				)}
+				<div className="text-sm flex gap-1 mr-2">
 				<ButtonsSize
 					decrementFontSize={decrementFontSize}
 					incrementFontSize={incrementFontSize}
 					formik={formik}
 				/>
+				</div>
 			</form>
 		</div>
 	);
