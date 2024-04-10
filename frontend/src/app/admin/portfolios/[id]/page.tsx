@@ -1,5 +1,6 @@
 'use client';
 
+import NotFoundPortfolio from '@/components/not-found-portfolio';
 import ChooseSection from '@/components/sections/chooseSection';
 import SectionsList from '@/components/sections/sectionsList';
 import ThemeSwitcher from '@/components/themeSwitcher';
@@ -40,7 +41,7 @@ const PORTFOLIO_DATA: IPortfolio = {
 
 const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 	const [loading, setLoading] = useState(true);
-	const [portfolio, setPortfolio] = useState<IPortfolio>(PORTFOLIO_DATA);
+	const [portfolio, setPortfolio] = useState<IPortfolio | null>(PORTFOLIO_DATA);
 	const reloading = useAppSelector((state) => state.reloading.reloading);
 	const { setTheme } = useTheme();
 	const [status, setStatus] = useState<'draft' | 'published'>('draft');
@@ -53,13 +54,19 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 	useEffect(() => {
 		const fetchPortfolio = async () => {
 			try {
+				setLoading(true);
 				const fetchData = await getPortfolio(id);
-				console.log(fetchData);
+				if (fetchData.error) {
+					throw new Error(fetchData.error);
+				}
 				setPortfolio(fetchData);
-				setLoading(false);
 				setTheme(fetchData.theme);
+				console.log(fetchData);
 			} catch (error) {
 				console.error('Error fetching portfolio:', error);
+				setPortfolio(null);
+			} finally {
+				setLoading(false);
 			}
 		};
 		if (id) {
@@ -108,67 +115,71 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 		<main className="ml-[52px] mt-[55px] text-2xl font-bold">
 			{!loading && (
 				<>
-					{toast.message && (
-						<div
-							className={`absolute z-[1000] top-5 right-5 w-fit bg-${
-								toast.type === 'error' ? 'red' : 'green'
-							}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-						>
-							{toast.message}
-						</div>
-					)}
-
-					<div className="fixed top-[55px] w-full bg-gray-200 flex justify-end ">
-						{portfolio.status === 'draft' && (
-							<form onSubmit={handlePublishPortfolio}>
-								<button
-									type="submit"
-									className="rounded-md bg-sky-600 hover:bg-sky-500 border m-2 px-4 py-2 justify-between text-white text-base transition-colors hover:cursor-pointer"
+					{portfolio ? (
+						<>
+							{toast.message && (
+								<div
+									className={`absolute z-[1000] top-5 right-5 w-fit bg-${
+										toast.type === 'error' ? 'red' : 'green'
+									}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 								>
-									Publish
-								</button>
-							</form>
-						)}
+									{toast.message}
+								</div>
+							)}
 
-						{portfolio.status === 'published' && (
-							<form onSubmit={handleUnPublishPortfolio}>
-								<button
-									type="submit"
-									className="rounded-md bg-sky-600 hover:bg-sky-500 border m-2 px-4 py-2 justify-between text-white text-base transition-colors hover:cursor-pointer"
-								>
-									Un-publish
-								</button>
-							</form>
-						)}
+							<section className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
+								<div className="fixed top-[55px] w-full bg-gray-200 flex justify-end ">
+									{portfolio.status === 'draft' && (
+										<form onSubmit={handlePublishPortfolio}>
+											<button
+												type="submit"
+												className="rounded-md bg-sky-600 hover:bg-sky-500 border m-2 px-4 py-2 justify-between text-white text-base transition-colors hover:cursor-pointer"
+											>
+												Publish
+											</button>
+										</form>
+									)}
 
-						<Link
-							href={`http://localhost:3000/${portfolio.tinyUrlId}`}
-							target="blank"
-							className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
-							title="Live Portfolio Preview"
-						>
-							Preview
-						</Link>
-					</div>
+									{portfolio.status === 'published' && (
+										<form onSubmit={handleUnPublishPortfolio}>
+											<button
+												type="submit"
+												className="rounded-md bg-sky-600 hover:bg-sky-500 border m-2 px-4 py-2 justify-between text-white text-base transition-colors hover:cursor-pointer"
+											>
+												Un-publish
+											</button>
+										</form>
+									)}
 
-					<TemplateHeader portfolio={portfolio} />
-					<ChooseSection portfolioId={id} order={0} />
-					<ThemeSwitcher id={portfolio.id} />
-
-					<hr />
-					{portfolio && portfolio.sections.length === 0 && (
-						<section className="mx-[80px] mt-10 flex flex-col items-center gap-3">
-							<section className="bg-orange-500 rounded text-white w-fit p-5">
-								No section created yet !
+									<Link
+										href={`http://localhost:3000/${portfolio.tinyUrlId}`}
+										target="blank"
+										className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
+										title="Live Portfolio Preview"
+									>
+										Preview
+									</Link>
+								</div>
 							</section>
-						</section>
+							<TemplateHeader portfolio={portfolio} />
+							<ChooseSection portfolioId={id} order={0} />
+							<ThemeSwitcher id={portfolio.id} />
+							<hr />
+							{portfolio && portfolio.sections.length === 0 && (
+								<section className="mx-[80px] my-10 flex flex-col items-center gap-3">
+									<section className="bg-orange-500 rounded text-white w-fit p-5">
+										No section created yet !
+									</section>
+								</section>
+							)}
+							{portfolio && portfolio.sections.length > 0 && (
+								<SectionsList sections={portfolio.sections} portfolioId={id} />
+							)}
+							<TemplateFooter portfolio={portfolio} />
+						</>
+					) : (
+						<NotFoundPortfolio />
 					)}
-
-					{portfolio && portfolio.sections.length > 0 && (
-						<SectionsList sections={portfolio.sections} portfolioId={id} />
-					)}
-
-					<TemplateFooter portfolio={portfolio} />
 				</>
 			)}
 		</main>

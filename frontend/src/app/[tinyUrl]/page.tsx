@@ -1,7 +1,7 @@
 import { PreviewFooter } from '@/components/preview-portfolio/PreviewFooter';
 import { PreviewHeader } from '@/components/preview-portfolio/PreviewHeader';
 import PreviewSectionsList from '@/components/preview-portfolio/PreviewSectionList';
-import { IPortfolio, Token } from '@/interfaces';
+import { Token } from '@/interfaces';
 import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
@@ -13,30 +13,16 @@ type Props = {
 	searchParams: {};
 };
 
-const PORTFOLIO_DATA: IPortfolio = {
-	id: '',
-	header: {
-		title: '',
-		subHeading: '',
-	},
-	status: '',
-	sections: [],
-	footer: {
-		links: '',
-		text: '',
-	},
-	template: '',
-	theme: '',
-	tinyUrlId: '',
-};
-
 const PortfolioPreviewPage: FC<Props> = async ({ params: { tinyUrl } }) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 	const tokenDecoded = jwt.decode(token?.value!) as Token;
 
 	const data = await getPortfolioByTinyUrlId(tinyUrl);
-	
+	if (data.error) {
+		return notFound();
+	}
+
 	if (!token && data.status === 'draft' && data.user.id !== tokenDecoded?.id) {
 		return notFound();
 	}
