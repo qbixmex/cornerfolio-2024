@@ -27,36 +27,32 @@ export const getPortfolios = async (req: Request, res: Response) => {
 };
 
 export const getPortfolioById = async (req: Request, res: Response) => {
-	try {
-		const { id } = req.params;
-
-		if (!Types.ObjectId.isValid(id)) {
-			return res.status(404).json({ error: "Invalid Portfolio ID" });
-		}
-		
-		const portfolio = await Models.Portfolio
-			.findById(id)
-			.populate({ path: "user", select: "id name email license"})
-			.populate({ path: "sections.item" });
-
-		if (!portfolio) {
-			return res.status(404).json({ error: 'Portfolio not found !' });
-		}
-
-		return res.status(200).json({
-			id: portfolio.id,
-			header: portfolio.header,
-			status: portfolio.status,
-			user: portfolio.user,
-			sections: portfolio.sections,
-			footer: portfolio.footer,
-			template: portfolio.template,
-			theme: portfolio.theme,
-			tinyUrlId: portfolio.tinyUrlId,
-		});
-	} catch (error) {
-		throw CustomError.internalServer('Error while fetching the Portfolio,\n' + error);
-	}
+    try {
+        const { id } = req.params;
+        if (!Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: "Invalid Portfolio ID" });
+        }
+        const portfolio = await Models.Portfolio
+            .findById(id)
+            .populate({ path: "user", select: "id name email license"})
+            .populate({ path: "sections.item" });
+        if (!portfolio) {
+            return res.status(404).json({ error: "Portfolio not found !" });
+        }
+        return res.status(200).json({
+            id: portfolio.id,
+            header: portfolio.header,
+            status: portfolio.status,
+            user: portfolio.user,
+            sections: portfolio.sections,
+            footer: portfolio.footer,
+            template: portfolio.template,
+            theme: portfolio.theme,
+            tinyUrlId: portfolio.tinyUrlId,
+        });
+    } catch (error) {
+        throw CustomError.internalServer("Error while fetching the Portfolio,\n" + error);
+    }
 };
 
 export const getPortfolioByTinyUrlId = async (req: Request, res: Response) => {

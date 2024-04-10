@@ -1,6 +1,6 @@
 'use client';
 
-import { UnPublishPortfolio } from '@/portfolios/actions/portfolio.action';
+import { unPublishPortfolio } from '@/portfolios/actions/portfolio.action';
 import { FormEvent, useState } from 'react';
 import styles from '@/users/components/profile.module.css';
 
@@ -19,7 +19,7 @@ function DraftButton({ statusPortfolio, id }: Props) {
 		event.preventDefault();
 
 		try {
-			const data = await UnPublishPortfolio(id);
+			const data = await unPublishPortfolio(id);
 
 			if (data.error) {
 				setToast({ message: data.error, type: 'error' });
