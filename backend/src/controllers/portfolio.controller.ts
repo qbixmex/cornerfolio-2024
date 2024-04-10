@@ -3,6 +3,8 @@ import { ObjectId } from 'mongodb';
 import { Types } from 'mongoose';
 import { CustomError, generateUniqueTinyUrlId, verifyToken } from '../helpers';
 import * as Models from '../models';
+import { LicenseType } from '../models/license.model';
+import { populate } from 'dotenv';
 
 export const getPortfolios = async (req: Request, res: Response) => {
 	try {
@@ -100,11 +102,23 @@ export const createPortfolio = async (request: Request, response: Response) => {
 		});
 	}
 
-	const userDB = await Models.User.findById(decodedToken.id).select('id name jobTitle email');
+	const userDB = await Models.User.findById(decodedToken.id)
+		.select('id name jobTitle email')
+		.populate({ path: 'portfolios' })
+		.populate({ path: 'license' });
 
 	if (!userDB) {
 		return response.status(400).json({
 			error: `User with id: ${decodedToken.id}, not found !`,
+		});
+	}
+
+	if (
+		userDB?.portfolios!.length > 0 &&
+		(userDB?.license as unknown as LicenseType).type === 'free'
+	) {
+		return response.status(400).json({
+			error: 'Sorry, you only allow to create 1 portfolio as Free license 😢',
 		});
 	}
 
@@ -137,6 +151,11 @@ export const createPortfolio = async (request: Request, response: Response) => {
 
 		await newPortfolio.save();
 
+		//* Add portfolio to user's portfolio list
+		await Models.User.findByIdAndUpdate(userDB.id, {
+			$push: { portfolios: newPortfolio },
+		});
+
 		return response.status(201).json({
 			message: 'Portfolio created successfully 👍 !',
 			portfolio: {
@@ -167,28 +186,33 @@ export const updatePortfolio = async (request: Request<{ id: string }>, response
 		const id = request.params.id;
 
 		if (!Types.ObjectId.isValid(id)) {
-		return response.status(400).json({
-			error: `Invalid ID: ${id} !`,
-		});
+			return response.status(400).json({
+				error: `Invalid ID: ${id} !`,
+			});
 		}
 
 		const portfolio = await Models.Portfolio.findById(id);
+
 		if (!portfolio) {
-		return response.status(404).json({ error: 'Portfolio not found' });
+			return response.status(404).json({ error: 'Portfolio not found' });
 		}
 
 		const payload = request.body;
+
 		// update portfolio
 		await Models.Portfolio.findByIdAndUpdate(id, {
-		portfolioTitle: payload.portfolioTitle ?? undefined,
-		header: payload.header ?? undefined,
-		sections: payload.sections ?? undefined,
-		status: payload.status ?? undefined,
-		footer: payload.footer ?? undefined,
-		template: payload.template ?? undefined,
-		theme: payload.theme ?? undefined,
+			portfolioTitle: payload.portfolioTitle ?? undefined,
+			header: payload.header ?? undefined,
+			sections: payload.sections ?? undefined,
+			status: payload.status ?? undefined,
+			footer: payload.footer ?? undefined,
+			template: payload.template ?? undefined,
+			theme: payload.theme ?? undefined,
 		}).populate({ path: 'sections.item' });
-		const updatedPortfolio = await Models.Portfolio.findById(id).populate({ path: 'sections.item' });
+
+		const updatedPortfolio = await Models.Portfolio
+			.findById(id)
+			.populate({ path: 'sections.item' });
 
 		//? Note: if you pass undefined to a field, it will not be updated.
 		if (updatedPortfolio) {
@@ -200,18 +224,20 @@ export const updatePortfolio = async (request: Request<{ id: string }>, response
 		// get user
 		const userId = portfolio.user;
 		const user = await Models.User.findById(userId);
+
 		if (!user) {
-		return response.status(404).json({ error: 'User not found' });
+			return response.status(404).json({ error: 'User not found' });
 		}
 
-		// get license
-		const licenceId = user.license;
-		const license = await Models.License.findById(licenceId);
+		// Get license
+		const licenseId = user.license;
+		const license = await Models.License.findById(licenseId);
+
 		if (!license) {
 			return response.status(404).json({ error: 'License not found' });
 		}
 
-		if(license.type==="free" && payload.status==="published"){
+		if (license.type === "free" && payload.status === "published"){
 			const portfolios = await Models.Portfolio.find({ user: userId });
 			const published_count = portfolios.filter(portfolio => portfolio.status === 'published').length
 			
@@ -224,15 +250,13 @@ export const updatePortfolio = async (request: Request<{ id: string }>, response
 		}
 
 		return response.status(200).json({
-		message: 'Portfolio updated successfully 👍 !',
-		portfolio: updatedPortfolio,
+			message: 'Portfolio updated successfully 👍 !',
+			portfolio: updatedPortfolio,
 		});
 	} catch (error) {
 		throw CustomError.internalServer('Error while updating the Portfolio,\n' + error);
 	}
 };
-
-
 
 export const deletePortfolio = async (req: Request, res: Response) => {
 	const id = req.params.id;
@@ -243,14 +267,39 @@ export const deletePortfolio = async (req: Request, res: Response) => {
 		});
 	}
 
+	const token = req.headers.token;
+
+	if (!token) {
+		return res.status(401).json({
+			error: 'Unauthorized access !',
+		});
+	}
+
+	const decodedToken = await verifyToken(token as string);
+
+	if (!decodedToken) {
+		return res.status(401).json({
+			error: 'Token not valid !',
+		});
+	}
+
 	const portfolio = await Models.Portfolio.countDocuments({ _id: id });
 
 	if (!portfolio) {
 		return res.status(404).json({ error: 'Portfolio not found !' });
 	}
 
+	const userDB = await Models.User.findById(decodedToken.id)
+		.select('id name jobTitle email')
+		.populate('portfolios');
+
 	try {
 		await Models.Portfolio.findOneAndDelete({ _id: id });
+
+		//* Remove portfolio from user's portfolio list
+		await Models.User.findByIdAndUpdate(userDB?.id, {
+			$pull: { portfolios: id },
+		});
 
 		// do the same as logic in .post method....
 		return res.status(200).json({ message: 'Portfolio deleted successfully 👍 !' });
