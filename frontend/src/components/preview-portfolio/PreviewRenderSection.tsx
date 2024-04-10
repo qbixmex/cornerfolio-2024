@@ -41,9 +41,7 @@ const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex justify-center">
 					<div
 						key={section.item.id}
-						dangerouslySetInnerHTML={{
-							__html: (section as SectionEmbeddedMedia).item.code,
-						}}
+						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
 					/>
 				</div>
 			);

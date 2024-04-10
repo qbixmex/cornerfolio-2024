@@ -6,9 +6,9 @@ import SectionsList from '@/components/sections/sectionsList';
 import ThemeSwitcher from '@/components/themeSwitcher';
 import { IPortfolio } from '@/interfaces';
 import {
-	UnPublishPortfolio,
 	getPortfolio,
-	publishPortfolio,
+  publishPortfolio,
+  unPublishPortfolio,
 } from '@/portfolios/actions/portfolio.action';
 import { TemplateFooter, TemplateHeader } from '@/portfolios/components';
 import { useAppSelector } from '@/store';
@@ -97,7 +97,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 		event.preventDefault();
 
 		try {
-			const data = await UnPublishPortfolio(id);
+			const data = await unPublishPortfolio(id);
 
 			if (data.error) {
 				setToast({ message: data.error, type: 'error' });

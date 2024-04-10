@@ -1,37 +1,31 @@
 "use client"
 
 import { SectionText } from '@/interfaces';
-import { useTheme } from 'next-themes';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	section: SectionText;
-    theme: string;
+	theme: string;
 };
 
 const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
-
 	return (
 		<div className="w-full">
 			<div
-				className={`flex w-full
-                ${
-									(section as SectionText).item.position === 'center'
-										? 'justify-center'
-										: (section as SectionText).item.position === 'right'
-										? 'justify-end'
-										: ''
-								}
-			`}
+				className={`flex w-full ${
+					(section as SectionText).item.position === 'center'
+						? 'justify-center'
+						: (section as SectionText).item.position === 'right'
+							? 'justify-end'
+							: ''
+				}`}
 			>
 				<div key={section.item.id} className="w-3/4">
 					{/* heading */}
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.headingSize }}
-							className={`w-full outline-none
-                    ${theme === 'modern' ? modern.headerFieldInput : ''} 
-                    `}
+							className={`w-full outline-none ${ (theme === 'modern') ? modern.headerFieldInput : ''}`}
 						>
 							{section.item.heading}
 						</div>
@@ -41,14 +35,9 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.contentSize }}
-							className={`w-full outline-none
-                    ${theme === 'modern' ? modern.textInputBackground : ''}
-                    `}
-							// use this?
-							dangerouslySetInnerHTML={{ __html: section.item.content.replace(/\n/g, '<br>') }}
-						>
-							{/* {section.item.content} */}
-						</div>
+							className={`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''}`}
+							dangerouslySetInnerHTML={{ __html: section.item.content.replace(/\n/g, '<br />') }}
+						/>
 					</div>
 				</div>
 			</div>

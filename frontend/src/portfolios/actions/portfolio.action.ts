@@ -59,7 +59,7 @@ export const publishPortfolio = async (portfolioId: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
-	const response = await fetch(`http://localhost:4000/api/portfolio/${portfolioId}`, {
+	const response = await fetch(`${API_URL}/api/portfolio/${portfolioId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
@@ -71,11 +71,12 @@ export const publishPortfolio = async (portfolioId: string) => {
 	return response.json();
 };
 
-export const UnPublishPortfolio = async (portfolioId: string) => {
+
+export const unPublishPortfolio = async (portfolioId: string) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
-	const response = await fetch(`http://localhost:4000/api/portfolio/${portfolioId}`, {
+	const response = await fetch(`${API_URL}/api/portfolio/${portfolioId}`, {
 		method: 'PATCH',
 		headers: {
 			'content-type': 'application/json',
