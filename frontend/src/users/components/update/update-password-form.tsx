@@ -37,7 +37,7 @@ const PasswordForm: FC<Props> = ({ id, setToast }) => {
 
   return (
     <form className="w-full mb-10" onSubmit={formik.handleSubmit}>
-      <section className="grid grid-cols-2 w-full gap-10">
+      <section className="grid grid-cols-1 lg:grid-cols-2 w-full gap-x-10">
         <section className="mb-5">
           <label
             htmlFor="password"
@@ -75,7 +75,7 @@ const PasswordForm: FC<Props> = ({ id, setToast }) => {
             </p>
           )}
         </section>
-        <section className="mb-5">
+        <section className="mb-10 md:mb-5">
           <label
             htmlFor="passwordConfirmation"
             className="block text-sm font-medium leading-6 text-gray-900 mb-4"
@@ -116,7 +116,7 @@ const PasswordForm: FC<Props> = ({ id, setToast }) => {
       <section className="w-full flex justify-start md:justify-end">
         <button
           type="submit"
-          className="flex w-full md:w-[200px] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="flex w-full md:w-[200px] h-14 md:h-auto justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-lg md:text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           change password
         </button>
