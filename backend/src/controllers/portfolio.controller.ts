@@ -167,50 +167,72 @@ export const updatePortfolio = async (request: Request<{ id: string }>, response
 		const id = request.params.id;
 
 		if (!Types.ObjectId.isValid(id)) {
-			return response.status(400).json({
-				error: `Invalid ID: ${id} !`,
-			});
+		return response.status(400).json({
+			error: `Invalid ID: ${id} !`,
+		});
 		}
-		const payload = request.body;
 
-		const portfolio = await Models.Portfolio.findByIdAndUpdate(id, {
-			portfolioTitle: payload.portfolioTitle ?? undefined,
-			header: payload.header ?? undefined,
-			sections: payload.sections ?? undefined,
-			status: payload.status ?? undefined,
-			footer: payload.footer ?? undefined,
-			template: payload.template ?? undefined,
-			theme: payload.theme ?? undefined,
-		}).populate({ path: 'sections.item' });
-
+		const portfolio = await Models.Portfolio.findById(id);
 		if (!portfolio) {
-			return response.status(404).json({ error: 'Portfolio not found' });
+		return response.status(404).json({ error: 'Portfolio not found' });
 		}
+
+		const payload = request.body;
+		// update portfolio
+		await Models.Portfolio.findByIdAndUpdate(id, {
+		portfolioTitle: payload.portfolioTitle ?? undefined,
+		header: payload.header ?? undefined,
+		sections: payload.sections ?? undefined,
+		status: payload.status ?? undefined,
+		footer: payload.footer ?? undefined,
+		template: payload.template ?? undefined,
+		theme: payload.theme ?? undefined,
+		}).populate({ path: 'sections.item' });
+		const updatedPortfolio = await Models.Portfolio.findById(id).populate({ path: 'sections.item' });
 
 		//? Note: if you pass undefined to a field, it will not be updated.
-		portfolio.header = payload.header !== undefined ? payload.header : portfolio.header;
-		portfolio.footer = payload.footer !== undefined ? payload.footer : portfolio.footer;
+		if (updatedPortfolio) {
+		updatedPortfolio.header = payload.header !== undefined ? payload.header : updatedPortfolio.header;
+		updatedPortfolio.footer = payload.footer !== undefined ? payload.footer : updatedPortfolio.footer;
+		await updatedPortfolio.save();
+		}
 
-		await portfolio.save();
+		// get user
+		const userId = portfolio.user;
+		const user = await Models.User.findById(userId);
+		if (!user) {
+		return response.status(404).json({ error: 'User not found' });
+		}
+
+		// get license
+		const licenceId = user.license;
+		const license = await Models.License.findById(licenceId);
+		if (!license) {
+			return response.status(404).json({ error: 'License not found' });
+		}
+
+		if(license.type==="free" && payload.status==="published"){
+			const portfolios = await Models.Portfolio.find({ user: userId });
+			const published_count = portfolios.filter(portfolio => portfolio.status === 'published').length
+			
+			if(published_count>1){
+				await Models.Portfolio.findByIdAndUpdate(id, {
+					status: "draft",
+					});
+				return response.status(401).json({ error: 'Sorry, the limit of portfolios that can be published is 1 😢' });
+			}
+		}
 
 		return response.status(200).json({
-			message: 'Portfolio updated successfully 👍 !',
-			portfolio: {
-				id: portfolio.id,
-				portfolioTitle: portfolio.portfolioTitle,
-				header: portfolio.header,
-				sections: portfolio.sections,
-				status: portfolio.status,
-				footer: portfolio.footer,
-				template: portfolio.template,
-				theme: portfolio.theme,
-				tinyUrlId: portfolio.tinyUrlId,
-			},
+		message: 'Portfolio updated successfully 👍 !',
+		portfolio: updatedPortfolio,
 		});
 	} catch (error) {
 		throw CustomError.internalServer('Error while updating the Portfolio,\n' + error);
 	}
 };
+
+
 
 export const deletePortfolio = async (req: Request, res: Response) => {
 	const id = req.params.id;
