@@ -1,7 +1,13 @@
 import Swal from 'sweetalert2';
 import { deleteUser } from '@/users/actions/user.actions';
 
-const DeleteAccount: React.FC<{ userId: string }> = ({ userId }) => {
+
+
+type Props = {
+	userId: string;
+};
+
+const DeleteAccount: React.FC<Props> = ({ userId }) => {
 	const handleDeleteUser = () => {
 
 		Swal.fire({
@@ -21,18 +27,15 @@ const DeleteAccount: React.FC<{ userId: string }> = ({ userId }) => {
 	};
 
 	return (
-		<form
-			action={handleDeleteUser}
-			className="w-full"
-		>
-			<section className="w-full">
+		<form className="w-full" action={handleDeleteUser}>
+			<div className="w-full">
 				<button
 					type="submit"
-					className="flex w-full md:w-[150px] justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+					className="flex w-full md:w-[50%] h-14 lg:h-auto justify-center items-center rounded-md bg-red-600 px-3 py-1.5 text-lg lg:text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
 				>
 					delete
 				</button>
-			</section>
+			</div>
 		</form>
 	);
 };
