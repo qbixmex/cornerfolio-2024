@@ -7,8 +7,24 @@ import { LicenseType } from '../models/license.model';
 import { populate } from 'dotenv';
 
 export const getPortfolios = async (req: Request, res: Response) => {
+	const token = req.headers.token;
+
+	if (!token) {
+		return res.status(401).json({
+			error: 'Unauthorized access !',
+		});
+	}
+
+	const decodedToken = await verifyToken(token as string);
+
+	if (!decodedToken) {
+		return res.status(401).json({
+			error: 'Token not valid !',
+		});
+	}
+	
 	try {
-		const Portfolios = await Models.Portfolio.find();
+		const Portfolios = await Models.Portfolio.find({ user: decodedToken.id });
 		const portfolios = Portfolios.map((portfolio) => {
 			return {
 				id: portfolio.id,
@@ -29,6 +45,22 @@ export const getPortfolios = async (req: Request, res: Response) => {
 };
 
 export const getPortfolioById = async (req: Request, res: Response) => {
+	const token = req.headers.token;
+
+	if (!token) {
+		return res.status(401).json({
+			error: 'Unauthorized access !',
+		});
+	}
+
+	const decodedToken = await verifyToken(token as string);
+
+	if (!decodedToken) {
+		return res.status(401).json({
+			error: 'Token not valid !',
+		});
+	}
+
     try {
         const { id } = req.params;
         if (!Types.ObjectId.isValid(id)) {
@@ -36,6 +68,8 @@ export const getPortfolioById = async (req: Request, res: Response) => {
         }
         const portfolio = await Models.Portfolio
             .findById(id)
+			.where('user')
+    		.equals(decodedToken.id)
             .populate({ path: "user", select: "id name email license"})
             .populate({ path: "sections.item" });
         if (!portfolio) {
