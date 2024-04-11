@@ -11,11 +11,7 @@ export const createPortfolio = async (token: string) => {
 			},
 		});
 
-		if (!response.ok) {
-			throw new Error("Failed to create portfolio");
-		}
-
-		return await response.json();
+		return response.json();
 	} catch (error) {
 		console.error("Error creating portfolio:", error);
 		throw error;
