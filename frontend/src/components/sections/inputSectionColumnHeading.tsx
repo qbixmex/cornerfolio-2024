@@ -5,10 +5,11 @@ import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { useTheme } from '@/context/portfolio-theme-context';
 
 type Props = {
 	position: 1 | 2 | 3;
