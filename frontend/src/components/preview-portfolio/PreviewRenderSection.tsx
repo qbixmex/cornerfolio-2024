@@ -48,7 +48,7 @@ const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 		case 'SectionColumn':
 			return <PreviewSectionColumn theme={theme} section={section as SectionColumn} />;
 		case 'SectionGallery':
-			return <PreviewSectionGallery section={section as SectionGallery} />;
+			return <PreviewSectionGallery theme={theme} section={section as SectionGallery} />;
 		default:
 			return null;
 	}

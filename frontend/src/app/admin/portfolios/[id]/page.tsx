@@ -7,15 +7,16 @@ import ThemeSwitcher from '@/components/themeSwitcher';
 import { IPortfolio } from '@/interfaces';
 import {
 	getPortfolio,
-  publishPortfolio,
-  unPublishPortfolio,
+	publishPortfolio,
+	unPublishPortfolio,
 } from '@/portfolios/actions/portfolio.action';
 import { TemplateFooter, TemplateHeader } from '@/portfolios/components';
 import { useAppSelector } from '@/store';
 import styles from '@/users/components/profile.module.css';
-import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { FormEvent, useEffect, useState } from 'react';
+
+import { Theme, useTheme } from '@/context/portfolio-theme-context';
 
 type Props = {
 	params: { id: string };
@@ -39,11 +40,43 @@ const PORTFOLIO_DATA: IPortfolio = {
 	tinyUrlId: '',
 };
 
+export const getBackgroundColor = (theme: Theme): string => {
+	switch (theme) {
+		case 'light':
+			return 'bg-white';
+
+		case 'dark':
+			return 'bg-black text-white';
+
+		case 'modern':
+			return `bg-[#13141A]`;
+
+		default:
+			throw new Error('invalid theme');
+	}
+};
+
+export const getFontColor = (theme: Theme): string => {
+	switch (theme) {
+		case 'light':
+			return 'bg-white';
+
+		case 'dark':
+			return 'bg-black';
+
+		case 'modern':
+			return `bg-[#13141A]`;
+
+		default:
+			throw new Error('invalid theme');
+	}
+};
+
 const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 	const [loading, setLoading] = useState(true);
 	const [portfolio, setPortfolio] = useState<IPortfolio | null>(PORTFOLIO_DATA);
 	const reloading = useAppSelector((state) => state.reloading.reloading);
-	const { setTheme } = useTheme();
+	const { theme, updateTheme } = useTheme();
 	const [status, setStatus] = useState<'draft' | 'published'>('draft');
 
 	const [toast, setToast] = useState({
@@ -60,7 +93,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 					throw new Error(fetchData.error);
 				}
 				setPortfolio(fetchData);
-				setTheme(fetchData.theme);
+				updateTheme(fetchData.theme);
 				console.log(fetchData);
 			} catch (error) {
 				console.error('Error fetching portfolio:', error);
@@ -112,7 +145,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 	};
 
 	return (
-		<main className="ml-[52px] mt-[55px] text-2xl font-bold">
+		<main className={`${getBackgroundColor(theme)}  ml-[52px] mt-[55px] text-2xl font-bold`}>
 			{!loading && (
 				<>
 					{portfolio ? (
@@ -127,7 +160,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 								</div>
 							)}
 
-							<section className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
+							<section className=" fixed top-[55px] w-full bg-gray-200 flex justify-end">
 								<div className="fixed top-[55px] w-full bg-gray-200 flex justify-end ">
 									{portfolio.status === 'draft' && (
 										<form onSubmit={handlePublishPortfolio}>
@@ -161,7 +194,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 									</Link>
 								</div>
 							</section>
-							<TemplateHeader portfolio={portfolio} />
+							<TemplateHeader theme={theme} portfolio={portfolio} />
 							<ChooseSection portfolioId={id} order={0} />
 							<ThemeSwitcher id={portfolio.id} />
 							<hr />

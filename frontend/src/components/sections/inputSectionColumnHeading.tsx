@@ -5,10 +5,11 @@ import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { useTheme } from '@/context/portfolio-theme-context';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -98,10 +99,7 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 	return (
 		<div>
 			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
-						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
+				<div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
 					{toast.message}
 				</div>
 			)}

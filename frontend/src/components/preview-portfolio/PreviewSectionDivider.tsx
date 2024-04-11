@@ -15,7 +15,8 @@ const PreviewSectionDivider: React.FC<Props> = ({ section, theme }) => {
 				className={
 					clsx(
 						"w-full outline-none border-b",
-						{ [modern.dividerInputBackground]: (theme === 'modern') }
+						theme === 'modern' && modern.dividerInputBackground,
+						theme !== 'light' && 'text-white' 
 					)
 				}>
 				{section.item.title}</div>

@@ -1,32 +1,30 @@
 'use client';
 
 import { Button } from '@nextui-org/button';
-import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import updatePortfolioTheme from '../api/setTheme.fetch';
+import { Theme, useTheme } from '../context/portfolio-theme-context';
 
 type PropsTheme = {
 	id: string;
 };
 
-export default function ThemeSwitcher(props: PropsTheme) {
+export default function ThemeSwitcher({ id }: PropsTheme) {
 	const [mounted, setMounted] = useState(false);
-	const { theme, setTheme } = useTheme();
+	const { theme, updateTheme } = useTheme();
 
 	useEffect(() => setMounted(true), []);
 
 	if (!mounted) return null;
 
-	const handleThemeChange = async (newTheme: string) => {
-		setTheme(newTheme);
-		await updatePortfolioTheme({ id: props.id, theme: newTheme });
+	const handleThemeChange = async (newTheme: Theme) => {
+		updateTheme(newTheme);
+		await updatePortfolioTheme({ id, theme: newTheme });
 	};
 
 	return (
-		<div className="flex pb-5 ml-10 ">
-			<h4 className={`pr-4 pb-1 ${theme === 'modern' ? `text-[#EDEEFF] ` : ''}`}>
-				Select your Theme
-			</h4>
+		<div className={`flex pb-5 ml-10 ${theme !== "light" ? "text-white" : ''}  `}>
+			<h4 className={`pr-4 pb-1  `}>Select your Theme</h4>
 			<div className="flex gap-4 ">
 				<Button size="sm" variant="flat" onClick={() => handleThemeChange('light')}>
 					Light

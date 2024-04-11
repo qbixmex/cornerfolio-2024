@@ -1,10 +1,10 @@
+import { Theme, useTheme } from '@/context/portfolio-theme-context';
 import { SectionColumn } from '@/interfaces';
 import { updateSectionColumn } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
@@ -23,6 +23,7 @@ const formSchemaContent = yup.object().shape({
 });
 
 const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
+	const { theme } = useTheme();
 	const [content] = useState(() => {
 		if (section) {
 			if (position === 1) {
@@ -51,7 +52,6 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 		}
 	});
 
-	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(contentSize);
 	const incrementFontSize = () => {
@@ -97,7 +97,7 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 		<div>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					className={`fixed z-[100] top-5 right-5 w-fit bg-${ toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
@@ -113,7 +113,9 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0' }`}
+					${theme === 'modern' ? modern.textInputBackground : ''} ${
+						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
+					}`}
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
 

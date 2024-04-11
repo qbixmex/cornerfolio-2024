@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { SectionText } from '@/interfaces';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
@@ -25,7 +25,7 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.headingSize }}
-							className={`w-full outline-none ${ (theme === 'modern') ? modern.headerFieldInput : ''}`}
+							className={`w-full outline-none ${ theme === 'modern' ? modern.headerFieldInput : '' } ${theme !== 'light' ? 'text-white' : ''}`}
 						>
 							{section.item.heading}
 						</div>
@@ -35,7 +35,9 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.contentSize }}
-							className={`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''}`}
+							className={`w-full outline-none ${
+								theme === 'modern' ? modern.textInputBackground : ''
+							} ${theme !== 'light' ? 'text-white' : ''}`}
 							dangerouslySetInnerHTML={{ __html: section.item.content.replace(/\n/g, '<br />') }}
 						/>
 					</div>

@@ -17,7 +17,7 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex items-between m-2">
 					<div
 						style={{ fontSize: section.item.headingSize1 }}
-						className={clsx("w-full outline-none", { [modern.headerFieldInput]: (theme === 'modern') })}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 					>
 						{section.item.heading1}
 					</div>
@@ -27,28 +27,30 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex items-between m-2">
 					<div
 						style={{ fontSize: section.item.contentSize1 }}
-						className={clsx( "w-full outline-none", { [modern.textInputBackground]: theme === 'modern' })}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
 					/>
 				</div>
 			</div>
 
-			{/* text2 */}
-			<div className=''>
+		{/* text2 */}
+		<div>
 				{/* heading2 */}
 				<div className="flex items-between m-2">
-					<div style={{ fontSize: section.item.headingSize2 }}
-						className={clsx( "w-full outline-none", { [modern.headerFieldInput]: (theme === 'modern') })}>
-						{section.item.heading2}
+					<div
+						style={{ fontSize: section.item.headingSize1 }}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
+					>
+						{section.item.heading1}
 					</div>
 				</div>
 
-				{/* content2 */}
+				{/* content 2*/}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.contentSize2 }}
-						className={clsx("w-full outline-none", { [modern.textInputBackground]: (theme === 'modern') })}
-						dangerouslySetInnerHTML={{ __html: section.item.content2.replace(/\n/g, '<br />') }}
+						style={{ fontSize: section.item.contentSize1 }}
+						className={clsx( `w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
+						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
 					/>
 				</div>
 			</div>
@@ -58,19 +60,19 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				{/* heading3 */}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.headingSize3 }}
-						className={clsx("w-full outline-none", {[modern.headerFieldInput]: (theme === 'modern')})}
+						style={{ fontSize: section.item.headingSize1 }}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 					>
-						{section.item.heading3}
+						{section.item.heading1}
 					</div>
 				</div>
 
-				{/* content3 */}
+				{/* content 3*/}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.contentSize3 }}
-						className={clsx("w-full outline-none", { [modern.textInputBackground]: (theme === 'modern') })}
-						dangerouslySetInnerHTML={{ __html: section.item.content2.replace(/\n/g, '<br />') }}
+						style={{ fontSize: section.item.contentSize1 }}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
+						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
 					/>
 				</div>
 			</div>

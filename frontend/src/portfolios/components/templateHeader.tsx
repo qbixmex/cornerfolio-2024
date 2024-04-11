@@ -1,6 +1,7 @@
 'use client';
 
 import { updatePortfolioHeader } from '@/api/updatePortfolioHeader';
+import { Theme } from '@/context/portfolio-theme-context';
 import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
@@ -8,13 +9,13 @@ import styles from '@/users/components/profile.module.css';
 import { Button } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolio: IPortfolio;
+	theme: Theme;
 };
 
 const formSchema = yup.object().shape({
@@ -30,9 +31,8 @@ type Header = {
 	subHeading: string;
 };
 
-export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
+export const TemplateHeader: React.FC<Props> = ({ portfolio, theme }) => {
 	const dispatch = useAppDispatch();
-	const { theme } = useTheme();
 
 	const formik = useFormik<Header>({
 		initialValues: {
@@ -126,8 +126,8 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 					<Button
 						type="submit"
 						className={clsx(
-							"bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent",
-							{ "hidden": formik.errors.title || formik.errors.subHeading }
+							'bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent',
+							{ hidden: formik.errors.title || formik.errors.subHeading },
 						)}
 					>
 						Save

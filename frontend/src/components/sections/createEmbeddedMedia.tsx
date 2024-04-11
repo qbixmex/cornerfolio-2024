@@ -4,7 +4,7 @@ import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import { Button } from '@nextui-org/react';
-import { useTheme } from 'next-themes';
+
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { FaVideo } from 'react-icons/fa';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
@@ -15,7 +15,6 @@ type Props = {
 };
 
 const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
-	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
 	const reloading = useAppSelector((state) => state.reloading.reloading);
 	const [isOpen, setIsOpen] = useState(false);

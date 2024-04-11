@@ -4,7 +4,7 @@ import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
