@@ -18,18 +18,29 @@ export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
 
 	return (
 		<div className={clsx(
-			`py-[30px] px-[80px] max-sm:px-[30px] border-b-gray-300 border-2
-			${
-				theme === 'modern' ? modern.headerBackGroundColor : ''} ${theme !== 'light' ?`text-white` : '' }`
-			
+			"py-[30px] px-[80px] max-sm:px-[30px] border-b-gray-300 border-2",
+			{
+				[modern.headerBackGroundColor]: theme === "modern",
+				"text-white": theme !== "light"
+			}
 		)}>
 			<div className="w-full outline-none text-5xl">
-				<div className={clsx(` w-full outline-none text-5xl ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`
+				<div className={clsx(
+					"w-full outline-none text-5xl text-white", 
+					{
+						[modern.headerFieldInput]: theme === 'modern',
+						"text-black": theme === 'light'
+					}
 				)}>{portfolio.header.title}
 				</div>
 			</div>
 			<div className="w-full outline-none ">
-				<div className={clsx(`w-full outline-none  ${theme === 'modern' ? modern.subHeaderInputField : '' } ${theme !== 'light' ?`text-white` : `text-black`}`
+				<div className={clsx(
+					"w-full outline-none text-white",
+					{
+						[modern.subHeaderInputField]: theme === 'modern',
+					 	"text-black": theme === 'light',
+					}
 				)}>
 					{portfolio.header.subHeading}
 				</div>

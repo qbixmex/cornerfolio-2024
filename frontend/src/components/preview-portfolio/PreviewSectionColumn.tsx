@@ -27,7 +27,7 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex items-between m-2">
 					<div
 						style={{ fontSize: section.item.contentSize1 }}
-						className={clsx( `w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
 					/>
 				</div>
@@ -71,7 +71,7 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex items-between m-2">
 					<div
 						style={{ fontSize: section.item.contentSize1 }}
-						className={clsx( `w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
+						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
 					/>
 				</div>

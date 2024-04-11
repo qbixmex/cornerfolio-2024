@@ -16,8 +16,8 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					(section as SectionText).item.position === 'center'
 						? 'justify-center'
 						: (section as SectionText).item.position === 'right'
-						? 'justify-end'
-						: ''
+							? 'justify-end'
+							: ''
 				}`}
 			>
 				<div key={section.item.id} className="w-3/4">
@@ -25,9 +25,7 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.headingSize }}
-							className={`w-full outline-none ${
-								theme === 'modern' ? modern.headerFieldInput : ''
-							} ${theme !== 'light' ? 'text-white' : ''}`}
+							className={`w-full outline-none ${ theme === 'modern' ? modern.headerFieldInput : '' } ${theme !== 'light' ? 'text-white' : ''}`}
 						>
 							{section.item.heading}
 						</div>

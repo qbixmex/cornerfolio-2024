@@ -99,10 +99,7 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 	return (
 		<div>
 			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
-						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
+				<div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
 					{toast.message}
 				</div>
 			)}

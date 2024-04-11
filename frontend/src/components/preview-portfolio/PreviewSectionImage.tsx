@@ -15,8 +15,8 @@ const PreviewSectionImage: React.FC<Props> = ({ section, theme }) => {
 					(section as SectionImage).item.position === 'center'
 						? 'justify-center'
 						: (section as SectionImage).item.position === 'right'
-						? 'justify-end'
-						: ''
+							? 'justify-end'
+							: ''
 				}`}
 			>
 				<div key={section.item.id} className="flex flex-col items-between m-2 w-1/2 max-sm:w-full">

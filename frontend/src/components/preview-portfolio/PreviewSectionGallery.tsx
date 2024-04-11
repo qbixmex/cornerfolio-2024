@@ -34,10 +34,7 @@ const PreviewSectionGallery: React.FC<Props> = ({ section, theme }) => {
 					/>
 					<div
 						style={{ fontSize: section.item.captionSize2 }}
-						className={`w-full outline-none 
-					${theme === 'modern' ? modern.imageInputBackground : ''}
-					${theme !== 'light' ? 'text-white' : ''}
-					`}
+						className={`w-full outline-none ${theme === 'modern' ? modern.imageInputBackground : ''} ${theme !== 'light' ? 'text-white' : ''}`}
 					>
 						{section.item.caption2}
 					</div>
@@ -50,10 +47,7 @@ const PreviewSectionGallery: React.FC<Props> = ({ section, theme }) => {
 					/>
 					<div
 						style={{ fontSize: section.item.captionSize2 }}
-						className={`w-full outline-none 
-					${theme === 'modern' ? modern.imageInputBackground : ''}
-					${theme !== 'light' ? 'text-white' : ''}
-					`}
+						className={`w-full outline-none ${theme === 'modern' ? modern.imageInputBackground : ''} ${theme !== 'light' ? 'text-white' : ''}`}
 					>
 						{section.item.caption3}
 					</div>
