@@ -1,16 +1,32 @@
 import { PreviewFooter } from '@/components/preview-portfolio/PreviewFooter';
 import { PreviewHeader } from '@/components/preview-portfolio/PreviewHeader';
 import PreviewSectionsList from '@/components/preview-portfolio/PreviewSectionList';
+import { Theme } from '@/context/portfolio-theme-context';
 import { Token } from '@/interfaces';
 import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { getBackgroundColor } from '../admin/portfolios/[id]/page';
 
 type Props = {
 	params: { tinyUrl: string };
 	searchParams: {};
+};
+
+const getBackgroundColor = (theme: Theme): string => {
+	switch (theme) {
+		case 'light':
+			return 'bg-white';
+
+		case 'dark':
+			return 'bg-black';
+
+		case 'modern':
+			return `bg-[#13141A]`;
+
+		default:
+			throw new Error('invalid theme');
+	}
 };
 
 const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) => {

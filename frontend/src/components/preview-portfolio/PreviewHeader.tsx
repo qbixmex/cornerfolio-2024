@@ -18,7 +18,7 @@ export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
 
 	return (
 		<div className={clsx(
-			"py-[30px] px-[80px] max-sm:px-[30px] border-b-gray-300 border-2",
+			"py-[30px] px-[80px] max-sm:px-[30px] border-b-gray-300 border-2 text-black",
 			{
 				[modern.headerBackGroundColor]: theme === "modern",
 				"text-white": theme !== "light"
@@ -26,12 +26,13 @@ export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
 		)}>
 			<div className="w-full outline-none text-5xl">
 				<div className={clsx(
-					"w-full outline-none text-5xl text-white", 
+					"w-full outline-none text-5xl", 
 					{
 						[modern.headerFieldInput]: theme === 'modern',
 						"text-black": theme === 'light'
 					}
-				)}>{portfolio.header.title}
+				)}>
+					{portfolio.header.title}
 				</div>
 			</div>
 			<div className="w-full outline-none ">
