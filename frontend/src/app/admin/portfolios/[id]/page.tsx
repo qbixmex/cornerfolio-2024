@@ -40,23 +40,7 @@ const PORTFOLIO_DATA: IPortfolio = {
 	tinyUrlId: '',
 };
 
-export const getBackgroundColor = (theme: Theme): string => {
-	switch (theme) {
-		case 'light':
-			return 'bg-white';
-
-		case 'dark':
-			return 'bg-black text-white';
-
-		case 'modern':
-			return `bg-[#13141A]`;
-
-		default:
-			throw new Error('invalid theme');
-	}
-};
-
-export const getFontColor = (theme: Theme): string => {
+const getBackgroundColor = (theme: Theme): string => {
 	switch (theme) {
 		case 'light':
 			return 'bg-white';
@@ -112,7 +96,6 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 
 		try {
 			const data = await publishPortfolio(id);
-			console.log(data);
 
 			if (data.error) {
 				setToast({ message: data.error, type: 'error' });
