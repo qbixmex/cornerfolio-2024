@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from '@/context/portfolio-theme-context';
@@ -11,6 +9,7 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
+	portfolioId: string;
 	section: SectionText;
 };
 
@@ -21,9 +20,8 @@ const formSchemaContent = yup.object().shape({
 		.required('Content is required !'),
 });
 
-const InputSectionTextContent: React.FC<Props> = ({ section }) => {
+const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
-	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.contentSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
@@ -38,23 +36,22 @@ const InputSectionTextContent: React.FC<Props> = ({ section }) => {
 		validationSchema: formSchemaContent,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-
-				const data = await updateSectionText(section.item.id, {
+				const data = await updateSectionText(portfolioId, section.item.id, {
 					...formData,
 					contentSize: fontSize,
 				});
 
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
-				} else {
+				}
+				
+				if (data.message) {
 					setToast({ message: data.message, type: 'success' });
 				}
+
 				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
 				console.error('Error updating text:', error);
-			} finally {
-				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});

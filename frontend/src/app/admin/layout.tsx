@@ -41,9 +41,7 @@ const AdminLayout: FC<{children: ReactNode}> = ({ children }) => {
     <>
       <TopNavigation authenticatedUser={authenticatedUser} />
       <Sidebar authenticatedUser={authenticatedUser} />
-      <main className="my-10">
-        {children}
-      </main>
+      {children}
     </>
   );
 };

@@ -19,7 +19,7 @@ export interface IPortfolio {
 		links: string;
 		text: string;
 	},
-	template: string;
+	template: 'light' | 'dark' | 'modern';
 	theme: string;
 	tinyUrlId: string;
 }

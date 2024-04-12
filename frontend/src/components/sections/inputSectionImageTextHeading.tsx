@@ -1,7 +1,6 @@
 import { SectionImageText } from '@/interfaces';
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from '@/context/portfolio-theme-context';
@@ -11,6 +10,7 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
+	portfolioId: string;
 	section: SectionImageText;
 };
 
@@ -21,7 +21,7 @@ const formSchema = yup.object().shape({
 		.required('txtHeading is required !'),
 });
 
-const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
+const InputSectionImageTextHeading: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.txtHeadingSize);
@@ -39,21 +39,20 @@ const InputSectionImageTextHeading: React.FC<Props> = ({ section }) => {
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-				const data = await updateSectionImageText(section.item.id, {
+				const data = await updateSectionImageText(portfolioId, section.item.id, {
 					...formData,
 					txtHeadingSize: fontSize,
 				});
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
-				} else {
+				}
+
+				if (data.message) {
 					setToast({ message: data.message, type: 'success' });
 				}
 				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
 				console.error('Error updating image-text:', error);
-			} finally {
-				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});
