@@ -13,7 +13,7 @@ type Props = {
 	searchParams: {};
 };
 
-export const getBackgroundColor = (theme: Theme): string => {
+const getBackgroundColor = (theme: Theme): string => {
 	switch (theme) {
 		case 'light':
 			return 'bg-white';

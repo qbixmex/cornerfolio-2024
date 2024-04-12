@@ -40,7 +40,7 @@ const PORTFOLIO_DATA: IPortfolio = {
 	tinyUrlId: '',
 };
 
-export const getBackgroundColor = (theme: Theme): string => {
+const getBackgroundColor = (theme: Theme): string => {
 	switch (theme) {
 		case 'light':
 			return 'bg-white';
@@ -56,26 +56,10 @@ export const getBackgroundColor = (theme: Theme): string => {
 	}
 };
 
-export const getFontColor = (theme: Theme): string => {
-	switch (theme) {
-		case 'light':
-			return 'bg-white';
-
-		case 'dark':
-			return 'bg-black';
-
-		case 'modern':
-			return `bg-[#13141A]`;
-
-		default:
-			throw new Error('invalid theme');
-	}
-};
-
 const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 	const [loading, setLoading] = useState(true);
 	const [portfolio, setPortfolio] = useState<IPortfolio | null>(PORTFOLIO_DATA);
-	const reloading = useAppSelector((state) => state.reloading.reloading);
+	// const reloading = useAppSelector((state) => state.reloading.reloading); 
 	const { theme, updateTheme } = useTheme();
 	const [status, setStatus] = useState<'draft' | 'published'>('draft');
 
@@ -105,7 +89,7 @@ const EditPortfolioPage: React.FC<Props> = ({ params: { id } }) => {
 		if (id) {
 			fetchPortfolio();
 		}
-	}, [id, reloading, status]);
+	}, [id, status]);
 
 	const handlePublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
