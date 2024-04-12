@@ -22,6 +22,7 @@ export type Portfolio = {
 	header: PortfolioHeader;
 	status: string;
 	sections: any[];
+	user: any;
 	footer: PortfolioFooter;
 	template: string;
 	tinyUrlId: string;

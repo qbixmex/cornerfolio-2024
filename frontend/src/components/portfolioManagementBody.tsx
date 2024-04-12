@@ -1,18 +1,33 @@
-import { portFoliosFetch } from "@/api/portfolios.fetch";
+"use client";
+
+import { useAppDispatch, useAppSelector } from "@/store";
 import CreatePortfolioSection from "./createPortfolioSection";
-import PortfolioManagementActions from "./portfolioManagementActions";
-import ErrorToast from "./errorToast";
+import PortfolioManagementActions, { Portfolio } from "./portfolioManagementActions";
+import Toast from "./toast";
+import { resetToast } from "@/store/slices/toast.slice";
+import { useEffect } from "react";
 
-export default async function PortfolioManagementBody() {
-	const data = await portFoliosFetch();
+type Props = {
+	data: Portfolio[];
+};
 
-	if (data.error) {
-		return <ErrorToast message={data.error} />;
-	}
+const PortfolioManagementBody: React.FC<Props> = ({ data }) => {
+	const dispatch = useAppDispatch();
+	const toast = useAppSelector((state) => state.toast);
+
+	useEffect(() => {
+		if (toast.message.length > 0) {
+			setTimeout(() => dispatch(resetToast()), 3000);
+		}
+	}, [toast.message]);
 
 	return (
-		<div>
-			<div className="flex flex-col items-center">
+		<>
+			{(toast.message) && (
+        <Toast type={toast.type}>{toast.message}</Toast>
+      )}
+
+			<div className="flex flex-col items-center mb-10">
 				<div className="flex flex-col justify-center items-center">
 					<CreatePortfolioSection portfolioCount={data.length} />
 				</div>
@@ -20,6 +35,8 @@ export default async function PortfolioManagementBody() {
 					<PortfolioManagementActions portfolios={data} />
 				</div>
 			</div>
-		</div>
+		</>
 	);
-}
+};
+
+export default PortfolioManagementBody;

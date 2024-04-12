@@ -10,10 +10,12 @@ export const createNewPortfolio = async () => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
+	const data = await createPortfolio(token?.value!);
+
 	//? Revalidate Tag
 	revalidateTag('portfolios');
 
-	return await createPortfolio(token?.value!);
+	return data;
 };
 
 export const createNewPortfolioAndEdit = async () => {
