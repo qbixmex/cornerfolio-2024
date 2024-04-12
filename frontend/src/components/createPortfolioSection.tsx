@@ -1,8 +1,9 @@
 "use client"
 
+import { FormEvent, useEffect } from 'react';
+import { setToast } from '@/store/slices/toast.slice';
 import { createNewPortfolio } from '@/app/admin/portfolio-management/actions/portfolioActions';
-import { FormEvent, useEffect, useState } from 'react';
-import ErrorToast from './errorToast';
+import { useAppDispatch } from '@/store';
 
 type PortfolioHeader = {
 	title: string;
@@ -30,10 +31,7 @@ type Props = {
 };
 
 export default function CreatePortfolioSection({ portfolioCount }: Props) {
-	const [ toast, setToast ] = useState({
-	 	message: "",
-		type: ""
-	});
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		// Remove the data-theme attribute
@@ -42,30 +40,22 @@ export default function CreatePortfolioSection({ portfolioCount }: Props) {
 		document.documentElement.removeAttribute('style');
 	}, []);
 
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setToast({ message: "", type: "" });
-		}, 3000);
-
-		return () => clearTimeout(timer);
-	}, [toast]);
-
 	const handleCreatePorfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
 		const data = await createNewPortfolio();
 
 		if (data.error) {
-			setToast({ message: data.error, type: "error" });
+			dispatch(setToast({ message: data.error, type: "error" }));
+		}
+
+		if (data.message) {
+			dispatch(setToast({ message: data.message, type: "success" }));
 		}
 	};
 
 	return (
 		<>
-			{(toast.type === "error" && toast.message) && (
-				<ErrorToast message={toast.message} />
-			)}
-
 			<h2 className="mt-24 text-2xl lg:text-5xl text-slate-700 font-semibold  tracking-tight">
 				Manage Your Portfolios
 			</h2>
