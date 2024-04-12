@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const API_URL = process.env.API_URL ?? "http://localhost:4000";
@@ -17,6 +18,8 @@ export const createSectionImage = async (portfolioId: string, order: number) => 
         body:JSON.stringify({})
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
@@ -33,6 +36,8 @@ export const createSectionText = async (portfolioId: string, order: number) => {
         body: JSON.stringify({})
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
@@ -48,6 +53,8 @@ export const createSectionDivider = async (portfolioId: string, order: number) =
         },
         body:JSON.stringify({})
     });
+
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
 
     return response.json();
 };
@@ -66,6 +73,8 @@ export const createSectionEmbeddedMedia = async (portfolioId: string, order: num
         body:JSON.stringify({code:code})
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
@@ -81,6 +90,8 @@ export const createSectionImageText = async (portfolioId: string, order: number)
         },
         body:JSON.stringify({})
     });
+
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
 
     return response.json();
 };
@@ -98,6 +109,8 @@ export const createSectionColumn = async (portfolioId: string, order: number) =>
         body: JSON.stringify({})
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
@@ -114,10 +127,12 @@ export const createSectionGallery = async (portfolioId: string, order: number) =
         body:JSON.stringify({})
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
-export const deleteSectionImage = async (sectionId: string) => {
+export const deleteSectionImage = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -129,10 +144,12 @@ export const deleteSectionImage = async (sectionId: string) => {
         }
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
 	return response.json();
 };
 
-export const deleteSectionText = async (sectionId:string) => {
+export const deleteSectionText = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -144,10 +161,12 @@ export const deleteSectionText = async (sectionId:string) => {
         }
     });
 
-  return response.json();
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
+    return response.json();
 };
 
-export const deleteSectionImageText = async (sectionId: string) => {
+export const deleteSectionImageText = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -159,10 +178,12 @@ export const deleteSectionImageText = async (sectionId: string) => {
         }
     });
 
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
     return response.json();
 };
 
-export const deleteSectionDivider = async (sectionId:string) => {
+export const deleteSectionDivider = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -174,10 +195,12 @@ export const deleteSectionDivider = async (sectionId:string) => {
         }
     });
 
-  return response.json();
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
+    return response.json();
 };
 
-export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
+export const deleteSectionEmbeddedMedia = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -189,10 +212,12 @@ export const deleteSectionEmbeddedMedia = async (sectionId:string) => {
         }
     });
 
-  return response.json();
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
+    return response.json();
 };
 
-export const deleteSectionColumn = async (sectionId:string) => {
+export const deleteSectionColumn = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -204,10 +229,12 @@ export const deleteSectionColumn = async (sectionId:string) => {
         }
     });
 
-  return response.json();
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
+
+    return response.json();
 };
 
-export const deleteSectionGallery = async (sectionId:string) => {
+export const deleteSectionGallery = async (portfolioId: string, sectionId: string) => {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
@@ -218,6 +245,8 @@ export const deleteSectionGallery = async (sectionId:string) => {
             "token": token?.value!,
         }
     });
+
+    revalidatePath(`/admin/portfolios/${portfolioId}`);
 
     return response.json();
 };

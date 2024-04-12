@@ -1,22 +1,17 @@
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionImage } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
-import { useAppDispatch } from '@/store';
 
 type Props = {
+	portfolioId: string;
 	sectionId: string;
 };
 
-const DeleteImage: React.FC<Props> = ({ sectionId }) => {
-	const dispatch = useAppDispatch()
+const DeleteImage: React.FC<Props> = ({ portfolioId, sectionId }) => {
 	const handleDeleteImage = async () => {
 		try {
-			dispatch(setReloading(true)); // reloading true
-			await deleteSectionImage(sectionId);
+			await deleteSectionImage(portfolioId, sectionId);
 		} catch (error) {
 			console.error('Error deleting image:', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

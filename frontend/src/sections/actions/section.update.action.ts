@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { revalidatePath } from 'next/cache';
 
 const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
@@ -46,7 +47,7 @@ export const updateSectionDivider = async (sectionId: string, updateData: Update
 	return response.json();
 };
 
-export const updateSectionImage = async (sectionId: string, updateData: UpdateImage) => {
+export const updateSectionImage = async (portfolioId: string, sectionId: string, updateData: UpdateImage) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -58,10 +59,13 @@ export const updateSectionImage = async (sectionId: string, updateData: UpdateIm
 		},
 		body: JSON.stringify(updateData)
 	});
+
+	revalidatePath(`admin/portfolios/${portfolioId}`);
+
 	return response.json();
 };
 
-export const uploadSectionImage = async (sectionId: string, formData: FormData) => {
+export const uploadSectionImage = async (portfolioId: string, sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -74,6 +78,8 @@ export const uploadSectionImage = async (sectionId: string, formData: FormData) 
 			body: formData,
 		});
 
+		revalidatePath(`admin/portfolios/${portfolioId}`);
+
 		return response.json();
 	} catch (error) {
 		console.error("There has been a problem with your fetch operation: ", error);
@@ -81,7 +87,7 @@ export const uploadSectionImage = async (sectionId: string, formData: FormData) 
 	}
 };
 
-export const uploadSectionImageText = async (sectionId: string, formData: FormData) => {
+export const uploadSectionImageText = async (portfolioId: string, sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -94,6 +100,8 @@ export const uploadSectionImageText = async (sectionId: string, formData: FormDa
 				body: formData,
 		});
 
+		revalidatePath(`admin/portfolios/${portfolioId}`);
+
 		return response.json();
 	} catch (error) {
 		console.error("There has been a problem with your fetch operation: ", error);
@@ -101,7 +109,7 @@ export const uploadSectionImageText = async (sectionId: string, formData: FormDa
 	}
 };
 
-export const updateSectionText = async (sectionId: string, updateData: UpdateText) => {
+export const updateSectionText = async (portfolioId: string, sectionId: string, updateData: UpdateText) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -111,13 +119,17 @@ export const updateSectionText = async (sectionId: string, updateData: UpdateTex
 			'content-type': 'application/json',
 			'token': token?.value!
 		},
+
+		
 		body: JSON.stringify(updateData)
 	});
+	
+	revalidatePath(`admin/portfolios/${portfolioId}`);
 
 	return response.json();
 };
 
-export const updateSectionImageText = async (sectionId: string, updateData: UpdateImageText) => {
+export const updateSectionImageText = async (portfolioId: string, sectionId: string, updateData: UpdateImageText) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -129,6 +141,8 @@ export const updateSectionImageText = async (sectionId: string, updateData: Upda
 		},
 		body: JSON.stringify(updateData)
 	});
+
+	revalidatePath(`admin/portfolios/${portfolioId}`);
 
 	return response.json();
 };
@@ -233,7 +247,7 @@ export const updateSectionGallery = async (position: 1 | 2 | 3, sectionId: strin
 	return response.json();
 };
 
-export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: string, formData: FormData) => {
+export const uploadSectionGallery = async (position: 1 | 2 | 3, portfolioId: string, sectionId: string, formData: FormData) => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get("token");
 
@@ -245,6 +259,8 @@ export const uploadSectionGallery = async (position: 1 | 2 | 3, sectionId: strin
 			},
 			body: formData,
 		});
+
+		revalidatePath(`admin/portfolios/${portfolioId}`);
 
 		return response.json();
 	} catch (error) {

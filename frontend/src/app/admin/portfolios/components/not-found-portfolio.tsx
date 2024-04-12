@@ -1,21 +1,30 @@
+import NotFoundGraphic from "@/svg/404.not-found";
 import Link from "next/link";
 
-export default function NotFoundPortfolio() {
+type Props = {
+	message: string;
+};
+
+const NotFoundPortfolio: React.FC<Props> = ({ message }) => {
 	return (
-		<div className="flex min-h-full flex-col justify-center align-center px-6 py-12 lg:px-8 h-screen items-center space-y-8 bg-white">
-			<h2 className="mt-5 text-center text-6xl font-bold leading-9 tracking-tight text-gray-900">
-				Not Found
-			</h2>
-			<div
-				className="flex items-center flex-col m-y-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative space-y-6"
-				role="alert"
-			>
-				<p className="font-bold">Error:</p>
-				<p className="text-sm">Could not find the portfolio 😵‍💫</p>
+		<div className="h-screen min-h-full">
+			<div className="flex flex-col md:flex-row justify-center items-center h-full">
+				<section className="w-full md:w-1/2">
+					<NotFoundGraphic />
+				</section>
+				<section className="w-full md:w-1/2">
+					<h2 className="mt-5 mb-10 text-center text-3xl lg:text-6xl font-bold leading-9 tracking-tight text-stone-700">
+						{ message }
+					</h2>
+					<div className="text-center">
+						<Link className="bg-blue-600 text-white py-2 px-3 rounded-xl font-semibold text-xl mb-10" href="/admin/portfolio-management">
+							Go back
+						</Link>
+					</div>
+				</section>
 			</div>
-			<Link className="text-sky-600" href="/admin/portfolio-management">
-				Return Portfolio Management
-			</Link>
 		</div>
 	);
-}
+};
+
+export default NotFoundPortfolio;

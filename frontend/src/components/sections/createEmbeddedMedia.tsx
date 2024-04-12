@@ -1,8 +1,7 @@
 'use client';
 
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
+import { useAppSelector } from '@/store';
 import { Button } from '@nextui-org/react';
 
 import { ChangeEvent, FC, useEffect, useState } from 'react';
@@ -12,10 +11,10 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 type Props = {
 	portfolioId: string;
 	order: number;
+	onCloseModal: () => void;
 };
 
-const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
-	const dispatch = useAppDispatch();
+const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) => {
 	const reloading = useAppSelector((state) => state.reloading.reloading);
 	const [isOpen, setIsOpen] = useState(false);
 	const [code, setCode] = useState('');
@@ -46,12 +45,10 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order }) => {
 		}
 
 		try {
-			dispatch(setReloading(true)); // reloading true
 			await createSectionEmbeddedMedia(portfolioId, order, code);
+			onCloseModal();
 		} catch (error) {
 			console.error('Error creating embedded-media:', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 
