@@ -4,7 +4,7 @@ export interface User {
   createdAt: string;
   email: string;
   imageUrl: string;
-  jobTitle : string;
+  jobTitle: string;
   name: string;
   schedule: string;
   updatedAt: string;

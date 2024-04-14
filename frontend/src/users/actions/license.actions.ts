@@ -13,10 +13,13 @@ export const updateLicense = async (license: License) => {
   const tokenDecoded = jwt.decode(token!.value) as Token | null;
 
   //* Setting dates for the license
-  const currentDate = new Date();
-  const startDate = currentDate.toLocaleDateString('en-CA');
-  currentDate.setFullYear(currentDate.getFullYear() + 1);
-  const endDate = currentDate.toLocaleDateString('en-CA');
+  const currentDateUTC = new Date();
+  const startDate = new Date(currentDateUTC.getTime() - currentDateUTC.getTimezoneOffset() * 60000);
+  // const endDate = new Date(startDate);
+  // endDate.setFullYear(startDate.getFullYear() + 1);
+
+  //* set the endDAte in 10 sec for test
+  const endDate = new Date(startDate.getTime() + 10 * 1000);
 
   try {
     const response = await fetch(`${API_URL}/api/license/${license.id}`, {
@@ -40,7 +43,6 @@ export const updateLicense = async (license: License) => {
     //? console.log(data); // Uncomment this for debugging purposes
 
     return data;
-    
   } catch (error) {
     console.error("There was a problem with your fetch operation: ", error);
     throw error;

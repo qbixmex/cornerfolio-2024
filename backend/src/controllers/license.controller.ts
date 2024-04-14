@@ -103,8 +103,8 @@ export const update = async (
       { _id: id },
       {
         type: payload.type ?? undefined,
-        startDate: payload.startDate ?? undefined,
-        endDate: payload.endDate ?? undefined,
+        startDate: payload.startDate !== undefined ? payload.startDate : null,
+        endDate: payload.endDate !== undefined ? payload.endDate : null,
       }, { new: true })
 
     return response.status(200).json({
