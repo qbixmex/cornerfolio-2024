@@ -1,15 +1,16 @@
 import { License } from "../models";
+import schedule from "node-schedule";
 
-const schedule = require('node-schedule');
-
-export const dailyLicenseCheck = schedule.scheduleJob("*/5 * * * * *", async () => {    //* this is just to check if works correctly every 5 seconds
-    // export const dailyLicenseCheck = schedule.scheduledJob("0 0 * * *", async () => {    //* this will check license expiration at 00:00 everyday
+export const dailyLicenseCheck = schedule.scheduleJob(
+    "0 0 * * * *", //* this is just to check if works correctly every 24 hours
+    async () => {
+    // export const dailyLicenseCheck = schedule.scheduledJob("0 0 * * *", async () => { //* this will check license expiration at 00:00 everyday
     const currentDateUTC = new Date();
     const localCurrentDate = new Date(currentDateUTC.getTime() - currentDateUTC.getTimezoneOffset() * 60000);
-    console.log("Today's date: ", localCurrentDate);
+    // console.log("Today's date: ", localCurrentDate);
 
     try {
-        console.log("Implementing every 5 seconds");
+        console.log("Implementing every 24 hours");
 
         const licenses = await License.find();
         for (const license of licenses) {

@@ -54,6 +54,6 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/license', licenseRoutes);
 
 //* Check license expiration once a day
-dailyLicenseCheck
+dailyLicenseCheck;
 
 export default app;

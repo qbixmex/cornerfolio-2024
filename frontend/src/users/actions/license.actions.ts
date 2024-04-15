@@ -15,11 +15,8 @@ export const updateLicense = async (license: License) => {
   //* Setting dates for the license
   const currentDateUTC = new Date();
   const startDate = new Date(currentDateUTC.getTime() - currentDateUTC.getTimezoneOffset() * 60000);
-  // const endDate = new Date(startDate);
-  // endDate.setFullYear(startDate.getFullYear() + 1);
-
-  //* set the endDAte in 10 sec for test
-  const endDate = new Date(startDate.getTime() + 10 * 1000);
+  const endDate = new Date(startDate);
+  endDate.setFullYear(startDate.getFullYear() + 1);
 
   try {
     const response = await fetch(`${API_URL}/api/license/${license.id}`, {
