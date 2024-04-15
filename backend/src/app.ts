@@ -2,20 +2,22 @@ import cors from "cors";
 import express from "express";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
+import { dailyLicenseCheck } from "./jobs/licenseCheck";
 import {
-	usersRoutes,
 	authRoutes,
-	sectionTextRoutes,
+	licenseRoutes,
+	portfolioRoutes,
+	sectionColumnRoutes,
+	sectionDividerRoutes,
+	sectionEmbeddedMediaRoutes,
+	sectionGalleryRoutes,
 	sectionImageRoutes,
 	sectionImageTextRoutes,
-	sectionEmbeddedMediaRoutes,
-	sectionDividerRoutes,
-	sectionColumnRoutes,
-  sectionGalleryRoutes,
+	sectionTextRoutes,
 	seedRoutes,
-	portfolioRoutes,
-	licenseRoutes,
+	usersRoutes,
 } from './routes';
+
 
 //* Start Express
 const app = express();
@@ -27,11 +29,11 @@ app.use(morgan("dev"));
 
 //* File Upload
 app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-    createParentPath: true,
-  })
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: "/tmp/",
+		createParentPath: true,
+	})
 );
 
 //*Cors
@@ -46,9 +48,12 @@ app.use('/api/section-image-text', sectionImageTextRoutes);
 app.use('/api/section-embedded-media', sectionEmbeddedMediaRoutes);
 app.use('/api/section-divider', sectionDividerRoutes);
 app.use('/api/section-column', sectionColumnRoutes);
-app.use('/api/section-gallery',sectionGalleryRoutes);
+app.use('/api/section-gallery', sectionGalleryRoutes);
 app.use('/api/seed', seedRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/license', licenseRoutes);
+
+//* Check license expiration once a day
+dailyLicenseCheck;
 
 export default app;
