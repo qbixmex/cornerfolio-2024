@@ -1,6 +1,6 @@
 {
 	"name": "cornerfolio_backend",
-	"version": "0.21.0",
+	"version": "0.21.1",
 	"description": "Final Program Project",
 	"main": "server.js",
 	"scripts": {
@@ -30,6 +30,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.2.0",
 		"morgan": "^1.10.0",
+		"node-schedule": "^2.1.1",
 		"nodemailer": "^6.9.10",
 		"uuid": "^9.0.1"
 	},
@@ -40,6 +41,7 @@
 		"@types/jsonwebtoken": "^9.0.5",
 		"@types/morgan": "^1.9.9",
 		"@types/node": "^20.11.20",
+		"@types/node-schedule": "^2.1.7",
 		"@types/nodemailer": "^6.4.14",
 		"@types/uuid": "^9.0.8",
 		"dotenv-cli": "^7.3.0",
