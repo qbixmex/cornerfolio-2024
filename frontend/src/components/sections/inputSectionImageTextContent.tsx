@@ -1,16 +1,15 @@
 import { SectionImageText } from '@/interfaces';
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
+	portfolioId: string;
 	section: SectionImageText;
 };
 
@@ -21,9 +20,8 @@ const formSchema = yup.object().shape({
 		.required('txtContent is required !'),
 });
 
-const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
+const InputSectionImageTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
-	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.txtContentSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
@@ -39,22 +37,20 @@ const InputSectionImageTextContent: React.FC<Props> = ({ section }) => {
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-
-				const data = await updateSectionImageText(section.item.id, {
+				const data = await updateSectionImageText(portfolioId, section.item.id, {
 					...formData,
 					txtContentSize: fontSize,
 				});
+
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
-				} else {
+				}
+				if (data.message) {
 					setToast({ message: data.message, type: 'success' });
 				}
 				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
 				console.error('Error updating image-text:', error);
-			} finally {
-				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});

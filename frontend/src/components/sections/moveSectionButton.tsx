@@ -1,7 +1,4 @@
-import { useAppDispatch } from '@/store';
-
 import { moveSectionUpDown } from '@/portfolios/actions/portfolio.action';
-import { setReloading } from '@/store/slices/reload.slice';
 import { Button } from '@nextui-org/react';
 import { FaAnglesDown, FaAnglesUp } from 'react-icons/fa6';
 
@@ -18,16 +15,11 @@ const MoveSectionsUpDownButton: React.FC<Props & { isFirst: boolean; isLast: boo
 	isFirst,
 	isLast,
 }) => {
-	const dispatch = useAppDispatch();
-
 	const handleUpdate = async (action: 'up' | 'down') => {
 		try {
-			dispatch(setReloading(true)); // reloading true
 			await moveSectionUpDown(portfolioId, sectionId, action);
 		} catch (error) {
 			console.error('Error updating text:', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

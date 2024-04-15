@@ -1,22 +1,17 @@
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionDivider } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
-import { useAppDispatch } from '@/store';
 
 type Props = {
+	portfolioId: string;
 	sectionId: string;
 };
 
-const DeleteDivider: React.FC<Props> = ({ sectionId }) => {
-	const dispatch = useAppDispatch()
+const DeleteDivider: React.FC<Props> = ({ portfolioId, sectionId }) => {
 	const handleDeleteDivider = async () => {
 		try {
-			dispatch(setReloading(true)); // reloading true
-			await deleteSectionDivider(sectionId)
+			await deleteSectionDivider(portfolioId, sectionId)
 		} catch (error) {
 			console.error('Error deleting text:', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

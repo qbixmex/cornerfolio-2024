@@ -1,6 +1,4 @@
 import { createSectionColumn } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
-import { useAppDispatch } from '@/store';
 import { PiTextColumns } from 'react-icons/pi';
 import { Button } from '@nextui-org/react';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
@@ -8,18 +6,16 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 type Props = {
 	portfolioId: string;
 	order: number;
+	onCloseModal: () => void;
 };
 
-const CreateColumn: React.FC<Props> = ({ portfolioId, order }) => {
-	const dispatch = useAppDispatch()
+const CreateColumn: React.FC<Props> = ({ portfolioId, order, onCloseModal }) => {
 	const handleCreateColumn = async () => {
 		try {
-			dispatch(setReloading(true)); // reloading true
-			await createSectionColumn(portfolioId, order)
+			await createSectionColumn(portfolioId, order);
+			onCloseModal();
 		} catch (error) {
 			console.error('Error creating column', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

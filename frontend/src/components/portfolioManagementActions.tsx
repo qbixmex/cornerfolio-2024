@@ -1,10 +1,10 @@
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
-import Link from "next/link";
-import PortfolioEditTitle from "./PortfolioEditTitle";
-import DeletePortfolioButton from "./deletePortfolioButton";
-import DraftButton from "./saveAsDraftButton";
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import Link from 'next/link';
+import PortfolioEditTitle from './PortfolioEditTitle';
+import DeletePortfolioButton from './deletePortfolioButton';
+import DraftButton from './saveAsDraftButton';
 
 type PortfolioHeader = {
 	title: string;
@@ -22,6 +22,7 @@ export type Portfolio = {
 	header: PortfolioHeader;
 	status: string;
 	sections: any[];
+	user: any;
 	footer: PortfolioFooter;
 	template: string;
 	tinyUrlId: string;
@@ -32,6 +33,7 @@ type Props = {
 };
 
 export default function PortfolioManagementActions({ portfolios }: Props) {
+
 	return (
 		<>
 			{portfolios.length === 0 ? (
@@ -78,11 +80,11 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 									</Link>
 
 									<div className="flex justify-between absolute w-full bottom-0 z-10 p-4">
-										<DraftButton status={portfolio.status} />
+										<DraftButton statusPortfolio={portfolio.status} id={portfolio.id} />
 										<DeletePortfolioButton id={portfolio.id} />
 									</div>
 									<div className="flex w-6 justify-end absolute top-0 z-100 mt-3 text-white">
-										{portfolio.status === "draft" ? (
+										{portfolio.status === 'draft' ? (
 											<FontAwesomeIcon icon={faEyeSlash} />
 										) : (
 											<FontAwesomeIcon icon={faEye} />

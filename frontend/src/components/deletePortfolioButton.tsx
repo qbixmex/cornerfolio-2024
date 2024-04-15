@@ -1,9 +1,13 @@
 'use client';
 
 import { deletePortfolio } from '@/api/deletePortfolioById.fetch';
+import { useAppDispatch } from '@/store';
+import { setToast } from '@/store/slices/toast.slice';
 import Swal from 'sweetalert2';
 
 function DeletePortfolioButton({ id }: { id: string }) {
+
+	const dispatch = useAppDispatch();
 	
 	const deletePortfolioById = async (id: string) => {
 		Swal.fire({
@@ -17,6 +21,7 @@ function DeletePortfolioButton({ id }: { id: string }) {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				await deletePortfolio(id);
+				dispatch(setToast({ message: "Portfolio deleted successfully", type: "success" }));
 			}
 		});
 	};

@@ -10,12 +10,15 @@ import { usePathname } from 'next/navigation';
 import { logout } from '@/app/login/actions/logout.action';
 import { useRouter } from 'next/navigation';
 import { MdLogout } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { resetToast, setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	authenticatedUser?: AuthenticatedUser;
 };
 
 const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
+	const dispatch = useDispatch();
 	const pathname = usePathname();
 	const router = useRouter();
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
@@ -37,9 +40,13 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	};
 
 	const handleLogout = () => {
-		logout();
-		router.refresh();
-		router.push('/login');
+		dispatch(setToast({ message: 'Logged out successfully', type: 'success' }))
+		setTimeout(() => {
+			logout();
+			router.refresh();
+			dispatch(resetToast());
+			router.push('/login');
+		}, 2000);
 	};
 
 	return (

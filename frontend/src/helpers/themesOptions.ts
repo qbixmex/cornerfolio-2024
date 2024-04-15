@@ -1,3 +1,5 @@
+import { Theme } from "@/context/portfolio-theme-context";
+
 export const modernTheme = {
 	HeaderInputField: {
 		inputBg: 'bg-transparent',

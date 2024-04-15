@@ -1,6 +1,4 @@
 import { createSectionText } from '@/sections/actions/section.action';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import { Button } from '@nextui-org/react';
 import { BiText } from 'react-icons/bi';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
@@ -8,18 +6,16 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 type Props = {
 	portfolioId: string;
 	order: number;
+	onCloseModal: () => void;
 };
 
-const CreateText: React.FC<Props> = ({ portfolioId, order }) => {
-	const dispatch = useAppDispatch();
+const CreateText: React.FC<Props> = ({ portfolioId, order, onCloseModal }) => {
 	const handleCreateText = async () => {
 		try {
-			dispatch(setReloading(true)); // reloading true
 			await createSectionText(portfolioId, order);
+			onCloseModal();
 		} catch (error) {
 			console.error('Error creating text', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

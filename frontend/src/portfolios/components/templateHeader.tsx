@@ -1,20 +1,19 @@
 'use client';
 
 import { updatePortfolioHeader } from '@/api/updatePortfolioHeader';
+import { Theme } from '@/context/portfolio-theme-context';
 import { IPortfolio } from '@/interfaces';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { Button } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 
 type Props = {
 	portfolio: IPortfolio;
+	theme: Theme;
 };
 
 const formSchema = yup.object().shape({
@@ -30,10 +29,7 @@ type Header = {
 	subHeading: string;
 };
 
-export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
-	const dispatch = useAppDispatch();
-	const { theme } = useTheme();
-
+export const TemplateHeader: React.FC<Props> = ({ portfolio, theme }) => {
 	const formik = useFormik<Header>({
 		initialValues: {
 			title: portfolio.header.title,
@@ -42,19 +38,16 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-
 				const data = await updatePortfolioHeader(portfolio.id, formData);
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
-				} else {
-					setToast({ message: data.message, type: 'success' });
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
+				if (data.message) {
+					setToast({ message: data.message, type: 'success' });
+					setTimeout(() => setToast({ message: '', type: '' }), 4000);
+				}
 			} catch (error) {
 				console.error('Error updating header:', error);
-			} finally {
-				dispatch(setReloading(false)); // reloading false
 			}
 		},
 	});
@@ -68,16 +61,16 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 		<>
 			{toast.message && (
 				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
+					className={`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 bg-${
 						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
+					}-500 ${styles.slideLeft}`}
 				>
 					{toast.message}
 				</div>
 			)}
 
 			<div
-				className={`py-[30px] px-[80px] border-b-gray-300 border-2 ${
+				className={`py-[30px] px-[80px] border-b-gray-300 border-2 mb-5 ${
 					theme === 'modern' ? modern.headerBackGroundColor : ''
 				}`}
 			>
@@ -126,8 +119,8 @@ export const TemplateHeader: React.FC<Props> = ({ portfolio }) => {
 					<Button
 						type="submit"
 						className={clsx(
-							"bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent",
-							{ "hidden": formik.errors.title || formik.errors.subHeading }
+							'bg-gradient-to-tr from-blue-900 to-purple-900 text-white px-8 flex items-center justify-center text-xs rounded-md  h-8 w-10 hover:bg-transparent',
+							{ hidden: formik.errors.title || formik.errors.subHeading },
 						)}
 					>
 						Save

@@ -15,16 +15,17 @@ type Section =
 type Props = {
   sections: Section[];
   portfolioId: string;
+  theme: string;
 };
 
-const SectionsList: React.FC<Props> = ({ sections, portfolioId }) => {
+const SectionsList: React.FC<Props> = ({ sections, portfolioId, theme }) => {
   return (
     <div>
       {sections.map((section, index) => (
         <div key={section.item.id} className=''>
           <div className='flex justify-between'>
             <div className='mb-5 border-b ml-5 mr-5 w-full'>
-              <RenderSection section={section} />
+              <RenderSection portfolioId={portfolioId} section={section} />
             </div>
             <MoveSectionsUpDownButton
               portfolioId={portfolioId}
@@ -33,10 +34,20 @@ const SectionsList: React.FC<Props> = ({ sections, portfolioId }) => {
               isLast={index === sections.length - 1}
             />
           </div>
-          {index !== sections.length - 1 && <ChooseSection portfolioId={portfolioId} order={index + 1} />}
+          {index !== sections.length - 1 && (
+            <ChooseSection
+              portfolioId={portfolioId}
+              order={index + 1}
+              theme={theme}
+            />
+          )}
         </div>
       ))}
-      <ChooseSection portfolioId={portfolioId} order={sections.length}/>
+      <ChooseSection
+        portfolioId={portfolioId}
+        order={sections.length}
+        theme={theme}
+      />
     </div>
   );
 };

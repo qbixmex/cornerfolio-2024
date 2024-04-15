@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import LicensePopup from "@/components/licensePopup";
-import { useState } from "react";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
@@ -15,6 +15,13 @@ type Props = {
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
+	useEffect(() => {
+		// Remove the data-theme attribute
+		document.documentElement.removeAttribute('data-theme');
+		// Remove the style attribute
+		document.documentElement.removeAttribute('style');
+	}, []);
+  
   const [toast, setToast] = useState({
     message: "",
     type: "",
@@ -37,15 +44,13 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
     <section className="relative">
       {toast.message && (
         <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green"
-            }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft
-            }`}
+          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green" }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft }`}
         >
           {toast.message}
         </div>
       )}
 
-      <section className="w-[80%] mx-auto py-10">
+      <section className="w-[95%] md:w-[80%] mx-auto py-10">
         <h1 className="text-6xl text-slate-700 font-semibold tracking-tight mb-10">
           User Profile
         </h1>
@@ -70,14 +75,14 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
         <hr className="border-b-1 w-full mb-10" />
 
-        <h2 className="text-4xl text-slate-700 font-semibold tracking-tight mb-10">
+        <h2 className="text-4xl text-stone-700 font-semibold tracking-tight mb-10">
           Membership
         </h2>
 
         <section>
-          <section className="grid grid-cols-2">
-            <section className="flex gap-3 items-center">
-              <h3 className="text-3xl text-slate-500 font-semibold tracking-tight">
+          <section className="grid grid-cols-1 lg:grid-cols-2">
+            <section className="flex gap-x-5 items-center  w-full">
+              <h3 className="text-3xl text-stone-600 font-semibold tracking-tight">
                 Current Plan
               </h3>
               <div className={`${user.license.type === "free" ? "bg-gray-200 text-gray-700" : "bg-orange-500 text-white"} font-bold text-lg text-slate-900 w-fit px-5 py-2 rounded`}>
@@ -128,20 +133,24 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
           {(user.license.type === "premium") && (
             <section className="mt-5">
               <table>
-                <tr className="border-b">
-                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">Start Date:</th>
-                  <td className="font-semibold text-blue-700 p-2">
-                    { moment(user.license?.startDate).utc().format('MMMM D, YYYY') }
-                  </td>
-                </tr>
+                <tbody>
+                  <tr className="border-b">
+                    <th className="font-bold text-slate-700 p-2 w-[110px] text-left">Start Date:</th>
+                    <td className="font-semibold text-blue-700 p-2">
+                      { moment(user.license?.startDate).utc().format('MMMM D, YYYY') }
+                    </td>
+                  </tr>
+                </tbody>
               </table>
               <table>
-                <tr className="border-b">
-                  <th className="font-bold text-slate-700 p-2 w-[110px] text-left">End Date:</th>
-                  <td className="font-semibold text-blue-700 p-2">
-                    { moment(user.license?.endDate).utc().format('MMMM D, YYYY') }
-                  </td>
-                </tr>
+                <tbody>
+                  <tr className="border-b">
+                    <th className="font-bold text-slate-700 p-2 w-[110px] text-left">End Date:</th>
+                    <td className="font-semibold text-blue-700 p-2">
+                      { moment(user.license?.endDate).utc().format('MMMM D, YYYY') }
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </section>
           )}
@@ -149,11 +158,13 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
         <hr className="border-b-1 w-full my-10" />
 
-        <section className="grid grid-cols-2">
-          <h2 className="text-4xl text-red-500 font-semibold tracking-tight mb-10">
+        <section className="block lg:flex lg:items-center lg:gap-x-3 w-full">
+          <h2 className="lg:w-4/12 text-3xl text-stone-700 font-semibold tracking-tight mb-6 lg:mb-0">
             Delete Account
           </h2>
-          <DeleteAccount userId={user.id} />
+          <div className="lg:w-8/12 h-auto">
+            <DeleteAccount userId={user.id} />
+          </div>
         </section>
       </section>
     </section>

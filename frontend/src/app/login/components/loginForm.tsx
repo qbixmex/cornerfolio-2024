@@ -8,7 +8,8 @@ import clsx from 'clsx';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import * as yup from 'yup';
-import styles from '../login.module.css';
+import { useAppDispatch } from '@/store';
+import { setToast } from '../../../store/slices/toast.slice';
 
 const formSchema = yup.object().shape({
   email: yup
@@ -33,11 +34,7 @@ const FORM_DATA: FormData = {
 
 export function LoginForm() {
   const router = useRouter();
-
-  const [ toast, setToast ] = useState({
-    message: "",
-    type: "",
-  });
+  const dispatch = useAppDispatch();
 
   const formik = useFormik<FormData>({
     initialValues: FORM_DATA,
@@ -46,18 +43,17 @@ export function LoginForm() {
       const data = await fetchLogin(formData);
 
       if (data.error) {
-        setToast({ message: data.error, type: "error" });
-        setTimeout(() => setToast({ message: "", type: "" }), 2500);
-        formik.resetForm();
-      } else {
-        setCookie('token', data.token);
-        setToast({ message: data.message!, type: "success" });
-        formik.resetForm();
-        setTimeout(() => setToast({ message: "", type: "" }), 2500);
-        setTimeout(() => {
-          router.push('/admin/portfolio-management');
-        }, 2000);
+        dispatch(setToast({ message: data.error, type: "error" }));
       }
+
+      if (data.message) {
+        setCookie('token', data.token);
+        dispatch(setToast({ message: data.message, type: "success" }));
+      } 
+
+      formik.resetForm();
+
+      router.push('/admin/portfolio-management');
     },
   });
 
@@ -78,15 +74,6 @@ export function LoginForm() {
           Login
         </h1>
       </div>
-
-      {toast.message && (
-        <div className={
-        clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`,
-        {
-          "bg-red-500": toast.type === "error",
-          "bg-green-500": toast.type === "success",
-        }
-      )}>{toast.message}</div>)}
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={formik.handleSubmit}>

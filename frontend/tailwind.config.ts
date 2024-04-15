@@ -14,35 +14,6 @@ const config: Config = {
 		extend: {},
 	},
 	darkMode: 'class',
-	plugins: [
-		nextui({
-			themes: {
-				light: {
-					layout: {},
-					colors: {},
-				},
-				dark: {
-					layout: {},
-					colors: {},
-				},
-				modern: {
-					colors: {
-						background: '#13141A',
-						primary: {
-							50: '#3B096C',
-							100: '#520f83',
-						},
-					},
-					layout: {
-						radius: {
-							small: '0.5rem',
-							medium: '1rem',
-							large: '1.5rem',
-						},
-					},
-				},
-			},
-		}),
-	],
+	plugins: [nextui({})],
 };
 export default config;

@@ -69,7 +69,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       onSubmit={formik.handleSubmit}
       encType="multipart/form-data"
     >
-      <section className="grid grid-cols-2 w-full gap-10">
+      <section className="grid grid-cols-1 lg:grid-cols-2 w-full gap-x-10">
         <section>
           {/* Name */}
           <section className="mb-5">
@@ -177,7 +177,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
           <section className="mb-5">
             {user.imageUrl ? (
               <img
-                className="object-cover object-top w-[300px] h-[350px] shadow-lg border rounded-lg p-3 mb-5"
+                className="object-cover object-top max-w-lg w-full h-auto shadow-lg border rounded-lg p-3 mb-5"
                 src={user.imageUrl}
                 alt={user.name}
               />
@@ -197,7 +197,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
           </section>
         </section>
       </section>
-      <section className="grid grid-cols-2 w-full gap-10">
+      <section className="grid grid-cols-1 lg:grid-cols-2 w-full gap-x-10">
         <section>
           {/* Start Date */}
           <section className="mb-5">
@@ -230,7 +230,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
               type="date"
               value={ new Date(formik.values.endDate!).toISOString().split("T")[0] }
               onChange={formik.handleChange}
-              className="block w-full h-10 rounded-md border-0 px-4 py-1.5 mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
+              className="block w-full h-10 rounded-md border-0 px-4 py-1.5 lg:mb-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
             />
           </section>
         </section>
@@ -251,7 +251,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
             </label>
           </section>
           {/* Schedule*/}
-          <section className="mb-5">
+          <section className="mb-10 lg:mb-5">
             <label
               htmlFor="schedule"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -275,7 +275,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       <section className="w-full flex justify-start md:justify-end">
         <button
           type="submit"
-          className="flex w-full md:w-[150px] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="flex w-full md:w-[150px] h-14 md:h-auto justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-lg md:text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >update</button>
       </section>
     </form>

@@ -1,30 +1,28 @@
 import { SectionImage } from '@/interfaces';
 import { updateSectionImage } from '@/sections/actions/section.update.action';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 
 type Props = {
+	portfolioId: string;
 	section: SectionImage;
 };
 
 const formSchema = yup.object().shape({
 	caption: yup
 		.string()
-		.min(1, 'Caption must be at least 1 character')
-		.required('Caption is required !'),
+		.required('Image Caption is required !')
+		.min(3, 'Image Caption must be at least 3 characters')
 });
 
-const InputSectionImage: React.FC<Props> = ({ section }) => {
+const InputSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
 
-	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.captionSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
@@ -40,9 +38,7 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 		validationSchema: formSchema,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-
-				const data = await updateSectionImage(section.item.id, {
+				const data = await updateSectionImage(portfolioId, section.item.id, {
 					...formData,
 					captionSize: fontSize,
 				});
@@ -55,10 +51,8 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 			} catch (error) {
 				console.log(error);
 				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
-			} finally {
-				dispatch(setReloading(false)); // reloading false
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
+			setTimeout(() => setToast({ message: '', type: '' }), 4000);
 		},
 	});
 
@@ -80,22 +74,24 @@ const InputSectionImage: React.FC<Props> = ({ section }) => {
 			)}
 
 			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
-				<input
-					id="caption"
-					name="caption"
-					value={formik.values.caption}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.imageInputBackground : ''}
-					${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
-					type="text"
-					style={{ fontSize: true ? fontSize : '' }}
-				/>
-
-				{formik.errors.caption && formik.touched.caption && (
-					<p className="text-red-500 text-xs">{formik.errors.caption}</p>
-				)}
+				<section className="w-full mr-5">
+					<input
+						id="caption"
+						name="caption"
+						value={formik.values.caption}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						autoComplete="off"
+						className={`w-full outline-none bg-transparent mb-2
+						${theme === 'modern' ? modern.imageInputBackground : ''}
+						${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
+						type="text"
+						style={{ fontSize: true ? fontSize : '' }}
+					/>
+					{formik.errors.caption && formik.touched.caption && (
+						<p className="text-red-500 text-xs">{formik.errors.caption}</p>
+					)}
+				</section>
 
 				<ButtonsSize
 					decrementFontSize={decrementFontSize}

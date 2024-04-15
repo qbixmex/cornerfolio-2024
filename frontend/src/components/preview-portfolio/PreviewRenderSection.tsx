@@ -1,12 +1,12 @@
 import {
 	SectionText, SectionImage, SectionEmbeddedMedia, SectionImageText, SectionDivider, SectionColumn, SectionGallery
 } from '@/interfaces';
+import PreviewSectionColumn from './PreviewSectionColumn';
 import PreviewSectionDivider from './PreviewSectionDivider';
 import PreviewSectionImage from './PreviewSectionImage';
-import PreviewSectionText from './PreviewSectionText';
 import PreviewSectionImageText from './PreviewSectionImageText';
-import PreviewSectionColumn from './PreviewSectionColumn';
 import PreviewSectionGallery from './PreviewSectionGallery';
+import PreviewSectionText from './PreviewSectionText';
 
 type Section =
 	| SectionText
@@ -19,27 +19,26 @@ type Section =
 
 type Props = {
 	section: Section;
+	theme: string;
 };
 
-const PreviewRenderSection: React.FC<Props> = ({ section }) => {
+const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
-				<div className='  w-full'>		
-				    <PreviewSectionDivider section={section as SectionDivider} />
+				<div className="  w-full">
+					<PreviewSectionDivider theme={theme} section={section as SectionDivider} />
 				</div>
-			)
-		case 'SectionText':
-			return (	
-				<PreviewSectionText section={section as SectionText} />
 			);
+		case 'SectionText':
+			return <PreviewSectionText theme={theme} section={section as SectionText} />;
 		case 'SectionImage':
-			return <PreviewSectionImage section={section as SectionImage} />;
+			return <PreviewSectionImage theme={theme} section={section as SectionImage} />;
 		case 'SectionImageText':
-			return <PreviewSectionImageText section={section as SectionImageText} />;
+			return <PreviewSectionImageText theme={theme} section={section as SectionImageText} />;
 		case 'SectionEmbeddedMedia':
 			return (
-				<div className='flex justify-center'>
+				<div className="flex justify-center">
 					<div
 						key={section.item.id}
 						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
@@ -47,9 +46,9 @@ const PreviewRenderSection: React.FC<Props> = ({ section }) => {
 				</div>
 			);
 		case 'SectionColumn':
-			return <PreviewSectionColumn section={section as SectionColumn} />;
+			return <PreviewSectionColumn theme={theme} section={section as SectionColumn} />;
 		case 'SectionGallery':
-			return <PreviewSectionGallery section={section as SectionGallery} />;
+			return <PreviewSectionGallery theme={theme} section={section as SectionGallery} />;
 		default:
 			return null;
 	}

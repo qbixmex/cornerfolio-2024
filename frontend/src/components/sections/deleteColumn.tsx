@@ -1,23 +1,19 @@
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionColumn } from '@/sections/actions/section.action';
-import { setReloading } from '@/store/slices/reload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
+	portfolioId: string;
 	sectionId: string;
 };
 
-const DeleteColumn: React.FC<Props> = ({ sectionId }) => {
+const DeleteColumn: React.FC<Props> = ({ portfolioId, sectionId }) => {
 	const dispatch=useAppDispatch()
 	const handleDeleteColumn = async () => {
-		deleteSectionColumn(sectionId)
 		try {
-			dispatch(setReloading(true)); // reloading true
-			await deleteSectionColumn(sectionId)
+			await deleteSectionColumn(portfolioId, sectionId)
 		} catch (error) {
 			console.error('Error deleting column:', error);
-		} finally {
-			dispatch(setReloading(false)); // reloading false
 		}
 	};
 

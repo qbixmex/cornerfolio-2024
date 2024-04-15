@@ -9,7 +9,7 @@ import styles from '@/users/components/profile.module.css';
 import { Button } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
 import * as yup from 'yup';
 

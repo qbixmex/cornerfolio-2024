@@ -1,17 +1,15 @@
+import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
 import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
-import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useTheme } from '@/context/portfolio-theme-context';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
-import clsx from 'clsx';
 
 type Props = {
+	portfolioId: string;
 	section: SectionText;
 };
 
@@ -22,9 +20,8 @@ const formSchemaHeading = yup.object().shape({
 		.required('Heading is required !'),
 });
 
-const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
+const InputSectionTextHeading: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
-	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.headingSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
@@ -39,25 +36,24 @@ const InputSectionTextHeading: React.FC<Props> = ({ section }) => {
 		validationSchema: formSchemaHeading,
 		onSubmit: async (formData) => {
 			try {
-				dispatch(setReloading(true)); // reloading true
-
-				const data = await updateSectionText(section.item.id, {
+				const data = await updateSectionText(portfolioId, section.item.id, {
 					...formData,
 					headingSize: fontSize,
 				});
 
 				if (data.error) {
 					setToast({ message: data.error, type: 'error' });
-				} else {
+				}
+
+				if (data.message) {
 					setToast({ message: data.message, type: 'success' });
+					setTimeout(() => setToast({ message: '', type: '' }), 4000);
 				}
 			} catch (error) {
 				console.error(error);
 				setToast({ message: 'Error updating text, check logs !', type: 'error' });
-			} finally {
-				dispatch(setReloading(false)); // reloading false
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
+
 		},
 	});
 
