@@ -1,13 +1,16 @@
 import Swal from 'sweetalert2';
 import { deleteUser } from '@/users/actions/user.actions';
-
-
+import { useDispatch } from 'react-redux';
+import { resetToast, setToast } from '@/store/slices/toast.slice';
+import { redirect } from 'next/navigation';
 
 type Props = {
 	userId: string;
 };
 
 const DeleteAccount: React.FC<Props> = ({ userId }) => {
+	const dispatch = useDispatch();
+
 	const handleDeleteUser = () => {
 
 		Swal.fire({

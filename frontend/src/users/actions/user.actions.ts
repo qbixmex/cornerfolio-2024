@@ -109,7 +109,7 @@ export const deleteUser = async (id: string) => {
   });
 
   revalidateTag("users-table");
-  redirect("/admin/users");
 
-  return response.json();
+  redirect("/admin/users");
+  
 };
