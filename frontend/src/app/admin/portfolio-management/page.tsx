@@ -1,11 +1,11 @@
 import { portFoliosFetch } from "@/api/portfolios.fetch";
-import PortfolioManagementBody from "@/components/portfolioManagementBody";
+import PortfolioManagement from "@/components/portfolioManagement";
 
 const TemplateManagementPage = async () => {
 	const data = await portFoliosFetch();
 
 	return (
-		<PortfolioManagementBody data={data} />
+		<PortfolioManagement data={data} />
 	);
 };
 

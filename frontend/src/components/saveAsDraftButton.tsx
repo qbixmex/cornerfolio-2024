@@ -3,6 +3,8 @@
 import { unPublishPortfolio } from '@/portfolios/actions/portfolio.action';
 import { FormEvent, useState } from 'react';
 import styles from '@/users/components/profile.module.css';
+import { useAppDispatch } from '@/store';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	statusPortfolio: string;
@@ -10,11 +12,9 @@ type Props = {
 };
 
 function DraftButton({ statusPortfolio, id }: Props) {
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
 
+	const dispatch = useAppDispatch();
+	
 	const handleUnPublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
@@ -22,12 +22,12 @@ function DraftButton({ statusPortfolio, id }: Props) {
 			const data = await unPublishPortfolio(id);
 
 			if (data.error) {
-				setToast({ message: data.error, type: 'error' });
-			} else {
-				setToast({ message: data.message, type: 'success' });
+				dispatch(setToast({ message: data.error, type: 'error' }));
 			}
 
-			setTimeout(() => setToast({ message: '', type: '' }), 3000);
+			if (data.message) {
+				dispatch(setToast({ message: data.message, type: 'success' }));
+			}
 		} catch (error) {
 			console.error('Error publishing portfolio:', error);
 		}
@@ -36,21 +36,13 @@ function DraftButton({ statusPortfolio, id }: Props) {
 	return (
 		<>
 			<form onSubmit={handleUnPublishPortfolio}>
-				{toast.message && (
-					<div
-						className={`absolute z-[1000] left-2 right-2 w-11/12 bg-${toast.type === 'error' ? 'red' : 'green'
-							}-500 text-white text-sx text-center px-1 py-1 rounded-md mb-2 ${styles.shadow}`}
-					>
-						{toast.message}
-					</div>
-				)}
 				{statusPortfolio !== 'draft' && (
 					<button
 						type="submit"
 						className="flex justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 						disabled={statusPortfolio === 'draft'}
 					>
-						Save as Draft
+						un-publish
 					</button>
 				)}
 			</form>

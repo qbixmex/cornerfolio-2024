@@ -53,6 +53,7 @@ const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
       <ManageStatus
         portfolioId={portfolio.id}
         tinyUrlId={portfolio.tinyUrlId}
+        status={portfolio.status}
         setToast={setToast}
       />
 
