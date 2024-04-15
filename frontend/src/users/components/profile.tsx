@@ -1,27 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import LicensePopup from "@/components/licensePopup";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
 import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
-import moment from "moment";
 
 type Props = {
   user: UserResponse;
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
-	useEffect(() => {
-		// Remove the data-theme attribute
-		document.documentElement.removeAttribute('data-theme');
-		// Remove the style attribute
-		document.documentElement.removeAttribute('style');
-	}, []);
-  
+  useEffect(() => {
+    // Remove the data-theme attribute
+    document.documentElement.removeAttribute('data-theme');
+    // Remove the style attribute
+    document.documentElement.removeAttribute('style');
+  }, []);
+
   const [toast, setToast] = useState({
     message: "",
     type: "",
@@ -44,7 +44,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
     <section className="relative">
       {toast.message && (
         <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green" }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft }`}
+          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green"}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
         >
           {toast.message}
         </div>
@@ -86,7 +86,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                 Current Plan
               </h3>
               <div className={`${user.license.type === "free" ? "bg-gray-200 text-gray-700" : "bg-orange-500 text-white"} font-bold text-lg text-slate-900 w-fit px-5 py-2 rounded`}>
-                { (user.license.type === "free" ) ? "Free" : "Premium" }
+                {(user.license.type === "free") ? "Free" : "Premium"}
               </div>
             </section>
             {
@@ -132,27 +132,20 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
           </section>
           {(user.license.type === "premium") && (
             <section className="mt-5">
-              <table>
-                <tbody>
-                  <tr className="border-b">
-                    <th className="font-bold text-slate-700 p-2 w-[110px] text-left">Start Date:</th>
-                    <td className="font-semibold text-blue-700 p-2">
-                      { moment(user.license?.startDate).utc().format('MMMM D, YYYY') }
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <tbody>
-                  <tr className="border-b">
-                    <th className="font-bold text-slate-700 p-2 w-[110px] text-left">End Date:</th>
-                    <td className="font-semibold text-blue-700 p-2">
-                      { moment(user.license?.endDate).utc().format('MMMM D, YYYY') }
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="flex">
+                <p className="font-bold text-slate-700 p-2 w-[110px] text-left border-b">Start Date:</p>
+                <p className="font-semibold text-blue-700 p-2 border-b">
+                  {moment(user.license?.startDate).utc().format('MMMM D, YYYY')}
+                </p>
+              </div>
+              <div className="flex">
+                <p className="font-bold text-slate-700 p-2 w-[110px] text-left border-b">End Date:</p>
+                <p className="font-semibold text-blue-700 p-2 border-b">
+                  {moment(user.license?.endDate).utc().format('MMMM D, YYYY')}
+                </p>
+              </div>
             </section>
+
           )}
         </section>
 
