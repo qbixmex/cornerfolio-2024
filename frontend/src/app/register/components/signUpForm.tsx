@@ -11,6 +11,7 @@ import * as yup from "yup";
 import styles from "./register.module.css";
 import jwt from 'jsonwebtoken';
 import { Token } from '@/interfaces';
+import Link from 'next/link';
 
 const formSchema = yup.object().shape({
   name: yup
@@ -105,9 +106,8 @@ export function SignUpForm() {
     type: "",
   });
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
@@ -200,7 +200,7 @@ export function SignUpForm() {
                 onBlur={formik.handleBlur}
                 autoComplete="off"
                 className={clsx(
-                  "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                  "block w-full rounded-md border-0 py-1.5 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
                   {
                     "border-2 border-red-500 bg-red-100 text-red-800":
                       formik.touched.password && formik.errors.password,
@@ -210,9 +210,7 @@ export function SignUpForm() {
               <div
                 className={clsx(
                   `text-gray-300 absolute right-2 cursor-pointer`,
-                  {
-                    "text-blue-800": showPassword,
-                  }
+                  { "text-blue-800": showPassword }
                 )}
               >
                 {showPassword ? (
@@ -360,12 +358,16 @@ export function SignUpForm() {
               <option value="evening">Evening</option>
             </select>
           </div>
-          <button
-            type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Create Profile
-          </button>
+          <section className="w-full flex flex-col gap-y-3 justify-start items-end lg:items-center lg:flex-row lg:gap-y-0 lg:justify-between">
+            <span className="order-2 lg:order-1 text-right lg:text-left">
+              <span className="text-gray-600 mr-2">Already registered ?</span>
+              <Link className="text-blue-700 hover:text-blue-500" href="/login">Login</Link>
+            </span>
+            <button
+              type="submit"
+              className="flex w-full order-1 lg:order-2 lg:w-fit justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >Register</button>
+          </section>
         </form>
       </div>
     </div>
