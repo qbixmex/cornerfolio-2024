@@ -1,10 +1,9 @@
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 import PortfolioEditTitle from './PortfolioEditTitle';
 import DeletePortfolioButton from './deletePortfolioButton';
 import DraftButton from './saveAsDraftButton';
+import { FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
 
 type PortfolioHeader = {
 	title: string;
@@ -38,22 +37,9 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 		<>
 			{portfolios.length === 0 ? (
 				<div className="max-w-lg mx-auto mt-50vh mt-[10vh]">
-					<div className="flex bg-blue-100 rounded-lg p-4 mb-4 text-sm text-blue-700" role="alert">
-						<svg
-							className="w-5 h-5 inline mr-3"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-								clip-rule="evenodd"
-							></path>
-						</svg>
-						<div>
-							<span className="font-medium">User Info!</span> You do not have any portfolio yet.
-						</div>
+					<div className="flex items-center gap-2 bg-blue-100 rounded-lg p-4 mb-4 text-lg text-blue-700" role="alert">
+						<FaInfoCircle />
+						<span className="font-semibold">There aren't portfolios created yet !</span>
 					</div>
 				</div>
 			) : (
@@ -83,12 +69,8 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 										<DraftButton statusPortfolio={portfolio.status} id={portfolio.id} />
 										<DeletePortfolioButton id={portfolio.id} />
 									</div>
-									<div className="flex w-6 justify-end absolute top-0 z-100 mt-3 text-white">
-										{portfolio.status === 'draft' ? (
-											<FontAwesomeIcon icon={faEyeSlash} />
-										) : (
-											<FontAwesomeIcon icon={faEye} />
-										)}
+									<div className="absolute top-3 right-3 z-100 text-white text-opacity-75">
+										{portfolio.status === 'draft' ? ( <FaEyeSlash size={26} /> ) : ( <FaEye size={26} /> )}
 									</div>
 								</div>
 								<div className="mt-6 text-sm">

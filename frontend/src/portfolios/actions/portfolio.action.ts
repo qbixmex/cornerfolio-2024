@@ -65,6 +65,10 @@ export const publishPortfolio = async (portfolioId: string) => {
 		cache: 'no-cache',
 		body: JSON.stringify({ status: 'published' }),
 	});
+
+	revalidatePath("admin/portfolio-management");
+	revalidatePath(`admin/portfolios/${portfolioId}`);
+
 	return response.json();
 };
 
@@ -81,6 +85,9 @@ export const unPublishPortfolio = async (portfolioId: string) => {
 		},
 		body: JSON.stringify({ status: 'draft' }),
 	});
-	revalidatePath('/admin/portfolio-management');
+
+	revalidatePath("admin/portfolio-management");
+	revalidatePath(`admin/portfolios/${portfolioId}`);
+
 	return response.json();
 };

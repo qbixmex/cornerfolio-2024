@@ -3,15 +3,15 @@
 import { useAppDispatch, useAppSelector } from "@/store";
 import CreatePortfolioSection from "./createPortfolioSection";
 import PortfolioManagementActions, { Portfolio } from "./portfolioManagementActions";
-import Toast from "./toast";
 import { resetToast } from "@/store/slices/toast.slice";
 import { useEffect } from "react";
+import Toast from "./toast";
 
 type Props = {
 	data: Portfolio[];
 };
 
-const PortfolioManagementBody: React.FC<Props> = ({ data }) => {
+const PortfolioManagement: React.FC<Props> = ({ data }) => {
 	const dispatch = useAppDispatch();
 	const toast = useAppSelector((state) => state.toast);
 
@@ -39,4 +39,4 @@ const PortfolioManagementBody: React.FC<Props> = ({ data }) => {
 	);
 };
 
-export default PortfolioManagementBody;
+export default PortfolioManagement;

@@ -7,12 +7,13 @@ import Link from "next/link";
 type Props = {
   portfolioId: string;
   tinyUrlId: string;
+  status: string;
   setToast: (toast: { message: string; type: string }) => void;
 };
 
-const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, setToast }) => {
+const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, status, setToast }) => {
 
-  const [ status, setStatus ] = useState<'draft' | 'published'>('draft');
+  const [ currentStatus, setCurrentStatus ] = useState(status);
  
   const handlePublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
@@ -24,7 +25,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, setTo
 				setToast({ message: data.error, type: 'error' });
 			} else {
 				setToast({ message: data.message, type: 'success' });
-				setStatus('published');
+				setCurrentStatus('published');
 			}
 
 			setTimeout(() => setToast({ message: '', type: '' }), 4000);
@@ -43,7 +44,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, setTo
 				setToast({ message: data.error, type: 'error' });
 			} else {
 				setToast({ message: data.message, type: 'success' });
-				setStatus('draft');
+				setCurrentStatus('draft');
 			}
 			setTimeout(() => setToast({ message: '', type: '' }), 4000);
 		} catch (error) {
@@ -54,7 +55,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, setTo
   return (
     <section className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
     <div className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
-      {status === 'draft' && (
+      {currentStatus === 'draft' && (
         <form onSubmit={handlePublishPortfolio}>
           <button
             type="submit"
@@ -65,7 +66,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, setTo
         </form>
       )}
 
-      {status === 'published' && (
+      {currentStatus === 'published' && (
         <form onSubmit={handleUnPublishPortfolio}>
           <button
             type="submit"
