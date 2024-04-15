@@ -14,7 +14,7 @@ type Options = {
 export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
   const URL = `${API_URL}/api/users/count-total/${query}`
 
