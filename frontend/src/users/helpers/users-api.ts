@@ -11,10 +11,11 @@ type Options = {
   orderBy?: string;
 };
 
+const API_URL = process.env.API_URL ?? "http://localhost:4000";
+
 export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
   const URL = `${API_URL}/api/users/count-total/${query}`
 
@@ -33,7 +34,6 @@ export const getUsersPages = async (query = ''): Promise<{ total: number }> => {
 export const getUsersList = async (options?: Options): Promise<UsersList> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
-  const API_URL = process.env.API_URL;
 
   const URL =
     `${API_URL}/api/users` +

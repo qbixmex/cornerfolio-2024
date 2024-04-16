@@ -49,7 +49,7 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 				<PreviewHeader portfolio={data} />
 
 				{data && data.sections.length === 0 && (
-					<section className="  mx-[80px] max-sm:px-[30px] mt-20 mb-20 flex flex-col items-center gap-3">
+					<section className="mx-[80px] max-sm:px-[30px] mt-20 mb-20 flex flex-col items-center gap-3">
 						<section className="bg-orange-500 rounded text-white w-fit p-5">
 							No section created yet !
 						</section>
