@@ -1,19 +1,19 @@
 import { UserIcon } from "@/components/icons";
 import { updateUser } from "@/users/actions/user.actions";
 import { UserResponse, UserUpdate } from "@/users/interfaces/users";
+import { useAppDispatch } from "@/store";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { formUpdateSchema } from "../validation-schemas";
+import { setToast } from "@/store/slices/toast.slice";
 
 type Props = {
   user: UserResponse;
-  setToast: React.Dispatch<
-    React.SetStateAction<{ message: string; type: string }>
-  >;
 };
 
-const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
+const UpdateUserForm: React.FC<Props> = ({ user }) => {
+  const dispatch = useAppDispatch();
   const [imageFieldKey, setImageFieldKey] = useState(Date.now());
 
   const formik = useFormik<UserUpdate>({
@@ -52,12 +52,15 @@ const UpdateUserForm: React.FC<Props> = ({ user, setToast }) => {
       const data = await updateUser(user.id, formData);
 
       if (data.error) {
-        setToast({ message: data.error, type: "error" });
-      } else {
-        setToast({ message: data.message, type: "success" });
+        dispatch(setToast({ message: data.error, type: "error" }));
       }
+
+      if (data.message) {
+        dispatch(setToast({ message: data.message, type: "success" }));
+      }
+
       setTimeout(() => {
-        setToast({ message: "", type: "" });
+        dispatch(setToast({ message: "", type: "info" }));
         setImageFieldKey(Date.now());
       }, 4000);
     },

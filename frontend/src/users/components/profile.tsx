@@ -6,26 +6,27 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
-import styles from "./profile.module.css";
+// import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
+import moment from "moment";
+import Toast from "@/components/toast";
+import { useAppSelector } from "@/store";
+
 
 type Props = {
   user: UserResponse;
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
-  useEffect(() => {
-    // Remove the data-theme attribute
-    document.documentElement.removeAttribute('data-theme');
-    // Remove the style attribute
-    document.documentElement.removeAttribute('style');
-  }, []);
+  const { toast } = useAppSelector((state) => state);
 
-  const [toast, setToast] = useState({
-    message: "",
-    type: "",
-  });
+  useEffect(() => {
+		// Remove the data-theme attribute
+		document.documentElement.removeAttribute('data-theme');
+		// Remove the style attribute
+		document.documentElement.removeAttribute('style');
+	}, []);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -35,19 +36,13 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
   const handleCloseModal = () => {
     setModalIsOpen(false);
-    setTimeout(() => {
-      setToast({ message: "", type: "" });
-    }, 3000);
   };
 
   return (
     <section className="relative">
-      {toast.message && (
-        <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === "error" ? "red" : "green"}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-        >
-          {toast.message}
-        </div>
+      {(toast.message) && (
+        <Toast type={toast.type}>{toast.message}</Toast>
+
       )}
 
       <section className="w-[95%] md:w-[80%] mx-auto py-10">
@@ -61,7 +56,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
         <hr className="border-b-1 w-full mb-10" />
 
-        <UpdateUserForm user={user} setToast={setToast} />
+        <UpdateUserForm user={user} />
 
         <hr className="border-b-1 w-full my-10" />
 
@@ -71,7 +66,7 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
         <hr className="border-b-1 w-full mb-10" />
 
-        <PasswordForm id={user.id} setToast={setToast} />
+        <PasswordForm id={user.id} />
 
         <hr className="border-b-1 w-full mb-10" />
 
@@ -123,7 +118,6 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                     <LicensePopup
                       license={user.license}
                       closeModal={handleCloseModal}
-                      setToast={setToast}
                     />
                   </Modal>
                 </section>
