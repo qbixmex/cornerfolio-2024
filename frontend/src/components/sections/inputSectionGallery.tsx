@@ -107,7 +107,7 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 				>{toast.message}</div>
 			)}
 
-			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
+			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="caption"
 					name="caption"

@@ -53,9 +53,9 @@ const ChooseSection: React.FC<Props> = ({ portfolioId, order, theme }) => {
 
 			{/* Modal */}
 			{isOpen && (
-				<div className="text-black fixed z-10 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
+				<div className="text-black fixed z-40 top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-100 transition-transform duration-300">
 					{/* Modal content */}
-					<div className="bg-[#13141A] text-white w-1/2 h-1/2 p-12 rounded-md">
+					<div className="bg-[#13141A] text-white w-3/4 h-1/2 max-md:h-3/4 p-12 rounded-md">
 						{/* Close modal button */}
 						<div className="text-right">
 							<button className="focus:outline-none" type="button" onClick={onCloseModal}>

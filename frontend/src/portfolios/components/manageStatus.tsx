@@ -53,7 +53,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, statu
 	};
 
   return (
-    <section className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
+    <section className="fixed top-[55px] w-full bg-gray-200 flex justify-end z-30">
     <div className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
       {currentStatus === 'draft' && (
         <form onSubmit={handlePublishPortfolio}>

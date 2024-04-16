@@ -73,7 +73,7 @@ const InputSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
 				</div>
 			)}
 
-			<form className="flex items-between m-4" onSubmit={formik.handleSubmit}>
+			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
 				<section className="w-full mr-5">
 					<input
 						id="caption"
