@@ -145,7 +145,6 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
                 </p>
               </div>
             </section>
-
           )}
         </section>
 
