@@ -103,7 +103,7 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 				</div>
 			)}
 			<form
-				className="flex items-between m-4 border-transparent border-2 hover:border-gray-300"
+				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
 				onSubmit={formik.handleSubmit}
 			>
 				<textarea

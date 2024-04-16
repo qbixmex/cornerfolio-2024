@@ -59,7 +59,7 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) =>
 				<Button
 					color="primary"
 					variant="shadow"
-					size="md"
+					size="sm"
 					fullWidth={true}
 					className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
 					onClick={openModal}
