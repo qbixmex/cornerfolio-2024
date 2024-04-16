@@ -1,7 +1,8 @@
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import Image from 'next/image';
 import Link from 'next/link';
 
-export default function NotFound() {
+const NotFound = () => {
 	return (
 		<section
 			className={`${modern.pageNotFoundBackground} flex justify-center items-center min-h-screen`}
@@ -24,13 +25,17 @@ export default function NotFound() {
 				</div>
 
 				<div className="relative w-full mt-12 lg:w-1/2 lg:mt-0">
-					<img
+					<Image
 						className="w-full max-w-lg mx-auto"
 						src="https://merakiui.com/images/components/illustration.svg"
-						alt=""
+						alt="404 error illustration"
+						width={300}
+						height={300}
 					/>
 				</div>
 			</div>
 		</section>
 	);
 }
+
+export default NotFound;
