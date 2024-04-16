@@ -5,14 +5,16 @@ import { UserPassword } from '../../interfaces/users';
 import { formPasswordsSchema } from '../validation-schemas';
 import { updatePassword } from '@/users/actions/user.actions';
 import clsx from 'clsx';
+import { useAppDispatch } from '@/store';
+import { resetToast, setToast } from '@/store/slices/toast.slice';
 
 type Props = {
   id: string;
-  setToast: React.Dispatch<React.SetStateAction<{ message: string, type: string; }>>;
 };
 
-const PasswordForm: FC<Props> = ({ id, setToast }) => {
+const PasswordForm: FC<Props> = ({ id }) => {
 
+  const dispatch = useAppDispatch();
   const [ showPassword, setShowPassword ] = useState(false);
   const [ showPasswordConfirmation, setShowPasswordConfirmation ] = useState(false);
 
@@ -26,12 +28,14 @@ const PasswordForm: FC<Props> = ({ id, setToast }) => {
       const data = await updatePassword(id, formData.password);
 
       if (data.error) {
-        setToast({ message: data.error, type: 'error' });
-      } else {
-        setToast({ message: data.message, type: 'success' });
+        dispatch(setToast({ message: data.error, type: 'error' }));
+      }
+      
+      if (data.message) {
+        dispatch(setToast({ message: data.message, type: 'success' }));
       }
       formik.resetForm();
-      setTimeout(() => setToast({ message: '', type: '' }), 4000);
+      setTimeout(() => dispatch(resetToast()), 4000);
     },
   });
 

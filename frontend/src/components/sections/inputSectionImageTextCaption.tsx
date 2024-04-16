@@ -72,7 +72,7 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ portfolioId, section })
 					{toast.message}
 				</div>
 			)}
-			<form className="flex justify-center items-center m-4" onSubmit={formik.handleSubmit}>
+			<form className="lg:flex max-lg:flex-col justify-center items-center m-4" onSubmit={formik.handleSubmit}>
 				<section className="mr-3">
 					<input
 						id="imgCaption"

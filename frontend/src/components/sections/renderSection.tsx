@@ -81,7 +81,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 									: ''
 							}
 						`}>
-						<div key={section.item.id} className="w-3/4">
+						<div key={section.item.id} className="w-3/4 max-md:w-full">
 							<InputSectionTextHeading portfolioId={portfolioId} section={section as SectionText} />
 							<InputSectionTextContent portfolioId={portfolioId} section={section as SectionText} />
 						</div>
@@ -210,9 +210,9 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 		case 'SectionGallery':
 			return (
 				<>
-					<div className="w-full flex gap-3 items-center max-sm:flex-col">
+					<div className="w-full flex gap-3 items-center max-sm:flex-col ">
 						{/* image1 */}
-						<div className="w-1/3 max-sm:w-full m-1">
+						<div className="w-1/3 min-h-[500px]  max-sm:w-full m-1 " key={`1-${section.item.id}`}>
 							
 							{
 								(imageId === `${section.item.id}-1`)

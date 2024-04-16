@@ -1,5 +1,6 @@
 import NotFoundGraphic from "@/svg/404.not-found";
 import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 type Props = {
 	message: string;
@@ -16,9 +17,12 @@ const NotFoundPortfolio: React.FC<Props> = ({ message }) => {
 					<h2 className="mt-5 mb-10 text-center text-3xl lg:text-6xl font-bold leading-9 tracking-tight text-stone-700">
 						{ message }
 					</h2>
-					<div className="text-center">
-						<Link className="bg-blue-600 text-white py-2 px-3 rounded-xl font-semibold text-xl mb-10" href="/admin/portfolio-management">
-							Go back
+					<div className="flex justify-center items-center">
+						<Link
+							className="w-fit flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded transition duration-150"
+							href="/admin/portfolio-management"
+						>
+							<FaArrowLeft className="mr-2" /> Go back
 						</Link>
 					</div>
 				</section>
