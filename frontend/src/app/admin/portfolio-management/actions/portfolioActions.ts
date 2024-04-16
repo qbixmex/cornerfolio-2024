@@ -22,6 +22,6 @@ export const createNewPortfolioAndEdit = async () => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 	const newPortfolio = await createPortfolio(token?.value!);
-
+	
 	redirect(`/admin/portfolios/${newPortfolio.portfolio.id}`);
 };

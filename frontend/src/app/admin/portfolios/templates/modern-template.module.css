@@ -90,9 +90,13 @@
 	border-radius: 5px;
 	padding: 8px;
 	background: #95b0b4;
-	color: #13141A;
+	color: #13141a;
 }
 
 .addSectionButtonsBackground {
-	background-image: linear-gradient(to right bottom, #0f3573fd 3%, #13141A 52%)
+	background-image: linear-gradient(to right bottom, #0f3573fd 3%, #13141a 52%);
+}
+
+.pageNotFoundBackground {
+	background-image: linear-gradient(to right, #172c4f, #34879c, #00a592, #6fba5d, #debd25);
 }

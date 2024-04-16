@@ -13,7 +13,7 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 	return (
 		<div
 			className={clsx(
-				'py-[30px] px-[80px] border-b-gray-300 border-2',
+				'py-[30px] px-[80px]',
 				theme === 'modern' && modern.footerBackgroundColor,
 				theme !== 'light' && 'text-white',
 			)}
