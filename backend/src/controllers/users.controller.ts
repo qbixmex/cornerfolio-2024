@@ -3,8 +3,9 @@ import { Request, Response } from 'express';
 import fileUpload from 'express-fileupload';
 import { Types } from 'mongoose';
 import { bcryptAdapter } from '../config';
-import { CustomError } from '../helpers';
+import { CustomError, verifyToken } from '../helpers';
 import { License, User } from '../models';
+import { decode } from 'punycode';
 
 type UsersQuery = {
   limit: number;
@@ -93,6 +94,21 @@ export const profile = async (
   response: Response
 ) => {
   const id = request.params.id;
+  const token = request.headers.token;
+
+	if (!token) {
+		return response.status(401).json({
+			error: 'Unauthorized access !',
+		});
+	}
+
+	const decodedToken = await verifyToken(token as string);
+
+	if (!decodedToken) {
+		return response.status(401).json({
+			error: 'Token not valid !',
+		});
+	}
 
   if (!Types.ObjectId.isValid(id)) {
     return response.status(400).json({
@@ -101,16 +117,22 @@ export const profile = async (
   }
 
   try {
+    const loginUser = await User.findById(decodedToken.id)
+    if (!loginUser ) {
+      return response.status(404).json({
+        error: `Login User not found!`,
+      });
+    }
+    const userType = loginUser.type;
+
     const foundUser = await User.findById(id)
       .populate({ path: "license", select: "type startDate endDate" })
 
-
-    if (!foundUser) {
+    if (!foundUser || (userType!=="admin" && id!==decodedToken.id)) {
       return response.status(404).json({
         error: `User not found with ID: ${id} !`,
       });
     }
-
 
     return response.status(200).json({
       user: {
