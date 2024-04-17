@@ -11,13 +11,10 @@ const ProfilePage: FC<Props> = async ({ params }) => {
 	const userInfo = await getUser(params.id);
 	return (
 		<>
-			{!userInfo.error?(
-				<ProfileBody user={userInfo.user} />
-			):(
-				<>
-				<NotFoundUser  message={userInfo.error}/>
-				</>
-			)
+			{
+				!userInfo.error
+					? <ProfileBody user={userInfo.user} />
+					: <NotFoundUser  message={userInfo.error}/>
 			}
 		</>
 	);
