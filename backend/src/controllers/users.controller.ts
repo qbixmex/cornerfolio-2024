@@ -93,6 +93,7 @@ export const profile = async (
   request: Request<{ id: string }>,
   response: Response
 ) => {
+
   const id = request.params.id;
   const token = request.headers.token;
 
@@ -117,12 +118,14 @@ export const profile = async (
   }
 
   try {
-    const loginUser = await User.findById(decodedToken.id)
+    const loginUser = await User.findById(decodedToken.id);
+
     if (!loginUser ) {
       return response.status(404).json({
         error: `Login User not found!`,
       });
     }
+
     const userType = loginUser.type;
 
     const foundUser = await User.findById(id)
