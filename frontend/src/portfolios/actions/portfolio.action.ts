@@ -52,7 +52,16 @@ export const getPortfolioByTinyUrlId = async (tinyUrlId: string) => {
 	return response.json();
 };
 
-export const publishPortfolio = async (portfolioId: string) => {
+type ResponsePortfolioStatus =
+	| {
+			message: string;
+			portfolio: {
+				type: "published" | "draft";
+			};
+		}
+	| { error: string; };
+
+export const publishPortfolio = async (portfolioId: string): Promise<ResponsePortfolioStatus> => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
@@ -72,7 +81,7 @@ export const publishPortfolio = async (portfolioId: string) => {
 	return response.json();
 };
 
-export const unPublishPortfolio = async (portfolioId: string) => {
+export const unPublishPortfolio = async (portfolioId: string): Promise<ResponsePortfolioStatus> => {
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
 
