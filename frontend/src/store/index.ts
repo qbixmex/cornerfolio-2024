@@ -1,9 +1,10 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { toastSlice , reloadSlice, imageUploadSlice } from './slices';
+import { authSlice, toastSlice , reloadSlice, imageUploadSlice } from './slices';
 
 export const mainStore = configureStore({
   reducer: {
+    auth: authSlice,
     toast: toastSlice,
     reloading: reloadSlice, 
     imageUpload: imageUploadSlice,

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { SectionImage } from '@/interfaces';
 import { uploadSectionImage } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
-import { setUploadingImage } from '@/store/slices/imageUpload.slice';
+import { resetUploadingImage, setUploadingImage } from '@/store/slices/imageUpload.slice';
 import { useAppDispatch } from '@/store';
 
 type Props = {
@@ -42,7 +42,7 @@ const UploadSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
         if (data.message) {
           setToast({ message: data.message, type: 'success' });
           setTimeout(() => {
-            dispatch(setUploadingImage({ imageId: null, loading: false }));
+            dispatch(resetUploadingImage());
           }, 500);
         }
 

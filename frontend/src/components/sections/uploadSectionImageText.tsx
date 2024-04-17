@@ -6,7 +6,7 @@ import { SectionImageText } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
-import { setUploadingImage } from '@/store/slices/imageUpload.slice';
+import { resetUploadingImage, setUploadingImage } from '@/store/slices/imageUpload.slice';
 
 type Props = {
   portfolioId: string;
@@ -43,7 +43,7 @@ const UploadSectionImageText: React.FC<Props> = ({ section, portfolioId }) => {
         if (data.message) {
           setToast({ message: data.message, type: 'success' });
           setTimeout(() => {
-            dispatch(setUploadingImage({ imageId: null, loading: false }));
+            dispatch(resetUploadingImage());
           }, 500);
         }
 

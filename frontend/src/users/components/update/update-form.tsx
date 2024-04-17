@@ -1,20 +1,26 @@
 import { UserIcon } from "@/components/icons";
 import { updateUser } from "@/users/actions/user.actions";
-import { UserResponse, UserUpdate } from "@/users/interfaces/users";
-import { useAppDispatch } from "@/store";
+import { UserUpdate } from "@/users/interfaces/users";
+import { useAppDispatch, useAppSelector } from "@/store";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { formUpdateSchema } from "../validation-schemas";
 import { setToast } from "@/store/slices/toast.slice";
+import ImageSkeleton from "@/components/sections/imageSkeleton";
+import { setUploadingImage } from "@/store/slices/imageUpload.slice";
+import Image from "next/image";
+import { User } from "@/interfaces";
+import { setAuth } from "@/store/slices/auth.slice";
 
 type Props = {
-  user: UserResponse;
+  user: User;
 };
 
 const UpdateUserForm: React.FC<Props> = ({ user }) => {
   const dispatch = useAppDispatch();
-  const [imageFieldKey, setImageFieldKey] = useState(Date.now());
+  const { imageId, loadingImage } = useAppSelector((state) => state.imageUpload);
+  const [imageFieldKey, setImageFieldKey] = useState(Date.now().toString());
 
   const formik = useFormik<UserUpdate>({
     initialValues: {
@@ -23,11 +29,11 @@ const UpdateUserForm: React.FC<Props> = ({ user }) => {
       type: user.type,
       jobTitle: user.jobTitle,
       startDate:
-        user.startDate === "not set"
+        user.startDate
           ? new Date().toISOString()
           : new Date(user.startDate).toISOString(),
       endDate:
-        user.endDate === "not set"
+        user.endDate
           ? new Date().toISOString()
           : new Date(user.endDate).toISOString(),
       active: user.active,
@@ -49,20 +55,33 @@ const UpdateUserForm: React.FC<Props> = ({ user }) => {
       formData.set("course", values.course!);
       formData.set("schedule", values.schedule!);
 
+      dispatch(setUploadingImage({
+        imageId: imageFieldKey,
+        loading: true,
+      }));
+
       const data = await updateUser(user.id, formData);
 
-      if (data.error) {
+      if ("error" in data) {
         dispatch(setToast({ message: data.error, type: "error" }));
       }
 
-      if (data.message) {
-        dispatch(setToast({ message: data.message, type: "success" }));
+      if ("message" in data) {
+        setTimeout(() => {
+          dispatch(setToast({ message: data.message, type: "success" }));
+          dispatch(setAuth({
+            id: data.user.id,
+            name: data.user.name,
+            imageUrl: data.user.imageUrl,
+          }));
+          dispatch(setUploadingImage({ imageId: Date.now().toString(), loading: false }));
+        }, 2000);
       }
 
       setTimeout(() => {
         dispatch(setToast({ message: "", type: "info" }));
-        setImageFieldKey(Date.now());
-      }, 4000);
+        setImageFieldKey(Date.now().toString());
+      }, 3000);
     },
   });
 
@@ -178,15 +197,24 @@ const UpdateUserForm: React.FC<Props> = ({ user }) => {
         <section>
           {/* Profile Image */}
           <section className="mb-5">
-            {user.imageUrl ? (
-              <img
-                className="object-cover object-top max-w-lg w-full h-auto shadow-lg border rounded-lg p-3 mb-5"
-                src={user.imageUrl}
-                alt={user.name}
-              />
-            ) : (
-              <UserIcon className="text-slate-200 w-[225px] mb-10" />
+            {user.imageUrl && (
+              (!loadingImage) ? (
+                <Image
+                  key={imageId}
+                  className="object-cover object-top max-w-lg w-full h-auto shadow-lg border rounded-lg p-3 mb-5"
+                  src={user.imageUrl}
+                  alt={user.name}
+                  width={500}
+                  height={500}
+                  priority
+                />
+              ): (
+                <ImageSkeleton className="border-2 size-[500px] border-gray-200 mb-5" />
+              )
             )}
+
+            {!user.imageUrl && <UserIcon className="text-slate-200 w-[225px] mb-10" />}
+
             <input
               key={imageFieldKey}
               id="userImage"

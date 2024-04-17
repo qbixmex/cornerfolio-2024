@@ -51,12 +51,7 @@ export const register = async (
     const savedUser = await newUser.save();
 
     //* Generate a new token
-    const newToken = await generateToken({
-      id: savedUser.id,
-      name: savedUser.name,
-      email: savedUser.email,
-      imageUrl: savedUser.imageURL ?? '',
-    }, '365d');
+    const newToken = await generateToken({ id: savedUser.id }, '365d');
 
     return response.status(200).json({
       message: 'Account registered successfully !',
@@ -93,12 +88,7 @@ export const login = async (
 
   //* Generate token with JSON Web Token (JWT)
   const newToken = await generateToken(
-    {
-      id: foundUser.id,
-      name: foundUser.name,
-      email: foundUser.email,
-      imageUrl: foundUser.imageURL ?? '',
-    },
+    { id: foundUser.id },
     '1h' //* token expires in 1 hour
   );
 

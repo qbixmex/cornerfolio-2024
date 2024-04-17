@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { portFoliosFetch } from '@/api/portfolios.fetch';
 import { Portfolio } from './portfolioManagementActions';
-import { AuthenticatedUser } from '@/interfaces';
+import { User } from '@/interfaces';
 import { UserIcon } from './icons';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,23 +12,31 @@ import { useRouter } from 'next/navigation';
 import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
+import { useAppSelector } from '@/store';
+import { setAuth } from '@/store/slices/auth.slice';
 
 type Props = {
-	authenticatedUser?: AuthenticatedUser;
+	authenticatedUser: User;
 };
 
 const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	const dispatch = useDispatch();
+	const { imageId } = useAppSelector((state) => state.imageUpload);
+	const { user } = useAppSelector((state) => state.auth);
 	const pathname = usePathname();
 	const router = useRouter();
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
 	const [centerMenuOpen, setCenterMenuOpen] = useState(false);
 	const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
 
-	async function fetchDataForPortfolio() {
+	useEffect(() => {
+		dispatch(setAuth(authenticatedUser));
+	}, [imageId]);
+
+	const fetchDataForPortfolio = async () => {
 		const data = await portFoliosFetch();
 		setPortfolios(data);
-	}
+	};
 
 	const toggleCenterMenu = () => {
 		fetchDataForPortfolio();
@@ -115,15 +123,15 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 					className="overflow-hidden flex justify-center items-center gap-x-2"
 					onClick={toggleRightMenu}
 				>
-					<span className="text-white font-medium">{authenticatedUser?.name}</span>
+					<span className="text-white font-medium">{user?.name}</span>
 					{
-						(!authenticatedUser?.imageUrl)
+						(!user?.imageUrl)
 							? <UserIcon className="w-10 h-10 text-gray-300 rounded-full border border-white p-2" />
 							: (
 								<img
 									className="w-10 h-10 rounded-full border border-white p-1 object-cover object-top"
-									src={authenticatedUser.imageUrl}
-									alt={authenticatedUser.name}
+									src={user.imageUrl}
+									alt={user.name}
 								/>
 							)
 					}
@@ -138,9 +146,9 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 				>
 					<div className="flex flex-col space-y-3 p-2 text-md">
 						{
-							pathname !== `/admin/users/profile/${authenticatedUser?.id}` ? (
+							pathname !== `/admin/users/profile/${user?.id}` ? (
 								<Link
-									href={`/admin/users/profile/${authenticatedUser?.id}`}
+									href={`/admin/users/profile/${user?.id}`}
 									className="transition text-slate-700 hover:text-blue-400"
 									onClick={toggleRightMenu}
 								>show profile</Link>
