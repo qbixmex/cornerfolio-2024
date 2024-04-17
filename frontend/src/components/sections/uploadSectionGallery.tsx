@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import clsx from 'clsx';
 import { SectionGallery } from '@/interfaces';
-import { setUploadingImage } from '@/store/slices/imageUpload.slice';
+import { resetUploadingImage, setUploadingImage } from '@/store/slices/imageUpload.slice';
 import { useAppDispatch } from '@/store';
 import { uploadSectionGallery } from '@/sections/actions/section.update.action';
 import styles from '@/users/components/profile.module.css';
@@ -49,7 +49,7 @@ const UploadSectionGallery: React.FC<Props> = ({ position, portfolioId, section 
         if (data.message) {
           setToast({ message: data.message, type: 'success' });
           setTimeout(() => {
-            dispatch(setUploadingImage({ loading: false, imageId: null }));
+            dispatch(resetUploadingImage());
           }, 500);
         }
         

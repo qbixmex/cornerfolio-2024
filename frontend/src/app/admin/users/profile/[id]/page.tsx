@@ -8,13 +8,14 @@ type Props = {
 };
 
 const ProfilePage: FC<Props> = async ({ params }) => {
-	const userInfo = await getUser(params.id);
+	const data = await getUser(params.id);
+
 	return (
 		<>
 			{
-				!userInfo.error
-					? <ProfileBody user={userInfo.user} />
-					: <NotFoundUser  message={userInfo.error}/>
+				('error' in data)
+					? <NotFoundUser  message={data.error}/>
+					: <ProfileBody user={data.user} />
 			}
 		</>
 	);
