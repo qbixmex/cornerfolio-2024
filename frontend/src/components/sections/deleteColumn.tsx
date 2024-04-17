@@ -1,6 +1,10 @@
+"use client";
+
 import { FaTrash } from 'react-icons/fa';
 import { deleteSectionColumn } from '@/sections/actions/section.action';
 import { useAppDispatch } from '@/store';
+import Swal from 'sweetalert2';
+import { resetToast, setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -8,13 +12,32 @@ type Props = {
 };
 
 const DeleteColumn: React.FC<Props> = ({ portfolioId, sectionId }) => {
-	const dispatch=useAppDispatch()
+	const dispatch = useAppDispatch();
+
 	const handleDeleteColumn = async () => {
-		try {
-			await deleteSectionColumn(portfolioId, sectionId)
-		} catch (error) {
-			console.error('Error deleting column:', error);
-		}
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!"
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const data = await deleteSectionColumn(portfolioId, sectionId);
+
+				if ("error" in data) {
+					dispatch(setToast({ message: data.error, type: "error" }));
+				}
+
+				if ("message" in data) {
+					dispatch(setToast({ message: data.message, type: "success" }));
+				}
+
+				setTimeout(() => dispatch(resetToast()), 3000);
+			}
+		});
 	};
 
 	return (

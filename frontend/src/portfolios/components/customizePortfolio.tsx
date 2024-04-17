@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import { Theme, useTheme } from "@/context/portfolio-theme-context";
-import styles from '@/users/components/profile.module.css';
 import { IPortfolio } from "@/interfaces";
 import ThemeSwitcher from "@/components/themeSwitcher";
 import { TemplateHeader } from "./templateHeader";
@@ -10,18 +8,16 @@ import ChooseSection from "@/components/sections/chooseSection";
 import SectionsList from "@/components/sections/sectionsList";
 import { TemplateFooter } from "./templateFooter";
 import ManageStatus from "./manageStatus";
+import { useAppSelector } from "@/store";
+import Toast from "@/components/toast";
 
 type Props = {
   portfolio: IPortfolio;
 };
 
 const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
+  const toast = useAppSelector(state => state.toast);
   const { theme } = useTheme();
-
-  const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
 
   const getBackgroundColor = (theme: Theme): string => {
     switch (theme) {
@@ -41,20 +37,14 @@ const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
 
   return (
     <main className={`${getBackgroundColor(theme)} ml-[52px] mt-[55px] text-2xl font-bold`}>
-      {toast.message && (
-        <div
-          className={`absolute z-[1000] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
-            }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-        >
-          {toast.message}
-        </div>
+      {(toast.message) && (
+        <Toast type={toast.type}>{toast.message}</Toast>
       )}
 
       <ManageStatus
         portfolioId={portfolio.id}
         tinyUrlId={portfolio.tinyUrlId}
         status={portfolio.status}
-        setToast={setToast}
       />
 
       <TemplateHeader theme={theme} portfolio={portfolio} />
