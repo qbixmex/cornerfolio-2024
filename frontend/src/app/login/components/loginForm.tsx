@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import Link from 'next/link';
 import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch } from '@/store';
 import { resetToast, setToast } from '../../../store/slices/toast.slice';
 
 const formSchema = yup.object().shape({

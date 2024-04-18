@@ -5,7 +5,6 @@ import { Types } from 'mongoose';
 import { bcryptAdapter } from '../config';
 import { CustomError, verifyToken } from '../helpers';
 import { License, User } from '../models';
-import { decode } from 'punycode';
 
 type UsersQuery = {
   limit: number;
@@ -118,15 +117,21 @@ export const profile = async (
   }
 
   try {
-    const loginUser = await User.findById(decodedToken.id);
+    const loggedUser = await User.findById(decodedToken.id);
 
-    if (!loginUser ) {
+    if (!loggedUser ) {
       return response.status(404).json({
         error: `Login User not found!`,
       });
     }
 
-    const userType = loginUser.type;
+    if (loggedUser.type !== 'admin' && loggedUser.id !== id) {
+      return response.status(401).json({
+        error: 'unauthorized access',
+      });
+    }
+
+    const userType = loggedUser.type;
 
     const foundUser = await User.findById(id)
       .populate({ path: "license", select: "type startDate endDate" })
