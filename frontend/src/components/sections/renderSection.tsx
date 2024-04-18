@@ -54,7 +54,7 @@ type Props = {
 };
 
 const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
-	const { imageId, loadingImage } = useAppSelector(state=>state.imageUpload);
+	const { imageId, loadingImage } = useAppSelector(state => state.imageUpload);
 
 	switch (section.kind) {
 		case 'SectionDivider':
@@ -105,9 +105,10 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 						<div className="w-1/2 max-sm:w-full" key={section.item.id}>
 							{
 								loadingImage && imageId === (section as SectionImage).item.id
-									? (<ImageSkeleton />)
+									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
 									: (
 										<Image
+											className="mx-auto rounded-md"
 											src={(section as SectionImage).item.url}
 											alt={(section as SectionImage).item.alt}
 											width={500}
@@ -140,9 +141,10 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center">
 							{
 								loadingImage && (section as SectionImageText).item.id
-									? (<ImageSkeleton />)
+									? (<ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />)
 									: (
 										<Image
+											className="mx-auto rounded-md"
 											src={(section as SectionImageText).item.imgUrl}
 											alt={(section as SectionImageText).item.imgAlt}
 											width={500}
@@ -216,9 +218,10 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 							
 							{
 								(imageId === `${section.item.id}-1`)
-									? <ImageSkeleton />
+									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
 									: (
 										<Image
+											className="mx-auto rounded-md"
 											src={(section as SectionGallery).item.url1}
 											alt={(section as SectionGallery).item.alt1}
 											width={500}
@@ -239,9 +242,10 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 						<div className="w-1/3 min-h-[500px] max-sm:w-full m-1" key={`2-${section.item.id}`}>
 							{
 								(imageId === `${section.item.id}-2`)
-									? <ImageSkeleton />
+									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
 									: (
 										<Image
+											className="mx-auto rounded-md"
 											src={(section as SectionGallery).item.url2}
 											alt={(section as SectionGallery).item.alt2}
 											width={500}
@@ -262,9 +266,10 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 						<div className="w-1/3 min-h-[500px] max-sm:w-full m-1" key={`3-${section.item.id}`}>
 							{
 								(imageId === `${section.item.id}-3`)
-									? <ImageSkeleton />
+									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
 									: (
 										<Image
+											className="mx-auto rounded-md"
 											src={(section as SectionGallery).item.url3}
 											alt={(section as SectionGallery).item.alt3}
 											width={500}

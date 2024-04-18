@@ -41,9 +41,7 @@ const UploadSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
         
         if (data.message) {
           dispatch(setToast({ message: data.message, type: 'success' }));
-          setTimeout(() => {
-            dispatch(resetUploadingImage());
-          }, 500);
+          setTimeout(() => dispatch(resetUploadingImage()), 500);
         }
 
       } catch (error) {
