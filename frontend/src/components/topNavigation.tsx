@@ -1,19 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { portFoliosFetch } from '@/api/portfolios.fetch';
-import { Portfolio } from './portfolioManagementActions';
-import { User } from '@/interfaces';
-import { UserIcon } from './icons';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { logout } from '@/app/login/actions/logout.action';
-import { useRouter } from 'next/navigation';
-import { MdLogout } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { resetToast, setToast } from '@/store/slices/toast.slice';
+import { User } from '@/interfaces';
 import { useAppSelector } from '@/store';
 import { resetAuth, setAuth } from '@/store/slices/auth.slice';
+import { setToast } from '@/store/slices/toast.slice';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MdLogout } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { UserIcon } from './icons';
+import { Portfolio } from './portfolioManagementActions';
 
 type Props = {
 	authenticatedUser: User;
@@ -56,7 +55,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	};
 
 	return (
-		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between border-b border-gray-200 bg-blue-700 p-2">
+		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between bg-blue-700 p-2">
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl asideOpen">
 					<i className="bx bx-menu"></i>
@@ -91,9 +90,8 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 
 					<div
 						id="dropdown-menu"
-						className={`${
-							centerMenuOpen ? "" : "hidden"
-						} absolute right-0 mt-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1`}
+						className={`${centerMenuOpen ? "" : "hidden"
+							} absolute right-0 mt-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1`}
 					>
 						<a
 							href="/admin/portfolio-management"
@@ -136,9 +134,8 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 				</button>
 
 				<div
-					className={`${
-						rightMenuOpen ? "" : "hidden"
-					} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
+					className={`${rightMenuOpen ? "" : "hidden"
+						} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
 					x-show="profileOpen"
 					x-transition="true"
 				>

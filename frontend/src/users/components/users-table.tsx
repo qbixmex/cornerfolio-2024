@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { convertDate } from '../helpers';
 import { UserIcon } from '@/components/icons';
-import { fetchUsersByQuery } from '../actions/user.actions';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { fetchUsersByQuery } from '../actions/user.actions';
+import { convertDate } from '../helpers';
 import Thumbnail from './thumbnail';
 
 type Props = {
@@ -13,8 +13,8 @@ type Props = {
 const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
 
   const data = await fetchUsersByQuery(query, currentPage);
-  
-  if (data.users.length === 0 ) {
+
+  if (data.users.length === 0) {
     const GoAlertFill = dynamic(() => import('react-icons/go').then(module => module.GoAlertFill));
     return (
       <div className="flex justify-center items-center gap-x-2 bg-amber-500 text-center text-white text-3xl rounded h-[100px]">
@@ -27,25 +27,25 @@ const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
     <table className="min-w-full leading-normal">
       <thead>
         <tr>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
             Name
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
             Email
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-            Start Date
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
+            Start date
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-            End Date
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
+            End date
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
             Status
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
             Type
           </th>
-          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 tracking-wider">
             Profile
           </th>
         </tr>
@@ -91,26 +91,27 @@ const UsersTable: React.FC<Props> = async ({ query, currentPage }) => {
               </p>
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <span
-                className={`px-3 py-1 ${user.active
-                    ? "text-green-900 bg-green-300"
-                    : "text-gray-900 bg-gray-200"
-                  } rounded-full`}
+              <div
+                className={`w-20 h-8 flex justify-center items-center ${user.active
+                  ? "text-green-900 bg-green-300"
+                  : "text-gray-900 bg-gray-200"
+                  } rounded-md`}
               >
-                {user.active ? "active" : "inactive"}
-              </span>
+                {user.active ? "Active" : "Inactive"}
+              </div>
             </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <button className="bg-purple-300 px-4 py-2 rounded-md text-purple-800 font-semibold tracking-wide cursor-pointer">
+            <td className="px-5 py-5 border-b border-gray-200 text-sm">
+              <div className="bg-purple-300 w-20 h-8 rounded-md text-purple-800 font-semibold tracking-wide flex justify-center items-center capitalize">
                 {user.type}
-              </button>
+              </div>
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <Link
                 href={`/admin/users/profile/${user.id}`}
-                className="bg-sky-500 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
               >
-                Show
+                <div className="w-20 h-8 bg-sky-500 rounded-md text-white font-semibold tracking-wide flex justify-center items-center">
+                  Show
+                </div>
               </Link>
             </td>
           </tr>
