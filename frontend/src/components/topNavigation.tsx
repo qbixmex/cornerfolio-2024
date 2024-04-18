@@ -102,7 +102,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 							Manage Portfolios
 						</a>
 
-						{portfolios.map((portfolio: Portfolio) => (
+						{portfolios && portfolios.map((portfolio: Portfolio) => (
 							<a
 								key={portfolio.id}
 								href={`/admin/portfolios/${portfolio.id}`}
