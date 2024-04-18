@@ -2,12 +2,11 @@
 
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
 import { useAppDispatch, useAppSelector } from '@/store';
+import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { Button } from '@nextui-org/react';
-
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { FaVideo } from 'react-icons/fa';
+import { FaTimes, FaVideo } from 'react-icons/fa';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
-import { setToast, resetToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -48,12 +47,12 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) =>
 
 		const data = await createSectionEmbeddedMedia(portfolioId, order, code);
 
-		if ("error" in data) {
-			dispatch(setToast({ message: data.error, type: "error" }));
+		if ('error' in data) {
+			dispatch(setToast({ message: data.error, type: 'error' }));
 		}
 
-		if ("message" in data) {
-			dispatch(setToast({ message: data.message, type: "success" }));
+		if ('message' in data) {
+			dispatch(setToast({ message: data.message, type: 'success' }));
 		}
 
 		setTimeout(() => dispatch(resetToast()), 3000);
@@ -84,23 +83,12 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) =>
 					{/* Modal content */}
 					<div className={`bg-white w-1/2 h-1/2 p-12 rounded-md ${modern.embeddedBackground}`}>
 						{/* Close modal button */}
-						<button className="focus:outline-none" type="button" onClick={closeModal}>
-							{/* Hero icon - close button */}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-6"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M6 18L18 6M6 6l12 12"
-								/>
-							</svg>
-						</button>
+						<div className='text-right'>
+							<button className="focus:outline-none" type="button" onClick={closeModal}>
+								{/* Hero icon - close button */}
+								<FaTimes />
+							</button>
+						</div>
 						{/* Modal content */}
 						<section className="flex flex-col items-center">
 							<h2 className="text-xl">Add Link</h2>

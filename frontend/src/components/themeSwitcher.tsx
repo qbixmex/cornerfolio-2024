@@ -38,7 +38,7 @@ export default function ThemeSwitcher({ id }: PropsTheme) {
 						"text-white": theme !== "light",
 						"bg-blue-500 text-white": theme === "light",
 					})}
-				>light</Button>
+				>Light</Button>
 
 				<Button
 					size="sm"
@@ -48,9 +48,9 @@ export default function ThemeSwitcher({ id }: PropsTheme) {
 						"text-white": theme !== "light",
 						"bg-blue-500 text-white": theme === "dark",
 					})}
-				>dark</Button>
+				>Dark</Button>
 
-				<Button
+				<Button	
 					size="sm"
 					color="default"
 					variant="flat"
@@ -59,7 +59,7 @@ export default function ThemeSwitcher({ id }: PropsTheme) {
 						"text-white": theme !== "light",
 						"bg-blue-500 text-white": theme === "modern",
 					})}
-				>modern</Button>
+				>Modern</Button>
 			</div>
 		</div>
 	);

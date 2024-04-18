@@ -48,7 +48,7 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 						Portfolios
 					</h2>
 
-					<div className="block lg:flex gap-6 overflow-x-auto">
+					<div className="block lg:grid gap-6 overflow-x-auto ">
 						{portfolios.map((portfolio, index) => (
 							<div
 								key={index}

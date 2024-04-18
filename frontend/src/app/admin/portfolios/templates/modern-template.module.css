@@ -72,25 +72,25 @@
 
 .embeddedBackground {
 	color: #00a2c5;
-	background: #13141a;
+	background: #222;
 }
 
 .embeddedBackground {
-	color: #befcff;
-	background: #13141a;
+	color: #222;
+	background: #eee;
 }
 
 .embeddedInputField {
 	border-radius: 5px;
 	padding: 8px;
-	background: #95b0b4;
+	background: #fff;
 }
 
 .embeddedButtonBackground {
 	border-radius: 5px;
 	padding: 8px;
-	background: #95b0b4;
-	color: #13141a;
+	background: rgb(59 130 246);
+	color: #fff;
 }
 
 .addSectionButtonsBackground {
