@@ -1,7 +1,7 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from "react";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FaTimes } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useDebouncedCallback } from 'use-debounce';
