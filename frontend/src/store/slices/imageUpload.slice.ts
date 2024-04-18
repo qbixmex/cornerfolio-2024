@@ -20,7 +20,8 @@ export const imageUploadSlice = createSlice({
 			state.loadingImage = action.payload.loading;
 		},
 		resetUploadingImage: (state) => {
-			state = defaultState;
+			state.imageId = defaultState.imageId;
+			state.loadingImage = defaultState.loadingImage;
 		},
 	}
 });
