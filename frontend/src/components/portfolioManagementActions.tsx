@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
 import PortfolioEditTitle from './PortfolioEditTitle';
 import DeletePortfolioButton from './deletePortfolioButton';
 import DraftButton from './saveAsDraftButton';
-import { FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
 
 type PortfolioHeader = {
 	title: string;
@@ -48,7 +48,7 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 						Portfolios
 					</h2>
 
-					<div className="block lg:grid gap-6 overflow-x-auto ">
+					<div className="block lg:flex lg:flex-wrap lg:justify-center gap-6">
 						{portfolios.map((portfolio, index) => (
 							<div
 								key={index}
@@ -70,7 +70,7 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 										<DeletePortfolioButton id={portfolio.id} />
 									</div>
 									<div className="absolute top-3 right-3 z-100 text-white text-opacity-75">
-										{portfolio.status === 'draft' ? ( <FaEyeSlash size={26} /> ) : ( <FaEye size={26} /> )}
+										{portfolio.status === 'draft' ? (<FaEyeSlash size={26} />) : (<FaEye size={26} />)}
 									</div>
 								</div>
 								<div className="mt-6 text-sm">
@@ -80,7 +80,8 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 						))}
 					</div>
 				</>
-			)}
+				)
+			}
 		</>
 	);
 }

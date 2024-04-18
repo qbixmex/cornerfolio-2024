@@ -8,16 +8,25 @@ import ChooseSection from "@/components/sections/chooseSection";
 import SectionsList from "@/components/sections/sectionsList";
 import { TemplateFooter } from "./templateFooter";
 import ManageStatus from "./manageStatus";
-import { useAppSelector } from "@/store";
-import Toast from "@/components/toast";
+import { useEffect,useState } from "react";
 
 type Props = {
   portfolio: IPortfolio;
 };
 
 const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
-  const toast = useAppSelector(state => state.toast);
-  const { theme } = useTheme();
+  const { theme,updateTheme} = useTheme();
+  const [ initialized, setInitialized ] = useState(false);
+
+  useEffect(() => {
+    if (portfolio.theme === 'light' || portfolio.theme === 'dark' || portfolio.theme === 'modern') {
+      updateTheme(portfolio.theme as Theme); 
+      setInitialized(true);
+    } else {
+      console.error('Invalid theme:', portfolio.theme); 
+    }
+  }, [initialized, portfolio.theme]);
+
 
   const getBackgroundColor = (theme: Theme): string => {
     switch (theme) {
@@ -37,10 +46,6 @@ const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
 
   return (
     <main className={`${getBackgroundColor(theme)} ml-[52px] mt-[55px] text-2xl font-bold`}>
-      {(toast.message) && (
-        <Toast type={toast.type}>{toast.message}</Toast>
-      )}
-
       <ManageStatus
         portfolioId={portfolio.id}
         tinyUrlId={portfolio.tinyUrlId}

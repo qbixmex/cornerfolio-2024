@@ -8,9 +8,9 @@ type Props = {
 
 const ButtonsPosition: React.FC<Props> = ({ handleUpdate }) => {
 	return (
-		<div className="flex justify-around w-full">
+		<div className="flex justify-around w-full relative z-[100]">
 			<Button
-				type="submit"
+				type="button"
 				color="primary"
 				variant="shadow"
 				isIconOnly
@@ -22,7 +22,7 @@ const ButtonsPosition: React.FC<Props> = ({ handleUpdate }) => {
 			</Button>
 
 			<Button
-				type="submit"
+				type="button"
 				color="primary"
 				variant="shadow"
 				isIconOnly
@@ -34,7 +34,7 @@ const ButtonsPosition: React.FC<Props> = ({ handleUpdate }) => {
 			</Button>
 
 			<Button
-				type="submit"
+				type="button"
 				color="primary"
 				variant="shadow"
 				isIconOnly
