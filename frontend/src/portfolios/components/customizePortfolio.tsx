@@ -8,13 +8,25 @@ import ChooseSection from "@/components/sections/chooseSection";
 import SectionsList from "@/components/sections/sectionsList";
 import { TemplateFooter } from "./templateFooter";
 import ManageStatus from "./manageStatus";
+import { useEffect,useState } from "react";
 
 type Props = {
   portfolio: IPortfolio;
 };
 
 const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
-  const { theme } = useTheme();
+  const { theme,updateTheme} = useTheme();
+  const [ initialized, setInitialized ] = useState(false);
+
+  useEffect(() => {
+    if (portfolio.theme === 'light' || portfolio.theme === 'dark' || portfolio.theme === 'modern') {
+      updateTheme(portfolio.theme as Theme); 
+      setInitialized(true);
+    } else {
+      console.error('Invalid theme:', portfolio.theme); 
+    }
+  }, [initialized, portfolio.theme]);
+
 
   const getBackgroundColor = (theme: Theme): string => {
     switch (theme) {
