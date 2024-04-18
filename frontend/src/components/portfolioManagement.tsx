@@ -10,7 +10,7 @@ type Props = {
 const PortfolioManagement: React.FC<Props> = ({ data }) => {
 	return (
 		<>
-			<div className="flex flex-col items-center mb-10">
+			<div className="flex flex-col items-center mb-10 pl-14">
 				<div className="flex flex-col justify-center items-center">
 					<CreatePortfolioSection portfolioCount={data.length} />
 				</div>
