@@ -1,22 +1,12 @@
 import { JWTAdapter } from '../config';
 import CustomError from './errors';
 
-export type TokenType = {
-  id: string;
-  name: string;
-  email: string;
-  imageUrl?: string;
-};
+export type TokenType = { id: string };
 
-export const generateToken = async (options: TokenType, duration = '1h') => {
+export const generateToken = async (options: TokenType, duration?: string | number) => {
 
   const newToken = await JWTAdapter.generateToken(
-    {
-      id: options.id,
-      name: options.name,
-      email: options.email,
-      imageUrl: options.imageUrl,
-    },
+    { id: options.id },
     duration
   );
 

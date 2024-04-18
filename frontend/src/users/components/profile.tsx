@@ -4,21 +4,20 @@ import LicensePopup from "@/components/licensePopup";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { UserResponse } from "../interfaces/users";
 import DeleteAccount from "./delete/delete-account";
 // import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
 import Toast from "@/components/toast";
 import { useAppSelector } from "@/store";
-
+import { User } from "@/interfaces";
 
 type Props = {
-  user: UserResponse;
+  user: User;
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
-  const { toast } = useAppSelector((state) => state);
+  const toast = useAppSelector((state) => state.toast);
 
   useEffect(() => {
 		// Remove the data-theme attribute
@@ -41,7 +40,6 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
     <section className="relative">
       {(toast.message) && (
         <Toast type={toast.type}>{toast.message}</Toast>
-
       )}
 
       <section className="w-[95%] md:w-[80%] mx-auto py-10">

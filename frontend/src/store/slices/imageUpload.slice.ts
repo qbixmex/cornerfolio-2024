@@ -15,13 +15,16 @@ export const imageUploadSlice = createSlice({
 	name: 'imageUpload',
 	initialState: defaultState,
 	reducers: {
-		setUploadingImage: (state, action: PayloadAction<{ imageId: string | null, loading: boolean }>) => {
+		setUploadingImage: (state, action: PayloadAction<{ imageId: string, loading: boolean }>) => {
 			state.imageId = action.payload.imageId;
 			state.loadingImage = action.payload.loading;
+		},
+		resetUploadingImage: (state) => {
+			state = defaultState;
 		},
 	}
 });
 
-export const { setUploadingImage } = imageUploadSlice.actions;
+export const { setUploadingImage, resetUploadingImage } = imageUploadSlice.actions;
 
 export default imageUploadSlice.reducer;

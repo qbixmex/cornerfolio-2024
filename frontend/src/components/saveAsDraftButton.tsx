@@ -1,8 +1,7 @@
 'use client';
 
 import { unPublishPortfolio } from '@/portfolios/actions/portfolio.action';
-import { FormEvent, useState } from 'react';
-import styles from '@/users/components/profile.module.css';
+import { FormEvent } from 'react';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
 
@@ -18,18 +17,14 @@ function DraftButton({ statusPortfolio, id }: Props) {
 	const handleUnPublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
-		try {
-			const data = await unPublishPortfolio(id);
+		const data = await unPublishPortfolio(id);
 
-			if (data.error) {
-				dispatch(setToast({ message: data.error, type: 'error' }));
-			}
+		if ("error" in data) {
+			dispatch(setToast({ message: data.error, type: 'error' }));
+		}
 
-			if (data.message) {
-				dispatch(setToast({ message: data.message, type: 'success' }));
-			}
-		} catch (error) {
-			console.error('Error publishing portfolio:', error);
+		if ("message" in data) {
+			dispatch(setToast({ message: "Portfolio un-published successfully 👍", type: 'success' }));
 		}
 	};
 

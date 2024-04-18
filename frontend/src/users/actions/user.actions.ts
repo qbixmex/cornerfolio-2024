@@ -4,10 +4,11 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { UsersSearch } from "../interfaces/users";
+import { User } from "@/interfaces";
 
 const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
-export const getUser = async (id: string) => {
+export const getUser = async (id: string): Promise<{ user: User } | { error: string; }> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
 
@@ -16,6 +17,7 @@ export const getUser = async (id: string) => {
       "token": token?.value!,
     }
   });
+
   return response.json();
 };
 
@@ -52,7 +54,11 @@ export const createUser = async (formData: FormData) => {
   return response.json();
 };
 
-export const updateUser = async (id: string, formData: FormData) => {
+type ResponseUpdateUser =
+  | { message: string; user: User; }
+  | { error: string; };
+
+export const updateUser = async (id: string, formData: FormData): Promise<ResponseUpdateUser> => {
   const cookiesStore = cookies();
   const token = cookiesStore.get('token');
 
@@ -66,7 +72,7 @@ export const updateUser = async (id: string, formData: FormData) => {
     });
 
     revalidateTag("users-table");
-    revalidatePath(`/admin/users/profile/${id}`);
+    revalidatePath(`/admin`, "layout");
 
     return response.json();
   } catch (error) {

@@ -3,19 +3,28 @@
 import { updatePortfolio } from "@/api/changePortfolioTitle.fetch";
 import { useState } from "react";
 import { Portfolio } from "./portfolioManagementActions";
+import { useAppDispatch } from "@/store";
+import { setToast } from "@/store/slices/toast.slice";
 
 type Props = {
 	portfolio: Portfolio;
 };
 
 export default function PortfolioEditTitle({ portfolio }: Props) {
+	const dispatch = useAppDispatch();
 	const [title, setTitle] = useState<string>(portfolio.portfolioTitle);
+
 	const editPortFolio = async (id: string, newTitle: string) => {
-		try {
-			await updatePortfolio(id, newTitle);
-		} catch (error) {
-			console.error("Error updating portfolio title:", error);
+		const data = await updatePortfolio(id, newTitle);
+
+		if ("error" in data) {
+			dispatch(setToast({ message: data.error, type: "error" }));
 		}
+
+		if ("message" in data) {
+			dispatch(setToast({ message: "Job Title Updated Successfully 👍", type: "success" }));
+		}
+		
 	};
 
 	return (
