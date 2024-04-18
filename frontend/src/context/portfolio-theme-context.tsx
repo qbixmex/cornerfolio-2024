@@ -28,7 +28,9 @@ export function ThemeContextProvider({ children }: Props) {
 		setTheme(theme);
 	};
 
-	return <ThemeContext.Provider value={{ theme, updateTheme }}>{children}</ThemeContext.Provider>;
+	return <ThemeContext.Provider value={{ theme, updateTheme }}>
+		{children}
+	</ThemeContext.Provider>;
 }
 
 export const useTheme = () => useContext(ThemeContext);

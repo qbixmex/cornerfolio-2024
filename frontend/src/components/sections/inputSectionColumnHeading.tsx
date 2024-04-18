@@ -3,13 +3,13 @@ import { SectionColumn } from '@/interfaces';
 import { updateSectionColumn } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
-import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 import { useTheme } from '@/context/portfolio-theme-context';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -24,6 +24,7 @@ const formSchemaHeading = yup.object().shape({
 });
 
 const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
+	const dispatch = useAppDispatch();
 
 	const [heading] = useState(() => {
 		if (section) {
@@ -54,7 +55,6 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 	});
 
 	const { theme } = useTheme();
-	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(headingSize);
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
@@ -77,32 +77,21 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				} else {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.message, type: 'success' }));
 				}
 			} catch (error) {
 				console.error(error);
 				setToast({ message: 'Error updating column, check logs !', type: 'error' });
 			} finally {
 				dispatch(setReloading(false)); // reloading false
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});
 
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
-
 	return (
 		<div>
-			{toast.message && (
-				<div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
-					{toast.message}
-				</div>
-			)}
 			<form
 				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
 				onSubmit={formik.handleSubmit}

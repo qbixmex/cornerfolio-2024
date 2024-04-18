@@ -8,15 +8,12 @@ import ChooseSection from "@/components/sections/chooseSection";
 import SectionsList from "@/components/sections/sectionsList";
 import { TemplateFooter } from "./templateFooter";
 import ManageStatus from "./manageStatus";
-import { useAppSelector } from "@/store";
-import Toast from "@/components/toast";
 
 type Props = {
   portfolio: IPortfolio;
 };
 
 const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
-  const toast = useAppSelector(state => state.toast);
   const { theme } = useTheme();
 
   const getBackgroundColor = (theme: Theme): string => {
@@ -37,10 +34,6 @@ const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
 
   return (
     <main className={`${getBackgroundColor(theme)} ml-[52px] mt-[55px] text-2xl font-bold`}>
-      {(toast.message) && (
-        <Toast type={toast.type}>{toast.message}</Toast>
-      )}
-
       <ManageStatus
         portfolioId={portfolio.id}
         tinyUrlId={portfolio.tinyUrlId}

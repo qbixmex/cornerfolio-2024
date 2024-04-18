@@ -13,7 +13,7 @@ import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { resetToast, setToast } from '@/store/slices/toast.slice';
 import { useAppSelector } from '@/store';
-import { setAuth } from '@/store/slices/auth.slice';
+import { resetAuth, setAuth } from '@/store/slices/auth.slice';
 
 type Props = {
 	authenticatedUser: User;
@@ -48,13 +48,11 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	};
 
 	const handleLogout = () => {
-		dispatch(setToast({ message: 'Logged out successfully', type: 'success' }))
-		setTimeout(() => {
-			logout();
-			router.refresh();
-			dispatch(resetToast());
-			router.push('/login');
-		}, 2000);
+		dispatch(setToast({ message: 'You\'ve been logged out successfully 👍', type: 'success' }))
+		dispatch(resetAuth());
+		logout();
+		router.refresh();
+		router.push('/login');
 	};
 
 	return (

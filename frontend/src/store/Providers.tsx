@@ -3,6 +3,7 @@
 import { FC, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { mainStore } from '@/store';
+import { ThemeContextProvider } from '@/context/portfolio-theme-context';
 
 type Props = {
   children: ReactNode;
@@ -11,7 +12,9 @@ type Props = {
 const Providers: FC<Props> = ({ children }) => {
   return (
     <Provider store={ mainStore }>
-      {children}
+      <ThemeContextProvider>
+        {children}
+      </ThemeContextProvider>
     </Provider>
   );
 };

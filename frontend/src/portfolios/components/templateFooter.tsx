@@ -5,13 +5,13 @@ import modern from '@/app/admin/portfolios/templates/modern-template.module.css'
 import { IPortfolio } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
-import styles from '@/users/components/profile.module.css';
 import { Button } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
 import * as yup from 'yup';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolio: IPortfolio;
@@ -44,11 +44,10 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 				const data = await updatePortfolioFooter(portfolio.id, formData);
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				} else {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.message, type: 'success' }));
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
 				console.error('Error updating Footer:', error);
 			} finally {
@@ -57,23 +56,8 @@ export const TemplateFooter: React.FC<Props> = ({ portfolio }) => {
 		},
 	});
 
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
-
 	return (
 		<>
-			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
-			)}
-
 			<div
 				className={`py-[30px] px-[80px] border-b-gray-300 border-2 ${
 					theme === 'modern' ? modern.footerBackgroundColor : ''
