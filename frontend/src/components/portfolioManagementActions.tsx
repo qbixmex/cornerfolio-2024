@@ -80,7 +80,7 @@ export default function PortfolioManagementActions({ portfolios }: Props) {
 						))}
 					</div>
 				</>
-			)
+				)
 			}
 		</>
 	);
