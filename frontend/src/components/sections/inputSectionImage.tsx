@@ -7,6 +7,8 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { useAppDispatch } from '@/store';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -22,11 +24,14 @@ const formSchema = yup.object().shape({
 
 const InputSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
 	const { theme } = useTheme();
+	const dispatch = useAppDispatch();
 
 	const [fontSize, setFontSize] = useState<number>(section.item.captionSize);
+
 	const incrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
 	};
+
 	const decrementFontSize = () => {
 		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
 	};
@@ -44,35 +49,19 @@ const InputSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				} else {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.message, type: 'success' }));
 				}
 			} catch (error) {
 				console.log(error);
 				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
 			}
-			setTimeout(() => setToast({ message: '', type: '' }), 4000);
 		},
-	});
-
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
 	});
 
 	return (
 		<div>
-			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
-			)}
-
 			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
 				<section className="w-full mr-5">
 					<input

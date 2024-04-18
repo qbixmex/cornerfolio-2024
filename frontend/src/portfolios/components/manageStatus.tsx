@@ -1,59 +1,62 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { publishPortfolio, unPublishPortfolio } from "../actions/portfolio.action";
 import Link from "next/link";
+import { useAppDispatch } from "@/store";
+import { resetToast, setToast } from "@/store/slices/toast.slice";
 
 type Props = {
   portfolioId: string;
   tinyUrlId: string;
   status: string;
-  setToast: (toast: { message: string; type: string }) => void;
 };
 
-const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, status, setToast }) => {
+const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, status }) => {
+  const dispatch = useAppDispatch();
+  const [currentStatus, setCurrentStatus] = useState("");
 
-  const [ currentStatus, setCurrentStatus ] = useState(status);
- 
+  useEffect(() => {
+    setCurrentStatus(status);
+  }, [status]);
+
   const handlePublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
-		try {
-			const data = await publishPortfolio(portfolioId);
+    const data = await publishPortfolio(portfolioId);
 
-			if (data.error) {
-				setToast({ message: data.error, type: 'error' });
-			} else {
-				setToast({ message: data.message, type: 'success' });
-				setCurrentStatus('published');
-			}
+    if ('error' in data) {
+      dispatch(setToast({ message: data.error, type: 'error' }));
+    }
 
-			setTimeout(() => setToast({ message: '', type: '' }), 4000);
-		} catch (error) {
-			console.error('Error publishing portfolio:', error);
-		}
+    if ('message' in data) {
+      dispatch(setToast({ message: "Portfolio published successfully 👍", type: 'success' }));
+      setCurrentStatus(data.portfolio.type);
+    }
+
+    setTimeout(() => dispatch(resetToast()), 3000);
 	};
 
 	const handleUnPublishPortfolio = async (event: FormEvent) => {
 		event.preventDefault();
 
-		try {
-			const data = await unPublishPortfolio(portfolioId);
+    const data = await unPublishPortfolio(portfolioId);
 
-			if (data.error) {
-				setToast({ message: data.error, type: 'error' });
-			} else {
-				setToast({ message: data.message, type: 'success' });
-				setCurrentStatus('draft');
-			}
-			setTimeout(() => setToast({ message: '', type: '' }), 4000);
-		} catch (error) {
-			console.error('Error publishing portfolio:', error);
-		}
+    if ('error' in data) {
+      dispatch(setToast({ message: data.error, type: 'error' }));
+    }
+
+    if ('message' in data) {
+      dispatch(setToast({ message: "Portfolio un-published successfully 👍", type: 'success' }));
+      setCurrentStatus(data.portfolio.type);
+    }
+
+    setTimeout(() => dispatch(resetToast()), 3000);
 	};
 
   return (
     <section className="fixed top-[55px] w-full bg-gray-200 flex justify-end z-30">
+
     <div className="fixed top-[55px] w-full bg-gray-200 flex justify-end">
       {currentStatus === 'draft' && (
         <form onSubmit={handlePublishPortfolio}>

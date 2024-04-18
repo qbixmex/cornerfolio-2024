@@ -7,6 +7,8 @@ import { useTheme } from '@/context/portfolio-theme-context';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { useAppDispatch } from '@/store';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -21,6 +23,7 @@ const formSchemaContent = yup.object().shape({
 });
 
 const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
+	const dispatch = useAppDispatch();
 	const { theme } = useTheme();
 	const [fontSize, setFontSize] = useState<number>(section.item.contentSize);
 	const incrementFontSize = () => {
@@ -42,35 +45,20 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				}
 				
 				if (data.message) {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.message, type: 'success' }));
 				}
-
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			} catch (error) {
 				console.error('Error updating text:', error);
 			}
 		},
 	});
 
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
-
 	return (
 		<div>
-			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'
-						}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
-			)}
 			<form
 				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
 				onSubmit={formik.handleSubmit}

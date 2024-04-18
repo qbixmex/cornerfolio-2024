@@ -4,8 +4,8 @@ import { portFoliosFetch } from '@/api/portfolios.fetch';
 import { logout } from '@/app/login/actions/logout.action';
 import { User } from '@/interfaces';
 import { useAppSelector } from '@/store';
-import { setAuth } from '@/store/slices/auth.slice';
-import { resetToast, setToast } from '@/store/slices/toast.slice';
+import { resetAuth, setAuth } from '@/store/slices/auth.slice';
+import { setToast } from '@/store/slices/toast.slice';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -47,13 +47,11 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	};
 
 	const handleLogout = () => {
-		dispatch(setToast({ message: 'Logged out successfully', type: 'success' }))
-		setTimeout(() => {
-			logout();
-			router.refresh();
-			dispatch(resetToast());
-			router.push('/login');
-		}, 2000);
+		dispatch(setToast({ message: 'You\'ve been logged out successfully 👍', type: 'success' }))
+		dispatch(resetAuth());
+		logout();
+		router.refresh();
+		router.push('/login');
 	};
 
 	return (
@@ -102,7 +100,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 							Manage Portfolios
 						</a>
 
-						{portfolios.map((portfolio: Portfolio) => (
+						{portfolios.map((portfolio) => (
 							<a
 								key={portfolio.id}
 								href={`/admin/portfolios/${portfolio.id}`}

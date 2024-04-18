@@ -8,6 +8,9 @@ import { logout } from '@/app/login/actions/logout.action';
 import { useRouter } from 'next/navigation';
 import { AuthenticatedUser } from '@/interfaces';
 import { MdLogout } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { resetAuth } from '@/store/slices/auth.slice';
+import { setToast } from '@/store/slices/toast.slice';
 
 const sidebarLink =
   "bg group flex items-center space-x-4 rounded-full px-4 py-3 text-gray-600";
@@ -21,9 +24,12 @@ type Props = {
 const Sidebar: React.FC<Props> = ({ authenticatedUser }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
 		logout();
+    dispatch(resetAuth());
+    dispatch(setToast({ message: "You've been logged out successfully 👍", type: 'success' }));
     router.refresh();
 		router.push('/login');
 	};

@@ -12,9 +12,8 @@ type UserCredentials = {
 type LoginResponse = {
   message?: string;
   error?: string;
-  token: string;
-  user: User;
-}
+  token?: string;
+};
 
 export const fetchLogin = async (credentials: UserCredentials): Promise<LoginResponse> => {
   const response = await fetch(`${API_URL}/api/auth/login`, {

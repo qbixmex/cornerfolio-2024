@@ -5,11 +5,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import DeleteAccount from "./delete/delete-account";
-// import styles from "./profile.module.css";
 import UpdateUserForm from "./update/update-form";
 import PasswordForm from "./update/update-password-form";
-import Toast from "@/components/toast";
-import { useAppSelector } from "@/store";
 import { User } from "@/interfaces";
 
 type Props = {
@@ -17,8 +14,6 @@ type Props = {
 };
 
 const ProfileBody: React.FC<Props> = ({ user }) => {
-  const toast = useAppSelector((state) => state.toast);
-
   useEffect(() => {
 		// Remove the data-theme attribute
 		document.documentElement.removeAttribute('data-theme');
@@ -38,10 +33,6 @@ const ProfileBody: React.FC<Props> = ({ user }) => {
 
   return (
     <section className="relative">
-      {(toast.message) && (
-        <Toast type={toast.type}>{toast.message}</Toast>
-      )}
-
       <section className="w-[95%] md:w-[80%] mx-auto py-10">
         <h1 className="text-6xl text-slate-700 font-semibold tracking-tight mb-10">
           User Profile

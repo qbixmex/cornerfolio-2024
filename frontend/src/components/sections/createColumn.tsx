@@ -1,7 +1,11 @@
+"use client";
+
 import { createSectionColumn } from '@/sections/actions/section.action';
 import { PiTextColumns } from 'react-icons/pi';
 import { Button } from '@nextui-org/react';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import { useAppDispatch } from '@/store';
+import { setToast, resetToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -10,13 +14,21 @@ type Props = {
 };
 
 const CreateColumn: React.FC<Props> = ({ portfolioId, order, onCloseModal }) => {
+	const dispatch = useAppDispatch();
+
 	const handleCreateColumn = async () => {
-		try {
-			await createSectionColumn(portfolioId, order);
-			onCloseModal();
-		} catch (error) {
-			console.error('Error creating column', error);
+		const data = await createSectionColumn(portfolioId, order);
+
+		if ("error" in data) {
+			dispatch(setToast({ message: data.error, type: "error" }));
 		}
+
+		if ("message" in data) {
+			dispatch(setToast({ message: data.message, type: "success" }));
+		}
+
+		setTimeout(() => dispatch(resetToast()), 3000);
+		onCloseModal();
 	};
 
 	return (

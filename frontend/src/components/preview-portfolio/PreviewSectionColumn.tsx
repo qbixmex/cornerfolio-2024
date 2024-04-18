@@ -38,19 +38,19 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				{/* heading2 */}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.headingSize1 }}
+						style={{ fontSize: section.item.headingSize2 }}
 						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 					>
-						{section.item.heading1}
+						{section.item.heading2}
 					</div>
 				</div>
 
 				{/* content 2*/}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.contentSize1 }}
+						style={{ fontSize: section.item.contentSize2 }}
 						className={clsx( `w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
+						dangerouslySetInnerHTML={{ __html: section.item.content2.replace(/\n/g, '<br />') }}
 					/>
 				</div>
 			</div>
@@ -60,19 +60,19 @@ const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 				{/* heading3 */}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.headingSize1 }}
+						style={{ fontSize: section.item.headingSize3 }}
 						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
 					>
-						{section.item.heading1}
+						{section.item.heading3}
 					</div>
 				</div>
 
 				{/* content 3*/}
 				<div className="flex items-between m-2">
 					<div
-						style={{ fontSize: section.item.contentSize1 }}
+						style={{ fontSize: section.item.contentSize3 }}
 						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
+						dangerouslySetInnerHTML={{ __html: section.item.content3.replace(/\n/g, '<br />') }}
 					/>
 				</div>
 			</div>

@@ -9,8 +9,8 @@ import { useFormik } from 'formik';
 import Link from 'next/link';
 import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAppDispatch } from '@/store';
-import { setToast } from '../../../store/slices/toast.slice';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { resetToast, setToast } from '../../../store/slices/toast.slice';
 
 const formSchema = yup.object().shape({
   email: yup
@@ -42,31 +42,22 @@ export function LoginForm() {
     validationSchema: formSchema,
     onSubmit: async (formData) => {
       const data = await fetchLogin(formData);
-
       if (data.error) {
         dispatch(setToast({ message: data.error, type: "error" }));
+        setTimeout(() => dispatch(resetToast()), 3000);
+        return;
       }
 
       if (data.message) {
         setCookie('token', data.token);
         dispatch(setToast({ message: data.message, type: "success" }));
-      } 
-
-      formik.resetForm();
-
-      router.push('/admin/portfolio-management');
+        formik.resetForm();
+        router.push('/admin/portfolio-management');
+      }
     },
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    if (!showPassword) {
-      setShowPassword(true);
-    } else {
-      setShowPassword(false);
-    }
-  };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">

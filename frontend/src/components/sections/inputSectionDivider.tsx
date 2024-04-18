@@ -9,6 +9,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	section: SectionDivider;
@@ -45,36 +46,21 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				} else {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.message, type: 'success' }));
 				}
 			} catch (error) {
 				console.log(error);
-				setToast({ message: `Error updating divider, check logs !`, type: 'error' });
+				dispatch(setToast({ message: `Error updating divider, check logs !`, type: 'error' }));
 			} finally {
 				dispatch(setReloading(false)); // reloading false
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
 			}
 		},
 	});
 
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
-
 	return (
 		<div>
-			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${
-						toast.type === 'error' ? 'red' : 'green'
-					}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
-			)}
 			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
 				<input
 					id="title"

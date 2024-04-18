@@ -1,12 +1,13 @@
 'use client';
 
 import { createSectionEmbeddedMedia } from '@/sections/actions/section.action';
-import { useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { Button } from '@nextui-org/react';
 
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { FaVideo } from 'react-icons/fa';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import { setToast, resetToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	portfolioId: string;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) => {
+	const dispatch = useAppDispatch();
 	const reloading = useAppSelector((state) => state.reloading.reloading);
 	const [isOpen, setIsOpen] = useState(false);
 	const [code, setCode] = useState('');
@@ -44,12 +46,18 @@ const CreateEmbeddedMedia: FC<Props> = ({ portfolioId, order, onCloseModal }) =>
 			return;
 		}
 
-		try {
-			await createSectionEmbeddedMedia(portfolioId, order, code);
-			onCloseModal();
-		} catch (error) {
-			console.error('Error creating embedded-media:', error);
+		const data = await createSectionEmbeddedMedia(portfolioId, order, code);
+
+		if ("error" in data) {
+			dispatch(setToast({ message: data.error, type: "error" }));
 		}
+
+		if ("message" in data) {
+			dispatch(setToast({ message: data.message, type: "success" }));
+		}
+
+		setTimeout(() => dispatch(resetToast()), 3000);
+		onCloseModal();
 	};
 
 	return (
