@@ -1,8 +1,8 @@
-import { ThemeContextProvider } from '@/context/portfolio-theme-context';
 import { Providers } from '@/store';
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
+import ToastNotification from '@/components/toastNofitication';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -21,9 +21,9 @@ const RootLayout: React.FC<Props> = ({ children }) => {
 		<html lang="en">
 			<body className={montserrat.className}>
 				<Providers>
-					<ThemeContextProvider>
-						<main>{children}</main>
-					</ThemeContextProvider>
+					<ToastNotification>
+						{children}
+					</ToastNotification>
 				</Providers>
 			</body>
 		</html>

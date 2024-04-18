@@ -18,18 +18,8 @@ const AdminLayout: FC<{children: ReactNode}> = async ({ children }) => {
   //* Get the token from the cookies
   const cookiesStore = cookies();
 	const token = cookiesStore.get('token');
-  
-  //* If there is no token, redirect to the login page
-  if (!token) {
-    return redirect('/login');
-  }
 
   const tokenDecoded = jwt.decode(token!.value) as Token | null;
-
-  //* Check if the token is expired
-  if (tokenDecoded?.exp! * 1000 < Date.now()) {
-    return redirect('/login');
-  }
 
   const authenticatedUser: AuthenticatedUser = {
     id: tokenDecoded?.id ?? '',

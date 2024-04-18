@@ -1,14 +1,14 @@
-import { Theme, useTheme } from '@/context/portfolio-theme-context';
+import { useTheme } from '@/context/portfolio-theme-context';
 import { SectionColumn } from '@/interfaces';
 import { updateSectionColumn } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
-import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -75,11 +75,12 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 				});
 
 				if (data.error) {
-					setToast({ message: data.error, type: 'error' });
-				} else {
-					setToast({ message: data.message, type: 'success' });
+					dispatch(setToast({ message: data.error, type: 'error' }));
 				}
-				setTimeout(() => setToast({ message: '', type: '' }), 4000);
+
+				if (data.message) {
+					dispatch(setToast({ message: data.message, type: 'success' }));
+				}
 			} catch (error) {
 				console.error('Error updating column:', error);
 			} finally {
@@ -88,20 +89,8 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 		},
 	});
 
-	const [toast, setToast] = useState({
-		message: '',
-		type: '',
-	});
-
 	return (
 		<div>
-			{toast.message && (
-				<div
-					className={`fixed z-[100] top-5 right-5 w-fit bg-${ toast.type === 'error' ? 'red' : 'green' }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}
-				>
-					{toast.message}
-				</div>
-			)}
 			<form
 				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
 				onSubmit={formik.handleSubmit}

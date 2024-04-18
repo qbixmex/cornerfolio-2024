@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { SectionImageText } from '@/interfaces';
 import { useAppDispatch } from '@/store';
 import { uploadSectionImageText } from '@/sections/actions/section.update.action';
-import styles from '@/users/components/profile.module.css';
 import { resetUploadingImage, setUploadingImage } from '@/store/slices/imageUpload.slice';
+import { setToast } from '@/store/slices/toast.slice';
 
 type Props = {
   portfolioId: string;
@@ -37,20 +37,15 @@ const UploadSectionImageText: React.FC<Props> = ({ section, portfolioId }) => {
         const data = await uploadSectionImageText(portfolioId, section.item.id, formData);
 
         if (data.error) {
-          setToast({ message: data.error, type: 'error' });
+          dispatch(setToast({ message: data.error, type: 'error' }));
         }
 
         if (data.message) {
-          setToast({ message: data.message, type: 'success' });
-          setTimeout(() => {
-            dispatch(resetUploadingImage());
-          }, 500);
+          dispatch(setToast({ message: data.message, type: 'success' }));
+          setTimeout(() => dispatch(resetUploadingImage()), 500);
         }
 
-        setTimeout(() => {
-          setToast({ message: '', type: '' })
-          setImageFieldKey(Date.now());
-        }, 3000);
+        setTimeout(() => setImageFieldKey(Date.now()), 3000);
       } catch (error) {
         console.error("There has been a problem with your fetch operation: ", error);
         throw error;
@@ -58,19 +53,8 @@ const UploadSectionImageText: React.FC<Props> = ({ section, portfolioId }) => {
     },
   });
 
-  const [toast, setToast] = useState({
-    message: '',
-    type: ''
-  });
-
   return (
     <div className='flex justify-around w-full text-xs'>
-      {toast.message && (
-        <div className={`fixed z-[100] top-5 right-5 w-fit bg-${toast.type === 'error' ? 'red' : 'green'}-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${styles.slideLeft}`}>
-          {toast.message}
-        </div>
-      )}
-
       <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
         <section className="my-5 flex gap-x-3 justify-center items-center max-lg:flex-col max-sm:flex-row">
           <section>

@@ -1,7 +1,6 @@
 "use client";
 
 import { UserIcon } from "@/components/icons";
-import styles from "@/users/components/profile.module.css";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -9,6 +8,8 @@ import { useState } from "react";
 import * as yup from "yup";
 import { createUser } from "../actions/user.actions";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAppDispatch } from "@/store";
+import { setToast, resetToast } from "@/store/slices/toast.slice";
 
 const formSchema = yup.object().shape({
   name: yup
@@ -67,11 +68,12 @@ type User = {
 };
 
 const CreateUserForm = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const [imageFieldKey, setImageFieldKey] = useState(Date.now());
+  const [ imageFieldKey, setImageFieldKey ] = useState(Date.now());
   const [ showPassword, setShowPassword ] = useState(false);
   const [ showPasswordConfirmation, setShowPasswordConfirmation ] = useState(false);
-  const router = useRouter();
 
   const formik = useFormik<User>({
     initialValues: {
@@ -106,15 +108,19 @@ const CreateUserForm = () => {
       const data = await createUser(formData);
 
       if (data.error) {
-        setToast({ message: data.error, type: "error" });
-      } else {
-        setToast({ message: data.message, type: "success" });
+        dispatch(setToast({ message: data.error, type: "error" }));
       }
+
+      if (data.message) {
+        dispatch(setToast({ message: data.message, type: "success" }));
+      }
+
       setTimeout(() => {
-        setToast({ message: "", type: "" });
+        dispatch(resetToast());
         //* This line is to reset the image field after the form is submitted
         setImageFieldKey(Date.now());
-      }, 4000);
+      }, 3000);
+
       //* This line is to reset the form after the form is submitted
       formik.resetForm();
       setTimeout(() => {
@@ -123,24 +129,8 @@ const CreateUserForm = () => {
     },
   });
 
-  const [toast, setToast] = useState({
-    message: "",
-    type: "",
-  });
-
   return (
     <>
-      {toast.message && (
-        <div
-          className={`fixed z-[100] top-5 right-5 w-fit bg-${
-            toast.type === "error" ? "red" : "green"
-          }-500 text-white text-lg px-5 py-3 rounded-md mb-5 ${
-            styles.slideLeft
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
       <form
         className="w-full mb-10"
         onSubmit={formik.handleSubmit}
