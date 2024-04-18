@@ -16,7 +16,7 @@ type Props = {
 
 const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
   const { theme,updateTheme} = useTheme();
-  const [initialized, setInitialized] = useState(false);
+  const [ initialized, setInitialized ] = useState(false);
 
   useEffect(() => {
     if (portfolio.theme === 'light' || portfolio.theme === 'dark' || portfolio.theme === 'modern') {
