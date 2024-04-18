@@ -1,10 +1,10 @@
 'use client';
 
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaTimes } from "react-icons/fa";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { useDebouncedCallback } from 'use-debounce';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from "react";
+import { FaTimes } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useDebouncedCallback } from 'use-debounce';
 
 const SearchUsers = () => {
   const searchParams = useSearchParams();
@@ -17,7 +17,7 @@ const SearchUsers = () => {
 
     params.set('page', '1');
 
-    if (term)  {
+    if (term) {
       params.set('query', term);
     } else {
       params.delete('query');
@@ -45,7 +45,7 @@ const SearchUsers = () => {
         ref={searchRef}
         defaultValue={searchParams.get('query')?.toString()}
         onChange={(event) => handleSearch(event.target.value)}
-        placeholder="search ..."
+        placeholder="Search ..."
         autoComplete="off"
       />
       {(!searchRef.current?.value) ? (

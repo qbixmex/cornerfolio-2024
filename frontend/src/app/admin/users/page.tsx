@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
 import { getUsersPages } from '@/users';
 import { Pagination, SearchUsers, UsersTableSkeleton } from '@/users/components';
 import UsersTable from '@/users/components/users-table';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata = {
 	title: 'Users List',
@@ -22,21 +22,16 @@ const UsersPage: React.FC<Props> = async ({ searchParams }) => {
 	const data = await getUsersPages(query);
 
 	return (
-		<section className="w-[90%] mx-auto py-10">
-			<h1 className="text-6xl text-slate-700 font-semibold pl-8 mb-10">Users List</h1>
-
+		<section className="w-[90%] mx-auto py-10 pl-14">
 			<div className="bg-white p-8 rounded-md w-full">
 				<div className="flex items-center justify-between pb-6">
 					<div className="flex items-center justify-between w-full">
-						{/* Search */}
 						<SearchUsers />
-
 						<div className="ml-auto">
-							<Link
-								href="/admin/users/create"
-								className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
-							>
-								Create
+							<Link href="/admin/users/create">
+								<div className="bg-indigo-600 w-20 h-8 rounded-md text-white font-semibold tracking-wide flex justify-center items-center">
+									Add
+								</div>
 							</Link>
 						</div>
 					</div>
