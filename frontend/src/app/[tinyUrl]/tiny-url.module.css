@@ -1,13 +1,21 @@
 .noSectionsContainer {
-  @apply flex flex-col justify-center items-center my-20 relative h-[200px];
+  @apply h-[calc(100vh-240px)] grid content-center;
 }
 
-.circle {
-  @apply size-[300px] bg-orange-300 rounded-full flex justify-center items-center absolute z-0 left-1/2 right-1/2 -translate-x-1/2 top-1/2 bottom-1/2 -translate-y-1/2;
+.noSectionsRobotContainer {
+  @apply relative flex justify-center mb-5;
 }
 
-.robot {
-  @apply absolute w-[300px] z-10;
+.noSectionsRobotCircle {
+  @apply size-[300px] bg-orange-300 bg-opacity-75 rounded-full flex justify-center items-center absolute z-0 left-1/2 right-1/2 -translate-x-1/2 top-1/2 bottom-1/2 -translate-y-1/2;
+}
+
+.noSectionsRobot {
+  @apply w-[300px] relative z-10;
+}
+
+.noSectionsText {
+  @apply text-center text-2xl md:text-3xl lg:text-5xl text-orange-600 text-opacity-65;
 }
 
 .divider {
