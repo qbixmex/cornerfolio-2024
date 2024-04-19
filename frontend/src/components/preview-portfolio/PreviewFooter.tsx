@@ -22,7 +22,7 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 				<div
 					className={clsx(
 						'w-full outline-none text-sm',
-						theme === 'modern' && modern.subHeaderInputField,
+						theme === 'modern' && modern.headerFieldInput,
 						theme !== 'light' && 'text-white',
 					)}
 				>
@@ -33,7 +33,7 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 				<div
 					className={clsx(
 						'w-full outline-none text-sm',
-						theme === 'modern' && modern.headerFieldInput,
+						theme === 'modern' && modern.subHeaderInputField,
 						theme !== 'light' && 'text-white',
 					)}
 				>

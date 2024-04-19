@@ -2,6 +2,8 @@
 
 import { SectionText } from '@/interfaces';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionText;
@@ -35,9 +37,13 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.contentSize }}
-							className={`w-full outline-none ${
-								theme === 'modern' ? modern.textInputBackground : ''
-							} ${theme !== 'light' ? 'text-white' : ''}`}
+							className={clsx(
+								styles.sectionImageTextDescription, {
+									'text-stone-600': theme === 'light',
+									'text-white': theme === 'dark',
+									[modern.description]: theme === 'modern',
+								}
+							)}
 							dangerouslySetInnerHTML={{ __html: section.item.content.replace(/\n/g, '<br />') }}
 						/>
 					</div>

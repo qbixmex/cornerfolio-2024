@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionImageText } from '@/interfaces';
-import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from '@/context/portfolio-theme-context';
 import { useState } from 'react';
@@ -11,6 +10,8 @@ import ButtonsSize from '../buttonsSize';
 import { updateSectionImageText } from '@/sections/actions/section.update.action';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	portfolioId: string;
@@ -71,7 +72,13 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ portfolioId, section })
 						onBlur={formik.handleBlur}
 						autoComplete="off"
 						className={`w-full outline-none bg-transparent
-						${theme === 'modern' ? modern.imageInputBackground : ''}
+						${clsx(
+							styles.sectionImageCaption,
+							{
+								[modern.imageInputBackground]: theme === 'modern',
+								'text-white': theme !== 'light',
+							},
+						)}
 						${formik.touched.imgCaption && formik.errors.imgCaption ? 'border-2 border-red-500' : 'border-0'} `}
 						type="text"
 						style={{ fontSize: true ? fontSize : '' }}
