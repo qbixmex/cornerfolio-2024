@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 import { setToast } from '@/store/slices/toast.slice';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -104,7 +106,13 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.imageInputBackground : ''}
+					${clsx(
+						styles.sectionImageCaption,
+						{
+							[modern.imageInputBackground]: theme === 'modern',
+							'text-white': theme !== 'light',
+						},
+					)}
 					${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}

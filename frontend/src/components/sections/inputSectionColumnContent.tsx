@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 import { setToast } from '@/store/slices/toast.slice';
+import clsx from 'clsx';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -102,9 +104,17 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''} ${
+					${
 						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
-					}`}
+					}
+					${clsx(
+						styles.sectionColumnDescription, {
+						"text-stone-700": theme !== 'light',
+						"text-white": theme === 'dark',
+						[modern.description]: theme === 'modern',
+						}
+					)}
+					`}
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
 

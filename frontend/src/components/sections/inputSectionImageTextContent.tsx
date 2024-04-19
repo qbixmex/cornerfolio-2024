@@ -8,6 +8,9 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
+import clsx from 'clsx';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+
 
 type Props = {
 	portfolioId: string;
@@ -70,9 +73,17 @@ const InputSectionImageTextContent: React.FC<Props> = ({ portfolioId, section })
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-40 outline-none bg-transparent
-					${theme === 'modern' ? modern.textInputBackground : ''}
-					${formik.touched.txtContent && formik.errors.txtContent ? 'border-2 border-red-500' : 'border-0'}`}
+					${formik.touched.txtContent && formik.errors.txtContent ? 'border-2 border-red-500' : 'border-0'}
+					${clsx(
+						styles.sectionImageTextDescription, {
+							'text-stone-600': theme === 'light',
+							'text-white': theme === 'dark',
+							[modern.description]: theme === 'modern',
+						}
+					)}
+					`}
 					style={{ fontSize: true ? fontSize : '' }}
+					
 				/>
 				{formik.errors.txtContent && formik.touched.txtContent && (
 					<p className="text-red-500 text-xs">{formik.errors.txtContent}</p>
