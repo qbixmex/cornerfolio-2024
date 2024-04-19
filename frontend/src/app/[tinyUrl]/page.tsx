@@ -51,15 +51,15 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 				<PreviewHeader portfolio={data} />
 
 				{data && data.sections.length === 0 && (
-					<>
-						<section className={styles.noSectionsContainer}>
-							<div className={styles.circle} />
-							<RobotVector className={styles.robot} />
+					<section className={styles.noSectionsContainer}>
+						<section className={styles.noSectionsRobotContainer}>
+							<div className={styles.noSectionsRobotCircle} />
+							<RobotVector className={styles.noSectionsRobot} />
 						</section>
-						<div className="text-center text-2xl md:text-3xl lg:text-5xl text-stone-700">
-							No Sections Added Yet
-						</div>
-					</>
+							<div className={styles.noSectionsText}>
+								No Sections Added Yet
+							</div>
+					</section>
 				)}
 				{data && data.sections.length > 0 && (
 					<PreviewSectionsList
