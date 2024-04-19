@@ -54,11 +54,12 @@ const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 			);
 		case 'SectionEmbeddedMedia':
 			return (
-				<div className="flex justify-center">
+				<div className="bg-gray-100">
 					<div
+						className={styles.sectionEmbeddedMedia}
 						key={section.item.id}
 						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
-					/>
+					></div>
 				</div>
 			);
 		case 'SectionColumn':

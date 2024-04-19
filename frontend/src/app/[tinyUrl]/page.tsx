@@ -9,6 +9,7 @@ import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import styles from "./tiny-url.module.css";
 import { RobotVector } from '@/components/icons';
+import clsx from 'clsx';
 
 type Props = {
 	params: { tinyUrl: string };
@@ -18,10 +19,10 @@ type Props = {
 const getBackgroundColor = (theme: Theme): string => {
 	switch (theme) {
 		case 'light':
-			return 'bg-white';
+			return 'bg-slate-200';
 
 		case 'dark':
-			return 'bg-black';
+			return 'bg-[#222]';
 
 		case 'modern':
 			return `bg-[#13141A]`;
@@ -46,8 +47,10 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 	}
 
 	return (
-		<main className={`${getBackgroundColor(data.theme)} text-2xl font-bold min-h-screen`}>
-			<>
+		<main className={`${getBackgroundColor(data.theme)} text-2xl font-bold min-h-screen md:py-10`}>
+			<div className={clsx("w-[100%] md:w-[90%] xl:w-[1280px] mx-auto px-5 md:rounded-lg", {
+				"bg-gray-50": data.theme === 'light',
+			})}>
 				<PreviewHeader portfolio={data} />
 
 				{data && data.sections.length === 0 && (
@@ -68,8 +71,9 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 						portfolioId={tinyUrl}
 					/>
 				)}
+
 				<PreviewFooter portfolio={data} />
-			</>
+			</div>
 		</main>
 	);
 };
