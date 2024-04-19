@@ -41,10 +41,12 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 		return notFound();
 	}
 
-	if (!token && data.status === 'draft' && data.user.id !== tokenDecoded?.id) {
-		return notFound();
+	if (data.status === 'draft') {
+		if (!token || (tokenDecoded && tokenDecoded.id !== data.user.id)) {
+			return notFound();
+		}
 	}
-
+	
 	return (
 		<main className={`${getBackgroundColor(data.theme)} text-2xl font-bold min-h-screen`}>
 			<>
