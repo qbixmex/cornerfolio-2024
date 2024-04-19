@@ -7,6 +7,8 @@ import { getPortfolioByTinyUrlId } from '@/portfolios/actions/portfolio.action';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
+import styles from "./tiny-url.module.css";
+import { RobotVector } from '@/components/icons';
 
 type Props = {
 	params: { tinyUrl: string };
@@ -49,15 +51,22 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 				<PreviewHeader portfolio={data} />
 
 				{data && data.sections.length === 0 && (
-					<section className="mx-[80px] max-sm:px-[30px] mt-20 mb-20 flex flex-col items-center gap-3">
-						<section className="bg-orange-500 rounded text-white w-fit p-5">
-							No section created yet !
+					<>
+						<section className={styles.noSectionsContainer}>
+							<div className={styles.circle} />
+							<RobotVector className={styles.robot} />
 						</section>
-					</section>
+						<div className="text-center text-2xl md:text-3xl lg:text-5xl text-stone-700">
+							No Sections Added Yet
+						</div>
+					</>
 				)}
-
 				{data && data.sections.length > 0 && (
-					<PreviewSectionsList theme={data.theme} sections={data.sections} portfolioId={tinyUrl} />
+					<PreviewSectionsList
+						theme={data.theme}
+						sections={data.sections}
+						portfolioId={tinyUrl}
+					/>
 				)}
 				<PreviewFooter portfolio={data} />
 			</>

@@ -1,6 +1,7 @@
 import { SectionColumn } from '@/interfaces';
-import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import clsx from 'clsx';
+import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
 
 type Props = {
 	section: SectionColumn;
@@ -10,72 +11,112 @@ type Props = {
 const PreviewSectionColumn: React.FC<Props> = ({ section, theme }) => {
 
 	return (
-		<div className="flex w-full max-sm:flex-col">
-			{/* text1 */}
-			<div>
-				{/* heading1 */}
+		<div className={styles.sectionColumnContainer}>
+			{/* Text 1 */}
+			<section>
+				{/* heading 1 */}
 				<div className="flex items-between m-2">
-					<div
+					<h3
 						style={{ fontSize: section.item.headingSize1 }}
-						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-					>
-						{section.item.heading1}
-					</div>
+						className={clsx(
+							styles.sectionColumnHeading, {
+								"text-stone-700": theme !== 'light',
+								"text-white": theme === 'dark',
+								[modern.heading]: theme === 'modern',
+							}
+						)}
+					>{section.item.heading1}</h3>
 				</div>
 
-				{/* content 1*/}
+				{/* content 1 */}
 				<div className="flex items-between m-2">
-					<div
+					<p
 						style={{ fontSize: section.item.contentSize1 }}
-						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(/\n/g, '<br />') }}
-					/>
+						className={clsx(
+							styles.sectionColumnDescription, {
+							"text-stone-700": theme !== 'light',
+							"text-white": theme === 'dark',
+							[modern.description]: theme === 'modern',
+							}
+						)}
+						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(
+							/\n/g,
+							'<div style="width:100%;height:12px;">&nbsp</div>'
+						)}}
+					></p>
 				</div>
-			</div>
+			</section>
 
-		{/* text2 */}
-		<div>
-				{/* heading2 */}
+			{/* Text 2 */}
+			<section>
+				{/* heading 2 */}
 				<div className="flex items-between m-2">
-					<div
+					<h3
 						style={{ fontSize: section.item.headingSize2 }}
-						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-					>
-						{section.item.heading2}
-					</div>
+						className={clsx(
+							styles.sectionColumnHeading, {
+								"text-stone-700": theme !== 'light',
+								"text-white": theme === 'dark',
+								[modern.heading]: theme === 'modern',
+							}
+						)}
+					>{section.item.heading2}</h3>
 				</div>
 
-				{/* content 2*/}
+				{/* content 2 */}
 				<div className="flex items-between m-2">
-					<div
+					<p
 						style={{ fontSize: section.item.contentSize2 }}
-						className={clsx( `w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-						dangerouslySetInnerHTML={{ __html: section.item.content2.replace(/\n/g, '<br />') }}
-					/>
+						className={clsx(
+							styles.sectionColumnDescription, {
+								"text-stone-700": theme !== 'light',
+								"text-white": theme === 'dark',
+								[modern.description]: theme === 'modern',
+							}
+						)}
+						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(
+							/\n/g,
+							'<div style="width:100%;height:12px;">&nbsp</div>'
+						)}}
+					></p>
 				</div>
-			</div>
+			</section>
 
-			{/* text3 */}
-			<div>
-				{/* heading3 */}
+			{/* Text 3 */}
+			<section>
+				{/* heading 3 */}
 				<div className="flex items-between m-2">
-					<div
+					<h3
 						style={{ fontSize: section.item.headingSize3 }}
-						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.headerFieldInput : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-					>
-						{section.item.heading3}
-					</div>
+						className={clsx(
+							styles.sectionColumnHeading, {
+								"text-stone-700": theme !== 'light',
+								"text-white": theme === 'dark',
+								[modern.heading]: theme === 'modern',
+							}
+						)}
+					>{section.item.heading3}</h3>
 				</div>
 
-				{/* content 3*/}
+				{/* content 3 */}
 				<div className="flex items-between m-2">
-					<div
+					<p
 						style={{ fontSize: section.item.contentSize3 }}
-						className={clsx(`w-full outline-none ${theme === 'modern' ? modern.textInputBackground : ''} ${theme !== 'light' ? "text-white" : ''}`)}
-						dangerouslySetInnerHTML={{ __html: section.item.content3.replace(/\n/g, '<br />') }}
-					/>
+						className={clsx(
+							styles.sectionColumnDescription, {
+								"text-stone-700": theme !== 'light',
+								"text-white": theme === 'dark',
+								[modern.description]: theme === 'modern',
+							}
+						)}
+						dangerouslySetInnerHTML={{ __html: section.item.content1.replace(
+							/\n/g,
+							'<div style="width:100%;height:12px;">&nbsp</div>'
+						)}}
+					></p>
 				</div>
-			</div>
+			</section>
+
 		</div>
 	);
 };
