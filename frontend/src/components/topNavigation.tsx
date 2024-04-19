@@ -47,7 +47,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 	};
 
 	const handleLogout = () => {
-		dispatch(setToast({ message: 'You\'ve been logged out successfully 👍', type: 'success' }))
+		dispatch(setToast({ message: "You've been logged out successfully 👍", type: 'success' }));
 		dispatch(resetAuth());
 		logout();
 		router.refresh();
@@ -70,7 +70,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 				<div className="relative group">
 					<button
 						id="dropdown-button"
-						className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-blue-500 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
+						className="inline-flex w-[138px] relative justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-blue-500 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
 						onClick={toggleCenterMenu}
 					>
 						<span className="h-2 text-white">Portfolios</span>
@@ -90,25 +90,31 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 
 					<div
 						id="dropdown-menu"
-						className={`${centerMenuOpen ? "" : "hidden"
-							} absolute right-0 mt-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1`}
+						className={`${
+							centerMenuOpen ? '' : 'hidden'
+						} flex flex-col gap-y-2 absolute left-0 my-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1 max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide`}
 					>
 						<a
 							href="/admin/portfolio-management"
-							className="text-white text-sm block p-5 px-z py-2 hover:bg-blue-300 active:bg-blue-100 cursor-pointer rounded-md"
+							className="bg-blue-300 text-center text-blue-800 font-bold text-sm block p-5 px-z py-2 hover:bg-blue-300 active:bg-blue-100 cursor-pointer rounded-md "
 						>
 							Manage Portfolios
 						</a>
+						<hr />
 
-						{portfolios && portfolios.map((portfolio) => (
-							<a
-								key={portfolio.id}
-								href={`/admin/portfolios/${portfolio.id}`}
-								className="text-white text-sm block p-5 px-4 py-2 hover:bg-blue-300 active:bg-blue-100 cursor-pointer rounded-md"
-							>
-								{portfolio.portfolioTitle}
-							</a>
-						))}
+						{portfolios &&
+							portfolios.map((portfolio) => (
+								<div>
+									<a
+										key={portfolio.id}
+										href={`/admin/portfolios/${portfolio.id}`}
+										className="text-white text-center tracking-4 text-sm block px-3 py-2 mb-3 hover:bg-blue-300 active:bg-blue-100 cursor-pointer hover:rounded-md"
+									>
+										{portfolio.portfolioTitle}
+									</a>
+									<hr />
+								</div>
+							))}
 					</div>
 				</div>
 			</div>
@@ -120,45 +126,43 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 					onClick={toggleRightMenu}
 				>
 					<span className="text-white font-medium">{user?.name}</span>
-					{
-						(!user?.imageUrl)
-							? <UserIcon className="w-10 h-10 text-gray-300 rounded-full border border-white p-2" />
-							: (
-								<img
-									className="w-10 h-10 rounded-full border border-white p-1 object-cover object-top"
-									src={user.imageUrl}
-									alt={user.name}
-								/>
-							)
-					}
+					{!user?.imageUrl ? (
+						<UserIcon className="w-10 h-10 text-gray-300 rounded-full border border-white p-2" />
+					) : (
+						<img
+							className="w-10 h-10 rounded-full border border-white p-1 object-cover object-top"
+							src={user.imageUrl}
+							alt={user.name}
+						/>
+					)}
 				</button>
 
 				<div
-					className={`${rightMenuOpen ? "" : "hidden"
-						} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
+					className={`${
+						rightMenuOpen ? '' : 'hidden'
+					} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
 					x-show="profileOpen"
 					x-transition="true"
 				>
 					<div className="flex flex-col space-y-3 p-2 text-md">
-						{
-							pathname !== `/admin/users/profile/${user?.id}` ? (
-								<Link
-									href={`/admin/users/profile/${user?.id}`}
-									className="transition text-slate-700 hover:text-blue-400"
-									onClick={toggleRightMenu}
-								>show profile</Link>
-							) : (
-								<span className="text-gray-300 cursor-not-allowed">show profile</span>
-							)
-						}
+						{pathname !== `/admin/users/profile/${user?.id}` ? (
+							<Link
+								href={`/admin/users/profile/${user?.id}`}
+								className="transition text-slate-700 hover:text-blue-400"
+								onClick={toggleRightMenu}
+							>
+								show profile
+							</Link>
+						) : (
+							<span className="text-gray-300 cursor-not-allowed">show profile</span>
+						)}
 					</div>
 
 					<div className="flex items-center gap-x-2 p-2 ">
 						<MdLogout size={20} />
-						<button
-							onClick={handleLogout}
-							className="hover:text-blue-600 transition"
-						>logout</button>
+						<button onClick={handleLogout} className="hover:text-blue-600 transition">
+							logout
+						</button>
 					</div>
 				</div>
 			</div>

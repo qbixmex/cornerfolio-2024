@@ -46,7 +46,7 @@ const ButtonsSize: React.FC<Props> = ({ decrementFontSize, incrementFontSize, fo
 					{ "hidden": formik.errors.content }
 				)}
 			>
-				<span className="text-white">save</span>
+				<span className="text-white">Save</span>
 			</Button>
 		</div>
 	);
