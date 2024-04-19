@@ -3,6 +3,14 @@
 	color: #a9da24;
 }
 
+.heading {
+	@apply text-lime-500;
+}
+
+.description {
+	@apply text-lime-100;
+}
+
 .subHeaderInputField {
 	background: transparent;
 	color: #454555;

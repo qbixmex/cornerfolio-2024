@@ -7,6 +7,7 @@ import PreviewSectionImage from './PreviewSectionImage';
 import PreviewSectionImageText from './PreviewSectionImageText';
 import PreviewSectionGallery from './PreviewSectionGallery';
 import PreviewSectionText from './PreviewSectionText';
+import styles from "@/app/[tinyUrl]/tiny-url.module.css";
 
 type Section =
 	| SectionText
@@ -26,16 +27,31 @@ const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 	switch (section.kind) {
 		case 'SectionDivider':
 			return (
-				<div className="  w-full">
+				<h2 className={styles.divider}>
 					<PreviewSectionDivider theme={theme} section={section as SectionDivider} />
-				</div>
+				</h2>
 			);
 		case 'SectionText':
-			return <PreviewSectionText theme={theme} section={section as SectionText} />;
+			return (
+				<PreviewSectionText
+					theme={theme}
+					section={section as SectionText}
+				/>
+			);
 		case 'SectionImage':
-			return <PreviewSectionImage theme={theme} section={section as SectionImage} />;
+			return (
+				<PreviewSectionImage
+					theme={theme}
+					section={section as SectionImage}
+				/>
+			);
 		case 'SectionImageText':
-			return <PreviewSectionImageText theme={theme} section={section as SectionImageText} />;
+			return (
+				<PreviewSectionImageText
+					theme={theme}
+					section={section as SectionImageText}
+				/>
+			);
 		case 'SectionEmbeddedMedia':
 			return (
 				<div className="flex justify-center">
@@ -46,9 +62,19 @@ const PreviewRenderSection: React.FC<Props> = ({ section, theme }) => {
 				</div>
 			);
 		case 'SectionColumn':
-			return <PreviewSectionColumn theme={theme} section={section as SectionColumn} />;
+			return (
+				<PreviewSectionColumn
+					theme={theme}
+					section={section as SectionColumn}
+				/>
+			);
 		case 'SectionGallery':
-			return <PreviewSectionGallery theme={theme} section={section as SectionGallery} />;
+			return (
+				<PreviewSectionGallery
+					theme={theme}
+					section={section as SectionGallery}
+				/>
+			);
 		default:
 			return null;
 	}

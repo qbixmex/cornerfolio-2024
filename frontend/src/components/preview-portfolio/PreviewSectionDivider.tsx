@@ -9,17 +9,15 @@ type Props = {
 
 const PreviewSectionDivider: React.FC<Props> = ({ section, theme }) => {
 	return (
-		<div className="flex items-between m-4" >
+		<div className="flex items-between m-4">
 			<div
 				style={{ fontSize: section.item.titleSize }} 
-				className={
-					clsx(
-						"w-full outline-none border-b",
-						theme === 'modern' && modern.dividerInputBackground,
-						theme !== 'light' && 'text-white' 
-					)
-				}>
-				{section.item.title}</div>
+				className={clsx(
+					"w-full",
+					theme === 'modern' && modern.dividerInputBackground,
+					theme !== 'light' && 'text-white' 
+				)}
+			>{section.item.title}</div>
 		</div>
 	);
 };

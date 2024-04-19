@@ -1,6 +1,7 @@
 import { SectionImageText } from '@/interfaces';
 import clsx from 'clsx';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
 
 type Props = {
 	section: SectionImageText;
@@ -10,65 +11,73 @@ type Props = {
 const PreviewSectionImageText: React.FC<Props> = ({ section, theme }) => {
 	return (
 		<div
-			className={clsx('flex justify-evenly max-sm:flex-col items-center', {
-				'flex-row-reverse max-sm:flex-col-reverse':
-					(section as SectionImageText).item.position === 'text_img',
-			})}
+			className={clsx(
+				styles.sectionImageTextContainer, {
+					'flex-col lg:flex-row': (section as SectionImageText).item.position === 'img_text',
+					'flex-col-reverse lg:flex-row-reverse': (section as SectionImageText).item.position === 'text_img',
+				}
+			)}
 		>
 			{/* image */}
-			<div
-				key={`img-${section.item.id}`}
-				className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center"
-			>
-				<img
-					src={(section as SectionImageText).item.imgUrl}
-					alt={(section as SectionImageText).item.imgAlt}
-				/>
-				{/* imgCaption */}
-				<div
-					className={clsx(
-						'flex items-between m-4',
-						theme === 'modern' && modern.imageInputBackground,
-						theme !== 'light' && 'text-white',
-					)}
-				>
-					<div style={{ fontSize: section.item.imgCaptionSize }} className="w-full outline-none">
-						{section.item.imgCaption}
-					</div>
-				</div>
-			</div>
+			<section id={section.item.id}>
+				<figure className="flex w-full flex-col items-center">
+					<img
+						src={(section as SectionImageText).item.imgUrl}
+						alt={(section as SectionImageText).item.imgAlt}
+						className={styles.sectionImage}
+					/>
+					<figcaption
+						className={clsx(
+							styles.sectionImageCaption,
+							{
+								[modern.imageInputBackground]: theme === 'modern',
+								'text-white': theme !== 'light',
+							},
+						)}
+					>
+						<span style={{ fontSize: section.item.imgCaptionSize }}>
+							{section.item.imgCaption}
+						</span>
+					</figcaption>
+				</figure>
+			</section>
+
 			{/* text */}
-			<div
+			<section
 				key={`text-${section.item.id}`}
-				className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center"
+				className="flex w-full flex-col items-center lg:w-1/2"
 			>
 				{/* txtHeading */}
 				<div className="flex items-between m-4">
-					<div
+					<h3
 						style={{ fontSize: section.item.txtHeadingSize }}
 						className={clsx(
-							'w-full outline-none',
-							theme === 'modern' && modern.headerFieldInput,
-							theme !== 'light' && 'text-white',
+								styles.sectionImageTextHeader, {
+									'text-stone-700': theme === 'light',
+									'text-white': theme === 'dark',
+									[modern.heading]: theme === 'modern',
+							}
 						)}
 					>
 						{section.item.txtHeading}
-					</div>
+					</h3>
 				</div>
 
 				{/* txtContent */}
 				<div className="flex items-between m-4">
-					<div
+					<p
 						style={{ fontSize: section.item.txtContentSize }}
 						className={clsx(
-							'w-full outline-none',
-							theme === 'modern' && modern.textInputBackground,
-							theme !== 'light' && 'text-white',
+							styles.sectionImageTextDescription, {
+								'text-stone-600': theme === 'light',
+								'text-white': theme === 'dark',
+								[modern.description]: theme === 'modern',
+							}
 						)}
 						dangerouslySetInnerHTML={{ __html: section.item.txtContent.replace(/\n/g, '<br />') }}
 					/>
 				</div>
-			</div>
+			</section>
 		</div>
 	);
 };

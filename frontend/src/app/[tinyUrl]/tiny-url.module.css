@@ -1,0 +1,59 @@
+.noSectionsContainer {
+  @apply flex flex-col justify-center items-center my-20 relative h-[200px];
+}
+
+.circle {
+  @apply size-[300px] bg-orange-300 rounded-full flex justify-center items-center absolute z-0 left-1/2 right-1/2 -translate-x-1/2 top-1/2 bottom-1/2 -translate-y-1/2;
+}
+
+.robot {
+  @apply absolute w-[300px] z-10;
+}
+
+.divider {
+  @apply w-full pb-1 border-b text-stone-700 mb-5;
+}
+
+.sectionImageTextContainer {
+  @apply flex items-center lg:justify-evenly;
+}
+
+.sectionImage {
+  @apply rounded-md max-w-[600px] max-h-[600px] size-full object-contain;
+}
+
+.sectionImageCaption {
+  @apply max-w-[600px] text-center text-stone-500 font-semibold my-3;
+}
+
+.sectionImageTextHeader {
+  @apply text-right;
+}
+
+.sectionImageTextDescription {
+  @apply leading-8 font-normal;
+}
+
+.sectionColumnContainer {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-3 mb-10;
+}
+
+.sectionColumnHeading {
+  @apply w-full font-semibold mb-4;
+}
+
+.sectionColumnDescription {
+  @apply font-normal;
+}
+
+.sectionFigure {
+  @apply w-full;
+}
+
+.sectionGalleryImage {
+  @apply rounded-md w-full md:max-w-[500px] max-h-[300px] object-cover object-left-top;
+}
+
+.sectionGalleryCaption {
+  @apply text-stone-500 text-center md:text-left lg:text-center font-semibold my-3;
+}

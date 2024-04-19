@@ -1,6 +1,7 @@
 import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
-
 import { SectionGallery } from '@/interfaces';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionGallery;
@@ -10,48 +11,60 @@ type Props = {
 const PreviewSectionGallery: React.FC<Props> = ({ section, theme }) => {
 	return (
 		<div className="w-full">
-			<div className="flex items-center max-sm:flex-col w-full">
-				{/* image1 */}
-				<div className="flex flex-col items-between m-1 w-1/3 max-sm:w-full" key={section.item.id}>
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-3 w-full">
+				{/* Image 1 */}
+				<figure id={section.item.id} className={styles.sectionFigure}>
 					<img
+						className={styles.sectionGalleryImage}
 						src={(section as SectionGallery).item.url1}
 						alt={(section as SectionGallery).item.alt1}
 					/>
-					<div
+					<figcaption
 						style={{ fontSize: section.item.captionSize1 }}
-						className={`w-full outline-none ${
-							theme === 'modern' ? 'modern.headerFieldInput' : ''
-						} ${theme !== 'light' ? 'text-white' : ''}`}
+						className={clsx(styles.sectionGalleryCaption, {
+							'modern.headerFieldInput': theme === 'modern',
+							'text-white': theme !== 'light'
+						})}
 					>
 						{section.item.caption1}
-					</div>
-				</div>
-				{/* image2 */}
-				<div className="flex flex-col items-between m-1 w-1/3 max-sm:w-full" key={section.item.id}>
+					</figcaption>
+				</figure>
+
+				{/* Image 2 */}
+				<figure id={section.item.id} className={styles.sectionFigure}>
 					<img
+						className={styles.sectionGalleryImage}
 						src={(section as SectionGallery).item.url2}
 						alt={(section as SectionGallery).item.alt2}
 					/>
-					<div
+					<figcaption
 						style={{ fontSize: section.item.captionSize2 }}
-						className={`w-full outline-none ${theme === 'modern' ? modern.imageInputBackground : ''} ${theme !== 'light' ? 'text-white' : ''}`}
+						className={clsx(styles.sectionGalleryCaption, {
+							'modern.headerFieldInput': theme === 'modern',
+							'text-white': theme !== 'light'
+						})}
 					>
 						{section.item.caption2}
-					</div>
-				</div>
-				{/* image3 */}
-				<div className="flex flex-col items-between m-1 w-1/3 max-sm:w-full" key={section.item.id}>
+					</figcaption>
+				</figure>
+
+				{/* Image 3 */}
+				<figure id={section.item.id} className={styles.sectionFigure}>
 					<img
+						className={styles.sectionGalleryImage}
 						src={(section as SectionGallery).item.url3}
 						alt={(section as SectionGallery).item.alt3}
 					/>
-					<div
-						style={{ fontSize: section.item.captionSize2 }}
-						className={`w-full outline-none ${theme === 'modern' ? modern.imageInputBackground : ''} ${theme !== 'light' ? 'text-white' : ''}`}
+					<figcaption
+						style={{ fontSize: section.item.captionSize3 }}
+						className={clsx(styles.sectionGalleryCaption, {
+							'modern.headerFieldInput': theme === 'modern',
+							'text-white': theme !== 'light'
+						})}
 					>
 						{section.item.caption3}
-					</div>
-				</div>
+					</figcaption>
+				</figure>
 			</div>
 		</div>
 	);
