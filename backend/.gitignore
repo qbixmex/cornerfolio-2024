@@ -8,3 +8,4 @@
 
 # Environment variables
 .env
+.env.production

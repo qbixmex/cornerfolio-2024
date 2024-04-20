@@ -15,7 +15,7 @@ export const users: User[] = [
   {
     name: 'Daniel Gonzalez',
     email: 'daniel@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Web Development',
     active: true,
@@ -27,7 +27,7 @@ export const users: User[] = [
   {
     name: 'Rafael Massimo',
     email: 'rafael@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Web Development',
     active: true,
@@ -39,7 +39,7 @@ export const users: User[] = [
   {
     name: 'Taiki Honda',
     email: 'taiki@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Web Development',
     active: true,
@@ -51,7 +51,7 @@ export const users: User[] = [
   {
     name: 'Taisei Yamaguchi',
     email: 'taisei@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Web Development',
     active: true,
@@ -63,7 +63,7 @@ export const users: User[] = [
   {
     name: 'Alex Lopez',
     email: 'alex456@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -75,7 +75,7 @@ export const users: User[] = [
   {
     name: 'Emma Johnson',
     email: 'emma.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -87,7 +87,7 @@ export const users: User[] = [
   {
     name: 'Daniel Smith',
     email: 'daniel.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -99,7 +99,7 @@ export const users: User[] = [
   {
     name: 'Sophia Brown',
     email: 'sophia.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: true,
@@ -111,7 +111,7 @@ export const users: User[] = [
   {
     name: 'William Taylor',
     email: 'william.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: false,
@@ -123,7 +123,7 @@ export const users: User[] = [
   {
     name: 'Olivia Martinez',
     email: 'olivia.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -135,7 +135,7 @@ export const users: User[] = [
   {
     name: 'Michael Rodriguez',
     email: 'michael.rodriguez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Analyst',
     active: false,
@@ -147,7 +147,7 @@ export const users: User[] = [
   {
     name: 'Isabella Garcia',
     email: 'isabella.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -159,7 +159,7 @@ export const users: User[] = [
   {
     name: 'James Wilson',
     email: 'james.wilson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Hospitality Manager',
     active: true,
@@ -171,7 +171,7 @@ export const users: User[] = [
   {
     name: 'Charlotte Rodriguez',
     email: 'charlotte.rodriguez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -183,7 +183,7 @@ export const users: User[] = [
   {
     name: 'Benjamin Martinez',
     email: 'benjamin.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -195,7 +195,7 @@ export const users: User[] = [
   {
     name: 'Amelia Brown',
     email: 'amelia.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -207,7 +207,7 @@ export const users: User[] = [
   {
     name: 'Ethan Smith',
     email: 'ethan.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -219,7 +219,7 @@ export const users: User[] = [
   {
     name: 'Mia Johnson',
     email: 'mia.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -231,7 +231,7 @@ export const users: User[] = [
   {
     name: 'Noah Taylor',
     email: 'noah.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -243,7 +243,7 @@ export const users: User[] = [
   {
     name: 'Ava Martinez',
     email: 'ava.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Analyst',
     active: false,
@@ -255,7 +255,7 @@ export const users: User[] = [
   {
     name: 'Liam Garcia',
     email: 'liam.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -267,7 +267,7 @@ export const users: User[] = [
   {
     name: 'Emma Wilson',
     email: 'emma.wilson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Hospitality Manager',
     active: true,
@@ -279,7 +279,7 @@ export const users: User[] = [
   {
     name: 'Daniel Rodriguez',
     email: 'daniel.rodriguez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -291,7 +291,7 @@ export const users: User[] = [
   {
     name: 'Sophia Martinez',
     email: 'sophia.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -303,7 +303,7 @@ export const users: User[] = [
   {
     name: 'William Brown',
     email: 'william.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -315,7 +315,7 @@ export const users: User[] = [
   {
     name: 'Olivia Smith',
     email: 'olivia.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -327,7 +327,7 @@ export const users: User[] = [
   {
     name: 'Michael Johnson',
     email: 'michael.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -339,7 +339,7 @@ export const users: User[] = [
   {
     name: 'Isabella Taylor',
     email: 'isabella.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -351,7 +351,7 @@ export const users: User[] = [
   {
     name: 'James Garcia',
     email: 'james.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Analyst',
     active: false,
@@ -363,7 +363,7 @@ export const users: User[] = [
   {
     name: 'Charlotte Martinez',
     email: 'charlotte.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -375,7 +375,7 @@ export const users: User[] = [
   {
     name: 'Benjamin Brown',
     email: 'benjamin.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Hospitality Manager',
     active: true,
@@ -387,7 +387,7 @@ export const users: User[] = [
   {
     name: 'Amelia Smith',
     email: 'amelia.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -399,7 +399,7 @@ export const users: User[] = [
   {
     name: 'Ethan Johnson',
     email: 'ethan.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -411,7 +411,7 @@ export const users: User[] = [
   {
     name: 'Mia Taylor',
     email: 'mia.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -423,7 +423,7 @@ export const users: User[] = [
   {
     name: 'Noah Garcia',
     email: 'noah.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -435,7 +435,7 @@ export const users: User[] = [
   {
     name: 'Alejandra Martinez',
     email: 'ale.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -447,7 +447,7 @@ export const users: User[] = [
   {
     name: 'Liam Brown',
     email: 'liam.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -459,7 +459,7 @@ export const users: User[] = [
   {
     name: 'Emma Smith',
     email: 'emma.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Analyst',
     active: false,
@@ -471,7 +471,7 @@ export const users: User[] = [
   {
     name: 'Daniel Johnson',
     email: 'daniel.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -483,7 +483,7 @@ export const users: User[] = [
   {
     name: 'Sophia Taylor',
     email: 'sophia.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Hospitality Manager',
     active: true,
@@ -495,7 +495,7 @@ export const users: User[] = [
   {
     name: 'Max Cowell',
     email: 'max.cowell@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -507,7 +507,7 @@ export const users: User[] = [
   {
     name: 'Fernando de la Olla',
     email: 'fernando234@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -519,7 +519,7 @@ export const users: User[] = [
   {
     name: 'Michael Brown',
     email: 'michael.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -531,7 +531,7 @@ export const users: User[] = [
   {
     name: 'Isabella Smith',
     email: 'isabella.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -543,7 +543,7 @@ export const users: User[] = [
   {
     name: 'James Johnson',
     email: 'james.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -555,7 +555,7 @@ export const users: User[] = [
   {
     name: 'Charlotte Taylor',
     email: 'charlotte.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -567,7 +567,7 @@ export const users: User[] = [
   {
     name: 'Benjamin Garcia',
     email: 'benjamin.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Analyst',
     active: false,
@@ -579,7 +579,7 @@ export const users: User[] = [
   {
     name: 'Amelia Martinez',
     email: 'amelia.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -591,7 +591,7 @@ export const users: User[] = [
   {
     name: 'Ethan Brown',
     email: 'ethan.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Hospitality Manager',
     active: true,
@@ -603,7 +603,7 @@ export const users: User[] = [
   {
     name: 'Mia Garcia',
     email: 'mia.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -615,7 +615,7 @@ export const users: User[] = [
   {
     name: 'Noah Martinez',
     email: 'noah.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -627,7 +627,7 @@ export const users: User[] = [
   {
     name: 'Ava Brown',
     email: 'ava.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -639,7 +639,7 @@ export const users: User[] = [
   {
     name: 'Liam Smith',
     email: 'liam.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -651,7 +651,7 @@ export const users: User[] = [
   {
     name: 'Emma Jale',
     email: 'emma234.jale@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -663,7 +663,7 @@ export const users: User[] = [
   {
     name: 'Daniel Taylor',
     email: 'daniel.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -675,7 +675,7 @@ export const users: User[] = [
   {
     name: 'Sophia Garcia',
     email: 'sophia.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -687,7 +687,7 @@ export const users: User[] = [
   {
     name: 'William Martinez',
     email: 'william.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -699,7 +699,7 @@ export const users: User[] = [
   {
     name: 'Olivia Brown',
     email: 'olivia.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -711,7 +711,7 @@ export const users: User[] = [
   {
     name: 'Michael Smith',
     email: 'michael.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -723,7 +723,7 @@ export const users: User[] = [
   {
     name: 'Isabella Johnson',
     email: 'isabella.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -735,7 +735,7 @@ export const users: User[] = [
   {
     name: 'James Taylor',
     email: 'james.taylor@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -747,7 +747,7 @@ export const users: User[] = [
   {
     name: 'Charlotte Garcia',
     email: 'charlotte.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -759,7 +759,7 @@ export const users: User[] = [
   {
     name: 'Arnold Martinez',
     email: 'arnold.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -771,7 +771,7 @@ export const users: User[] = [
   {
     name: 'Amelia Yule',
     email: 'amelia123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -783,7 +783,7 @@ export const users: User[] = [
   {
     name: 'Ethan Louis',
     email: 'ethan123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -795,7 +795,7 @@ export const users: User[] = [
   {
     name: 'Erika Johnston',
     email: 'erika123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -807,7 +807,7 @@ export const users: User[] = [
   {
     name: 'Taylor Smith',
     email: 'tailor.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -819,7 +819,7 @@ export const users: User[] = [
   {
     name: 'Ava Garcia',
     email: 'ava.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -831,7 +831,7 @@ export const users: User[] = [
   {
     name: 'Liam Lee',
     email: 'liam123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -843,7 +843,7 @@ export const users: User[] = [
   {
     name: 'Emma Brown',
     email: 'emma.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -855,7 +855,7 @@ export const users: User[] = [
   {
     name: 'Daniel Smith',
     email: 'daniel123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -867,7 +867,7 @@ export const users: User[] = [
   {
     name: 'Sophia Johnson',
     email: 'sophia.johnson@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
@@ -879,7 +879,7 @@ export const users: User[] = [
   {
     name: 'William Olmos',
     email: 'william123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'Web Development Engineer',
     active: true,
@@ -891,7 +891,7 @@ export const users: User[] = [
   {
     name: 'Olivia Garcia',
     email: 'olivia.garcia@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Software Architect',
     active: false,
@@ -903,7 +903,7 @@ export const users: User[] = [
   {
     name: 'Michael Martinez',
     email: 'michael.martinez@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Web Development Specialist',
     active: true,
@@ -915,7 +915,7 @@ export const users: User[] = [
   {
     name: 'Isabella Brown',
     email: 'isabella.brown@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'admin',
     jobTitle: 'UX / UI Designer',
     active: true,
@@ -927,7 +927,7 @@ export const users: User[] = [
   {
     name: 'James Smith',
     email: 'james.smith@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'student',
     jobTitle: 'Digital Marketing Manager',
     active: false,
@@ -939,7 +939,7 @@ export const users: User[] = [
   {
     name: 'Charlotte Johnson',
     email: 'charlotte123@gmail.com',
-    password: 'cornerstone2024',
+    password: 'Cornerstone2024',
     type: 'client',
     jobTitle: 'Hospitality Specialist',
     active: true,
