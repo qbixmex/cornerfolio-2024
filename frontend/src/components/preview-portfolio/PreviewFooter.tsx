@@ -17,10 +17,9 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 		>
 			<div className="w-full">
 				<div
-					className={clsx('w-full mb-2 text-sm', {
+					className={clsx('w-full mb-2 text-base font-normal', {
 						'text-slate-700': theme === 'light',
-						'text-white': theme === 'dark',
-						'text-lime-400': theme === 'modern',
+						'text-blue-400': (theme === 'dark') || (theme === 'modern'),
 					})}
 				>
 					{portfolio.footer.links}
@@ -28,10 +27,9 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 			</div>
 			<div className="w-full outline-none ">
 				<div
-					className={clsx('w-full text-sm',{
+					className={clsx('w-full text-xs',{
 						'text-slate-600': theme === 'light',
-						'text-white': theme === 'dark',
-						'text-lime-300': theme === 'modern',
+						'text-gray-400': (theme === 'dark') || (theme === 'modern'),
 					})}
 				>
 					{portfolio.footer.text}

@@ -32,7 +32,7 @@ export const PreviewHeader: React.FC<Props> = ({ portfolio }) => {
 					className={clsx('w-full font-normal', {
 						'text-slate-600': theme === 'light',
 						'text-white': theme === 'dark',
-						'text-lime-300': theme === 'modern',
+						'text-sky-300 text-opacity-80': theme === 'modern',
 					})}
 				>
 					{portfolio.header.subHeading}

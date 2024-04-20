@@ -189,18 +189,18 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 				<div className='w-full'>
 					<div className={`flex border w-full`}>
 						<div key={section.item.id} className="w-full flex max-sm:flex-col">
-							<div>
+							<section>
 								<InputSectionColumnHeading position={1} section={section as SectionColumn} />
 								<InputSectionColumnContent position={1} section={section as SectionColumn} />
-							</div>
-							<div>
+							</section>
+							<section>
 								<InputSectionColumnHeading position={2} section={section as SectionColumn} />
 								<InputSectionColumnContent position={2} section={section as SectionColumn} />
-							</div>
-							<div>
+							</section>
+							<section>
 								<InputSectionColumnHeading position={3} section={section as SectionColumn} />
 								<InputSectionColumnContent position={3} section={section as SectionColumn} />
-							</div>
+							</section>
 						</div>
 					</div>
 					<div className="text-right">
