@@ -27,10 +27,12 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 					<div className="flex items-between m-2">
 						<div
 							style={{ fontSize: section.item.headingSize }}
-							className={`w-full outline-none ${ theme === 'modern' ? modern.headerFieldInput : '' } ${theme !== 'light' ? 'text-white' : ''}`}
-						>
-							{section.item.heading}
-						</div>
+							className={clsx("w-full", {
+								"text-stone-700": theme === 'light',
+								"text-gray-100": theme === 'dark',
+								"text-sky-400": theme === 'modern',
+							})
+						}>{section.item.heading}</div>
 					</div>
 
 					{/* content */}
@@ -40,8 +42,8 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 							className={clsx(
 								styles.sectionImageTextDescription, {
 									'text-stone-600': theme === 'light',
-									'text-white': theme === 'dark',
-									[modern.description]: theme === 'modern',
+									'text-gray-100': theme === 'dark',
+									"text-gray-50": theme === 'modern',
 								}
 							)}
 							dangerouslySetInnerHTML={{ __html: section.item.content.replace(/\n/g, '<br />') }}

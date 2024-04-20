@@ -66,6 +66,7 @@ const PortfolioPreviewPage: React.FC<Props> = async ({ params: { tinyUrl } }) =>
 							</div>
 					</section>
 				)}
+
 				{data && data.sections.length > 0 && (
 					<PreviewSectionsList
 						theme={data.theme}

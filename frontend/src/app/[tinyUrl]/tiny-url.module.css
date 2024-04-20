@@ -27,11 +27,19 @@
 }
 
 .sectionImage {
-  @apply rounded-md max-w-[600px] max-h-[600px] size-full object-contain;
+  @apply rounded-md size-full object-contain;
 }
 
 .sectionImageCaption {
-  @apply max-w-[600px] text-center text-stone-500 font-semibold my-3;
+  @apply text-center font-normal mt-2 mb-3;
+}
+
+.sectionImageText {
+  @apply rounded-md max-w-[600px] max-h-[600px] size-full object-contain;
+}
+
+.sectionImageTextCaption {
+  @apply max-w-[600px] text-center font-normal mt-2 mb-3;
 }
 
 .sectionImageTextHeader {

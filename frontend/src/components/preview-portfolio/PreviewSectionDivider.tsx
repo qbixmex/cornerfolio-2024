@@ -1,5 +1,4 @@
 import { SectionDivider } from '@/interfaces';
-import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import clsx from 'clsx';
 
 type Props = {
@@ -12,11 +11,11 @@ const PreviewSectionDivider: React.FC<Props> = ({ section, theme }) => {
 		<div className="flex items-between m-4">
 			<div
 				style={{ fontSize: section.item.titleSize }} 
-				className={clsx(
-					"w-full",
-					theme === 'modern' && modern.dividerInputBackground,
-					theme !== 'light' && 'text-white' 
-				)}
+				className={clsx( "w-full", {
+					"text-stone-700": theme === 'light',
+					"text-gray-100": theme === 'dark',
+					"text-lime-500": theme === 'modern',
+				})}
 			>{section.item.title}</div>
 		</div>
 	);
