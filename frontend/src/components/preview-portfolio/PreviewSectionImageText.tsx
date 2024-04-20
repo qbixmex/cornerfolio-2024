@@ -24,14 +24,12 @@ const PreviewSectionImageText: React.FC<Props> = ({ section, theme }) => {
 					<img
 						src={(section as SectionImageText).item.imgUrl}
 						alt={(section as SectionImageText).item.imgAlt}
-						className={styles.sectionImage}
+						className={styles.sectionImageText}
 					/>
 					<figcaption
-						className={clsx(
-							styles.sectionImageCaption,
-							{
-								[modern.imageInputBackground]: theme === 'modern',
-								'text-white': theme !== 'light',
+						className={clsx(styles.sectionImageTextCaption, {
+								'text-stone-500': theme === 'light',
+								'text-gray-400': (theme === 'dark') || (theme === 'modern'),
 							},
 						)}
 					>
@@ -51,16 +49,11 @@ const PreviewSectionImageText: React.FC<Props> = ({ section, theme }) => {
 				<div className="flex items-between m-4">
 					<h3
 						style={{ fontSize: section.item.txtHeadingSize }}
-						className={clsx(
-								styles.sectionImageTextHeader, {
-									'text-stone-700': theme === 'light',
-									'text-white': theme === 'dark',
-									[modern.heading]: theme === 'modern',
-							}
-						)}
-					>
-						{section.item.txtHeading}
-					</h3>
+						className={clsx("w-full", {
+							"text-stone-700": theme === 'light',
+							"text-gray-100": theme === 'dark',
+							"text-sky-400": theme === 'modern',
+					})}>{section.item.txtHeading}</h3>
 				</div>
 
 				{/* txtContent */}
@@ -70,8 +63,8 @@ const PreviewSectionImageText: React.FC<Props> = ({ section, theme }) => {
 						className={clsx(
 							styles.sectionImageTextDescription, {
 								'text-stone-600': theme === 'light',
-								'text-white': theme === 'dark',
-								[modern.description]: theme === 'modern',
+								'text-gray-100': theme === 'dark',
+								"text-gray-50": theme === 'modern',
 							}
 						)}
 						dangerouslySetInnerHTML={{ __html: section.item.txtContent.replace(/\n/g, '<br />') }}

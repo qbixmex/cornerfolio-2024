@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const API_URL = process.env.API_URL ?? "http://localhost:4000";
@@ -27,7 +28,12 @@ const updatePortfolioTheme = async ({ id, theme }: UpdateThemeProps) => {
 			throw new Error("Network response was not ok");
 		}
 
-		return await response.json();
+		const data = await response.json();
+
+		revalidatePath(`/${data.portfolio.tinyUrlId}`, "page");
+
+		return data;
+
 	} catch (error) {
 		console.error(error);
 		throw new Error("Unknown error occurred while updating the portfolio theme, check logs !");
