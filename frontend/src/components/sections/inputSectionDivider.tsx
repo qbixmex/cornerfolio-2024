@@ -24,11 +24,12 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(section.item.titleSize);
+
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 4 : prevSize));
 	};
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 4 : prevSize));
 	};
 
 	const formik = useFormik<{ title: string }>({
@@ -61,7 +62,7 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 
 	return (
 		<div>
-			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
+			<form className="flex flex-col lg:flex-row justify-center items-between m-4 gap-3" onSubmit={formik.handleSubmit}>
 				<input
 					id="title"
 					name="title"
@@ -77,6 +78,10 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 				{formik.errors.title && formik.touched.title && (
 					<p className="text-red-500 text-xs">{formik.errors.title}</p>
 				)}
+
+				<p className="flex items-center text-gray-400 text-sm font-normal">
+					{fontSize}px
+				</p>
 
 				<ButtonsSize
 					decrementFontSize={decrementFontSize}
