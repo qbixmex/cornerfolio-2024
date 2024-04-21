@@ -1,5 +1,4 @@
 /node_modules
-/dist
 /build
 
 # Database Volumes
@@ -8,3 +7,4 @@
 
 # Environment variables
 .env
+.env.production

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { SectionText } from '@/interfaces';
 import { updateSectionText } from '@/sections/actions/section.update.action';
-import styles from '@/users/components/profile.module.css';
 import { useFormik } from 'formik';
 import { useTheme } from '@/context/portfolio-theme-context';
 import * as yup from 'yup';
@@ -9,6 +8,8 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
+import styles from '@/app/[tinyUrl]/tiny-url.module.css';
+import clsx from 'clsx';
 
 type Props = {
 	portfolioId: string;
@@ -70,7 +71,14 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					className={`w-full h-80 outline-none bg-transparent
-            ${theme === 'modern' ? modern.textInputBackground : ''} ${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
+					${clsx(
+						styles.sectionImageTextDescription, {
+							'text-stone-600': theme === 'light',
+							'text-white': theme === 'dark',
+							[modern.description]: theme === 'modern',
+						}
+					)}
+            		${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
 					}`}
 					style={{ fontSize: true ? fontSize : '' }}
 				/>

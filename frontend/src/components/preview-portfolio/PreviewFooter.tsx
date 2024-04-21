@@ -1,6 +1,5 @@
 'use client';
 
-import modern from '@/app/admin/portfolios/templates/modern-template.module.css';
 import { IPortfolio } from '@/interfaces';
 import clsx from 'clsx';
 
@@ -12,30 +11,26 @@ export const PreviewFooter: React.FC<Props> = ({ portfolio }) => {
 	const theme = portfolio.theme;
 	return (
 		<div
-			className={clsx(
-				'py-[30px] px-[80px]',
-				theme === 'modern' && modern.footerBackgroundColor,
-				theme !== 'light' && 'text-white',
-			)}
+			className={clsx('mx-5 py-10 text-center', {
+				'text-white': theme === 'dark',
+			})}
 		>
-			<div className="w-full outline-none text-5xl">
+			<div className="w-full">
 				<div
-					className={clsx(
-						'w-full outline-none text-sm',
-						theme === 'modern' && modern.subHeaderInputField,
-						theme !== 'light' && 'text-white',
-					)}
+					className={clsx('w-full mb-2 text-base font-normal', {
+						'text-slate-700': theme === 'light',
+						'text-blue-400': (theme === 'dark') || (theme === 'modern'),
+					})}
 				>
 					{portfolio.footer.links}
 				</div>
 			</div>
 			<div className="w-full outline-none ">
 				<div
-					className={clsx(
-						'w-full outline-none text-sm',
-						theme === 'modern' && modern.headerFieldInput,
-						theme !== 'light' && 'text-white',
-					)}
+					className={clsx('w-full text-xs',{
+						'text-slate-600': theme === 'light',
+						'text-gray-400': (theme === 'dark') || (theme === 'modern'),
+					})}
 				>
 					{portfolio.footer.text}
 				</div>

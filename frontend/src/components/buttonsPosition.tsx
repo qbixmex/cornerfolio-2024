@@ -8,7 +8,7 @@ type Props = {
 
 const ButtonsPosition: React.FC<Props> = ({ handleUpdate }) => {
 	return (
-		<div className="flex justify-around w-full relative z-[100]">
+		<div className="flex justify-around w-full relative z-400">
 			<Button
 				type="button"
 				color="primary"
