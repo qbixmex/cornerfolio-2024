@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { SectionColumn, Item } from '@/interfaces';
+import { SectionColumn } from '@/interfaces';
 import styles from '@/app/[tinyUrl]/tiny-url.module.css';
 
 type Props = {
