@@ -36,8 +36,8 @@ import UploadSectionGallery from './uploadSectionGallery';
 
 import ImageSkeleton from './imageSkeleton';
 import { useAppSelector } from '@/store';
+import { ColumnGallery } from '@/sections/components';
 import clsx from 'clsx';
-import { Suspense } from 'react';
 
 type Section =
 	| SectionText
@@ -189,18 +189,18 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 				<div className='w-full'>
 					<div className={`flex border w-full`}>
 						<div key={section.item.id} className="w-full flex max-sm:flex-col">
-							<section>
-								<InputSectionColumnHeading position={1} section={section as SectionColumn} />
-								<InputSectionColumnContent position={1} section={section as SectionColumn} />
-							</section>
-							<section>
-								<InputSectionColumnHeading position={2} section={section as SectionColumn} />
-								<InputSectionColumnContent position={2} section={section as SectionColumn} />
-							</section>
-							<section>
-								<InputSectionColumnHeading position={3} section={section as SectionColumn} />
-								<InputSectionColumnContent position={3} section={section as SectionColumn} />
-							</section>
+							{[1, 2, 3].map((column) => (
+								<section key={column}>
+									<InputSectionColumnHeading
+										position={column as 1 | 2 | 3}
+										section={section as SectionColumn}
+									/>
+									<InputSectionColumnContent
+										position={column as 1 | 2 | 3}
+										section={section as SectionColumn}
+									/>
+								</section>
+							))}
 						</div>
 					</div>
 					<div className="text-right">
@@ -213,78 +213,15 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 			return (
 				<>
 					<div className="w-full flex gap-3 items-center max-sm:flex-col ">
-						{/* image1 */}
-						<div className="w-1/3 min-h-[500px]  max-sm:w-full m-1 " key={`1-${section.item.id}`}>
-							
-							{
-								(imageId === `${section.item.id}-1`)
-									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
-									: (
-										<Image
-											className="mx-auto rounded-md"
-											src={(section as SectionGallery).item.url1}
-											alt={(section as SectionGallery).item.alt1}
-											width={500}
-											height={500}
-										/>
-									)
-							}
-
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<UploadSectionGallery position={1} portfolioId={portfolioId} section={section as SectionGallery} />
-							</div>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<InputSectionGallery position={1} section={section as SectionGallery} />
-							</div>
-						</div>
-
-						{/* image2 */}
-						<div className="w-1/3 min-h-[500px] max-sm:w-full m-1" key={`2-${section.item.id}`}>
-							{
-								(imageId === `${section.item.id}-2`)
-									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
-									: (
-										<Image
-											className="mx-auto rounded-md"
-											src={(section as SectionGallery).item.url2}
-											alt={(section as SectionGallery).item.alt2}
-											width={500}
-											height={500}
-										/>
-									)
-							}
-
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<UploadSectionGallery position={2} portfolioId={portfolioId} section={section as SectionGallery} />
-							</div>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<InputSectionGallery position={2} section={section as SectionGallery} />
-							</div>
-						</div>
-
-						{/* image3 */}
-						<div className="w-1/3 min-h-[500px] max-sm:w-full m-1" key={`3-${section.item.id}`}>
-							{
-								(imageId === `${section.item.id}-3`)
-									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
-									: (
-										<Image
-											className="mx-auto rounded-md"
-											src={(section as SectionGallery).item.url3}
-											alt={(section as SectionGallery).item.alt3}
-											width={500}
-											height={500}
-										/>
-									)
-							}
-
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<UploadSectionGallery position={3} portfolioId={portfolioId} section={section as SectionGallery} />
-							</div>
-							<div className='border-transparent border-2 hover:border-gray-300'>
-								<InputSectionGallery position={3} section={section as SectionGallery} />
-							</div>
-						</div>
+						{[1, 2, 3].map((column) => (
+							<ColumnGallery
+								key={section.item.id}
+								imageId={imageId!}
+								portfolioId={portfolioId}
+								section={section as SectionGallery}
+								column={column}
+							/>
+						))}
 					</div>
 					<div className="text-right">
 						<DeleteGallery portfolioId={portfolioId} sectionId={section.item.id} />

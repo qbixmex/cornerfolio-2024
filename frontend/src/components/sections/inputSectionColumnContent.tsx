@@ -50,17 +50,17 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 				return section.item.contentSize3;
 			}
 		} else {
-			return 10; // default size
+			return 16; // default size
 		}
 	});
 
 	const dispatch = useAppDispatch();
 	const [fontSize, setFontSize] = useState<number>(contentSize);
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 2 : prevSize));
 	};
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 2 : prevSize));
 	};
 	const formik = useFormik<{ content: string }>({
 		initialValues: {
@@ -93,42 +93,44 @@ const InputSectionColumnContent: React.FC<Props> = ({ position, section }) => {
 
 	return (
 		<div>
-			<form
-				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
-				onSubmit={formik.handleSubmit}
-			>
-				<textarea
-					id="content"
-					name="content"
-					value={formik.values.content}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full h-40 outline-none bg-transparent
-					${
-						formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
-					}
-					${clsx(
-						styles.sectionColumnDescription, {
-						"text-stone-700": theme !== 'light',
-						"text-white": theme === 'dark',
-						[modern.description]: theme === 'modern',
-						}
-					)}
-					`}
-					style={{ fontSize: true ? fontSize : '' }}
-				/>
-
-				{formik.errors.content && formik.touched.content && (
-					<p className="text-red-500 text-xs">{formik.errors.content}</p>
-				)}
-
-				<div className="text-sm flex gap-1 mr-2">
-					<ButtonsSize
-						decrementFontSize={decrementFontSize}
-						incrementFontSize={incrementFontSize}
-						formik={formik}
-					/>
-				</div>
+			<form onSubmit={formik.handleSubmit}>
+				<section className="flex flex-col items-between m-4 border-transparent border-2 hover:border-gray-300">
+					<section>
+						<textarea
+							id="content"
+							name="content"
+							value={formik.values.content}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							rows={5}
+							className={`w-full outline-none bg-transparent
+								${
+									formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
+								}
+								${clsx(styles.sectionColumnDescription, {
+									"text-stone-700": theme !== 'light',
+									"text-white": theme === 'dark',
+									[modern.description]: theme === 'modern',
+									}
+								)}
+							`}
+							style={{ fontSize: true ? fontSize : '' }}
+						/>
+						{formik.errors.content && formik.touched.content && (
+							<p className="text-red-500 text-xs">{formik.errors.content}</p>
+						)}
+					</section>
+					<section className="flex gap-2">
+						<p className="flex items-center text-gray-400 text-sm font-normal">
+							{fontSize}px
+						</p>
+						<ButtonsSize
+							decrementFontSize={decrementFontSize}
+							incrementFontSize={incrementFontSize}
+							formik={formik}
+						/>
+					</section>
+				</section>
 			</form>
 		</div>
 	);

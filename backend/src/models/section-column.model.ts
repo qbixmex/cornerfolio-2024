@@ -9,7 +9,7 @@ export interface ISectionColumn extends Document {
 	content2: string;
 	headingSize2: number;
 	contentSize2: number;
-    heading3: string;
+	heading3: string;
 	content3: string;
 	headingSize3: number;
 	contentSize3: number;
@@ -37,7 +37,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	contentSize1: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
 	heading2: {
 		type: String,
@@ -53,7 +53,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	contentSize2: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
     heading3: {
 		type: String,
@@ -69,7 +69,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	contentSize3: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
 });
 
