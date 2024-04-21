@@ -57,10 +57,10 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 	const { theme } = useTheme();
 	const [fontSize, setFontSize] = useState<number>(headingSize);
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 4 : prevSize));
 	};
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 4 : prevSize));
 	};
 	const formik = useFormik<{ heading: string }>({
 		initialValues: {
@@ -91,33 +91,40 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 	});
 
 	return (
-		<div>
-			<form
-				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
-				onSubmit={formik.handleSubmit}
-			>
-				<input
-					id="heading"
-					name="heading"
-					value={formik.values.heading}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full outline-none bg-transparent ${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0' }`}
-					type="text"
-					style={{ fontSize: true ? fontSize : '' }}
-				/>
-				{formik.errors.heading && formik.touched.heading && (
-					<p className="text-red-500 text-xs">{formik.errors.heading}</p>
-				)}
-				<div className="text-sm flex gap-1 mr-2">
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
-				</div>
-			</form>
-		</div>
+		<form
+			className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
+			onSubmit={formik.handleSubmit}
+		>
+			<section>
+				<section>
+					<input
+						id="heading"
+						name="heading"
+						value={formik.values.heading}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						className={`w-full outline-none bg-transparent ${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0' }`}
+						type="text"
+						style={{ fontSize: true ? fontSize : '' }}
+					/>
+					{formik.errors.heading && formik.touched.heading && (
+						<p className="text-red-500 text-xs">{formik.errors.heading}</p>
+					)}
+				</section>
+				<section className="flex justify-start items-center gap-3 my-5">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<div className="text-sm flex gap-1 mr-2">
+						<ButtonsSize
+							decrementFontSize={decrementFontSize}
+							incrementFontSize={incrementFontSize}
+							formik={formik}
+						/>
+					</div>
+				</section>
+			</section>
+		</form>
 	);
 };
 

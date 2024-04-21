@@ -37,7 +37,7 @@ const SectionGallerySchema = new Schema<ISectionGallery, ISectionGalleryModel>({
 	},
 	captionSize1: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
 	url2: {
 		type: String,
@@ -53,7 +53,7 @@ const SectionGallerySchema = new Schema<ISectionGallery, ISectionGalleryModel>({
 	},
 	captionSize2: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
     url3: {
 		type: String,
@@ -69,7 +69,7 @@ const SectionGallerySchema = new Schema<ISectionGallery, ISectionGalleryModel>({
 	},
 	captionSize3: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
 }, {
 	timestamps: true

@@ -25,7 +25,7 @@ const formSchema = yup.object().shape({
 });
 
 const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
-	const [caption, setCaption] = useState(() => {
+	const [caption] = useState(() => {
 		if (section) {
 			if (position === 1) {
 				return section.item.caption1;
@@ -39,7 +39,7 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 		}
 	});
 
-	const [captionSize, setCaptionSize] = useState(() => {
+	const [captionSize] = useState(() => {
 		if (section) {
 			if (position === 1) {
 				return section.item.captionSize1;
@@ -49,7 +49,7 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 				return section.item.captionSize3;
 			}
 		} else {
-			return 10; // default size
+			return 16; // default size
 		}
 	});
 
@@ -59,11 +59,11 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 	const [fontSize, setFontSize] = useState<number>(captionSize);
 
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 4 : prevSize));
 	};
 
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 4 : prevSize));
 	};
 
 	const formik = useFormik<{ caption: string }>({
@@ -97,38 +97,40 @@ const InputSectionGallery: React.FC<Props> = ({ position, section }) => {
 	});
 
 	return (
-		<div>
-			<form className="lg:flex max-lg:flex-col items-between m-4" onSubmit={formik.handleSubmit}>
+		<form onSubmit={formik.handleSubmit}>
+			<section>
 				<input
 					id="caption"
 					name="caption"
 					value={formik.values.caption}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
+					autoComplete="off"
 					className={`w-full outline-none bg-transparent
-					${clsx(
-						styles.sectionImageCaption,
-						{
-							[modern.imageInputBackground]: theme === 'modern',
-							'text-white': theme !== 'light',
-						},
-					)}
+					${clsx(styles.sectionImageCaption, {
+						[modern.imageInputBackground]: theme === 'modern',
+						'text-white': theme !== 'light',
+					})}
 					${formik.touched.caption && formik.errors.caption ? 'border-2 border-red-500' : 'border-0'} `}
 					type="text"
 					style={{ fontSize: true ? fontSize : '' }}
 				/>
-
 				{formik.errors.caption && formik.touched.caption && (
-					<p className="text-red-500 text-xs">{formik.errors.caption}</p>
+					<p className="text-red-500 text-xs mb-4">{formik.errors.caption}</p>
 				)}
+			</section>
 
+			<section className="flex justify-center gap-3">
+				<p className="flex items-center text-gray-400 text-sm font-normal">
+					{fontSize}px
+				</p>
 				<ButtonsSize
 					decrementFontSize={decrementFontSize}
 					incrementFontSize={incrementFontSize}
 					formik={formik}
 				/>
-			</form>
-		</div>
+			</section>
+		</form>
 	);
 };
 

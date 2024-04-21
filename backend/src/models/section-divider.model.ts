@@ -19,7 +19,7 @@ const SectionDividerSchema = new Schema<ISectionDivider, SectionDividerModel>({
 	},
 	titleSize: {
 		type: Number,
-		default: 20
+		default: 40
 	}
 }, {
 	timestamps: true
