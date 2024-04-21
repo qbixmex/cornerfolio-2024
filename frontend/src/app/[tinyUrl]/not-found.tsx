@@ -10,7 +10,9 @@ const NotFound = () => {
 			<div className="bg-gray-800 opacity-80 rounded-lg flex flex-col gap-4 justify-center items-center py-24 px-24 lg:flex-row lg:items-center lg:gap-12 ">
 				<div className="w-full lg:w-1/2">
 					<p className="text-sm font-medium text-blue-500 ">404 error</p>
+
 					<h1 className="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl">Page not found</h1>
+
 					<p className="text-gray-400">
 						Sorry, this portfolio is not available.
 					</p>
