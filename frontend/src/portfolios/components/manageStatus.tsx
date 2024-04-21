@@ -12,6 +12,8 @@ type Props = {
   status: string;
 };
 
+const HOST = process.env.CURRENT_URL ?? "http://localhost:3000";
+
 const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, status }) => {
   const dispatch = useAppDispatch();
   const [currentStatus, setCurrentStatus] = useState("");
@@ -81,7 +83,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, statu
       )}
 
       <Link
-        href={`/${tinyUrlId}`}
+        href={`${HOST}/${tinyUrlId}`}
         target="blank"
         className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
         title="Live Portfolio Preview"
