@@ -21,4 +21,5 @@
     "test/**/*.spec.ts",
     "test/**/*.test.ts",
   ],
+  "types": ["node", "express"],
 }
