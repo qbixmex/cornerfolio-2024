@@ -1,5 +1,8 @@
 /node_modules
+<<<<<<< HEAD
 /dist
+=======
+>>>>>>> dev
 /build
 
 # Database Volumes

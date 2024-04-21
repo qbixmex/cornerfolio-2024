@@ -1,5 +1,9 @@
 .link {
-  @apply border-b-0 hover:border-b hover:border-b-white;
+  border-bottom: 1px solid transparent
+}
+
+.link:hover {
+  border-color: white;
 }
 
 .responsive_height {

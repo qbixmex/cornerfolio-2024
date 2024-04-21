@@ -1,0 +1,31 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usersRoutes = exports.seedRoutes = exports.sectionTextRoutes = exports.sectionImageRoutes = exports.sectionImageTextRoutes = exports.sectionEmbeddedMediaRoutes = exports.sectionDividerRoutes = exports.sectionGalleryRoutes = exports.sectionColumnRoutes = exports.portfolioRoutes = exports.licenseRoutes = exports.authRoutes = void 0;
+var auth_routes_1 = require("./auth.routes");
+Object.defineProperty(exports, "authRoutes", { enumerable: true, get: function () { return __importDefault(auth_routes_1).default; } });
+var license_routes_1 = require("./license.routes");
+Object.defineProperty(exports, "licenseRoutes", { enumerable: true, get: function () { return __importDefault(license_routes_1).default; } });
+var portfolio_routes_1 = require("./portfolio.routes");
+Object.defineProperty(exports, "portfolioRoutes", { enumerable: true, get: function () { return __importDefault(portfolio_routes_1).default; } });
+var section_column_routes_1 = require("./section-column.routes");
+Object.defineProperty(exports, "sectionColumnRoutes", { enumerable: true, get: function () { return __importDefault(section_column_routes_1).default; } });
+var section_gallery_routes_1 = require("./section-gallery.routes");
+Object.defineProperty(exports, "sectionGalleryRoutes", { enumerable: true, get: function () { return __importDefault(section_gallery_routes_1).default; } });
+var section_divider_routes_1 = require("./section-divider.routes");
+Object.defineProperty(exports, "sectionDividerRoutes", { enumerable: true, get: function () { return __importDefault(section_divider_routes_1).default; } });
+var section_embedded_media_routes_1 = require("./section-embedded-media.routes");
+Object.defineProperty(exports, "sectionEmbeddedMediaRoutes", { enumerable: true, get: function () { return __importDefault(section_embedded_media_routes_1).default; } });
+var section_image_text_routes_1 = require("./section-image-text.routes");
+Object.defineProperty(exports, "sectionImageTextRoutes", { enumerable: true, get: function () { return __importDefault(section_image_text_routes_1).default; } });
+var section_image_routes_1 = require("./section-image.routes");
+Object.defineProperty(exports, "sectionImageRoutes", { enumerable: true, get: function () { return __importDefault(section_image_routes_1).default; } });
+var section_text_routes_1 = require("./section-text.routes");
+Object.defineProperty(exports, "sectionTextRoutes", { enumerable: true, get: function () { return __importDefault(section_text_routes_1).default; } });
+var seed_routes_1 = require("./seed.routes");
+Object.defineProperty(exports, "seedRoutes", { enumerable: true, get: function () { return __importDefault(seed_routes_1).default; } });
+var users_routes_1 = require("./users.routes");
+Object.defineProperty(exports, "usersRoutes", { enumerable: true, get: function () { return __importDefault(users_routes_1).default; } });
+//# sourceMappingURL=index.js.map
