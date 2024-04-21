@@ -12,7 +12,7 @@ type Props = {
   status: string;
 };
 
-const API_URL = process.env.API_URL ?? "http://localhost:3000";
+const HOST = process.env.VERCEL_URL ?? "http://localhost:3000";
 
 const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, status }) => {
   const dispatch = useAppDispatch();
@@ -83,7 +83,7 @@ const ManageStatus: React.FC<Readonly<Props>> = ({ portfolioId, tinyUrlId, statu
       )}
 
       <Link
-        href={`${API_URL}/${tinyUrlId}`}
+        href={`${HOST}/${tinyUrlId}`}
         target="blank"
         className="rounded-md bg-blue-600 hover:bg-blue-500 border m-2 mr-20 px-4 py-2 justify-between text-white text-base transition-colors"
         title="Live Portfolio Preview"
