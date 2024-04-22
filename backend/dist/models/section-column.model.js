@@ -35,11 +35,11 @@ const sectionColumnSchema = new mongoose_1.Schema({
     },
     headingSize1: {
         type: Number,
-        default: 30,
+        default: 32,
     },
     contentSize1: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     heading2: {
         type: String,
@@ -51,11 +51,11 @@ const sectionColumnSchema = new mongoose_1.Schema({
     },
     headingSize2: {
         type: Number,
-        default: 30,
+        default: 32,
     },
     contentSize2: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     heading3: {
         type: String,
@@ -67,11 +67,11 @@ const sectionColumnSchema = new mongoose_1.Schema({
     },
     headingSize3: {
         type: Number,
-        default: 30,
+        default: 32,
     },
     contentSize3: {
         type: Number,
-        default: 15,
+        default: 16,
     },
 });
 sectionColumnSchema.set('toJSON', {

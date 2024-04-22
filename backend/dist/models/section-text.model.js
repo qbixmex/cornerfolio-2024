@@ -35,11 +35,11 @@ const sectionTextSchema = new mongoose_1.Schema({
     },
     headingSize: {
         type: Number,
-        default: 30,
+        default: 32,
     },
     contentSize: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     position: {
         type: String,

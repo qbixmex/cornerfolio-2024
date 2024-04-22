@@ -31,7 +31,7 @@ const SectionDividerSchema = new mongoose_1.Schema({
     },
     titleSize: {
         type: Number,
-        default: 20
+        default: 40
     }
 }, {
     timestamps: true
