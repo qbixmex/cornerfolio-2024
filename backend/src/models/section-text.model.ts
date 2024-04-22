@@ -26,11 +26,11 @@ const sectionTextSchema = new Schema<ISectionText, SectionTextModel>({
 	},
 	headingSize: {
 		type: Number,
-		default: 30,
+		default: 32,
 	},
 	contentSize: {
 		type: Number,
-		default: 15,
+		default: 16,
 	},
 	position: {
 		type: String,

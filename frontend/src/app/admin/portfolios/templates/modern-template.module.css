@@ -4,11 +4,11 @@
 }
 
 .heading {
-	@apply text-lime-500;
+	@apply text-sky-400;
 }
 
 .description {
-	@apply text-lime-100;
+	@apply text-gray-50 bg-transparent;
 }
 
 .subHeaderInputField {

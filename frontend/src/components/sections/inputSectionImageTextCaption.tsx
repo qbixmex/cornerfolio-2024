@@ -61,40 +61,43 @@ const InputSectionImageTextCaption: React.FC<Props> = ({ portfolioId, section })
 	});
 
 	return (
-		<div>
-			<form className="lg:flex max-lg:flex-col justify-center items-center m-4" onSubmit={formik.handleSubmit}>
-				<section className="mr-3">
-					<input
-						id="imgCaption"
-						name="imgCaption"
-						value={formik.values.imgCaption}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						autoComplete="off"
-						className={`w-full outline-none bg-transparent
-						${clsx(
-							styles.sectionImageCaption,
-							{
-								[modern.imageInputBackground]: theme === 'modern',
-								'text-white': theme !== 'light',
-							},
+		<form className="w-full" onSubmit={formik.handleSubmit}>
+			<section>
+				<section className="flex flex-col lg:flex-row justify-center items-center">
+					<section>
+						<input
+							id="imgCaption"
+							name="imgCaption"
+							type="text"
+							value={formik.values.imgCaption}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							autoComplete="off"
+							style={{ fontSize: true ? fontSize : '' }}
+							className={clsx("w-full bg-transparent outline-1 outline-gray-200 p-2 rounded-md mb-2", {
+									'text-stone-600': theme === 'light',
+									"text-gray-50": (theme === 'dark') || (theme === 'modern'),
+									'border-2 border-red-500': (formik.touched.imgCaption) && (formik.errors.imgCaption),
+								}
+							)}
+						/>
+						{formik.errors.imgCaption && formik.touched.imgCaption && (
+							<p className="text-red-500 text-xs mt-3">{formik.errors.imgCaption}</p>
 						)}
-						${formik.touched.imgCaption && formik.errors.imgCaption ? 'border-2 border-red-500' : 'border-0'} `}
-						type="text"
-						style={{ fontSize: true ? fontSize : '' }}
-					/>
-					{formik.errors.imgCaption && formik.touched.imgCaption && (
-						<p className="text-red-500 text-xs mt-3">{formik.errors.imgCaption}</p>
-					)}
+					</section>
 				</section>
-
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
-			</form>
-		</div>
+				<section className="flex justify-center items-center gap-3 mb-3">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
+				</section>
+			</section>
+		</form>
 	);
 };
 

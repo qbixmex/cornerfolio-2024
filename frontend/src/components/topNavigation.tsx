@@ -13,6 +13,7 @@ import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { UserIcon } from './icons';
 import { Portfolio } from './portfolioManagementActions';
+import clsx from 'clsx';
 
 type Props = {
 	authenticatedUser: User;
@@ -64,7 +65,9 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 			</div>
 
 			<div
-				className="h-[300px] flex items-center justify-center"
+				className={clsx("flex items-center justify-center", {
+					"h-[300px]": centerMenuOpen,
+				})}
 				onMouseLeave={() => setCenterMenuOpen(false)}
 			>
 				<div className="relative group">
@@ -91,7 +94,7 @@ const TopNavigation: React.FC<Props> = ({ authenticatedUser }) => {
 					<div
 						id="dropdown-menu"
 						className={`${
-							centerMenuOpen ? '' : 'hidden'
+							centerMenuOpen ? '' : 'hidden h-0'
 						} flex flex-col gap-y-2 absolute left-0 my-2 rounded-md shadow-lg bg-blue-500 ring-1 ring-black ring-opacity-5 p-1 space-y-1 max-h-[300px] overflow-hidden overflow-y-auto scrollbar-hide`}
 					>
 						<a

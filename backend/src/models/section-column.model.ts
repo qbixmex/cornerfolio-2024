@@ -33,7 +33,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	headingSize1: {
 		type: Number,
-		default: 30,
+		default: 32,
 	},
 	contentSize1: {
 		type: Number,
@@ -49,7 +49,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	headingSize2: {
 		type: Number,
-		default: 30,
+		default: 32,
 	},
 	contentSize2: {
 		type: Number,
@@ -65,7 +65,7 @@ const sectionColumnSchema = new Schema<ISectionColumn, SectionColumnModel>({
 	},
 	headingSize3: {
 		type: Number,
-		default: 30,
+		default: 32,
 	},
 	contentSize3: {
 		type: Number,

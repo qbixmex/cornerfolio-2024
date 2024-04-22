@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import modern from '../../app/admin/portfolios/templates/modern-template.module.css';
 import ButtonsSize from '../buttonsSize';
 import { setToast } from '@/store/slices/toast.slice';
+import clsx from 'clsx';
 
 type Props = {
 	section: SectionDivider;
@@ -61,35 +62,39 @@ const InputSectionDivider: React.FC<Props> = ({ section }) => {
 	});
 
 	return (
-		<div>
-			<form className="flex flex-col lg:flex-row justify-center items-between m-4 gap-3" onSubmit={formik.handleSubmit}>
-				<input
-					id="title"
-					name="title"
-					value={formik.values.title}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.dividerInputBackground : ''} 
-					${formik.touched.title && formik.errors.title ? 'border-2 border-red-500' : 'border-0'} `}
-					style={{ fontSize: true ? fontSize : '' }}
-					type="text"
-				/>
-				{formik.errors.title && formik.touched.title && (
-					<p className="text-red-500 text-xs">{formik.errors.title}</p>
-				)}
-
-				<p className="flex items-center text-gray-400 text-sm font-normal">
-					{fontSize}px
-				</p>
-
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
-			</form>
-		</div>
+		<form className="w-full" onSubmit={formik.handleSubmit}>
+			<section className="p-2">
+				<section className="flex flex-col lg:flex-row justify-center items-between m-4 gap-3">
+					<input
+						id="title"
+						name="title"
+						value={formik.values.title}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						type="text"
+						style={{ fontSize: true ? fontSize : '' }}
+						className={clsx("w-full outline-none bg-transparent", {
+							"text-stone-600": theme === 'light',
+							"text-gray-50": (theme === 'dark') || (theme === 'modern'),
+							"border-2 border-red-500": (formik.touched.title) && (formik.errors.title),
+						})}
+					/>
+					{formik.errors.title && formik.touched.title && (
+						<p className="text-red-500 text-xs">{formik.errors.title}</p>
+					)}
+				</section>
+				<section className="flex items-center gap-3 mx-5 mb-3">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
+				</section>
+			</section>
+		</form>
 	);
 };
 

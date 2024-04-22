@@ -31,8 +31,6 @@ import UploadSectionImage from './uploadSectionImage';
 import UploadSectionImageText from './uploadSectionImageText';
 import InputSectionColumnHeading from './inputSectionColumnHeading';
 import InputSectionColumnContent from './inputSectionColumnContent';
-import InputSectionGallery from './inputSectionGallery';
-import UploadSectionGallery from './uploadSectionGallery';
 
 import ImageSkeleton from './imageSkeleton';
 import { useAppSelector } from '@/store';
@@ -81,7 +79,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 									: ''
 							}
 						`}>
-						<div key={section.item.id} className="w-3/4 max-md:w-full">
+						<div key={section.item.id} className="w-full">
 							<InputSectionTextHeading portfolioId={portfolioId} section={section as SectionText} />
 							<InputSectionTextContent portfolioId={portfolioId} section={section as SectionText} />
 						</div>
@@ -132,13 +130,13 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 			);
 		case 'SectionImageText':
 			return (
-				<div>
+				<section>
 					<ChangePositionSectionImageText portfolioId={portfolioId} section={section as SectionImageText} />
-					<div className={`flex justify-evenly items-center  max-sm:flex-col ${((section as SectionImageText).item.position === 'text_img')
-							? 'flex-row-reverse max-sm:flex-col-reverse'
-							: ''
-						}`}>
-						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center">
+
+					<section className={clsx("grid grid-cols-1 lg:grid-cols-2", {
+						"flex-col-reverse lg:flex-row-reverse": ((section as SectionImageText).item.position === 'text_img')
+					})}>
+						<section className="w-full flex flex-col items-center">
 							{
 								loadingImage && (section as SectionImageText).item.id
 									? (<ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />)
@@ -157,20 +155,20 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 								<UploadSectionImageText portfolioId={portfolioId} section={section as SectionImageText} />
 							</div>
 
-							<div className='border-transparent border-2 hover:border-gray-300'>
+							<div className='border-transparent border rounded-md hover:border-gray-200 mb-5 w-full lg:mb-0'>
 								<InputSectionImageTextCaption portfolioId={portfolioId} section={section as SectionImageText} />
 							</div>
-						</div>
+						</section>
 
-						<div className="w-1/2 max-sm:flex max-sm:w-full max-sm:flex-col max-sm:items-center" key={`text-${section.item.id}`}>
+						<section className="w-full flex flex-col items-center">
 							<InputSectionImageTextHeading portfolioId={portfolioId} section={section as SectionImageText} />
 							<InputSectionImageTextContent portfolioId={portfolioId} section={section as SectionImageText} />
-						</div>
-					</div>
+						</section>
+					</section>
 					<div className="text-right">
 						<DeleteImageText portfolioId={portfolioId} sectionId={section.item.id} />
 					</div>
-				</div>
+				</section>
 			);
 		case 'SectionEmbeddedMedia':
 			return (

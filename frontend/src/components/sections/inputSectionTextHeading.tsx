@@ -8,6 +8,7 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 import { useAppDispatch } from '@/store';
 import { setToast } from '@/store/slices/toast.slice';
+import clsx from 'clsx';
 
 type Props = {
 	portfolioId: string;
@@ -25,12 +26,15 @@ const InputSectionTextHeading: React.FC<Props> = ({ portfolioId, section }) => {
 	const dispatch = useAppDispatch();
 	const { theme } = useTheme();
 	const [fontSize, setFontSize] = useState<number>(section.item.headingSize);
+
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 2 : prevSize));
 	};
+
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 2 : prevSize));
 	};
+
 	const formik = useFormik<{ heading: string }>({
 		initialValues: {
 			heading: section.item.heading,
@@ -59,34 +63,40 @@ const InputSectionTextHeading: React.FC<Props> = ({ portfolioId, section }) => {
 	});
 
 	return (
-		<div>
-			<form
-				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
-				onSubmit={formik.handleSubmit}
-			>
-				<input
-					id="heading"
-					name="heading"
-					value={formik.values.heading}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full outline-none bg-transparent
-					${theme === 'modern' ? modern.headerFieldInput : ''} ${
-						formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0'
-					}`}
-					type="text"
-					style={{ fontSize: true ? fontSize : '' }}
-				/>
-				{formik.errors.heading && formik.touched.heading && (
-					<p className="text-red-500 text-xs">{formik.errors.heading}</p>
-				)}
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
-			</form>
-		</div>
+		<form className="w-full" onSubmit={formik.handleSubmit}>
+			<section className="flex flex-col items-start lg:flex-row lg:items-center lg:justify-between hover:border hover:border-gray-200 rounded-md px-3">
+				<section className="w-full flex flex-col my-4">
+					<input
+						id="heading"
+						name="heading"
+						type="text"
+						value={formik.values.heading}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						style={{ fontSize: true ? fontSize : '' }}
+						className={clsx(`w-full outline-1 outline-gray-200 p-2`, {
+							"text-stone-600": theme === 'light',
+							[modern.headerFieldInput]: theme === 'modern',
+							"text-gray-50 bg-transparent": theme === 'dark',
+							"border-2 border-red-500": (formik.touched.heading) && (formik.errors.heading),
+						})}
+					/>
+					{formik.errors.heading && formik.touched.heading && (
+						<p className="text-red-500 text-xs my-4">{formik.errors.heading}</p>
+					)}
+				</section>
+				<section className="flex items-center gap-3 mb-3 lg:mb-0">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
+				</section>
+			</section>
+		</form>
 	);
 };
 
