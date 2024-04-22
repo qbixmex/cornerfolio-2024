@@ -39,7 +39,7 @@ const SectionImageTextSchema = new mongoose_1.Schema({
     },
     imgCaptionSize: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     txtHeading: {
         type: String,
@@ -51,11 +51,11 @@ const SectionImageTextSchema = new mongoose_1.Schema({
     },
     txtHeadingSize: {
         type: Number,
-        default: 30,
+        default: 34,
     },
     txtContentSize: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     position: {
         type: String,

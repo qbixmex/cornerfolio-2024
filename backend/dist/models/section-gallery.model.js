@@ -39,7 +39,7 @@ const SectionGallerySchema = new mongoose_1.Schema({
     },
     captionSize1: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     url2: {
         type: String,
@@ -55,7 +55,7 @@ const SectionGallerySchema = new mongoose_1.Schema({
     },
     captionSize2: {
         type: Number,
-        default: 15,
+        default: 16,
     },
     url3: {
         type: String,
@@ -71,7 +71,7 @@ const SectionGallerySchema = new mongoose_1.Schema({
     },
     captionSize3: {
         type: Number,
-        default: 15,
+        default: 16,
     },
 }, {
     timestamps: true
