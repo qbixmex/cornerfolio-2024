@@ -22,7 +22,7 @@ const PreviewSectionText: React.FC<Props> = ({ section, theme }) => {
 							: ''
 				}`}
 			>
-				<div key={section.item.id} className="w-3/4 max-md:w-full">
+				<div key={section.item.id} className="w-full lg:w-3/4">
 					{/* heading */}
 					<div className="flex items-between m-2">
 						<div
