@@ -1,0 +1,7 @@
+.sectionEmbeddedMedia {
+  @apply relative rounded-md pb-[56.25%] h-0 overflow-hidden;
+}
+
+.sectionEmbeddedMedia iframe {
+  @apply absolute top-0 left-0 w-full h-full;
+}

@@ -38,7 +38,6 @@ const SectionsList: React.FC<Props> = ({ sections, portfolioId, theme }) => {
             <ChooseSection
               portfolioId={portfolioId}
               order={index + 1}
-              theme={theme}
             />
           )}
         </div>
@@ -46,7 +45,6 @@ const SectionsList: React.FC<Props> = ({ sections, portfolioId, theme }) => {
       <ChooseSection
         portfolioId={portfolioId}
         order={sections.length}
-        theme={theme}
       />
     </div>
   );

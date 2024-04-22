@@ -32,13 +32,6 @@ export default function Home() {
                 height={300}
                 className="max-w-[300px] mx-auto md:max-w-full h-auto mb-12 sm:mb-4 md:mb-0 lg:pb-0"
               />
-              <Image
-                src={samplePic}
-                alt="sample picture"
-                width={480}
-                height={300}
-                className="max-w-[300px] mx-auto h-auto md:max-w-full lg:pb-0"
-              />
             </div>
           </section>
         </div>

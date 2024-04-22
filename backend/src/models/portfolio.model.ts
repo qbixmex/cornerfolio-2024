@@ -83,11 +83,11 @@ export const PortfolioSchema = new Schema<PortfolioType, PortfolioModel>(
 		footer: {
 			links: {
 				type: String,
-				default: 'sample@example.com',
+				default: 'https://linkedin.com/in/username',
 			},
 			text: {
 				type: String,
-				default: '© 2024 John Doe. All rights reserved.',
+				default: 'Cornerfolio © 2024. All rights reserved.',
 			},
 		},
 		template: {

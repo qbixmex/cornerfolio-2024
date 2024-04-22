@@ -68,7 +68,6 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 					<textarea
 						id="content"
 						name="content"
-						value={formik.values.content}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						rows={8}
@@ -81,7 +80,7 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 								"border-2 border-red-500": (formik.touched.content) && (formik.errors.content)
 							})
 						}
-					/>
+					>{formik.values.content}</textarea>
 					{formik.errors.content && formik.touched.content && (
 						<p className="text-red-500 text-xs">{formik.errors.content}</p>
 					)}
