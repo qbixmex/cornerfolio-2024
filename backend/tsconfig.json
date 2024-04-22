@@ -21,8 +21,5 @@
     "test/**/*.spec.ts",
     "test/**/*.test.ts",
   ],
-<<<<<<< HEAD
-=======
   "types": ["node", "express"],
->>>>>>> dev
 }
