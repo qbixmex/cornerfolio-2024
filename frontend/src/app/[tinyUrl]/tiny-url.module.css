@@ -47,7 +47,7 @@
 }
 
 .sectionImageTextDescription {
-  @apply leading-8 font-normal;
+  @apply w-full p-2 bg-transparent outline-gray-200 outline-1 leading-8 font-normal;
 }
 
 .sectionColumnContainer {

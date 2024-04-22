@@ -27,12 +27,15 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 	const dispatch = useAppDispatch();
 	const { theme } = useTheme();
 	const [fontSize, setFontSize] = useState<number>(section.item.contentSize);
+
 	const incrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 1 : prevSize));
+		setFontSize((prevSize) => (prevSize < 40 ? prevSize + 2 : prevSize));
 	};
+
 	const decrementFontSize = () => {
-		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 1 : prevSize));
+		setFontSize((prevSize) => (prevSize > 10 ? prevSize - 2 : prevSize));
 	};
+
 	const formik = useFormik<{ content: string }>({
 		initialValues: {
 			content: section.item.content,
@@ -59,40 +62,42 @@ const InputSectionTextContent: React.FC<Props> = ({ portfolioId, section }) => {
 	});
 
 	return (
-		<div>
-			<form
-				className="lg:flex max-lg:flex-col items-between m-4 border-transparent border-2 hover:border-gray-300"
-				onSubmit={formik.handleSubmit}
-			>
-				<textarea
-					id="content"
-					name="content"
-					value={formik.values.content}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					className={`w-full h-80 outline-none bg-transparent
-					${clsx(
-						styles.sectionImageTextDescription, {
-							'text-stone-600': theme === 'light',
-							'text-white': theme === 'dark',
-							[modern.description]: theme === 'modern',
+		<form onSubmit={formik.handleSubmit}>
+			<section className="w-full flex flex-col justify-between items-start gap-3 p-3">
+				<section className="w-full">
+					<textarea
+						id="content"
+						name="content"
+						value={formik.values.content}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						rows={8}
+						style={{ fontSize: true ? fontSize : '' }}
+						className={
+							clsx(styles.sectionImageTextDescription, {
+								'text-stone-600': theme === 'light',
+								'text-gray-50 bg-transparent': theme === 'dark',
+								[modern.description]: theme === 'modern',
+								"border-2 border-red-500": (formik.touched.content) && (formik.errors.content)
+							})
 						}
+					/>
+					{formik.errors.content && formik.touched.content && (
+						<p className="text-red-500 text-xs">{formik.errors.content}</p>
 					)}
-            		${formik.touched.content && formik.errors.content ? 'border-2 border-red-500' : 'border-0'
-					}`}
-					style={{ fontSize: true ? fontSize : '' }}
-				/>
-				{formik.errors.content && formik.touched.content && (
-					<p className="text-red-500 text-xs">{formik.errors.content}</p>
-				)}
-
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
-			</form>
-		</div>
+				</section>
+				<section className="flex gap-3">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
+				</section>
+			</section>
+		</form>
 	);
 };
 export default InputSectionTextContent;

@@ -89,11 +89,16 @@ const InputSectionImage: React.FC<Props> = ({ portfolioId, section }) => {
 					)}
 				</section>
 
-				<ButtonsSize
-					decrementFontSize={decrementFontSize}
-					incrementFontSize={incrementFontSize}
-					formik={formik}
-				/>
+				<section className="flex gap-3 items-center mb-3">
+					<p className="flex items-center text-gray-400 text-sm font-normal">
+						{fontSize}px
+					</p>
+					<ButtonsSize
+						decrementFontSize={decrementFontSize}
+						incrementFontSize={incrementFontSize}
+						formik={formik}
+					/>
+				</section>
 			</form>
 		</div>
 	);
