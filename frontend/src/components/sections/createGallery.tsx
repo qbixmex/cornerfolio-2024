@@ -33,18 +33,16 @@ const CreateGallery: React.FC<Props> = ({ portfolioId, order, onCloseModal }) =>
 
 	return (
 		<div className="flex flex-col items-center">
-			<Button
-				color="primary"
-				variant="shadow"
-				size="sm"
-				fullWidth={true}
-				className={`w-fit border-none bg-gradient-to-tr from-blue-900 to-cyan-600 m-4 bg-gray-200 hover:bg-gray-300 ${modern.addSectionButtonsBackground}`}
+			<button
+				className="w-fit border-none m-4 bg-slate-700 text-white px-5 py-3 rounded transition-colors hover:bg-slate-600 focus:outline-none"
 				onClick={handleCreateGallery}
 				type="button"
 			>
-				<BsFileImage className="text-lg text-white" />
-				<BsFileImageFill className="text-lg text-white" />
-			</Button>
+				<section className="flex gap-1">
+					<BsFileImage className="text-lg text-white" />
+					<BsFileImageFill className="text-lg text-white" />
+				</section>
+			</button>
 			<span className="text-sm">Gallery</span>
 		</div>
 	);

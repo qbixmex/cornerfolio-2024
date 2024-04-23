@@ -56,11 +56,7 @@ const CustomizePortfolio: React.FC<Props> = ({ portfolio }) => {
 
       <ThemeSwitcher id={portfolio.id} />
 
-      <ChooseSection
-        portfolioId={portfolio.id}
-        order={0}
-        theme={theme}
-      />
+      <ChooseSection portfolioId={portfolio.id} order={0} />
 
       <hr />
 

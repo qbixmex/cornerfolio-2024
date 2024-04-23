@@ -16,7 +16,7 @@ const PreviewSectionImage: React.FC<Props> = ({ section, theme }) => {
 				"justify-center": (section as SectionImage).item.position === 'center',
 				"justify-end": (section as SectionImage).item.position === 'right',
 			})}>
-			<div key={section.item.id} className="w-full h-auto md:w-[560px] lg:w-[720px] flex flex-col items-between">
+			<div key={section.item.id} className="w-full h-auto md:w-[560px] lg:w-[80%] flex flex-col items-between">
 				<img
 					src={(section as SectionImage).item.url}
 					alt={(section as SectionImage).item.alt}

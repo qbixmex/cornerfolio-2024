@@ -168,8 +168,8 @@ export const createPortfolio = async (request: Request, response: Response) => {
 		};
 
 		const footer = {
-			links: `${userDB.email}`,
-			text: `© 2024 ${userDB?.name}. All rights reserved.`,
+			links: `https://www.linkedin.com/in/username`,
+			text: `Cornerfolio © ${new Date().getFullYear()}. All rights reserved.`,
 		};
 
 		const tinyUrlId = await generateUniqueTinyUrlId();

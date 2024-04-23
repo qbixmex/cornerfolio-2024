@@ -10,6 +10,7 @@ import modern from '../../app/admin/portfolios/templates/modern-template.module.
 import ButtonsSize from '../buttonsSize';
 import { useTheme } from '@/context/portfolio-theme-context';
 import { setToast } from '@/store/slices/toast.slice';
+import clsx from 'clsx';
 
 type Props = {
 	position: 1 | 2 | 3;
@@ -103,8 +104,12 @@ const InputSectionColumnHeading: React.FC<Props> = ({ position, section }) => {
 						value={formik.values.heading}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
-						className={`w-full outline-none bg-transparent ${theme === 'modern' ? modern.headerFieldInput : ''} ${formik.touched.heading && formik.errors.heading ? 'border-2 border-red-500' : 'border-0' }`}
 						type="text"
+						className={clsx("w-full outline-none bg-transparent", {
+							"text-stone-700": theme === 'light',
+							"text-gray-50": (theme === 'dark') || (theme === 'modern'),
+							"border-2 border-red-500": (formik.touched.heading) && (formik.errors.heading),
+						})}
 						style={{ fontSize: true ? fontSize : '' }}
 					/>
 					{formik.errors.heading && formik.touched.heading && (

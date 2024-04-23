@@ -36,6 +36,7 @@ import ImageSkeleton from './imageSkeleton';
 import { useAppSelector } from '@/store';
 import { ColumnGallery } from '@/sections/components';
 import clsx from 'clsx';
+import styles from  "./renderSection.module.css"
 
 type Section =
 	| SectionText
@@ -79,7 +80,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 									: ''
 							}
 						`}>
-						<div key={section.item.id} className="w-full">
+						<div className="w-full lg:w-3/4">
 							<InputSectionTextHeading portfolioId={portfolioId} section={section as SectionText} />
 							<InputSectionTextContent portfolioId={portfolioId} section={section as SectionText} />
 						</div>
@@ -100,17 +101,17 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 							"justify-center": (section as SectionImage).item.position === 'center'
 						})}
 					>
-						<div className="w-1/2 max-sm:w-full" key={section.item.id}>
+						<section className="w-full lg:w-[80%]" key={section.item.id}>
 							{
 								loadingImage && imageId === (section as SectionImage).item.id
-									? <ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />
+									? <ImageSkeleton className="max-w-[1280px] max-h-[720px] mx-auto" />
 									: (
 										<Image
 											className="mx-auto rounded-md"
 											src={(section as SectionImage).item.url}
 											alt={(section as SectionImage).item.alt}
-											width={500}
-											height={500}
+											width={1280}
+											height={720}
 										/>
 									)
 							}
@@ -121,7 +122,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 							<div className='border-transparent border-2 hover:border-gray-300'>
 								<InputSectionImage portfolioId={portfolioId} section={section as SectionImage} />
 							</div>
-						</div>
+						</section>
 					</div>
 					<div className="text-right">
 						<DeleteImage portfolioId={portfolioId} sectionId={section.item.id} />
@@ -133,13 +134,15 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 				<section>
 					<ChangePositionSectionImageText portfolioId={portfolioId} section={section as SectionImageText} />
 
-					<section className={clsx("grid grid-cols-1 lg:grid-cols-2", {
+					<section className={clsx("flex", {
+						"flex-col lg:flex-row": ((section as SectionImageText).item.position === 'img_text'),
 						"flex-col-reverse lg:flex-row-reverse": ((section as SectionImageText).item.position === 'text_img')
 					})}>
-						<section className="w-full flex flex-col items-center">
+						<section className="w-full lg:w-1/2 flex flex-col items-center" key={section.item.id}>
 							{
-								loadingImage && (section as SectionImageText).item.id
-									? (<ImageSkeleton className="max-w-[400px] max-h-[400px] mx-auto" />)
+								
+								loadingImage && imageId === (section as SectionImageText).item.id
+									? <ImageSkeleton className="w-full h-full max-w-[400px] max-h-[400px] mx-auto" />
 									: (
 										<Image
 											className="mx-auto rounded-md"
@@ -160,7 +163,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 							</div>
 						</section>
 
-						<section className="w-full flex flex-col items-center">
+						<section className="w-full lg:w-1/2 flex flex-col items-center">
 							<InputSectionImageTextHeading portfolioId={portfolioId} section={section as SectionImageText} />
 							<InputSectionImageTextContent portfolioId={portfolioId} section={section as SectionImageText} />
 						</section>
@@ -173,7 +176,7 @@ const RenderSection: React.FC<Props> = ({ portfolioId, section }) => {
 		case 'SectionEmbeddedMedia':
 			return (
 				<>
-					<div className='flex justify-center'
+					<div className={styles.sectionEmbeddedMedia}
 						key={section.item.id}
 						dangerouslySetInnerHTML={{ __html: (section as SectionEmbeddedMedia).item.code }}
 					/>

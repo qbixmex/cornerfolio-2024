@@ -65,9 +65,8 @@ const InputSectionImageTextContent: React.FC<Props> = ({ portfolioId, section })
 			<section className="w-full flex flex-col justify-between items-start gap-3 p-3 border-transparent hover:border hover:border-gray-200 rounded">
 				<section className="w-full">
 					<textarea
-						id="content"
-						name="content"
-						value={formik.values.txtContent}
+						id="txtContent"
+						name="txtContent"
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						style={{ fontSize: true ? fontSize : '' }}
@@ -80,7 +79,7 @@ const InputSectionImageTextContent: React.FC<Props> = ({ portfolioId, section })
 								"border-2 border-red-500": (formik.touched.txtContent) && (formik.errors.txtContent)
 							})
 						}
-					/>
+					>{ formik.values.txtContent }</textarea>
 					
 					{formik.errors.txtContent && formik.touched.txtContent && (
 						<p className="text-red-500 text-xs">{formik.errors.txtContent}</p>

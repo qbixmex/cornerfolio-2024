@@ -170,8 +170,8 @@ const createPortfolio = async (request, response) => {
             subHeading: 'Currently at Cornerstone, based in Vancouver',
         };
         const footer = {
-            links: `${userDB.email}`,
-            text: `© 2024 ${userDB?.name}. All rights reserved.`,
+            links: `https://www.linkedin.com/in/username`,
+            text: `Cornerfolio © ${new Date().getFullYear()}. All rights reserved.`,
         };
         const tinyUrlId = await (0, helpers_1.generateUniqueTinyUrlId)();
         const newPortfolio = new Models.Portfolio({
