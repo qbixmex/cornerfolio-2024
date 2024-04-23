@@ -6,7 +6,7 @@ import styles from './home.module.css';
 
 export default function Home() {
 	return (
-		<div className="bg-gray-900 text-white pt-4 sm:px-8 sm:pt-8 lg:pt-5 h-screen">
+		<div className="bg-gray-900 text-white pt-4 sm:px-8 sm:pt-8 lg:pt-5 min-h-screen">
 			<div className="w-[95%] mx-auto h-full">
 				<div className="flex justify-end gap-5 mb-5 sm:mb-5 lg:mb-8 md:flex-row border-b-black font-sans text-lg">
 					<Link href="/login" className={styles.link}>
