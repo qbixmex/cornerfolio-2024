@@ -1,216 +1,186 @@
-# Program Project Kickoff
+# Cornerfolio
 
-## Team Composition
+Cornerfolio is a Full Stack application designed to showcase your projects and achievements.
+The application is built with Next.js and TypeScript for the frontend, and Express.js with MongoDB for the backend.
 
-- Recommended to have **2 to 3 members per group** to distribute workload effectively.
-- Discuss and assign roles and responsibilities within the team.
+## Table of Contents
 
-## Decide on the project
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-- Define the **project's objectives**.
-- Identify the **problem statement** the project aims to address.
-- Determine the **target users or audience** for the project.
-- Explore existing projects for reference and inspiration.
+## Features
 
-### Project Ideas
+- User registration and authentication.
+- User portfolio management.
+- Dynamic content rendering from database.
+- Responsive design.
+- RESTful API for backend services.
 
-> Recordings for the first two projects below are available [here](https://drive.google.com/drive/folders/13IsVj7aBjgNhZmzcAuBuDdV9rM3F-dh_?usp=sharing)
+## Technologies
 
-- **Digital Marketing Program Scheduler** (Internal Customer Request):
-  - One group as winner receives a recommendation letter from the program manager.
-  - Program manager will utilize the application.
-  - Winner and application will be promoted on LinkedIn.
-- **UX/UI Program Portfolio Showcase Application** (Internal Customer Request):
+### Frontend
 
-  - One group as winner receives a recommendation letter from the program manager.
-  - Program manager will utilize the application.
+- [Next.js](https://nextjs.org/) - A React framework for server-rendered or statically exported React applications.
 
-- Others
-  - E-commerce with payment gateway integration (e.g. Stripe)
-  - Social Media with message and notification system (e.g. WhatsApp)
-  - Fitness App with calorie counter (e.g. MyFitnessPal)
-  - Stock Market App with real-time data (e.g. Yahoo Finance)
-  - Expense Tracker with budgeting (e.g. Mint)
-  - Blogging Platform with comments and likes (e.g. Medium)
-  - Any other idea that you can think of
+- [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
 
-## Requirements
+- [Redux Toolkit](https://redux-toolkit.js.org/) - Redux Toolkit is a library that provides a set of tools to simplify common Redux use cases.
 
-- Full-stack application with user authentication.
-- Frontend (client) and backend (server).
-- Database for data storage and retrieval.
-- Project Documentation
+- [Tailwind](https://www.typescriptlang.org/) - Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
 
-### User Scenarios
+### Backend
 
-- A way to understand user's need and promote empathy before designing stage.
+- [Express.js](https://expressjs.com/) - A minimal and flexible Node.js web application framework.
 
-> **Example**
+- [Cloudinary](https://cloudinary.com/) - Streamline media management and improve user experience by automatically delivering images and videos, enhanced and optimized for every user.
 
-Rodrigo, as a Digital Marketing Program Manager, is tasked with scheduling courses based on the availability of instructors. Currently, he manages incoming cohorts using cumbersome spreadsheets, manually assigning instructors to each class session. However, this manual process becomes increasingly challenging as instructor availability fluctuates due to various factors such as subject expertise, class shifts, days of the week, and other commitments.
+- [MongoDB](https://www.mongodb.com/) - A document-oriented NoSQL database used to store application data.
 
-Rodrigo is decided to find an application his needs because he wants to:
+## Installation
 
-1. Dynamically tracks and updates instructor availability based on their schedules, preferences, and other commitments.
-2. Provides a user-friendly interface for managing cohorts, courses, and instructor assignments seamlessly eg. Dashboard and drag and drop.
-3. Enables communication and collaboration between instructors, allowing them to update their availability and preferences directly within the platform.
-4. Incorporates intelligent algorithms or predictive analytics to suggest optimal instructor assignments based on availability, expertise, and class requirements. (Stretch)
+To run this project locally, follow these steps:
 
-### User stories
+### 1. Clone the repository:
+```sh
+git clone https://github.com/qbixmex/cornerfolio-2024
+```
 
-- General explanation of a software features from the perspective of a user
-- focuses on delivering value to the user
+### 2. Navigate to the project directory:
+```sh
+cd Cornerfolio
+```
 
-> **Example**
+### 3. Install the dependencies for frontend:
+```sh
+cd frontend
 
-**As a** user,
-**I want to** be able to drag and drop course orders
-**so that I** can reschedule courses easily depending on instructors' availability.
+# NPM
+npm install
 
-### MVP (Minimum Viable Product)
+# YARN
+yarn i
 
-- Product with just enough features to satisfy early customers
-- Decide which features will be part of the MVP.
-- Keep as simple as possible
-- Get feedback and continue development
+# PNPM
+pnpm i
 
-### Wireframes
+# BUN
+bun i
+```
 
-- Low-fidelity,
-- Simple sketches of the user interface without graphics nor colors.
-- Plan the layout and prioritize content and functionalities.
+### 4. Install the dependencies for backend:
+```sh
+# For backend
+cd ../backend
 
-### Mock Design
+# NPM
+npm install
 
-> You came to this program to learn how to be a developer, not a designer. However, it is important to have a good design. You can use a tool like Figma to create your design.
+# YARN
+yarn i
 
-- Hi-fidelity
-- Websites for inspiration:
-  - [Dribbble](https://dribbble.com/)
-  - [Behance](https://www.behance.net/)
-  - [Pinterest](https://www.pinterest.ca/)
-  - [Awwwards](https://www.awwwards.com/)
-  - [CSS Design Awards](https://www.cssdesignawards.com/)
+# PNPM
+pnpm i
 
-**Cool idea:** Try to talk to UI/UX students and ask them to help you with the design.
+# BUN
+bun i
+```
 
-### Tech choices
+### 5. Set up environment variables:
 
-- What technologies will you use?
+Create a `.env` file in the backend directory and add the following:
 
-> **Examples**
+```ini
+PORT=3000 # <-- Put your free local port here.
+HOST=http://localhost
 
-- Frontend
-  - React
-  - Next
-- Backend
-  - Express
-- Database
-  - PostgreSQL
-  - MongoDB
+MONGO_URL=mongodb://your_user_name:your_password@localhost:27017
+MONGO_DB_NAME=YOUR_DATABASE_NAME
+MONGO_USERNAME=your_user_name
+MONGO_PASSWORD=your_password
 
-> You may use other technologies, but you may get less support depending on instructor expertise in certain tooling.
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-### ERD
+JWT_SECRET=dd23a30c7c9159857d6fc52df8725160b6d57 ...
+```
 
-- Identify the entities and relationships:
-  - One to one
-  - One to many
-  - Many to many (create a join table)
-- Draw the ERD
+#### 5.1 Generate JWT_SECRET (optional)
 
-## Workflows
+```sh
+node
+require("node:crypto").randomBytes(64).toString('hex');
 
-### Git
+# It will generate something like this:
+'1f135548a57a4e2c043d6eb6a6b5e144 and more ...'
+```
+Copy the generated numbers and paste them into: ```.env```
 
-- Never code on main branch
-- Never force push main branch
-- Merge conflicts happens. There are ways of minimizing them but you can never get rid of them completely.
-- Use branches and pull requests
+```ini
+# Note: the three dots means there are more numbers and characters.
+JWT_SECRET=1f135548a57a4e2c043d6eb6a6b5e144...
+```
 
-1. Create a new branch ->
-2. Work on the branch ->
-3. Make a commit ->
-4. Push to remote branch ->
-5. Make a pull request ->
-6. **CONFLICTS**
-7. Checkout to main/develop ->
-8. Pull ->
-9. Checkout to the branch ->
-10. Merge main/develop ->
-11. Fix conflicts ->
-12. Commit ->
-13. Push ->
-14. Merge pull request
+### 6. Start the development server:
 
-## Project management
+```sh
+# ============ FRONTEND ============
 
-- Use a project management tool like GitHub Projects.
-- Create a board for your project
-- Add tasks/issues based on your user stories
-- Allocate tasks to team members
-- Estimate tasks and set due date (it is ok to change them later)
+cd frontend
+# NPM
+npm run dev
 
-## Communication
+# YARN
+yarn dev
 
-- Use a communication tool like Slack.
-- Create a chatroom for your project
-- Add team members
-- Invite your instructor to the chatroom
-- Use the channel to communicate
-- Daily standup
-  - What did you do yesterday?
-  - What are you going to do today?
-  - Do you have any blockers?
-- Weekly report with Instructor (Decide Day and Time - first come, first serve)
-  - Update on the project
-  - What did you learn this week?
-  - What are your blockers?
-  - What are your goals for the next week?
-  - Update on the deadlines
+# PNPM
+pnpm dev
 
-## Calendar
+# BUN
+bun dev
 
-- **Week 1**: Project Kickoff (Tuesday) and Project Planning (Wednesday - Friday)
-- **Week 2**: Planning Presentation (Monday) and Project Development (Tuesday - Friday)
-- **Week 3**: Project Development (Monday - Friday)
-- **Week 4**: Project Development (Monday - Friday)
-- **Week 5**: Project Development (Monday - Friday)
-- **Week 6**: Project Development (Monday - Friday)
-- **Week 7**: Project Development (Monday - Friday)
-- **Week 8**: Project Development (Monday - Friday)
-- **Week 9**: Project Development (Monday - Friday)
-- **Week 10**: Project Testing (all scenarios) and Deployment (Monday - Friday)
-- **Week 11**: Preparing Presentation (Monday - Thursday) and Demo Day (Friday)
+# ============ BACKEND ============
 
-## Demo Day
+cd ../backend
 
-### **SAVE THE DATE**
+# NPM
+npm run dev
 
-> It is mandatory to attend in person. Except for students not living in Vancouver.
+# YARN
+yarn dev
 
-- Potential audiences: Friends, Family, Instructors, Students, Potential employers
+# PNPM
+pnpm dev
 
-> Many of audiences many not understand your code, so demo your project accordingly
+# BUN
+bun dev
+```
 
-- Presentation:
-  - What is the project about?
-    - What is the problem?
-    - What is the solution?
-    - For whom is it?
-  - What are the features?
-  - What are the technologies?
-  - Demonstration
-  - What was the biggest challenge you faced?
-  - What are the learnings?
-  - What are the next steps?
+## Usage
 
-## Please keep in mind!!
+Once the servers are running, you can access the application at `http://localhost:3000` (or whatever port your frontend server is running on). You can create an account, log in, and start managing your project portfolio.
 
-- if something fails in your team, it is not one of your team member's failure but WHOLE TEAM.
-- if you do not want to lead, follow the lead
-- Decide as a team
-- Be responsive - no longer than half day
-- Please flag if you think you are behind
-- If you stuck on a problem more than 1 hour, It is time to ask for help
-- Take an action instead of keep thinking
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any inquiries or issues, please contact me at qbixmex@gmail.com.
+
+---
+
+Thank you for using Cornerfolio!

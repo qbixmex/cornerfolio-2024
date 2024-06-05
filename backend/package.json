@@ -15,8 +15,11 @@
 		"express",
 		"mongodb"
 	],
-	"author": "Daniel Gonzalez, Rafael Massimo, Taiki Honda and Taisei Yamaguchi",
-	"license": "UNLICENSED",
+	"author": {
+    "name": "Daniel Gonzalez",
+    "email": "qbixmex@gmail.com"
+  },
+	"license": "MIT",
 	"dependencies": {
 		"@types/cors": "^2.8.17",
 		"bcryptjs": "^2.4.3",
